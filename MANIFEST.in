@@ -1,0 +1,4 @@
+graft coolbox/genome
+
+include LICENSE
+include README.md
