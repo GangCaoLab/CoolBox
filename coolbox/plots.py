@@ -569,7 +569,7 @@ class PlotBed(TrackPlot):
         if 'border_color' not in self.properties:
             self.properties['border_color'] = 'black'
         if 'labels' not in self.properties:
-            self.properties['labels'] = 'on'
+            self.properties['labels'] = 'auto'
         if 'style' not in self.properties:
             self.properties['style'] = 'flybase'
         if 'display' not in self.properties:
@@ -577,8 +577,12 @@ class PlotBed(TrackPlot):
         if 'interval_height' not in self.properties:
             self.properties['interval_height'] = 100
 
-        self.colormap = None
+        if self.properties['labels'] != 'on':
+            self.is_draw_labels = False
+        else:
+            self.is_draw_labels = True
 
+        self.colormap = None
         # check if the color given is a color map
         if not matplotlib.colors.is_color_like(self.properties['color']) and self.properties['color'] != 'bed_rgb':
             # check if the color is a valid colormap name
@@ -611,7 +615,7 @@ class PlotBed(TrackPlot):
         to improve the visualization of the genes it is good to have an estimation of the label
         length. In the following code I try to get the length of a 'W' in base pairs.
         '''
-        if self.properties['labels'] == 'on':
+        if self.is_draw_labels:
             # from http://scipy-cookbook.readthedocs.org/items/Matplotlib_LaTeX_Examples.html
             inches_per_pt = 1.0 / 72.27
             font_in_inches = self.properties['fontsize'] * inches_per_pt
@@ -670,7 +674,7 @@ class PlotBed(TrackPlot):
             self.max_num_row[chrom] = 0
             for region in sorted(self.interval_tree[chrom][0:500000000]):
                 bed = region.data
-                if self.properties['labels'] == 'on':
+                if self.is_draw_labels:
                     bed_extended_end = int(bed.end + (len(bed.name) * len_w))
                 else:
                     bed_extended_end = (bed.end + 2 * small_relative)
@@ -728,9 +732,12 @@ class PlotBed(TrackPlot):
 
         genes_overlap = sorted(self.interval_tree[chrom_region][start_region:end_region])
 
-        # turn labels off when too many intervals are visible.
-        if self.properties['labels'] != 'off' and len(genes_overlap) > 60:
-            self.properties['labels'] = 'off'
+        if self.properties['labels'] == 'auto':
+            if len(genes_overlap) > 60:
+                # turn labels off when too many intervals are visible.
+                self.is_draw_labels = False
+            else:
+                self.is_draw_labels = True
 
         max_num_row_local = 1
         max_ypos = 0
@@ -773,7 +780,7 @@ class PlotBed(TrackPlot):
             self.counter += 1
             bed = region.data
 
-            if self.properties['labels'] == 'on':
+            if self.is_draw_labels:
                 num_name_characters = len(bed.name) + 2  # +2 to account for an space before and after the name
                 bed_extended_end = int(bed.end + (num_name_characters * self.len_w))
             else:
@@ -814,7 +821,7 @@ class PlotBed(TrackPlot):
             else:
                 self.__draw_gene_simple(ax, bed, ypos, rgb, edgecolor)
 
-            if self.properties['labels'] == 'off':
+            if not self.is_draw_labels:
                 pass
             elif bed.start > start_region and bed.end < end_region:
                 ax.text(bed.end + self.small_relative, ypos + (float(self.properties['interval_height']) / 2),

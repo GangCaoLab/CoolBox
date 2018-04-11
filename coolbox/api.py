@@ -737,7 +737,7 @@ class Bed(Track, PlotBed, FetchBed):
     DEFAULT_COLOR = "#1f78b4"
 
     def __init__(self, file_, height=None, color=None, border_color='black',
-                 fontsize=None, title='', labels='on', style='flybase', display='stacked',
+                 fontsize=None, title='', labels='auto', style='flybase', display='stacked',
                  interval_height=None, global_max_row=None, gene_rows=None, max_value=None, min_value=None,
                  name=None):
         """
@@ -748,6 +748,7 @@ class Bed(Track, PlotBed, FetchBed):
             color (str, optional): track color, [Bed.DEFAULT_COLOR]
             border_color (str, optional): border_color of gene. ['black']
             title (str, optional): label text. ['']
+            labels (str, optional): draw bed name or not. 'on' or 'off' or 'auto'. ['auto']
             display (str, optional): display mode, options ('stacked', 'interlaced', 'collapsed'). ['stacked']
             interval_height (int, optional)
             global_max_row (int, optional)
