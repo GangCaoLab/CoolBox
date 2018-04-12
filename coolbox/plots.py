@@ -565,7 +565,7 @@ class PlotBed(TrackPlot):
         self.fp = font_manager.FontProperties(size=self.properties['fontsize'])
 
         if 'color' not in self.properties:
-            self.properties['color'] = PlotBed.DEFAULT_COLOR
+            self.properties['color'] = 'bed_rgb'
         if 'border_color' not in self.properties:
             self.properties['border_color'] = 'black'
         if 'labels' not in self.properties:

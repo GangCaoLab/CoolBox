@@ -734,22 +734,25 @@ class Bed(Track, PlotBed, FetchBed):
     """
 
     DEFAULT_FONTSIZE = 12
-    DEFAULT_COLOR = "#1f78b4"
 
-    def __init__(self, file_, height=None, color=None, border_color='black',
+    def __init__(self, file_, height=None, color='bed_rgb', border_color='black',
                  fontsize=None, title='', labels='auto', style='flybase', display='stacked',
                  interval_height=None, global_max_row=None, gene_rows=None, max_value=None, min_value=None,
                  name=None):
         """
-        Args:
+        Parameters
+        ----------
             file_ (str): path to bed file.
             height (float, optional): height of track. [Bed.DEFAULT_HEIGHT]
             fontsize (int, optional): font size. [Bed.DEFAULT_FONTSIZE]
-            color (str, optional): track color, [Bed.DEFAULT_COLOR]
+            color (str, optional): track color,
+                'bed_rgb' for auto specify color according to record. ['bed_rgb']
             border_color (str, optional): border_color of gene. ['black']
             title (str, optional): label text. ['']
-            labels (str, optional): draw bed name or not. 'on' or 'off' or 'auto'. ['auto']
-            display (str, optional): display mode, options ('stacked', 'interlaced', 'collapsed'). ['stacked']
+            labels (str, optional): draw bed name or not.
+                'on' or 'off' or 'auto'. ['auto']
+            display (str, optional): display mode,
+                options ('stacked', 'interlaced', 'collapsed'). ['stacked']
             interval_height (int, optional)
             global_max_row (int, optional)
             gene_row (int, optional)
@@ -762,8 +765,6 @@ class Bed(Track, PlotBed, FetchBed):
 
         if height is None:
             height = Bed.DEFAULT_HEIGHT
-        if color is None:
-            color = Bed.DEFAULT_COLOR
         if fontsize is None:
             fontsize = Bed.DEFAULT_FONTSIZE
 
@@ -1054,10 +1055,10 @@ class Cool(Track, PlotCool, FetchCool):
 
         properties_dict['file'] = file_
         properties_dict['color'] = cmap
-        properties_dict['triancular'] = 'yes' if triangular else 'no'
+        properties_dict['triangular'] = 'yes' if triangular else 'no'
         properties_dict['balance'] = 'yes' if balance else 'no'
         properties_dict['depth_ratio'] = depth_ratio
-        properties_dict['color_bar'] = 'yes' if triangular else 'no'
+        properties_dict['color_bar'] = 'yes' if color_bar else 'no'
         properties_dict['transform'] = transform
         properties_dict['orientation'] = orientation
         properties_dict['max_value'] = max_value
