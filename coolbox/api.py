@@ -98,9 +98,11 @@ __all__ = [
 ]
 
 
-FEATURES_STACK_NAME = "__COOLBOX_STACK_ENV__"
+FEATURES_STACK_NAME = "__COOLBOX_FEATURE_STACK__"
+COVERAGE_STACK_NAME = "__COOLBOX_COVERAGE_STACK__"
 global_scope = globals()
 global_scope[FEATURES_STACK_NAME] = deque()
+global_scope[COVERAGE_STACK_NAME] = deque()
 
 
 class Frame(PlotFrame, FetchFrame):
@@ -605,6 +607,10 @@ class Track(object):
         features_stack = scope[FEATURES_STACK_NAME]
         for features in features_stack:
             self.properties[features.key] = features.value
+
+        coverage_stack = scope[COVERAGE_STACK_NAME]
+        for coverage in coverage_stack:
+            self.coverages.append(coverage)
 
     def __del__(self):
         self.__class__._counts -= 1
@@ -1132,6 +1138,17 @@ class Coverage(object):
         else:
             raise TypeError(op_err_msg(self, other, op='*'))
 
+    def __enter__(self):
+        scope = globals()
+        stack = scope[COVERAGE_STACK_NAME]
+        stack.append(self)
+        return self
+
+    def __exit__(self, type, value, traceback):
+        scope = globals()
+        stack = scope[COVERAGE_STACK_NAME]
+        stack.pop()
+
 
 class CoverageStack(object):
     """
@@ -1192,7 +1209,7 @@ class VlinesFromFile(Coverage, PlotVlines):
             line_width (float, optional): [0.5]
         """
 
-        properties_dict = {}
+        properties_dict = dict()
 
         properties_dict['file'] = file_
         properties_dict['color'] = color
@@ -1205,24 +1222,26 @@ class VlinesFromFile(Coverage, PlotVlines):
 
 class Vlines(Coverage, PlotVlines):
 
-    def __init__(self, vline_list, color='#1e1e1e', alpha=0.8,
+    def __init__(self, vlines, chr=None, color='#1e1e1e', alpha=0.8,
                  line_style='dashed', line_width=1):
         """
         Args:
-            vline_list (:obj:`list` of `int`): A list of vline positions.
+            vlines (:obj:`list` of `int`): A list of vline positions.
+            chr (str, optional): chromosome of vline, if not specify will plot in all chromosome.
             color (str, optional): ['#1e1e1e']
             alpha (float, optional): [0.8]
             line_style (str, optional): ['dashed']
             line_width (float, optional): [0.5]
         """
 
-        properties_dict = {}
+        properties_dict = dict()
 
-        properties_dict['vline_list'] = vline_list
+        properties_dict['vlines_list'] = vlines
         properties_dict['color'] = color
         properties_dict['alpha'] = 0.8
         properties_dict['line_style'] = line_style
         properties_dict['line_width'] = line_width
+        properties_dict['chr'] = chr
 
         super().__init__(properties_dict)
 
@@ -1245,7 +1264,7 @@ class HighLightsFromFile(Coverage, PlotHighLightRegions):
             border_line_alpha (float, optional): [0.8]
         """
 
-        properties_dict = {}
+        properties_dict = dict()
 
         properties_dict['file'] = file_
         properties_dict['color'] = color
@@ -1261,14 +1280,17 @@ class HighLightsFromFile(Coverage, PlotHighLightRegions):
 
 class HighLights(Coverage, PlotHighLightRegions):
 
-    def __init__(self, height_regions, color='bed_rgb', alpha=0.6, border_line='yes',
+    DEFAULT_COLOR = "#ff9c9c"
+
+    def __init__(self, highlight_regions, chr=None, color=None, alpha=0.6, border_line='yes',
                  border_line_style='dashed', border_line_width=1.0,
                  border_line_color='#000000', border_line_alpha=0.8):
         """
         Args:
-            height_regions (:obj:`list` of :obj:`tuple`): A list of regions for height,
-                region tuple format: `(start, end, color)` like, [(100000, 120000, '#ff9c9c'), (130000, 150000, '#66ccff')].
-            color (str, optional): ['bed_rgb']
+            highlight_regions (:obj:`list` of :obj:`tuple`): A list of regions for highlights,
+                region tuple format: `(start, end)` like, [(100000, 120000), (130000, 150000)].
+            chr (str, optional): chromosome of highlight regions, if not specify will plot in all chromosome.
+            color (str, optional): [HighLights.DEFAULT_COLOR]
             alpha (float, optional): [0.6]
             border_line (str, optional): plot border line or not. ['yes']
             border_line_style (str, optional): ['dashed']
@@ -1277,9 +1299,12 @@ class HighLights(Coverage, PlotHighLightRegions):
             border_line_alpha (float, optional): [0.8]
         """
 
-        properties_dict = {}
+        if color is None:
+            color = HighLights.DEFAULT_COLOR
 
-        properties_dict['height_regions'] = height_regions
+        properties_dict = dict()
+
+        properties_dict['highlight_regions'] = highlight_regions
         properties_dict['color'] = color
         properties_dict['alpha'] = alpha
         properties_dict['border_line'] = border_line
@@ -1287,6 +1312,7 @@ class HighLights(Coverage, PlotHighLightRegions):
         properties_dict['border_line_width'] = border_line_width
         properties_dict['border_line_color'] = border_line_color
         properties_dict['border_line_alpha'] = border_line_alpha
+        properties_dict['chr'] = chr
 
         super().__init__(properties_dict)
 

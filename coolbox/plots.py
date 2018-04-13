@@ -1501,25 +1501,41 @@ class PlotVlines(CoveragePlot):
             self.properties['color'] = PlotVlines.DEFAULT_COLOR
         if 'alpha' not in self.properties:
             self.properties['alpha'] = PlotVlines.DEFAULT_ALPHA
+        if 'chr' not in self.properties:
+            self.properties['chr'] = None
 
         if 'file' in self.properties:
             # plot vlines from file
             self.vlines_intval_tree, _, _ = file_to_intervaltree(self.properties['file'])
+
+    def __extract_vlines_from_file(self, chrom, start, end):
+        vlines_list = []
+
+        if chrom not in list(self.vlines_intval_tree):
+            chrom = change_chrom_names(chrom)
+
+        for region in sorted(self.vlines_intval_tree[chrom][start-1:end+1]):
+            vlines_list.append(region.begin)
+
+        return vlines_list
+
+    def __get_vlines_from_properties(self, chrom):
+        if self.properties['chr'] is not None:
+            chr = self.properties['chr']
+            if chr == chrom:
+                vlines_list = self.properties['vlines_list']
+            else:
+                vlines_list = []
         else:
-            # from self.properties['vline_list']
-            self.vline_list = self.properties['vline_list']
+            vlines_list = self.properties['vlines_list']
+
+        return vlines_list
 
     def plot(self, ax, chrom_region, start_region, end_region):
         if 'file' in self.properties:
-            vlines_list = []
-
-            if chrom_region not in list(self.vlines_intval_tree):
-                chrom_region = change_chrom_names(chrom_region)
-
-            for region in sorted(self.vlines_intval_tree[chrom_region][start_region-10000:end_region+10000]):
-                vlines_list.append(region.begin)
+            vlines_list = self.__extract_vlines_from_file(chrom_region, start_region, end_region)
         else:
-            vlines_list = self.vline_list
+            vlines_list = self.__get_vlines_from_properties(chrom_region)
 
         ymin, ymax = ax.get_ylim()        
 
@@ -1563,19 +1579,40 @@ class PlotHighLightRegions(CoveragePlot):
             self.interval_tree = self.__process_bed()
         else:
             # from self.properties['regions']
-            self.regions = self.properties['height_regions']
+            self.regions = self.properties['highlight_regions']
+
+    def __extract_regions_from_file(self, chrom, start, end):
+        regions = []
+
+        if chrom not in list(self.interval_tree):
+            chrom = change_chrom_names(chrom)
+
+        for region in sorted(self.interval_tree[chrom][start-10000:end+10000]):
+            regions.append((region.begin, region.end, region.data))
+
+        return regions
+
+    def __get_regions_from_properties(self, chrom):
+
+        def regions_with_color(regions):
+            color = self.properties['color']
+            return [(start, end, color) for (start, end) in self.regions]
+
+        if self.properties['chr'] is not None:
+            if chrom == self.properties['chr']:
+                regions = regions_with_color(self.regions)
+            else:
+                regions = []
+        else:
+            regions = regions_with_color(self.regions)
+
+        return regions
 
     def plot(self, ax, chrom_region, start_region, end_region):
         if 'file' in self.properties:
-            regions = []
-
-            if chrom_region not in list(self.interval_tree):
-                chrom_region = change_chrom_names(chrom_region)
-
-            for region in sorted(self.interval_tree[chrom_region][start_region-10000:end_region+10000]):
-                regions.append((region.begin, region.end, region.data))
+            regions = self.__extract_regions_from_file(chrom_region, start_region, end_region)
         else:
-            regions = self.regions
+            regions = self.__get_regions_from_properties(chrom_region)
 
         for (start, end, color) in regions:
             if self.properties['color'] != 'bed_rgb':
@@ -1588,7 +1625,6 @@ class PlotHighLightRegions(CoveragePlot):
             if self.properties['border_line'] == 'yes':
                 # plot border line
                 ymin, ymax = ax.get_ylim()
-                #ipdb.set_trace()
                 ax.vlines([start, end], ymin, ymax,
                           linestyle=self.properties['border_line_style'],
                           linewidth=self.properties['border_line_width'],
