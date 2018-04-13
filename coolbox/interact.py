@@ -93,6 +93,9 @@ class SimpleWidgets(WidgetsBox):
             slider.min = 1
             slider.max = max_
             slider.value = (range_.start, range_.end)
+        # update chromosome list
+        if who != "chromosomes_list":
+            self.widgets_dict['chromosomes_list'].value = range_.chrom
         # update range max min label
         self.widgets_dict['range_min_label'].value = str(1)
         self.widgets_dict['range_max_label'].value = str(max_)
@@ -119,12 +122,16 @@ class SimpleWidgets(WidgetsBox):
     def register_events_handler(self):
 
         # chromosomes_list value change
-        def dropdown_val_change(change):
-            range_ = self.browser.get_init_range(change['new'])
+        def chrom_dropdown_val_change(change):
+            new_chrom = change['new']
+            current_range = self.browser.current_range
+            # only change chromosome
+            range_ = GenomeRange(new_chrom, current_range.start, current_range.end)
+            range_ = self.browser.chrom_lengthes.bound_range(range_)
             self.browser.goto(range_)
-            self.refresh_widgets()
+            self.refresh_widgets(who="chromosomes_list")
             self.browser.refresh()
-        self.widgets_dict['chromosomes_list'].observe(dropdown_val_change, names="value")
+        self.widgets_dict['chromosomes_list'].observe(chrom_dropdown_val_change, names="value")
 
         # left_button click
         def left_button_click(b):
@@ -199,6 +206,7 @@ class SimpleWidgets(WidgetsBox):
             min_ = self.widgets_dict['track_min_val_float_text'].value
             max_ = self.widgets_dict['track_max_val_float_text'].value
             self.browser.frame.set_tracks_min_max(min_, max_)
+            self.browser.clear_fig_cache()
             self.browser.refresh()
         self.widgets_dict['track_min_val_float_text'].observe(track_float_text_val_change, names="value")
         self.widgets_dict['track_max_val_float_text'].observe(track_float_text_val_change, names="value")
@@ -357,16 +365,16 @@ class BrowserBase(object):
         display(self.widgets.panel)
         self.refresh()
 
-    def refresh(self):
+    def refresh(self, hard=False):
         """
         Refresh the image display.
         """
-        if self.current_range not in self.fig_cache:
+        if (self.current_range in self.fig_cache) and (not hard):
+            fig_bytes = self.fig_cache[self.current_range]
+        else:
             fig_current = self.frame.show()
             fig_bytes = fig2bytes(fig_current, encode=self.img_format, dpi=self.dpi)
             self.fig_cache[self.current_range] = fig_bytes
-        else:
-            fig_bytes = self.fig_cache[self.current_range]
 
         # auto clear fig cache for prevent memory leak
         if len(self.fig_cache) > 20 and \
