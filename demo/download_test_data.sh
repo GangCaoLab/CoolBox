@@ -18,3 +18,6 @@ wget -O data/K562_chiapet.bigWig ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM832nn
 
 # RefSeq
 wget -O data/refGene.txt.gz http://hgdownload.soe.ucsc.edu/goldenPath/hg19/database/refGene.txt.gz
+
+# ChromHMM Chromatin states
+wget -O data/K562_chromHMM.bed.gz http://egg.wustl.edu/d/hg19/E123_15_coreMarks_dense.gz
