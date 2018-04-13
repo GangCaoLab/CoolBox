@@ -47,6 +47,7 @@ def get_install_requires():
     requirements = [
         "numpy >= 1.12.*",
         "matplotlib >= 2.0.0",
+        "pandas >= 0.22.0",
         "intervaltree >= 2.1.0",
         "pybigwig >= 0.3.7",
         "cooler >= 0.7.6",
