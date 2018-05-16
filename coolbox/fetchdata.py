@@ -280,7 +280,7 @@ class FetchCool(FetchTrackData):
         chrom1, start1, end1 = split_genome_range(genome_range1)
 
         if chrom1 not in self.cool.chromnames:
-            chrom1 = change_chrom_names(chrom)
+            chrom1 = change_chrom_names(chrom1)
 
         if genome_range2 is not None:
             chrom2, start2, end2 = split_genome_range(genome_range2)

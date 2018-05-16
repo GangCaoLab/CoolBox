@@ -1,3 +1,4 @@
+import os
 import sys
 import collections
 from os.path import abspath, dirname, join
@@ -7,8 +8,7 @@ import numpy as np
 from intervaltree import IntervalTree, Interval
 
 import logging
-log = logging.getLogger(__name__)
-log.setLevel(logging.DEBUG)
+log = get_logger(__name__)
 
 
 class GenomeRange(object):
@@ -729,6 +729,7 @@ _refGeneRec = collections.namedtuple("refGeneRec", _fields_rg)
 
 
 class refGeneRec(_refGeneRec):
+
     def to_bed12_line(self):
         chrom = self.chrom
         start = self.txStart
@@ -782,6 +783,20 @@ def refgene_txt_to_bed12(txt_file, bed_file):
             refg_rec = refGeneRec._make(items)
             out_line = refg_rec.to_bed12_line() + "\n"
             f_out.write(out_line)
+
+
+def get_logger(name, file_=sys.stderr, level=logging.DEBUG):
+    FORMAT = "[%(levelname)s:%(filename)s:%(lineno)s - %(funcName)20s()] %(message)s"
+    formatter = logging.Formatter(fmt=FORMAT)
+    if isinstance(file_, str):
+        handler = logging.FileHandler(file_)
+    else:
+        handler = logging.StreamHandler(file_)
+    handler.setFormatter(formatter)
+    log = logging.getLogger(name)
+    log.addHandler(handler)
+    log.setLevel(logging.DEBUG)
+    return log
 
 
 if __name__ == "__main__":
