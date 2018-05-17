@@ -41,6 +41,7 @@ Element types:
 * Frame
 * Feature
     - FrameFeature
+* WidgetsPanel
 * Browser
 
 
