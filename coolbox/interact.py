@@ -436,4 +436,4 @@ class BrowserBase(object):
         """
         c_fig = self.frame.show()
         dpi = dpi or self.dpi
-        c_fig.savefig(path, dpi)
+        c_fig.savefig(path, dpi=dpi)
