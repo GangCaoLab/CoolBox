@@ -106,7 +106,7 @@ class PlotCool(TrackPlot):
 
         return min_, max_
 
-    def __fetch_matrix(self, genome_range):
+    def fetch_matrix(self, genome_range):
         chrom, start, end = genome_range.chrom, genome_range.start, genome_range.end
         if chrom not in self.cool.chromnames:
             chrom = change_chrom_names(chrom)
@@ -200,7 +200,7 @@ class PlotCool(TrackPlot):
         self.label_ax = label_ax
 
         # fetch matrix and perform transform process
-        arr = self.__fetch_matrix(genome_range)
+        arr = self.fetch_matrix(genome_range)
 
         self.matrix = arr
 
@@ -224,7 +224,7 @@ class PlotCool(TrackPlot):
         if self.properties['triangular'] == 'yes':
             cool_height = frame_width * 0.5
         else:
-            cool_height = frame_width
+            cool_height = frame_width * 0.8
 
         if 'depth_ratio' in self.properties and self.properties['depth_ratio'] != 'full':
             cool_height = cool_height * self.properties['depth_ratio']

@@ -582,7 +582,7 @@ class Cool(Track, PlotCool, FetchCool):
         super().__init__(properties_dict, name)
 
 
-class HicCompare(PlotHicCompare):
+class HicCompare(Track, PlotHicCompare):
     """
     Track for express the comparison between two HiC Track.
 
@@ -598,7 +598,7 @@ class HicCompare(PlotHicCompare):
         A diverging colormap, left color represent the first HiC file,
         and right represent the second HiC file.
 
-    color_bar : bool
+    color_bar : bool, optional
         Show color bar or not.
 
     name : str, optional
@@ -619,7 +619,10 @@ class HicCompare(PlotHicCompare):
 
         properties_dict['hic1'] = hic1
         properties_dict['hic2'] = hic2
-        properties_dict['color_bar'] = color_bar
+        if color_bar:
+            properties_dict['color_bar'] = 'yes'
+        else:
+            properties_dict['color_bar'] = 'no'
         properties_dict['title'] = title
 
         super().__init__(properties_dict, name)

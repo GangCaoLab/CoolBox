@@ -72,7 +72,3 @@ from coolbox.core.feature import *
 from coolbox.core.coverage import *
 from coolbox.core.browser import *
 
-import logging
-logging.basicConfig(level=logging.WARNING)
-
-
