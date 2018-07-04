@@ -62,7 +62,15 @@ class PlotHighLightRegions(CoveragePlot):
 
         def regions_with_color(regions):
             color = self.properties['color']
-            return [(start, end, color) for (start, end) in self.regions]
+            res = []
+            for r in self.regions:
+                assert len(r) >= 2
+                start, end = r[0], r[1]
+                if len(r) == 2:
+                    res.append((start, end, color))
+                else:
+                    res.append(r)
+            return res
 
         if self.properties['chr'] is not None:
             if chrom == self.properties['chr']:
