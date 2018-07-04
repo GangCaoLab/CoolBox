@@ -8,7 +8,6 @@ import numpy as np
 from intervaltree import IntervalTree, Interval
 
 import logging
-log = get_logger(__name__)
 
 
 class GenomeRange(object):
@@ -785,7 +784,10 @@ def refgene_txt_to_bed12(txt_file, bed_file):
             f_out.write(out_line)
 
 
-def get_logger(name, file_=sys.stderr, level=logging.DEBUG):
+LOG_LEVEL = logging.WARNING
+
+
+def get_logger(name, file_=sys.stderr, level=LOG_LEVEL):
     FORMAT = "[%(levelname)s:%(filename)s:%(lineno)s - %(funcName)20s()] %(message)s"
     formatter = logging.Formatter(fmt=FORMAT)
     if isinstance(file_, str):
@@ -795,8 +797,10 @@ def get_logger(name, file_=sys.stderr, level=logging.DEBUG):
     handler.setFormatter(formatter)
     log = logging.getLogger(name)
     log.addHandler(handler)
-    log.setLevel(logging.DEBUG)
+    log.setLevel(level)
     return log
+
+log = get_logger(__name__)
 
 
 if __name__ == "__main__":

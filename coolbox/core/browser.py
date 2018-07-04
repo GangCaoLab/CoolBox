@@ -1,9 +1,6 @@
 from coolbox.utilities import op_err_msg
 from coolbox.interact import BrowserBase
 
-import coolbox.api.frame
-Frame = coolbox.api.frame.Frame
-
 
 __all__ = ["WidgetsPanel", "Browser"]
 
@@ -22,6 +19,7 @@ class WidgetsPanel(object):
         >>>
 
         """
+        from .frame import Frame
         if isinstance(other, Frame):
             return Browser(other, reference_genome=self.ref)
         else:

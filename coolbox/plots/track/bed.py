@@ -270,7 +270,7 @@ class PlotBed(TrackPlot):
                     free_row = len(row_last_position)
                     row_last_position.append(bed_extended_end)
 
-            rgb, edgecolor = self.__get_rgb_and_edge_color(bed)
+            rgb, edgecolor = self.get_rgb_and_edge_color(bed)
 
             ypos = self.__get_y_pos(free_row)
 
@@ -329,7 +329,7 @@ class PlotBed(TrackPlot):
                       horizontalalignment='left', size='large',
                       verticalalignment='top', transform=label_ax.transAxes)
 
-    def __get_rgb_and_edge_color(self, bed):
+    def get_rgb_and_edge_color(self, bed):
         rgb = self.properties['color']
         edgecolor = self.properties['border_color']
 
@@ -575,7 +575,7 @@ class PlotTADs(PlotBed):
             y1 = 0
             y2 = (region.end - region.begin)
 
-            rgb, edgecolor = self.__get_rgb_and_edge_color(region.data)
+            rgb, edgecolor = self.get_rgb_and_edge_color(region.data)
 
             triangle = Polygon(np.array([[x1, y1], [x2, y2], [x3, y1]]), closed=True,
                                facecolor=rgb, edgecolor=edgecolor)

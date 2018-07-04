@@ -3,21 +3,10 @@ from copy import copy
 
 from coolbox.utilities import op_err_msg
 
-import coolbox.api.frame
-import coolbox.api.feature
-import coolbox.api.coverage
-import coolbox.api.track
 
 FEATURES_STACK_NAME = "__COOLBOX_FEATURE_STACK__"
 global_scope = globals()
 global_scope[FEATURES_STACK_NAME] = deque()
-
-
-Frame = coolbox.api.frame.Frame
-Feature = coolbox.api.feature.Feature
-Coverage = coolbox.api.coverage.Coverage
-CoverageStack = coolbox.api.coverage.CoverageStack
-Track = coolbox.api.track.Track
 
 
 __all__ = [
@@ -38,6 +27,11 @@ class Feature(object):
         self.value = value
 
     def __add__(self, other):
+        from .track import Track
+        from .frame import Frame
+        from .coverage import Coverage
+        from .coverage import CoverageStack
+
         if isinstance(other, Track):
             result = copy(other)
             result.properties[self.key] = self.value
@@ -62,6 +56,8 @@ class Feature(object):
             raise TypeError(op_err_msg(self, other))
 
     def __mul__(self, other):
+        from .frame import Frame
+
         if isinstance(other, Frame):
             result = copy(other)
             result.add_feature_to_tracks(self)
@@ -154,6 +150,8 @@ class FrameFeature(Feature):
     """
 
     def __add__(self, other):
+        from .frame import Frame
+
         if isinstance(other, Frame):
             result = copy(other)
             result.properties[self.key] = self.value

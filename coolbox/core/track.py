@@ -8,16 +8,6 @@ from coolbox.fetchdata import (
 )
 from coolbox.utilities import op_err_msg
 
-import coolbox.api.frame
-import coolbox.api.feature
-import coolbox.api.coverage
-
-Frame = coolbox.api.frame.Frame
-Feature = coolbox.api.feature.Feature
-FrameFeature = coolbox.api.feature.FrameFeature
-Coverage = coolbox.api.coverage.Coverage
-CoverageStack = coolbox.api.coverage.CoverageStack
-
 
 FEATURES_STACK_NAME = "__COOLBOX_FEATURE_STACK__"
 COVERAGE_STACK_NAME = "__COOLBOX_COVERAGE_STACK__"
@@ -29,7 +19,7 @@ global_scope[COVERAGE_STACK_NAME] = deque()
 __all__ = [
     "Spacer", "XAxis", "Bed", "TADs",
     "BigWig", "ABCompartment", "BedGraph",
-    "Arcs", "Cool"
+    "Arcs", "Cool", "HicCompare"
 ]
 
 
@@ -37,9 +27,26 @@ class Track(object):
     """
     Track base class.
 
-    Attributes:
-        name (str): The name of this Track.
-        coverages (:obj:`list` of Coverage): Coverages on this Track.
+    Parameters
+    ----------
+    properties_dict : dict
+        The properties(features) of this track. For example 'height', 'color'...
+
+    name : str, optional
+        The name of Track.
+        (Default: "{self.__class__.__name__}.{self.__class__._counts}")
+
+
+    Attributes
+    ----------
+    properties : dict
+        The properties(features) of this track. For example 'height', 'color'...
+
+    name : str
+        The name of Track.
+
+    coverages : list of `coolbox.api.coverage.Coverage`
+        Coverages on this Track.
     """
 
     DEFAULT_HEIGHT = 3
@@ -62,11 +69,13 @@ class Track(object):
         super().__init__()
         self.coverages = []
 
+        # load features from global feature stack
         scope = globals()
         features_stack = scope[FEATURES_STACK_NAME]
         for features in features_stack:
             self.properties[features.key] = features.value
 
+        # load coverages from global coverages stack
         coverage_stack = scope[COVERAGE_STACK_NAME]
         for coverage in coverage_stack:
             self.coverages.append(coverage)
@@ -83,6 +92,11 @@ class Track(object):
         self.properties['name'] = value
 
     def __add__(self, other):
+        from .frame import Frame
+        from .coverage import Coverage
+        from .coverage import CoverageStack
+        from .feature import Feature
+
         if isinstance(other, Track):
             result = Frame()
             result.add_track(self)
@@ -110,9 +124,13 @@ class Track(object):
         """
         Append coverage to this track.
 
-        Args:
-            coverage (:obj:`Coverage`): coverage object to be added.
-            pos (`str`, 'top' or 'bottom'): add coverage to top layer or bottom layer. ['top']
+        Parameters
+        ----------
+        coverage : `coolbox.api.coverage.Coverage`
+            Coverage object to be piled.
+
+        pos : {'top', 'bottom'}, optional
+            Add coverages to top or bottom. (Default: 'top')
         """
         if pos == 'top':
             self.coverages.append(coverage)
@@ -123,10 +141,23 @@ class Track(object):
         """
         Pile a stack of coverages with self's coverages
 
-        Args:
-            coverages (:obj:`list` of `Coverage`): coverage objects to be piled.
-            pos (`str`, 'top' or 'bottom'): add coverages to top or bottom. ['top']
+        Parameters
+        ----------
+        coverages : list of `coolbox.api.coverage.Coverage` or `coolbox.api.coverage.CoverageStack`
+            Coverage objects to be piled.
+
+        pos : {'top', 'bottom'}, optional
+            Add coverages to top or bottom. (Default: 'top')
         """
+        from .coverage import CoverageStack
+
+        if isinstance(coverages, CoverageStack):
+            coverages = coverages.coverages
+        elif isinstance(coverages, list):
+            pass
+        else:
+            raise TypeError("coverages must a list of Coverage or CoverageStack")
+
         if not hasattr(self, 'coverages'):
             self.coverages = coverages
         else:
@@ -140,17 +171,19 @@ class Spacer(Track, PlotSpacer):
     """
     The spacer track,
     not have any real content, just used to split two tracks.
+
+    Parameters
+    ----------
+    height : float, optional
+        The height of Spacer track. (Default: Spacer.DEFAULT_HEIGHT)
+
+    name : str, optional
+        Track's name. (Default: "Spacer.{Spacer._counts}")
     """
 
     DEFAULT_HEIGHT = 1
 
     def __init__(self, height=None, name=None):
-        """
-        Args:
-            height (float, optional): the height of Spacer track. default: Spacer.DEFAULT_HEIGHT
-            name (str, optional): Track's name
-        """
-
         properties_dict = {}
 
         if height is None:
@@ -164,21 +197,27 @@ class Spacer(Track, PlotSpacer):
 class XAxis(Track, PlotXAxis):
     """
     The x axis track.
+
+    Parameters
+    ----------
+    height : float, optional
+        Height of Spacer track. (Default: XAxis.DEFAULT_HEIGHT)
+
+    fontsize : int, optional
+        Font size of XAxis. (Default: XAxis.DEFAULT_FONTSIZE)
+
+    where : {'top', 'bottom'}, optional
+        The position of tick labels relative to the axis.
+        (Default: 'bottom')
+
+    name (str, optional):
+        Track's name. (Default: "XAxis.{XAxis._counts}")
     """
 
     DEFAULT_FONTSIZE = 15
     DEFAULT_HEIGHT = 2
 
-    def __init__(self, height=None, fontsize=None, where='buttom', name=None):
-        """
-        Args:
-            height (float, optional): height of Spacer track. [XAxis.DEFAULT_HEIGHT]
-            fontsize (int, optional): font size of XAxis. [XAxis.DEFAULT_FONTSIZE]
-            where (str, optional): the position of tick labels relative to the axis.
-                selections ('buttom', 'top'), ['buttom']
-            name (str, optional): Track's name
-        """
-
+    def __init__(self, height=None, fontsize=None, where='bottom', name=None):
         properties_dict = {}
 
         if height is None:
@@ -196,6 +235,55 @@ class XAxis(Track, PlotXAxis):
 class Bed(Track, PlotBed, FetchBed):
     """
     Bed track.
+
+    Parameters
+    ----------
+    file_ : str
+        Path to bed file.
+
+    height : float, optional
+        Height of track. (Default: Bed.DEFAULT_HEIGHT)
+
+    fontsize : int, optional
+        Font size. (Default: Bed.DEFAULT_FONTSIZE)
+
+    color : str, optional
+        Track color, 'bed_rgb' for auto specify color according to bed record.
+        (Default: 'bed_rgb')
+
+    border_color : str, optional
+        Border_color of gene. (Default: 'black')
+
+    title : str, optional
+        Label text. (Default: '')
+
+    labels : {True, False, 'auto'}, optional
+        Draw bed name or not. 'auto' for automate decision according to density.
+        'on' or 'off' or 'auto'. (Default: 'auto')
+
+    display : {'stacked', 'interlaced', 'collapsed'}, optional
+        Display mode. (Default: 'stacked')
+
+    interval_height : int, optional
+        The height of the interval. (Default: 100)
+
+    global_max_row : bool, optional
+        If set to True, will process the whole bed regions
+        at the given figure length and font size to
+        determine the maximum number of rows required. (Default: False)
+
+    gene_row : int, optional
+        Set the max interval rows. (Default: unlimited interval rows)
+
+    max_value : float, optional
+        Max score. (Default: inf)
+
+    min_value : float, optional
+        Min score. (Default: -inf)
+
+    name : str, optional
+        Track's name (Default: "Bed.{Bed._counts}"
+
     """
 
     DEFAULT_FONTSIZE = 12
@@ -204,28 +292,6 @@ class Bed(Track, PlotBed, FetchBed):
                  fontsize=None, title='', labels='auto', style='flybase', display='stacked',
                  interval_height=None, global_max_row=None, gene_rows=None, max_value=None, min_value=None,
                  name=None):
-        """
-        Parameters
-        ----------
-            file_ (str): path to bed file.
-            height (float, optional): height of track. [Bed.DEFAULT_HEIGHT]
-            fontsize (int, optional): font size. [Bed.DEFAULT_FONTSIZE]
-            color (str, optional): track color,
-                'bed_rgb' for auto specify color according to record. ['bed_rgb']
-            border_color (str, optional): border_color of gene. ['black']
-            title (str, optional): label text. ['']
-            labels (str, optional): draw bed name or not.
-                'on' or 'off' or 'auto'. ['auto']
-            display (str, optional): display mode,
-                options ('stacked', 'interlaced', 'collapsed'). ['stacked']
-            interval_height (int, optional)
-            global_max_row (int, optional)
-            gene_row (int, optional)
-            max_value (float, optional)
-            min_value (float, optional)
-            name (str, optional): Track's name
-        """
-
         properties_dict = {}
 
         if height is None:
@@ -239,13 +305,20 @@ class Bed(Track, PlotBed, FetchBed):
         properties_dict['border_color'] = border_color
         properties_dict['fontsize'] = fontsize
         properties_dict['title'] = title
-        properties_dict['labels'] = labels
         properties_dict['style'] = style
         properties_dict['display'] = display
+
+        if labels == 'auto':
+            properties_dict['labels'] = 'auto'
+        elif labels is True:
+            properties_dict['labels'] = 'on'
+        else:
+            properties_dict['labels'] = 'off'
+
         if interval_height is not None:
             properties_dict['interval_height'] = interval_height
         if global_max_row is not None:
-            properties_dict['global_max_row'] = global_max_row
+            properties_dict['global_max_row'] = "yes" if global_max_row else "no"
         if gene_rows is not None:
             properties_dict['gene_rows'] = gene_rows
         if max_value is not None:
@@ -504,6 +577,49 @@ class Cool(Track, PlotCool, FetchCool):
         properties_dict['orientation'] = orientation
         properties_dict['max_value'] = max_value
         properties_dict['min_value'] = min_value
+        properties_dict['title'] = title
+
+        super().__init__(properties_dict, name)
+
+
+class HicCompare(PlotHicCompare):
+    """
+    Track for express the comparison between two HiC Track.
+
+    Parameters
+    ----------
+    hic1 : coolbox.api.track.Cool
+        First HiC Track.
+
+    hic2 : coolbox.api.track.Cool
+        Second HiC Track.
+
+    cmap : {str, matplotlib.colors.Colormap}, optional
+        A diverging colormap, left color represent the first HiC file,
+        and right represent the second HiC file.
+
+    color_bar : bool
+        Show color bar or not.
+
+    name : str, optional
+        Track's name (Default: "Bed.{Bed._counts}"
+
+    """
+
+    DEFAULT_COLOR = 'bwr'
+
+    def __init__(self, hic1, hic2,
+                 cmap=None,
+                 color_bar=True,
+                 title='', name=None):
+        properties_dict = {}
+
+        if cmap is None:
+            properties_dict['color'] = HicCompare.DEFAULT_COLOR
+
+        properties_dict['hic1'] = hic1
+        properties_dict['hic2'] = hic2
+        properties_dict['color_bar'] = color_bar
         properties_dict['title'] = title
 
         super().__init__(properties_dict, name)

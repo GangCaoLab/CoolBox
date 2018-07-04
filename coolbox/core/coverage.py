@@ -4,16 +4,6 @@ from copy import copy
 from coolbox.plots.coverage import *
 from coolbox.utilities import op_err_msg
 
-import coolbox.api.frame
-import coolbox.api.feature
-import coolbox.api.coverage
-import coolbox.api.track
-
-Frame = coolbox.api.frame.Frame
-Feature = coolbox.api.feature.Feature
-CoverageStack = coolbox.api.coverage.CoverageStack
-Track = coolbox.api.track.Track
-
 
 FEATURES_STACK_NAME = "__COOLBOX_FEATURE_STACK__"
 COVERAGE_STACK_NAME = "__COOLBOX_COVERAGE_STACK__"
@@ -36,6 +26,7 @@ class Coverage(object):
 
     `Coverage` is the plots at the upper layer of Track.
 
+    >>> from coolbox.core.track import Track
     >>> c1 = Coverage({})
     >>> c1.properties
     {}
@@ -62,6 +53,10 @@ class Coverage(object):
             self.properties[feature.key] = feature.value
 
     def __add__(self, other):
+        from .track import Track
+        from .frame import Frame
+        from .feature import Feature
+
         if isinstance(other, Track):
             result = copy(other)
             result.append_coverage(self)
@@ -87,6 +82,7 @@ class Coverage(object):
             raise TypeError(op_err_msg(self, other))
 
     def __mul__(self, other):
+        from .frame import Frame
         if isinstance(other, Frame):
             result = copy(other)
             result.add_cov_to_tracks(self)
@@ -128,6 +124,10 @@ class CoverageStack(object):
         self.coverages.insert(0, cov)
 
     def __add__(self, other):
+        from .track import Track
+        from .frame import Frame
+        from .feature import Feature
+
         if isinstance(other, Coverage):
             result = copy(self)
             result.to_top(other)

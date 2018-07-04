@@ -224,7 +224,7 @@ class BrowserBase(object):
                  dpi=None, img_format='png'):
         """
         Args:
-            frame (:obj:`coolbox.api.Frame`): browser's main frame.
+            frame (:obj:`coolbox.core.Frame`): browser's main frame.
             reference_genome (str, optional): reference genome,
                 built-in references:('hg19', 'hg38', 'mm9', 'mm10')
                 if you want use other genome, you can specify the "chromosome length file", 

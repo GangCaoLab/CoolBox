@@ -1,7 +1,7 @@
 from copy import copy
 from collections import OrderedDict
 
-from coolbox.plots import PlotFrame
+from coolbox.plots.frame import PlotFrame
 
 from coolbox.utilities import (
     GenomeRange,
@@ -10,20 +10,6 @@ from coolbox.utilities import (
 
 from coolbox.fetchdata import FetchFrame
 
-import coolbox.api.track
-import coolbox.api.feature
-import coolbox.api.coverage
-import coolbox.api.browser
-
-Track = coolbox.api.track.Track
-BedGraph = coolbox.api.track.BedGraph
-BigWig = coolbox.api.track.BigWig
-Feature = coolbox.api.feature.Feature
-FrameFeature = coolbox.api.feature.FrameFeature
-Coverage = coolbox.api.coverage.Coverage
-CoverageStack = coolbox.api.coverage.CoverageStack
-Browser = coolbox.api.browser.Browser
-WidgetsPanel = coolbox.api.browser.WidgetsPanel
 
 
 class Frame(PlotFrame, FetchFrame):
@@ -135,12 +121,15 @@ class Frame(PlotFrame, FetchFrame):
             track (:obj:`Track`): the track need to be added to self.tracks
             pos (`str`, 'tail' or 'head'): add track to tail or head. ['tail']
 
+        >>> from coolbox.core.track import XAxis, BigWig
         >>> frame = Frame()
         >>> frame.add_track(XAxis())
         >>> frame.add_track(BigWig("tests/test_data/bigwig_chrx_2e6_5e6.bw"))
         >>> len(frame.tracks)
         2
         """
+        from .track import Track
+
         assert isinstance(track, Track), "track must a Track object."
         if pos == 'tail':
             self.tracks.update({track.name: track})
@@ -155,10 +144,12 @@ class Frame(PlotFrame, FetchFrame):
         Args:
             feature (:obj:`Feature`): Feature object to be added to Frame's tracks.
 
+        >>> from coolbox.core.feature import Color
         >>> frame = Frame()
         >>> frame.add_feature_to_tracks(Color('#66ccff'))
         >>> assert all([track.properties['color'] == '#66ccff' for track in frame.tracks.values()])
         """
+        from .feature import Feature
         assert isinstance(feature, Feature), "feature must a Feature object."
         for track in self.tracks.values():
             track.properties[feature.key] = feature.value
@@ -172,6 +163,7 @@ class Frame(PlotFrame, FetchFrame):
         >>> assert all([track.properties['min_value'] == -10 for track in frame.tracks.values()])
         >>> assert all([track.properties['min_value'] ==  10 for track in frame.tracks.values()])
         """
+        from .track import BedGraph, BigWig
         for track in self.tracks.values():
             if isinstance(track, BedGraph) or \
                     isinstance(track, BigWig):
@@ -185,6 +177,8 @@ class Frame(PlotFrame, FetchFrame):
         Args:
             cov (:obj:`Coverage`): Coverage object to be added to Frame's tracks.
 
+        >>> from coolbox.core.track import XAxis, BigWig
+        >>> from coolbox.core.coverage import HighLights
         >>> frame = Frame()
         >>> frame.add_track(XAxis())
         >>> frame.add_track(BigWig("tests/test_data/bigwig_chrx_2e6_5e6.bw"))
@@ -198,6 +192,7 @@ class Frame(PlotFrame, FetchFrame):
     def __add__(self, other):
         """
 
+        >>> from coolbox.api import *
         >>> frame1 = Frame()
         >>> frame2 = Frame()
 
@@ -257,6 +252,11 @@ class Frame(PlotFrame, FetchFrame):
 
 
         """
+        from .track import Track
+        from .feature import Feature, FrameFeature
+        from .coverage import Coverage, CoverageStack
+        from .browser import WidgetsPanel, Browser
+
         result = copy(self)
 
         if isinstance(other, Track):
@@ -292,6 +292,8 @@ class Frame(PlotFrame, FetchFrame):
 
     def __mul__(self, other):
         """
+        >>> from coolbox.core.track import XAxis, BigWig
+        >>> from coolbox.core.coverage import HighLights
 
         Rule: Frame * Feature == Frame
         >>> f = XAxis() + BigWig("tests/test_data/bigwig_chrx_2e6_5e6.bw")
@@ -304,6 +306,8 @@ class Frame(PlotFrame, FetchFrame):
         >>> assert all([track.coverages[0] is cov for track in f.tracks.values()])
 
         """
+        from .coverage import Coverage
+        from .feature import Feature
 
         if isinstance(other, Coverage):
             result = copy(self)

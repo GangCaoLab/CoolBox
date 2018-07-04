@@ -118,6 +118,10 @@ class PlotCool(TrackPlot):
         small = self.small_value
         arr[arr == 0] = small
         arr[np.isnan(arr)] = small
+
+        if 'transform' in self.properties and self.properties['transform'] != 'no':
+            arr = self.__transform_matrix(arr)
+
         return arr
 
     def __get_triangular_matrix(self, arr):
@@ -197,8 +201,6 @@ class PlotCool(TrackPlot):
 
         # fetch matrix and perform transform process
         arr = self.__fetch_matrix(genome_range)
-        if 'transform' in self.properties and self.properties['transform'] != 'no':
-            arr = self.__transform_matrix(arr)
 
         self.matrix = arr
 
