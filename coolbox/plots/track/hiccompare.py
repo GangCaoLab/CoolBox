@@ -23,6 +23,8 @@ log = get_logger(__name__)
 
 class PlotHicCompare(TrackPlot):
 
+    DEFAULT_COLOR = 'bwr'
+
     def __init__(self, *args, **kwargs):
         TrackPlot.__init__(self, *args, **kwargs)
         self.hic1 = self.properties['hic1']
@@ -33,7 +35,7 @@ class PlotHicCompare(TrackPlot):
         self.properties['height'] = 'cool_auto'
 
         if 'color' not in self.properties:
-            self.properties['color'] = PlotCool.DEFAULT_COLOR
+            self.properties['color'] = PlotHicCompare.DEFAULT_COLOR
         self.properties['triangular'] = 'no'
         if 'color_bar' not in self.properties:
             self.properties['color_bar'] = 'yes'
@@ -53,7 +55,7 @@ class PlotHicCompare(TrackPlot):
         self.hic1.matrix = arr1
         arr2 = self.hic2.fetch_matrix(genome_range)
         self.hic2.matrix = arr2
-        self.matrix = np.triu(arr1 * (-1), 1) + np.tril(arr2, -1)
+        self.matrix = np.triu(arr1 * (-1), 0) + np.tril(arr2, -1)
 
         img = self.__plot_matrix(genome_range)
         self.__adjust_figure(genome_range)
@@ -80,9 +82,9 @@ class PlotHicCompare(TrackPlot):
                          aspect='auto')
 
         if self.properties['norm'] == 'log':
-            img.set_norm(colors.SymLogNorm(linthresh=0.001, vmin=-c_max_1, vmax=c_max_2))
+            img.set_norm(colors.SymLogNorm(linthresh=1e-4, linscale=1, vmin=-c_max_1, vmax=c_max_2))
         else:
-            img.set_norm(colors.Normalize(vmin=-c_min_1, vmax=c_max_2))
+            img.set_norm(colors.Normalize(vmin=-c_max_1, vmax=c_max_2))
 
         return img
 
@@ -95,7 +97,7 @@ class PlotHicCompare(TrackPlot):
     def __plot_colorbar(self, img):
         ax_divider = make_axes_locatable(self.ax)
         cax = ax_divider.append_axes("bottom", size=0.09, pad=0.2)
-        colorbar(img, cax=cax, orientation='horizontal')
+        plt.colorbar(img, cax=cax, orientation='horizontal')
 
     def __plot_label(self):
         self.label_ax.text(0.15, 0.5, self.properties['title'],
