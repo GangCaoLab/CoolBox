@@ -1,4 +1,15 @@
+import math
+import collections
+
+from matplotlib.patches import Rectangle
+from intervaltree import Interval, IntervalTree
+
+from coolbox.utilities import (change_chrom_names, get_logger,
+                               opener, rgb2hex, to_string)
 from coolbox.plots.coverage.base import CoveragePlot
+
+
+log = get_logger(__name__)
 
 
 class PlotHiCPeaks(CoveragePlot):
