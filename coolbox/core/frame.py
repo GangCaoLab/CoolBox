@@ -16,10 +16,34 @@ class Frame(PlotFrame, FetchFrame):
     """
     Frame for arrange and group plots.
 
-    Attributes:
-        properties (:obj:`dict`, (`str`, `any type`)): frame properties dict.
-        tracks (:obj:`OrderedDict`, key `str`, value :obj:`Track`): container of all tracks.
-        current_range (:obj:`GenomeRange`, optional): current frame range.
+    Parameters
+    ----------
+    genome_range : {GenomeRange, str}, optional
+        The init genome range.
+
+    width : {int, float}, optional
+        Width of frame, default Frame.DEFAULT_WIDTH.
+
+    width_ratios : tuple, optional
+        Width ratios of track and track title,
+        like `(0.9, 0.1)`. default Frame.DEFAULT_WIDTH_RATIOS.
+
+    margins : dict, optional
+        Margins of frame, default Frame.DEFAULT_MARGINS.
+
+    title : str, optional
+        The title of this frame, default ''.
+
+    Attributes
+    ----------
+    properties : dict
+        Frame properties dict.
+
+    tracks : OrderedDict
+        Container of all tracks.
+
+    current_range : GenomeRange, optional
+        Current frame range.
 
     """
 
@@ -29,15 +53,6 @@ class Frame(PlotFrame, FetchFrame):
 
     def __init__(self, *args, **kwargs):
         """
-        Args:
-            genome_range (:obj:`GenomeRange` or `str`, optional):
-                the init genome range.
-            width (`int` or `float`): width of frame. [Frame.DEFAULT_WIDTH]
-            width_ratios (:obj: tuple): width ratios of track and track title,
-                like `(0.9, 0.1)`. [Frame.DEFAULT_WIDTH_RATIOS]
-            margins (:dict:): margins of frame. [Frame.DEFAULT_MARGINS]
-            title (str): the title of this frame.
-
         >>> frame_1 = Frame()
         >>> frame_2 = Frame(genome_range="chr1:1000-2000")
         >>> str(frame_2.current_range)
@@ -96,9 +111,11 @@ class Frame(PlotFrame, FetchFrame):
         """
         Go to the range on the genome.
 
-        Args:
-            genome_range (`str` or :obj:`GenomeRange`): the range string,
-                like "chr1:1000000-2000000", or GenomeRange object.
+        Parameters
+        ----------
+        genome_range : {str, GenomeRange}
+            The range string,
+            like "chr1:1000000-2000000", or GenomeRange object.
 
         >>> frame = Frame()
         >>> frame.goto("chrX:3000000-5000000")
@@ -117,8 +134,10 @@ class Frame(PlotFrame, FetchFrame):
         """
         Add `Track` object to self.
 
-        Args:
-            track (:obj:`Track`): the track need to be added to self.tracks
+        Parameters
+        ----------
+        track : Track
+            The track need to be added to self.tracks
             pos (`str`, 'tail' or 'head'): add track to tail or head. ['tail']
 
         >>> from coolbox.core.track import XAxis, BigWig
@@ -141,8 +160,10 @@ class Frame(PlotFrame, FetchFrame):
         """
         Add feature to all tracks in this frame.
 
-        Args:
-            feature (:obj:`Feature`): Feature object to be added to Frame's tracks.
+        Parameters
+        ----------
+        feature : Feature
+            Feature object to be added to Frame's tracks.
 
         >>> from coolbox.core.feature import Color
         >>> frame = Frame()
@@ -174,8 +195,10 @@ class Frame(PlotFrame, FetchFrame):
         """
         Add coverage to all tracks in this frame.
 
-        Args:
-            cov (:obj:`Coverage`): Coverage object to be added to Frame's tracks.
+        Parameters
+        ----------
+        cov : Coverage
+            Coverage object to be added to Frame's tracks.
 
         >>> from coolbox.core.track import XAxis, BigWig
         >>> from coolbox.core.coverage import HighLights

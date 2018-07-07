@@ -69,11 +69,14 @@ class FetchBigWig(FetchTrackData):
 
     def fetch_data(self, genome_range):
         """
-        Args:
-            genome_range (:obj:`str` or `GenomeRange`)
+        Parameters
+        ----------
+        genome_range : {str, GenomeRange}
 
-        Return:
-            intervals (`pandas.core.frame.DataFrame`): BigWig interval table.
+        Return
+        ------
+        intervals : pandas.core.frame.DataFrame
+            BigWig interval table.
         """
         try:
             num_bins = int(self.properties['number_of_bins'])
@@ -129,11 +132,14 @@ class FetchBedGraph(FetchTrackData):
 
     def fetch_data(self, genome_range):
         """
-        Args:
-            genome_range (:obj:`str` or `GenomeRange`)
+        Parameters
+        ----------
+        genome_range : {str, GenomeRange}
 
-        Return:
-            intervals (`pandas.core.frame.DataFrame`): Bed graph interval table.
+        Return
+        ------
+        intervals : pandas.core.frame.DataFrame
+            Bed graph interval table.
         """
         return self.fetch_intervals(genome_range)
 
@@ -175,11 +181,14 @@ class FetchBed(FetchTrackData):
 
     def fetch_data(self, genome_range):
         """
-        Args:
-            genome_range (:obj:`str` or `GenomeRange`)
+        Parameters
+        ----------
+        genome_range : {str, GenomeRange}
 
-        Return:
-            intervals (`pandas.core.frame.DataFrame`): Bed interval table.
+        Return
+        ------
+        intervals : pandas.core.frame.DataFrame
+            Bed interval table.
         """
         return self.fetch_intervals(genome_range)
 
@@ -224,11 +233,14 @@ class FetchArcs(FetchTrackData):
 
     def fetch_data(self, genome_range):
         """
-        Args:
-            genome_range (:obj:`str` or `GenomeRange`)
+        Parameters
+        ----------
+        genome_range : {str, GenomeRange}
 
-        Return:
-            intervals (`pandas.core.frame.DataFrame`): Arcs interval table.
+        Return
+        ------
+        intervals : pandas.core.frame.DataFrame
+            Arcs interval table.
         """
         return self.fetch_intervals(genome_range)
 
@@ -249,25 +261,36 @@ class FetchCool(FetchTrackData):
 
     def fetch_data(self, genome_range1, genome_range2=None):
         """
-        Args:
-            genome_range1 (:obj:`str` or `GenomeRange`)
-            genome_range2 (:obj:`str` or `GenomeRange`, optional)
-            balance (bool, optional): balance matrix or not. [False]
+        Parameters
+        ----------
+        genome_range1 : {str, GenomeRange}
 
-        Return:
-            pixels (:obj:`pandas.core.frame.DataFrame`): Hi-C pixels table.
-                The pixel table contains the non-zero upper triangle entries of the contact map.
+        genome_range2 : {str, GenomeRange}, optional.
+
+        balance : {bool, optional}
+            Balance matrix or not, default False.
+
+        Return
+        ------
+        pixels : pandas.core.frame.DataFrame
+            Hi-C pixels table.
+            The pixel table contains the non-zero upper triangle entries of the contact map.
         """
         return self.fetch_pixels(genome_range1, genome_range2)
 
     def fetch_array(self, genome_range, balance=False):
         """
-        Args:
-            genome_range (:obj:`str` or `GenomeRange`)
-            balance (bool, optional): balance matrix or not. [False]
+        Parameters
+        ----------
+        genome_range : {str, GenomeRange}
 
-        Return:
-            arr (:obj:`numpy.ndarray`): intervals within input chromosome range.
+        balance : bool, optional
+            balance matrix or not, default False.
+
+        Return
+        ------
+        arr : numpy.ndarray
+            Intervals within input chromosome range.
         """
         chrom, start, end = split_genome_range(genome_range)
         arr = self.cool.matrix(balance=balance).fetch(str(GenomeRange(chrom, start, end)))

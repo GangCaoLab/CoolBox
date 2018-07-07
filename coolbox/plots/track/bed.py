@@ -176,7 +176,11 @@ class PlotBed(TrackPlot):
 
         The algorithm uses a interval tree (self.region_interval) to check the overlaps
         and a sort of coverage vector 'rows used' to identify the row in which to plot
-        :return: int y position
+
+        Return
+        ------
+        ypos : int
+            y position.
         """
 
         # if the domain directive is given, ypos simply oscilates between 0 and 100
@@ -434,16 +438,6 @@ class PlotBed(TrackPlot):
                                  linewidth=0.5))
 
     def __draw_arrow(self, ax, start, end, strand, ypos):
-        """
-        Draws a filled arrow
-        :param ax:
-        :param start:
-        :param end:
-        :param strand:
-        :param ypos:
-        :param rgb:
-        :return: None
-        """
         half_height = float(self.properties['interval_height']) / 2
         if strand == '+':
             x0 = start

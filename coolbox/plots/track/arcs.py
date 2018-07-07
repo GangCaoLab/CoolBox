@@ -86,8 +86,6 @@ class PlotArcs(TrackPlot):
         """
         Makes and arc connecting two points on a linear scale representing
         interactions between Hi-C bins.
-        :param ax: matplotlib axis
-        :param label_ax: matplotlib axis for labels
         """
         from matplotlib.patches import Arc
         height = 1

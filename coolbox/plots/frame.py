@@ -32,8 +32,10 @@ class PlotFrame(object):
         """
         Get heights of all tracks.
 
-        Return:
-            heights (:obj:`list` of `float`): heights of all tracks.
+        Return
+        ------
+        heights : list of float
+            heights of all tracks.
         """
         heights = []
         for track in self.tracks.values():

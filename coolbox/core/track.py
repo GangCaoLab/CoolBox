@@ -332,6 +332,44 @@ class Bed(Track, PlotBed, FetchBed):
 class BigWig(Track, PlotBigWig, FetchBigWig):
     """
     BigWig track.
+
+    Parameters
+    ----------
+    file_ : str
+        Path to bigwig file.
+
+    height : float, optional
+        Height of track, default BigWig.DEFAULT_HEIGHT.
+
+    fontsize : int, optional
+        Font size, default BigWig.DEFAULT_FONTSIZE.
+
+    color : str, optional
+        Track color, default BigWig.DEFAULT_COLOR.
+
+    number_of_bins : int, optional
+        Number_of_bins in current range, default 700.
+
+    type_ : str, optional
+        Track graph type, format 'type:size', like 'line:2', 'points:0.5'
+
+    orientation : str, optional
+        Track orientation, use 'inverted' for inverted track plot.
+
+    show_data_range : bool, optional
+        Show_data_range or not, default True.
+
+    title : str, optional
+        Label text, default ''
+
+    max_value : {float, 'auto'}, optional
+        Max value of track. 'auto' for specify max value automatically, default 'auto'.
+
+    min_value : {float, 'auto'}, optional
+        Min value of track. 'auto' for specify max value automatically, default 'auto'.
+
+    name : str, optional
+        Track's name.
     """
 
     DEFAULT_COLOR = "#dfccde"
@@ -339,21 +377,6 @@ class BigWig(Track, PlotBigWig, FetchBigWig):
     def __init__(self, file_, height=None, color=None,
                  number_of_bins=700, type_=None, orientation=None, show_data_range='yes',
                  title='', max_value='auto', min_value='auto', name=None):
-        """
-        Args:
-            file_ (str): path to bigwig file.
-            height (float, optional): height of track. [BigWig.DEFAULT_HEIGHT]
-            fontsize (int, optional): font size. [BigWig.DEFAULT_FONTSIZE]
-            color (str, optional): track color, [BigWig.DEFAULT_COLOR]
-            number_of_bins (int, optional): number_of_bins in current range. [700]
-            type_ (str, optional): track graph type, format 'type:size', like 'line:2', 'points:0.5'
-            orientation (str, optional): track orientation, use 'inverted' for inverted track plot.
-            show_data_range (str, optional): show_data_range or not. 'yes' or 'no' ['yes']
-            title (str, optional): label text. ['']
-            max_value (`float` or `'auto'`, optional): max value of track. ['auto']
-            min_value (`float` or `'auto'`, optional): min value of track. ['auto']
-            name (str, optional): Track's name
-        """
 
         properties_dict = {}
 
@@ -370,7 +393,7 @@ class BigWig(Track, PlotBigWig, FetchBigWig):
             properties_dict['type'] = type_
         if orientation is not None:
             properties_dict['orientation'] = orientation
-        properties_dict['show_data_range'] = show_data_range
+        properties_dict['show_data_range'] = 'yes' if show_data_range else 'no'
         properties_dict['title'] = title
         properties_dict['max_value'] = max_value
         properties_dict['min_value'] = min_value
@@ -381,28 +404,53 @@ class BigWig(Track, PlotBigWig, FetchBigWig):
 class ABCompartment(BigWig):
     """
     A/B Comapartment BigWig track.
+
+    Parameters
+    ----------
+    file_ : str
+        Path to bigwig file.
+
+    height : float, optional
+        Height of track, default BigWig.DEFAULT_HEIGHT.
+
+    fontsize : int, optional
+        Font size, default BigWig.DEFAULT_FONTSIZE
+
+    positive_color : str, optional
+        Track's positive value color, default ABCompartment.DEFAULT_POSITIVE_COLOR
+
+    negative_color : str, optional
+        Track's negative value color, default ABCompartment.DEFAULT_NEGATIVE_COLOR
+
+    number_of_bins : int, optional
+        Number_of_bins in current range, default 700
+
+    type_ : str, optional
+        Track graph type, format 'type:size', like 'line:2', 'points:0.5'
+
+    orientation : str, optional
+        Track orientation, use 'inverted' for inverted track plot.
+
+    show_data_range : bool, optional
+        Show_data_range or not, default True.
+
+    title : str, optional
+        Label text. default ''
+
+    max_value : {float, 'auto'}, optional
+        Max value of track, use 'auto' for specify max value automatically, default 'auto'.
+
+    min_value : {float, 'auto'}, optional
+        Min value of track, use 'auto' for specify min value automatically, default 'auto'.
+
+    name : str, optional
+        Track's name
     """
 
     DEFAULT_POSITIVE_COLOR = "#ff9c9c"
     DEFAULT_NEGATIVE_COLOR = "#66ccff"
 
     def __init__(self, file_, positive_color=None, negative_color=None, **kwargs):
-        """
-        Args:
-            file_ (str): path to bigwig file.
-            height (float, optional): height of track. [BigWig.DEFAULT_HEIGHT]
-            fontsize (int, optional): font size. [BigWig.DEFAULT_FONTSIZE]
-            positive_color (str, optional): track's positive value color, [ABCompartment.DEFAULT_POSITIVE_COLOR]
-            negative_color (str, optional): track's negative value color, [ABCompartment.DEFAULT_NEGATIVE_COLOR]
-            number_of_bins (int, optional): number_of_bins in current range. [700]
-            type_ (str, optional): track graph type, format 'type:size', like 'line:2', 'points:0.5'
-            orientation (str, optional): track orientation, use 'inverted' for inverted track plot.
-            show_data_range (str, optional): show_data_range or not. 'yes' or 'no' ['yes']
-            title (str, optional): label text. ['']
-            max_value (`float` or `'auto'`, optional): max value of track. ['auto']
-            min_value (`float` or `'auto'`, optional): min value of track. ['auto']
-            name (str, optional): Track's name
-        """
         super().__init__(file_, *kwargs)
         if positive_color is None:
             self.properties['positive_color'] = ABCompartment.DEFAULT_POSITIVE_COLOR
@@ -413,6 +461,37 @@ class ABCompartment(BigWig):
 class BedGraph(Track, PlotBedGraph, FetchBedGraph):
     """
     BedGraph track.
+
+    Parameters
+    ----------
+    file_ : str
+        Path to bedgraph file.
+
+    height : float, optional
+        Height of track, default BigWig.DEFAULT_HEIGHT
+
+    color : str, optional
+        Track color, default BigWig.DEFAULT_COLOR
+
+    type_ : str, optional
+        Track graph type, format 'type:size', like 'line:2', 'points:0.5'
+
+    extra : optional
+
+    show_data_range : bool, optional
+        Show_data_range or not, default True.
+
+    title : str, optional
+        Label text, default ''.
+
+    max_value : {float, 'auto'}, optional
+        Max value of track, use 'auto' for specify max value automatically, default 'auto'.
+
+    min_value : {float, 'auto'}, optional
+        Min value of track, use 'auto' for specify min value automatically, default 'auto'.
+
+    name : str, optional
+        Track's name.
     """
 
     DEFAULT_COLOR = '#a6cee3'
@@ -420,19 +499,6 @@ class BedGraph(Track, PlotBedGraph, FetchBedGraph):
     def __init__(self, file_, height=None, color=None,
                  extra=None, show_data_range='yes', title='',
                  max_value='auto', min_value='auto', name=None):
-        """
-        Args:
-            file_ (str): path to bedgraph file.
-            height (float, optional): height of track. [BigWig.DEFAULT_HEIGHT]
-            color (str, optional): track color, [BigWig.DEFAULT_COLOR]
-            type_ (str, optional): track graph type, format 'type:size', like 'line:2', 'points:0.5'
-            extra (optional):
-            show_data_range (str, optional): show_data_range or not. 'yes' or 'no' ['yes']
-            title (str, optional): label text. ['']
-            max_value (`float` or `'auto'`, optional): max value of track. ['auto']
-            min_value (`float` or `'auto'`, optional): min value of track. ['auto']
-            name (str, optional): Track's name
-        """
 
         properties_dict = {}
 
@@ -446,7 +512,7 @@ class BedGraph(Track, PlotBedGraph, FetchBedGraph):
         properties_dict['color'] = color
         if extra:
             properties_dict['extra'] = extra
-        properties_dict['show_data_range'] = show_data_range
+        properties_dict['show_data_range'] = 'yes' if show_data_range else 'no'
         properties_dict['title'] = title
         properties_dict['max_value'] = max_value
         properties_dict['min_value'] = min_value
@@ -457,6 +523,32 @@ class BedGraph(Track, PlotBedGraph, FetchBedGraph):
 class Arcs(Track, PlotArcs, FetchArcs):
     """
     Arcs(link) track.
+
+    Parameters
+    ----------
+    file_ : str
+        Path to bedgraph file.
+
+    height : float
+        Height of track, default Boundaries.DEFAULT_HEIGHT.
+
+    color : str, optional
+        Track color, default BigWig.DEFAULT_COLOR.
+
+    alpha : float, optional
+        Alpha value of track, default 0.8.
+
+    line_width : float, optional
+        Width of arc line.
+
+    orientation : str, optional
+        Track orientation, use 'inverted' for inverted track plot.
+
+    title : str, optional
+        Label text. default ''
+
+    name : str, optional
+        Track's name.
     """
 
     DEFAULT_COLOR = '#3297dc'
@@ -464,17 +556,6 @@ class Arcs(Track, PlotArcs, FetchArcs):
 
     def __init__(self, file_, height=None, color=None, alpha=0.8,
                  line_width=None, orientation=None, title='', name=None):
-        """
-        Args:
-            file_ (str): path to bedgraph file.
-            height (float): height of track. [Boundaries.DEFAULT_HEIGHT]
-            color (str, optional): track color, [BigWig.DEFAULT_COLOR]
-            alpha (float, optional): alpha value of track. [0.8]
-            line_width (float, optional): width of arc line.
-            orientation (str, optional): track orientation, use 'inverted' for inverted track plot.
-            title (str, optional): label text. ['']
-            name (str, optional): Track's name
-        """
 
         properties_dict = {}
 
@@ -500,21 +581,36 @@ class Arcs(Track, PlotArcs, FetchArcs):
 class TADs(Track, PlotTADs, FetchBed):
     """
     TADs track.
+
+    Parameters
+    ----------
+    file_ : str
+        Path to bed file.
+
+    height : float, optional
+        Height of track, default TADs.DEFAULT_HEIGHT
+
+    fontsize : int, optional
+        Font size, default TADs.DEFAULT_FONTSIZE
+
+    color : str, optional
+        Track color, use 'bed_rgb' for specify color according to file, default 'bed_rgb'.
+
+    border_color : str, optional
+        Border_color of gene, default 'black'.
+
+    orientation : str, optional
+        Track orientation, use 'inverted' for inverted track plot.
+
+    title : str, optional
+        Label text, default ''.
+
+    name : str, optional
+        Track's name
     """
 
     def __init__(self, file_, height=None, color='bed_rgb', border_color='black',
                  orientation=None, title='', name=None):
-        """
-        Args:
-            file_ (str): path to bed file.
-            height (float, optional): height of track. [TADs.DEFAULT_HEIGHT]
-            fontsize (int, optional): font size. [TADs.DEFAULT_FONTSIZE]
-            color (str, optional): track color, use 'bed_rgb' for specify color according to file. ['bed_rgb']
-            border_color (str, optional): border_color of gene. ['black']
-            orientation (str, optional): track orientation, use 'inverted' for inverted track plot.
-            title (str, optional): label text. ['']
-            name (str, optional): Track's name
-        """
 
         properties_dict = {}
 
@@ -537,6 +633,44 @@ class TADs(Track, PlotTADs, FetchBed):
 class Cool(Track, PlotCool, FetchCool):
     """
     Cool Hi-C matrix (or triangular matrix) track.
+
+    Parameters
+    ----------
+    file_ : str
+        Path to bed file.
+
+    cmap : str, optional
+        Color map of hic matrix, default Cool.DEFAULT_COLOR.
+
+    triangular : bool, optional
+        Show traiangular form matrix or not, default True.
+
+    balance : bool, optional
+        Show balanced matrix or not, default True
+
+    depth_ratio : float, optional
+        Depth ratio of triangular matrix, use 'full' for full depth. default 'full'.
+
+    color_bar : bool, optional
+        Show color_bar or not, default True.
+
+    transform : str, optional
+        Transform for matrix, like 'log2', 'log10', use 'no' for not transform, default 'no'.
+
+    orientation : str, optional
+        Track orientation, use 'inverted' for inverted track plot.
+
+    title : str, optional
+        Label text, default ''.
+
+    max_value : {float, 'auto'}, optional
+        Max value of hic matrix, use 'auto' for specify max value automatically, default 'auto'.
+
+    min_value : {float, 'auto'}, optional
+        Min value of hic matrix, use 'auto' for specify min value automatically, default 'auto'.
+
+    name : str, optional
+        Track's name.
     """
 
     DEFAULT_COLOR = 'YlOrRd'
@@ -546,21 +680,6 @@ class Cool(Track, PlotCool, FetchCool):
                  orientation="normal",
                  max_value='auto', min_value='auto', title='',
                  name=None):
-        """
-        Args:
-            file_ (str): path to bed file.
-            cmap (str, optional): color map of hic matrix. [Cool.DEFAULT_COLOR]
-            triangular (bool, optional): show traiangular form matrix or not. [True]
-            balance (bool, optional): show balanced matrix or not. [True]
-            depth_ratio (float, optional): depth ratio of triangular matrix, use 'full' for full depth. ['full']
-            color_bar (bool, optional): show color_bar or not. [True]
-            transform (str, optional): transform for matrix, like 'log2', 'log10', use 'no' for not transform. ['no']
-            orientation (str, optional): track orientation, use 'inverted' for inverted track plot.
-            max_value (`float` or `'auto'`, optional): max value of hic matrix. ['auto']
-            min_value (`float` or `'auto'`, optional): min value of hic matrix. ['auto']
-            title (str, optional): label text. ['']
-            name (str, optional): Track's name
-        """
 
         properties_dict = {}
 

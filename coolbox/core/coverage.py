@@ -108,13 +108,14 @@ class CoverageStack(object):
 
     ps: this "Stack" is actually a "Deque",
         name it "Stack" is just for imaging it vertically.
+
+    Parameters
+    ----------
+    coverages : list of coolbox.core.coverage.Coverage
+        coverages list.
     """
 
     def __init__(self, coverages):
-        """
-        Args:
-            coverages (:obj:`list` of :obj:`Coverage`): coverages list.
-        """
         self.coverages = coverages
 
     def to_top(self, cov):
@@ -154,17 +155,29 @@ class CoverageStack(object):
 
 class VlinesFromFile(Coverage, PlotVlines):
 
+    """
+    Vertical lines from the file.
+
+    Parameters
+    ----------
+    file_ : str
+        Path to file.
+
+    color : str, optional
+        Line color, default '#1e1e1e'.
+
+    alpha : float, optional
+        Line alpha value, default 0.8.
+
+    line_style : str, optional
+        Line style, default 'dashed'.
+
+    line_width : (float, optional)
+        Line width, default 0.5.
+    """
+
     def __init__(self, file_, color='#1e1e1e', alpha=0.8,
                  line_style='dashed', line_width=1):
-        """
-        Args:
-            file_ (str):
-            color (str, optional): ['#1e1e1e']
-            alpha (float, optional): [0.8]
-            line_style (str, optional): ['dashed']
-            line_width (float, optional): [0.5]
-        """
-
         properties_dict = dict()
 
         properties_dict['file'] = file_
@@ -178,18 +191,32 @@ class VlinesFromFile(Coverage, PlotVlines):
 
 class Vlines(Coverage, PlotVlines):
 
+    """
+    Vertical lines.
+
+    Parameters
+    ----------
+    vlines : list of int
+        A list of vline positions.
+
+    chr : str, optional
+        Chromosome of vline, if not specify will plot in all chromosome.
+
+    color : str, optional
+        Line color, default '#1e1e1e'.
+
+    alpha : float, optional
+        Line alpha value, default 0.8.
+
+    line_style : str, optional
+        Line style, default 'dashed'.
+
+    line_width : float, optional
+        Line width, default 0.5.
+    """
+
     def __init__(self, vlines, chr=None, color='#1e1e1e', alpha=0.8,
                  line_style='dashed', line_width=1):
-        """
-        Args:
-            vlines (:obj:`list` of `int`): A list of vline positions.
-            chr (str, optional): chromosome of vline, if not specify will plot in all chromosome.
-            color (str, optional): ['#1e1e1e']
-            alpha (float, optional): [0.8]
-            line_style (str, optional): ['dashed']
-            line_width (float, optional): [0.5]
-        """
-
         properties_dict = dict()
 
         properties_dict['vlines_list'] = vlines
@@ -204,28 +231,51 @@ class Vlines(Coverage, PlotVlines):
 
 class HighLightsFromFile(Coverage, PlotHighLightRegions):
 
+    """
+    High light regions coverage, read the regions from the file.
+
+    Parameters
+    ----------
+    file_ : str
+        Path to the file.
+
+    color : str, optional
+        High light region color,
+        use 'bed_rgb' for specify color from the file, default 'bed_rgb'.
+
+    alpha : float, optional
+        High light region alpha value, default 0.6.
+
+    border_line : bool, optional
+        Plot border line or not, default True.
+
+    border_line_style : str, optional
+        Border line style, default 'dashed'.
+
+    border_line_width : float, optional
+        Border line width, default 1.0.
+
+    border_line_color : str, optional
+        Border line color, default '#000000'
+
+    border_line_alpha : float, optional
+        Border line alpha value, default 0.8
+    """
+
     def __init__(self, file_, color='bed_rgb', alpha=0.6,
-                 border_line='yes', border_line_style='dashed',
+                 border_line=True, border_line_style='dashed',
                  border_line_width=1.0, border_line_color='#000000',
                  border_line_alpha=0.8):
-        """
-        Args:
-            file_ (str):
-            color (str, optional): ['bed_rgb']
-            alpha (float, optional): [0.6]
-            border_line (str, optional): plot border line or not. ['yes']
-            border_line_style (str, optional): ['dashed']
-            border_line_width (float, optional): [1.0]
-            border_line_color (str, optional): ['#000000']
-            border_line_alpha (float, optional): [0.8]
-        """
-
         properties_dict = dict()
+
+        if border_line:
+            properties_dict['border_line'] = 'yes'
+        else:
+            properties_dict['border_line'] = 'no'
 
         properties_dict['file'] = file_
         properties_dict['color'] = color
         properties_dict['alpha'] = alpha
-        properties_dict['border_line'] = border_line
         properties_dict['border_line_style'] = border_line_style
         properties_dict['border_line_width'] = border_line_width
         properties_dict['border_line_color'] = border_line_color
@@ -236,34 +286,59 @@ class HighLightsFromFile(Coverage, PlotHighLightRegions):
 
 class HighLights(Coverage, PlotHighLightRegions):
 
+    """
+    High light region.
+
+    Parameters
+    ----------
+    highlight_regions : list of tuple
+        A list of regions for highlights, region tuple format: `(start, end)`,
+        like, [(100000, 120000), (130000, 150000)].
+
+    chr : str, optional
+        Chromosome of highlight regions, if not specify will plot in all chromosome.
+
+    color : str, optional
+        High light region color, default HighLights.DEFAULT_COLOR.
+
+    alpha : float, optional
+        High light region alpha value, default 0.6
+
+    border_line : bool, optional
+        Plot border line or not, default True.
+
+    border_line_style : str, optional
+        Border line style, default 'dashed'
+
+    border_line_width : float, optional
+        Border line width, default 1.0
+
+    border_line_color : str, optional
+        Border line color, default '#000000'
+
+    border_line_alpha : float, optional
+        Border line alpha value, default 0.8
+    """
+
     DEFAULT_COLOR = "#ff9c9c"
 
     def __init__(self, highlight_regions, chr=None, color=None, alpha=0.6, border_line='yes',
                  border_line_style='dashed', border_line_width=1.0,
                  border_line_color='#000000', border_line_alpha=0.8):
-        """
-        Args:
-            highlight_regions (:obj:`list` of :obj:`tuple`): A list of regions for highlights,
-                region tuple format: `(start, end)` like, [(100000, 120000), (130000, 150000)].
-            chr (str, optional): chromosome of highlight regions, if not specify will plot in all chromosome.
-            color (str, optional): [HighLights.DEFAULT_COLOR]
-            alpha (float, optional): [0.6]
-            border_line (str, optional): plot border line or not. ['yes']
-            border_line_style (str, optional): ['dashed']
-            border_line_width (float, optional): [1.0]
-            border_line_color (str, optional): ['#000000']
-            border_line_alpha (float, optional): [0.8]
-        """
 
         if color is None:
             color = HighLights.DEFAULT_COLOR
 
         properties_dict = dict()
 
+        if border_line:
+            properties_dict['border_line'] = 'yes'
+        else:
+            properties_dict['border_line'] = 'no'
+
         properties_dict['highlight_regions'] = highlight_regions
         properties_dict['color'] = color
         properties_dict['alpha'] = alpha
-        properties_dict['border_line'] = border_line
         properties_dict['border_line_style'] = border_line_style
         properties_dict['border_line_width'] = border_line_width
         properties_dict['border_line_color'] = border_line_color
@@ -277,31 +352,49 @@ class HiCPeaks(Coverage, PlotHiCPeaks):
     """
     Hi-C Peaks(Loops) Coverge is a special kind of Coverage.
     Used to show the peaks on the Hi-C interaction map.
+
+    Parameters
+    ----------
+    file_ : str
+        Path to the loop file, loop file is a tab splited text file, fields:
+        chr1, x1, x2, chr2, y1, y2, [color], ... (other optional fields)
+
+    color : str, optional
+        Peak color, use 'bed_rgb' for specify color in file,
+        default 'bed_rgb'.
+
+    alpha : float, optional
+        Peak alpha value, default 0.8.
+
+    line_width : float, optional
+        Peak border line width, default 1.0
+
+    line_style : str, optional
+        Border line style, default 'solid'
+
+    fill : bool, optional
+        Fill center or not, default False.
+
+    fill_color : str, optional
+        Fill color, use 'bed_rgb' for specify color in file,
+        default 'bed_rgb'.
     """
 
     def __init__(self, file_, color='bed_rgb', alpha=0.8,
                  line_width=1.5, line_style='solid',
                  fill='no', fill_color='bed_rgb'):
-        """
-        Args:
-            file_ (str): path to the loop file, loop file is a tab splited text file, fields:
-                chr1, x1, x2, chr2, y1, y2, [color], ... (other optional fields)
-            color (str, optional): ['bed_rgb']
-            alpha (float, optional): [0.8]
-            line_width (float, optional): [1.0]
-            line_style (str, optional): ['solid']
-            fill (str, optional): ['no']
-            fill_color (str, optional): ['bed_rgb']
-        """
-
         properties_dict = {}
+
+        if fill:
+            properties_dict['fill'] = 'yes'
+        else:
+            properties_dict['fill'] = 'no'
 
         properties_dict['file'] = file_
         properties_dict['color'] = color
         properties_dict['alpha'] = alpha
         properties_dict['line_width'] = line_width
         properties_dict['line_style'] = line_style
-        properties_dict['fill'] = fill
         properties_dict['fill_color'] = fill_color
 
         super().__init__(properties_dict)

@@ -14,10 +14,16 @@ class GenomeRange(object):
     """
     Express a range on the genome.
 
-    Attributes:
-        chrom (str): chromosome
-        start (int): start position
-        end (int): end position
+    Attributes
+    ----------
+    chrom : str
+        chromosome
+
+    start : int
+        start position
+
+    end : int
+        end position
 
     """
 
@@ -57,11 +63,15 @@ class GenomeRange(object):
         splits a region string into
         a (chrom, start, end) tuple
 
-        Args:
-            region_string (str): region string to be parsed, like: "chr:start-end"
+        Parameters
+        ----------
+        region_string : str
+            Region string to be parsed, like: "chr:start-end"
 
-        Return:
-            result (:obj:`tuple` of `str`): result tuple (chrom, start, end)
+        Return
+        ------
+        result : tuple of str
+            Result tuple (chrom, start, end)
 
         >>> GenomeRange.parse_region_string("chr1:10-20")
         ('chr1', 10, 20)
@@ -255,12 +265,16 @@ def file_to_intervaltree(file_name):
     """
     converts a BED like file into a bx python interval tree
 
-    Args:
-        file_name (str): path to file.
+    Parameters
+    ----------
+    file_name : str
+        Path to file.
 
-    Return:
-        interval_tree (:obj:`dict`): interval tree dictionary. They key is the chromosome/contig name and the
-            value is an IntervalTree. Each of the intervals have as 'value' the fields[3:] if any.
+    Return
+    ------
+    interval_tree : dict
+        Interval tree dictionary. They key is the chromosome/contig name and the
+        value is an IntervalTree. Each of the intervals have as 'value' the fields[3:] if any.
     """
     # iterate over a BED like file
     # saving the data into an interval tree
@@ -370,10 +384,6 @@ class ReadBed(object):
     """
 
     def __init__(self, file_handle):
-        """
-        Args:
-            file_handle (file handle):
-        """
 
         self.file_type = None
         self.file_handle = file_handle
@@ -410,7 +420,6 @@ class ReadBed(object):
         """
         Skips comment lines starting with '#'
         "track" or "browser" in the bed files
-        :return:
         """
         line = next(self.file_handle)
         line = to_string(line)
@@ -447,7 +456,9 @@ class ReadBed(object):
 
     def next(self):
         """
-        :return: bedInterval object
+        Return
+        ------
+        bedInterval object
         """
         line = self.get_no_comment_line()
 
@@ -466,7 +477,9 @@ class ReadBed(object):
 
     def __next__(self):
         """
-        :return: bedInterval object
+        Return
+        ------
+        bedInterval object
         """
         line = self.get_no_comment_line()
 

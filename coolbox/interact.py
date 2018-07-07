@@ -223,17 +223,29 @@ class BrowserBase(object):
                  init_range=None, widgets_box=SimpleWidgets,
                  dpi=None, img_format='png'):
         """
-        Args:
-            frame (:obj:`coolbox.core.Frame`): browser's main frame.
-            reference_genome (str, optional): reference genome,
-                built-in references:('hg19', 'hg38', 'mm9', 'mm10')
-                if you want use other genome, you can specify the "chromosome length file", 
-                that is a tab splited file, first column is the chromosomes,
-                and second column is the length of correspond chromosome. ['hg19']
-            init_range (str, optional): initial browser range.
-            widgets_box (:obj:`type`, optional): WidgetsBox sub class.
-            dpi (int, optional): the dpi of frame's image.
-            img_format (int, optional): frame image format.
+        Parameters
+        ----------
+        frame : coolbox.core.Frame
+            Browser's main frame.
+
+        reference_genome : str, optional
+            Reference genome,
+            built-in references:('hg19', 'hg38', 'mm9', 'mm10')
+            if you want use other genome, you can specify the "chromosome length file",
+            that is a tab splited file, first column is the chromosomes,
+            and second column is the length of correspond chromosome. ['hg19']
+
+        init_range : str, optional
+            Initial browser range.
+
+        widgets_box : type, optional
+            WidgetsBox sub class, default SimpleWidgets
+
+        dpi : int, optional
+            The dpi of frame's image.
+
+        img_format : int, optional
+            Frame image format, default png.
         """
 
         self.dpi = dpi
