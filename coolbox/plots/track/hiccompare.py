@@ -13,6 +13,7 @@ from coolbox.utilities import (
 )
 
 from coolbox.plots.track.base import TrackPlot
+from coolbox.utilities import shiftedColorMap
 
 from . import cool
 PlotCool = cool.PlotCool
@@ -55,7 +56,7 @@ class PlotHicCompare(TrackPlot):
         self.hic1.matrix = arr1
         arr2 = self.hic2.fetch_matrix(genome_range)
         self.hic2.matrix = arr2
-        self.matrix = np.triu(arr1 * (-1), 0) + np.tril(arr2, -1)
+        self.matrix = np.triu(arr1 * (-1), 1) + np.tril(arr2, -1)
 
         img = self.__plot_matrix(genome_range)
         self.__adjust_figure(genome_range)
@@ -77,12 +78,29 @@ class PlotHicCompare(TrackPlot):
         cmap.set_under("white")
         c_min_1, c_max_1 = self.hic1.matrix_val_range
         c_min_2, c_max_2 = self.hic2.matrix_val_range
+
+        self.small_value = ( abs(c_min_1) + abs(c_min_2) ) / 2
+
+        if self.properties['norm'] == 'log':
+            a_ = np.log10(c_max_1)
+            b_ = np.log10(c_max_2)
+            c_ = np.log10(self.small_value)
+            ra_ = abs(c_ - a_) + 0.7
+            rb_ = abs(c_ - b_) + 0.7
+
+            midpoint = (ra_ / (ra_ + rb_))
+            print(a_, b_, c_, ra_, rb_, midpoint)
+        else:
+            midpoint = (abs(c_max_2) / (abs(c_max_1) + abs(c_max_2)))
+
+        cmap = shiftedColorMap(cmap, midpoint=midpoint)
+
         img = ax.matshow(arr, cmap=cmap,
                          extent=(start, end, end, start),
                          aspect='auto')
 
         if self.properties['norm'] == 'log':
-            img.set_norm(colors.SymLogNorm(linthresh=1e-4, linscale=1, vmin=-c_max_1, vmax=c_max_2))
+            img.set_norm(colors.SymLogNorm(linthresh=self.small_value, linscale=1, vmin=-c_max_1, vmax=c_max_2))
         else:
             img.set_norm(colors.Normalize(vmin=-c_max_1, vmax=c_max_2))
 
