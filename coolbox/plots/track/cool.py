@@ -150,8 +150,21 @@ class PlotCool(TrackPlot):
         small = self.small_value
         window_matrix = ndimage.rotate(arr, 45, prefilter=False, cval=small)
         rows, cols = window_matrix.shape
-        x = cols // 4
-        window_matrix = window_matrix[(rows//4):(rows//2 + 1), x:(3*x + 1)]
+        if self._out_of_bound == 'left':
+            # left side out of bound
+            x = cols // 3
+            window_matrix = window_matrix[(rows//6):((rows//2) + 1), :(2*x+1)]
+        elif self._out_of_bound == 'right':
+            # right side out of bound
+            x = cols // 3
+            window_matrix = window_matrix[(rows//6):((rows//2) + 1), :(2*x+1)]
+        elif self._out_of_bound == 'both':
+            # double side out of bound
+            pass
+        else:
+            # normal
+            x = cols // 4
+            window_matrix = window_matrix[(rows//4):(rows//2 + 1), x:(3*x + 1)]
 
         # cut depth
         if self.properties['depth_ratio'] != 'auto' and self.properties['depth_ratio'] != 'full':
@@ -177,10 +190,7 @@ class PlotCool(TrackPlot):
                              aspect='auto')
         elif self.style == STYLE_WINDOW:
             # window style
-            if not self._out_of_bound:
-                window_matrix = self.__get_window_matrix(arr)
-            else:
-                window_matrix = self.__get_triangular_matrix(arr)
+            window_matrix = self.__get_window_matrix(arr)
             img = ax.matshow(window_matrix, cmap=cmap,
                              extent=(start, end, 0, (end - start)/2),
                              aspect='auto')
@@ -207,7 +217,7 @@ class PlotCool(TrackPlot):
                 ax.set_ylim(0, genome_range.length / 2)
         elif self.style == STYLE_WINDOW:
             if self.is_inverted:
-                ax.set_ylim(genome_range / 2, 0)
+                ax.set_ylim(genome_range.length / 2, 0)
             else:
                 ax.set_ylim(0, genome_range.length / 2)
         else:
@@ -227,6 +237,30 @@ class PlotCool(TrackPlot):
                            horizontalalignment='left', size='large',
                            verticalalignment='center', transform=self.label_ax.transAxes)
 
+    def __fetch_window_matrix(self, genome_range):
+        from copy import copy
+        fetch_range = copy(genome_range)
+        x = (genome_range.end - genome_range.start) // 2
+        fetch_range.start = genome_range.start - x
+        fetch_range.end = genome_range.end + x
+
+        if fetch_range.start < 0:
+            fetch_range.start = genome_range.start
+            self._out_of_bound = 'left'
+
+        try:
+            arr = self.fetch_matrix(fetch_range)
+            genome_range = fetch_range
+        except ValueError as e:
+            if self._out_of_bound == 'left':
+                self._out_of_bound = 'both'
+                arr = self.fetch_matrix(genome_range)
+            else:
+                self._out_of_bound = 'right'
+                fetch_range.end = genome_range.end
+                arr = self.fetch_matrix(fetch_range)
+        return arr, genome_range
+
     def plot(self, ax, label_ax, chrom_region, start_region, end_region):
 
         self._out_of_bound = False
@@ -240,18 +274,7 @@ class PlotCool(TrackPlot):
 
         # fetch matrix and perform transform process
         if self.style == STYLE_WINDOW:
-            from copy import copy
-            fetch_range = copy(genome_range)
-            x = (genome_range.end - genome_range.start) // 2
-            fetch_range.start = genome_range.start - x
-            fetch_range.end = genome_range.end + x
-            try:
-                arr = self.fetch_matrix(fetch_range)
-                genome_range = fetch_range
-            except ValueError as e:
-                log.debug(str(e))
-                self._out_of_bound = True
-                arr = self.fetch_matrix(genome_range)
+            arr, genome_range = self.__fetch_window_matrix(genome_range)
         else:
             arr = self.fetch_matrix(genome_range)
 
