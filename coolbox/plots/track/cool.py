@@ -18,6 +18,11 @@ from coolbox.plots.track.base import TrackPlot
 log = get_logger(__name__)
 
 
+STYLE_TRIANGULAR = 'triangular'
+STYLE_MATRIX = 'matrix'
+STYLE_WINDOW = 'window'
+
+
 class PlotCool(TrackPlot):
 
     DEFAULT_COLOR = 'YlOrRd'
@@ -34,14 +39,15 @@ class PlotCool(TrackPlot):
         self.ax = None
         self.label_ax = None
         self.matrix = None
+        self._out_of_bound = False
 
     def __set_default_properties(self):
         self.properties['height'] = 'cool_auto'
 
         if 'color' not in self.properties:
             self.properties['color'] = PlotCool.DEFAULT_COLOR
-        if 'triangular' not in self.properties:
-            self.properties['triangular'] = 'yes'
+        if 'style' not in self.properties:
+            self.properties['style'] = STYLE_TRIANGULAR
         if 'balance' not in self.properties:
             self.properties['balance'] = 'no'
         if 'color_bar' not in self.properties:
@@ -64,12 +70,12 @@ class PlotCool(TrackPlot):
             return False
 
     @property
-    def is_triangular(self):
-        if 'triangular' in self.properties and self.properties['triangular'] == 'no':
-            return False
+    def style(self):
+        if 'style' in self.properties:
+            return self.properties['style']
         else:
-            # default: triangular form
-            return True
+            # default triangular style
+            return STYLE_TRIANGULAR
 
     @property
     def is_balance(self):
@@ -140,6 +146,21 @@ class PlotCool(TrackPlot):
 
         return tri_matrix
 
+    def __get_window_matrix(self, arr):
+        small = self.small_value
+        window_matrix = ndimage.rotate(arr, 45, prefilter=False, cval=small)
+        rows, cols = window_matrix.shape
+        x = cols // 4
+        window_matrix = window_matrix[(rows//4):(rows//2 + 1), x:(3*x + 1)]
+
+        # cut depth
+        if self.properties['depth_ratio'] != 'auto' and self.properties['depth_ratio'] != 'full':
+            depth_ratio = float(self.properties['depth_ratio'])
+            depth = int(window_matrix.shape[0] * depth_ratio)
+            window_matrix = window_matrix[-depth:, :]
+
+        return window_matrix
+
     def __plot_matrix(self, genome_range):
         start, end = genome_range.start, genome_range.end
         ax = self.ax
@@ -148,12 +169,23 @@ class PlotCool(TrackPlot):
         cmap.set_bad("white")
         cmap.set_under("white")
         c_min, c_max = self.matrix_val_range
-        if self.is_triangular:
+        if self.style == STYLE_TRIANGULAR:
+            # triangular style
             tri_matrix = self.__get_triangular_matrix(arr)
             img = ax.matshow(tri_matrix, cmap=cmap,
                              extent=(start, end, 0, (end - start)/2),
                              aspect='auto')
+        elif self.style == STYLE_WINDOW:
+            # window style
+            if not self._out_of_bound:
+                window_matrix = self.__get_window_matrix(arr)
+            else:
+                window_matrix = self.__get_triangular_matrix(arr)
+            img = ax.matshow(window_matrix, cmap=cmap,
+                             extent=(start, end, 0, (end - start)/2),
+                             aspect='auto')
         else:
+            # matrix style
             img = ax.matshow(arr, cmap=cmap,
                              extent=(start, end, end, start),
                              aspect='auto')
@@ -168,9 +200,14 @@ class PlotCool(TrackPlot):
     def __adjust_figure(self, genome_range):
         ax = self.ax
         start, end = genome_range.start, genome_range.end
-        if self.is_triangular:
+        if self.style == STYLE_TRIANGULAR:
             if self.is_inverted:
                 ax.set_ylim(genome_range.length / 2, 0)
+            else:
+                ax.set_ylim(0, genome_range.length / 2)
+        elif self.style == STYLE_WINDOW:
+            if self.is_inverted:
+                ax.set_ylim(genome_range / 2, 0)
             else:
                 ax.set_ylim(0, genome_range.length / 2)
         else:
@@ -192,6 +229,8 @@ class PlotCool(TrackPlot):
 
     def plot(self, ax, label_ax, chrom_region, start_region, end_region):
 
+        self._out_of_bound = False
+
         log.debug("plotting {}".format(self.properties['file']))
 
         genome_range = GenomeRange(chrom_region, start_region, end_region)
@@ -200,7 +239,21 @@ class PlotCool(TrackPlot):
         self.label_ax = label_ax
 
         # fetch matrix and perform transform process
-        arr = self.fetch_matrix(genome_range)
+        if self.style == STYLE_WINDOW:
+            from copy import copy
+            fetch_range = copy(genome_range)
+            x = (genome_range.end - genome_range.start) // 2
+            fetch_range.start = genome_range.start - x
+            fetch_range.end = genome_range.end + x
+            try:
+                arr = self.fetch_matrix(fetch_range)
+                genome_range = fetch_range
+            except ValueError as e:
+                log.debug(str(e))
+                self._out_of_bound = True
+                arr = self.fetch_matrix(genome_range)
+        else:
+            arr = self.fetch_matrix(genome_range)
 
         self.matrix = arr
 
@@ -221,8 +274,13 @@ class PlotCool(TrackPlot):
         """
         calculate track height dynamically.
         """
-        if self.properties['triangular'] == 'yes':
+        if self.style == STYLE_TRIANGULAR:
             cool_height = frame_width * 0.5
+        elif self.style == STYLE_WINDOW:
+            if 'height' in self.properties and self.properties['height'] != 'cool_auto':
+                cool_height = self.properties['height']
+            else:
+                cool_height = frame_width * 0.3
         else:
             cool_height = frame_width * 0.8
 

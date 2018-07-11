@@ -645,6 +645,9 @@ class Cool(Track, PlotCool, FetchCool):
     triangular : bool, optional
         Show traiangular form matrix or not, default True.
 
+    style : {'triangular', 'window', 'matrix'}, optional
+        Matrix style, default 'triangular'.
+
     balance : bool, optional
         Show balanced matrix or not, default True
 
@@ -675,7 +678,7 @@ class Cool(Track, PlotCool, FetchCool):
 
     DEFAULT_COLOR = 'YlOrRd'
 
-    def __init__(self, file_, cmap=None, triangular=True, balance=True,
+    def __init__(self, file_, cmap=None, style='triangular', balance=True,
                  depth_ratio='full', color_bar=True, transform='no',
                  orientation="normal",
                  max_value='auto', min_value='auto', title='',
@@ -688,7 +691,7 @@ class Cool(Track, PlotCool, FetchCool):
 
         properties_dict['file'] = file_
         properties_dict['color'] = cmap
-        properties_dict['triangular'] = 'yes' if triangular else 'no'
+        properties_dict['style'] = style
         properties_dict['balance'] = 'yes' if balance else 'no'
         properties_dict['depth_ratio'] = depth_ratio
         properties_dict['color_bar'] = 'yes' if color_bar else 'no'
