@@ -1,12 +1,6 @@
-from collections import deque
 from copy import copy
 
-from coolbox.utilities import op_err_msg
-
-
-FEATURES_STACK_NAME = "__COOLBOX_FEATURE_STACK__"
-global_scope = globals()
-global_scope[FEATURES_STACK_NAME] = deque()
+from coolbox.utilities import op_err_msg, get_feature_stack
 
 
 __all__ = [
@@ -66,14 +60,12 @@ class Feature(object):
             raise TypeError(op_err_msg(self, other, op='*'))
 
     def __enter__(self):
-        scope = globals()
-        stack = scope[FEATURES_STACK_NAME]
+        stack = get_feature_stack()
         stack.append(self)
         return self
 
     def __exit__(self, type, value, traceback):
-        scope = globals()
-        stack = scope[FEATURES_STACK_NAME]
+        stack = get_feature_stack()
         stack.pop()
 
 

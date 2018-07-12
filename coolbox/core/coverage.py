@@ -1,15 +1,7 @@
-from collections import deque
 from copy import copy
 
 from coolbox.plots.coverage import *
-from coolbox.utilities import op_err_msg
-
-
-FEATURES_STACK_NAME = "__COOLBOX_FEATURE_STACK__"
-COVERAGE_STACK_NAME = "__COOLBOX_COVERAGE_STACK__"
-global_scope = globals()
-global_scope[FEATURES_STACK_NAME] = deque()
-global_scope[COVERAGE_STACK_NAME] = deque()
+from coolbox.utilities import op_err_msg, get_coverage_stack, get_feature_stack
 
 
 __all__ = [
@@ -47,8 +39,7 @@ class Coverage(object):
         self.properties = properties_dict
         super().__init__()
 
-        scope = globals()
-        stack = scope[FEATURES_STACK_NAME]
+        stack = get_feature_stack()
         for feature in stack:
             self.properties[feature.key] = feature.value
 
@@ -91,14 +82,12 @@ class Coverage(object):
             raise TypeError(op_err_msg(self, other, op='*'))
 
     def __enter__(self):
-        scope = globals()
-        stack = scope[COVERAGE_STACK_NAME]
+        stack = get_coverage_stack()
         stack.append(self)
         return self
 
     def __exit__(self, type, value, traceback):
-        scope = globals()
-        stack = scope[COVERAGE_STACK_NAME]
+        stack = get_coverage_stack()
         stack.pop()
 
 

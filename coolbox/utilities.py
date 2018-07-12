@@ -3,6 +3,7 @@ import sys
 import collections
 from os.path import abspath, dirname, join
 import io
+from collections import deque
 
 import numpy as np
 from intervaltree import IntervalTree, Interval
@@ -852,6 +853,23 @@ def refgene_txt_to_bed12(txt_file, bed_file):
             refg_rec = refGeneRec._make(items)
             out_line = refg_rec.to_bed12_line() + "\n"
             f_out.write(out_line)
+
+
+
+FEATURES_STACK_NAME = "__COOLBOX_FEATURE_STACK__"
+COVERAGE_STACK_NAME = "__COOLBOX_COVERAGE_STACK__"
+
+
+def get_feature_stack():
+    global_scope = globals()
+    global_scope.setdefault(FEATURES_STACK_NAME, deque())
+    return global_scope[FEATURES_STACK_NAME]
+
+
+def get_coverage_stack():
+    global_scope = globals()
+    global_scope.setdefault(COVERAGE_STACK_NAME, deque())
+    return global_scope[COVERAGE_STACK_NAME]
 
 
 LOG_LEVEL = logging.WARNING

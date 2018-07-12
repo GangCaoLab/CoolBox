@@ -1,4 +1,3 @@
-from collections import deque
 from copy import copy
 
 from coolbox.plots.track import *
@@ -6,14 +5,7 @@ from coolbox.fetchdata import (
     FetchBed, FetchBedGraph, FetchBigWig,
     FetchArcs, FetchCool
 )
-from coolbox.utilities import op_err_msg
-
-
-FEATURES_STACK_NAME = "__COOLBOX_FEATURE_STACK__"
-COVERAGE_STACK_NAME = "__COOLBOX_COVERAGE_STACK__"
-global_scope = globals()
-global_scope[FEATURES_STACK_NAME] = deque()
-global_scope[COVERAGE_STACK_NAME] = deque()
+from coolbox.utilities import op_err_msg, get_feature_stack, get_coverage_stack
 
 
 __all__ = [
@@ -70,13 +62,12 @@ class Track(object):
         self.coverages = []
 
         # load features from global feature stack
-        scope = globals()
-        features_stack = scope[FEATURES_STACK_NAME]
+        features_stack = get_feature_stack()
         for features in features_stack:
             self.properties[features.key] = features.value
 
         # load coverages from global coverages stack
-        coverage_stack = scope[COVERAGE_STACK_NAME]
+        coverage_stack = get_coverage_stack()
         for coverage in coverage_stack:
             self.coverages.append(coverage)
 
