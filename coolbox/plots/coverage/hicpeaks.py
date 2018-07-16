@@ -12,6 +12,13 @@ from coolbox.plots.coverage.base import CoveragePlot
 log = get_logger(__name__)
 
 
+STYLE_TRIANGULAR = 'triangular'
+STYLE_MATRIX = 'matrix'
+STYLE_WINDOW = 'window'
+
+DEPTH_FULL = 'full'
+
+
 class PlotHiCPeaks(CoveragePlot):
 
     FILL = "no"
@@ -49,31 +56,44 @@ class PlotHiCPeaks(CoveragePlot):
         if chrom_region not in self.interval_tree:
             chrom_region = change_chrom_names(chrom_region)
 
-        for intval in sorted(self.interval_tree[chrom_region][start_region:end_region]):
+        if hasattr(self.track, 'fetch_region'):
+            start_fetch = self.track.fetch_region.start
+            end_fetch = self.track.fetch_region.end
+        else:
+            start_fetch, end_fetch = start_region, end_region
+
+        for intval in sorted(self.interval_tree[chrom_region][start_fetch:end_fetch]):
             loop = intval.data
 
-            if self.properties['color'] == 'rgb' or 'bed_rgb':
+            if (self.properties['color'] == 'rgb') or (self.properties['color'] == 'bed_rgb'):
                 color = loop.color
             else:
                 color = self.properties['color']
 
-            if self.properties['fill_color'] == 'rgb' or 'bed_rgb':
+            if (self.properties['fill_color']) == 'rgb' or (self.properties['fill_color'] == 'bed_rgb'):
                 fill_color = loop.color
             else:
                 fill_color = self.properties['fill_color']
 
             fill = True if self.properties['fill'] == 'yes' else False
 
-            try:
-                self.properties['triangular'] = self.track.properties['triangular']
-            except KeyError:
-                self.properties['triangular'] = 'yes'
-                log.warning("*WARNING* 'self.track' attribute not set, "
-                            "use default setting(self.properties['triangular'] = 'yes')")
+            self.properties['style'] = self.track.properties['style']
+            self.properties['depth_ratio'] = self.track.properties['depth_ratio']
 
-            if self.properties['triangular'] != 'no':
+            if self.properties['style'] == STYLE_TRIANGULAR or self.properties['style'] == STYLE_WINDOW:
 
-                x, y, (w, h) = self.__get_position_and_size(loop.x1, loop.x2, loop.y1, loop.y2)
+                depth_ratio = self.properties['depth_ratio'] if self.properties['depth_ratio'] != DEPTH_FULL else 1
+
+                region_length = (end_region - start_region)
+                depth_full = region_length * 0.5
+                depth_limit = depth_full * depth_ratio
+
+                x, y, (w, h) = self.__get_position_and_size(loop.x1, loop.x2, loop.y1, loop.y2,
+                                                            style=self.properties['style'])
+
+                if y >= depth_limit:
+                    continue
+
                 rec = Rectangle((x, y), w, h, angle=45,
                                 fill=fill,
                                 alpha=self.properties['alpha'],
@@ -83,46 +103,49 @@ class PlotHiCPeaks(CoveragePlot):
                                 linestyle=self.properties['line_style'])
                 ax.add_patch(rec)
 
-            else:
+            elif self.properties['style'] == STYLE_MATRIX:
 
-                # plot upper rectangle
-                x, y, (w, h) = self.__get_position_and_size(loop.x1, loop.x2, loop.y1, loop.y2,
-                                                            triangular=False, pos="upper")
-                rec = Rectangle((x, y), w, h,
-                                fill=fill,
-                                alpha=self.properties['alpha'],
-                                facecolor=fill_color,
-                                edgecolor=color,
-                                linewidth=self.properties['line_width'],
-                                linestyle=self.properties['line_style'])
-                ax.add_patch(rec)
+                if self.properties['side'] == 'upper' or self.properties['side'] == 'both':
+                    # plot upper rectangle
+                    x, y, (w, h) = self.__get_position_and_size(loop.x1, loop.x2, loop.y1, loop.y2,
+                                                                style=STYLE_MATRIX, side="upper")
+                    rec = Rectangle((x, y), w, h,
+                                    fill=fill,
+                                    alpha=self.properties['alpha'],
+                                    facecolor=fill_color,
+                                    edgecolor=color,
+                                    linewidth=self.properties['line_width'],
+                                    linestyle=self.properties['line_style'])
+                    ax.add_patch(rec)
 
-                # plot lower rectangle
-                x, y, (w, h) = self.__get_position_and_size(loop.x1, loop.x2, loop.y1, loop.y2,
-                                                            triangular=False, pos="lower")
-                rec = Rectangle((x, y), w, h,
-                                fill=fill,
-                                alpha=self.properties['alpha'],
-                                facecolor=fill_color,
-                                edgecolor=color,
-                                linewidth=self.properties['line_width'],
-                                linestyle=self.properties['line_style'])
-                ax.add_patch(rec)
+                if self.properties['side'] == 'lower' or self.properties['side'] == 'both':
+                    # plot lower rectangle
+                    x, y, (w, h) = self.__get_position_and_size(loop.x1, loop.x2, loop.y1, loop.y2,
+                                                                style=STYLE_MATRIX, side="lower")
+                    rec = Rectangle((x, y), w, h,
+                                    fill=fill,
+                                    alpha=self.properties['alpha'],
+                                    facecolor=fill_color,
+                                    edgecolor=color,
+                                    linewidth=self.properties['line_width'],
+                                    linestyle=self.properties['line_style'])
+                    ax.add_patch(rec)
 
     def __get_position_and_size(self, start1, end1, start2, end2,
-                                triangular=True, pos="upper"):
+                                style=STYLE_TRIANGULAR, side="upper"):
         """
         Calculate the position and size of the box from loop's start and end postion.
         """
-        if triangular:
+
+        if style == STYLE_TRIANGULAR or style == STYLE_WINDOW:
             m1 = (start1 + end1) / 2
             m2 = (start2 + end2) / 2
             x = (m1 + m2) / 2
             y = x - m1
             w = ( (end2 - start2) / 2 ) / math.cos(math.pi/4)
             h = ( (end1 - start1) / 2 ) / math.cos(math.pi/4)
-        else:
-            if pos == "upper":
+        elif style == STYLE_MATRIX:
+            if side == "upper":
                 x = (start2 + end2) / 2
                 y = (start1 + end1) / 2
                 w = end2 - start2

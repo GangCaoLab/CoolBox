@@ -22,6 +22,8 @@ STYLE_TRIANGULAR = 'triangular'
 STYLE_MATRIX = 'matrix'
 STYLE_WINDOW = 'window'
 
+DEPTH_FULL = 'full'
+
 
 class PlotCool(TrackPlot):
 
@@ -57,7 +59,7 @@ class PlotCool(TrackPlot):
         if 'title' not in self.properties:
             self.properties['title'] = ''
         if 'depth_ratio' not in self.properties:
-            self.properties['depth_ratio'] = 'full'
+            self.properties['depth_ratio'] = DEPTH_FULL
         if 'norm' not in self.properties:
             self.properties['norm'] = 'log'
 
@@ -139,7 +141,7 @@ class PlotCool(TrackPlot):
         tri_matrix = tri_matrix[0:(rows//2 + 1), :]
 
         # cut depth
-        if self.properties['depth_ratio'] != 'auto' and self.properties['depth_ratio'] != 'full':
+        if self.properties['depth_ratio'] != 'auto' and self.properties['depth_ratio'] != DEPTH_FULL:
             depth_ratio = float(self.properties['depth_ratio'])
             depth = int(tri_matrix.shape[0] * depth_ratio)
             tri_matrix = tri_matrix[-depth:, :]
@@ -167,7 +169,7 @@ class PlotCool(TrackPlot):
             window_matrix = window_matrix[(rows//4):(rows//2 + 1), x:(3*x + 1)]
 
         # cut depth
-        if self.properties['depth_ratio'] != 'auto' and self.properties['depth_ratio'] != 'full':
+        if self.properties['depth_ratio'] != 'auto' and self.properties['depth_ratio'] != DEPTH_FULL:
             depth_ratio = float(self.properties['depth_ratio'])
             depth = int(window_matrix.shape[0] * depth_ratio)
             window_matrix = window_matrix[-depth:, :]
@@ -186,13 +188,13 @@ class PlotCool(TrackPlot):
             # triangular style
             tri_matrix = self.__get_triangular_matrix(arr)
             img = ax.matshow(tri_matrix, cmap=cmap,
-                             extent=(start, end, 0, (end - start)/2),
+                             extent=(start, end, 0, self.properties['depth_ratio'] * (end - start)/2),
                              aspect='auto')
         elif self.style == STYLE_WINDOW:
             # window style
             window_matrix = self.__get_window_matrix(arr)
             img = ax.matshow(window_matrix, cmap=cmap,
-                             extent=(start, end, 0, (end - start)/2),
+                             extent=(start, end, 0, self.properties['depth_ratio'] * (end - start)/2),
                              aspect='auto')
         else:
             # matrix style
@@ -210,16 +212,17 @@ class PlotCool(TrackPlot):
     def __adjust_figure(self, genome_range):
         ax = self.ax
         start, end = genome_range.start, genome_range.end
-        if self.style == STYLE_TRIANGULAR:
-            if self.is_inverted:
-                ax.set_ylim(genome_range.length / 2, 0)
+        if self.style == STYLE_TRIANGULAR or self.style == STYLE_WINDOW:
+
+            if self.properties['depth_ratio'] == DEPTH_FULL:
+                depth = genome_range.length / 2
             else:
-                ax.set_ylim(0, genome_range.length / 2)
-        elif self.style == STYLE_WINDOW:
+                depth = (genome_range.length / 2) * self.properties['depth_ratio']
+
             if self.is_inverted:
-                ax.set_ylim(genome_range.length / 2, 0)
+                ax.set_ylim(depth, 0)
             else:
-                ax.set_ylim(0, genome_range.length / 2)
+                ax.set_ylim(0, depth)
         else:
             ax.set_ylim(end, start)
         ax.set_xlim(start, end)
@@ -250,7 +253,6 @@ class PlotCool(TrackPlot):
 
         try:
             arr = self.fetch_matrix(fetch_range)
-            genome_range = fetch_range
         except ValueError as e:
             if self._out_of_bound == 'left':
                 self._out_of_bound = 'both'
@@ -259,7 +261,7 @@ class PlotCool(TrackPlot):
                 self._out_of_bound = 'right'
                 fetch_range.end = genome_range.end
                 arr = self.fetch_matrix(fetch_range)
-        return arr, genome_range
+        return arr, fetch_range
 
     def plot(self, ax, label_ax, chrom_region, start_region, end_region):
 
@@ -274,7 +276,8 @@ class PlotCool(TrackPlot):
 
         # fetch matrix and perform transform process
         if self.style == STYLE_WINDOW:
-            arr, genome_range = self.__fetch_window_matrix(genome_range)
+            arr, fetch_region = self.__fetch_window_matrix(genome_range)
+            self.fetch_region = fetch_region
         else:
             arr = self.fetch_matrix(genome_range)
 
@@ -307,8 +310,9 @@ class PlotCool(TrackPlot):
         else:
             cool_height = frame_width * 0.8
 
-        if 'depth_ratio' in self.properties and self.properties['depth_ratio'] != 'full':
-            cool_height = cool_height * self.properties['depth_ratio']
+        if 'depth_ratio' in self.properties and self.properties['depth_ratio'] != DEPTH_FULL:
+            if self.properties['style'] != STYLE_MATRIX:
+                cool_height = cool_height * self.properties['depth_ratio']
 
         if 'color_bar' in self.properties and self.properties['color_bar'] != 'no':
             cool_height += 1.5

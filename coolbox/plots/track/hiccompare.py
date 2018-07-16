@@ -46,6 +46,7 @@ class PlotHicCompare(TrackPlot):
             self.properties['title'] = ''
         if 'norm' not in self.properties:
             self.properties['norm'] = 'log'
+        self.properties['style'] = 'matrix'
 
     def plot(self, ax, label_ax, chrom_region, start_region, end_region):
         self.ax = ax

@@ -367,11 +367,15 @@ class HiCPeaks(Coverage, PlotHiCPeaks):
     fill_color : str, optional
         Fill color, use 'bed_rgb' for specify color in file,
         default 'bed_rgb'.
+
+    side : {'upper', 'lower', 'both'}
+        Plot peak in which side of the matrix.
+        NOTE: This parameters is useful only if the Cool track in matrix format.
     """
 
     def __init__(self, file_, color='bed_rgb', alpha=0.8,
                  line_width=1.5, line_style='solid',
-                 fill='no', fill_color='bed_rgb'):
+                 fill=False, fill_color='bed_rgb', side='both'):
         properties_dict = {}
 
         if fill:
@@ -385,6 +389,7 @@ class HiCPeaks(Coverage, PlotHiCPeaks):
         properties_dict['line_width'] = line_width
         properties_dict['line_style'] = line_style
         properties_dict['fill_color'] = fill_color
+        properties_dict['side'] = side
 
         super().__init__(properties_dict)
 
