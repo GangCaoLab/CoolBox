@@ -436,7 +436,7 @@ class ABCompartment(BigWig):
     DEFAULT_NEGATIVE_COLOR = "#66ccff"
 
     def __init__(self, file_, positive_color=None, negative_color=None, **kwargs):
-        super().__init__(file_, *kwargs)
+        super().__init__(file_, **kwargs)
         if positive_color is None:
             self.properties['positive_color'] = ABCompartment.DEFAULT_POSITIVE_COLOR
         if negative_color is None:
