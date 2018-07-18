@@ -30,7 +30,7 @@ class PlotBigWig(TrackPlot):
 
         x_values = np.linspace(genome_range.start, genome_range.end, num_bins)
 
-        if 'type' in self.properties and self.properties != 'fill':
+        if 'type' in self.properties and self.properties['type'] != 'fill':
             self.__plot_line_or_points(scores_per_bin, x_values)
         else:
             self.__plot_fill(scores_per_bin, x_values)

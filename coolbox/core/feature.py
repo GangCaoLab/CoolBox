@@ -6,7 +6,7 @@ from coolbox.utilities import op_err_msg, get_feature_stack
 __all__ = [
     "Feature", "Color", "ColorMap",
     "TrackHeight", "Inverted", "Title",
-    "MaxValue", "MinValue", "ShowDataRange",
+    "MaxValue", "MinValue", "HistStyle", "ShowDataRange",
     "FrameFeature", "FrameTitle"
 ]
 
@@ -125,9 +125,21 @@ class MinValue(Feature):
         super().__init__('min_value', value)
 
 
+class HistStyle(Feature):
+    """
+    Style of BigWig or BedGraph.
+    """
+    def __init__(self, type='fill', size=0.5):
+        if type != 'fill':
+            value = type + ":" + str(size)
+        else:
+            value = 'fill'
+        super().__init__('type', value)
+
+
 class ShowDataRange(Feature):
     """
-    Show data range or not
+    Show data range or not.
     """
     def __init__(self, show=True):
         if show:

@@ -332,17 +332,15 @@ class BigWig(Track, PlotBigWig, FetchBigWig):
     height : float, optional
         Height of track, default BigWig.DEFAULT_HEIGHT.
 
-    fontsize : int, optional
-        Font size, default BigWig.DEFAULT_FONTSIZE.
-
     color : str, optional
         Track color, default BigWig.DEFAULT_COLOR.
 
     number_of_bins : int, optional
         Number_of_bins in current range, default 700.
 
-    type_ : str, optional
-        Track graph type, format 'type:size', like 'line:2', 'points:0.5'
+    style : str, optional
+        Track graph type, format {'fill', 'line:`size`', 'points:`size`'},
+        example: 'line:2', 'points:0.5'. default: 'fill'
 
     orientation : str, optional
         Track orientation, use 'inverted' for inverted track plot.
@@ -366,7 +364,7 @@ class BigWig(Track, PlotBigWig, FetchBigWig):
     DEFAULT_COLOR = "#dfccde"
 
     def __init__(self, file_, height=None, color=None,
-                 number_of_bins=700, type_=None, orientation=None, show_data_range='yes',
+                 number_of_bins=700, style='fill', orientation=None, show_data_range=True,
                  title='', max_value='auto', min_value='auto', name=None):
 
         properties_dict = {}
@@ -380,8 +378,7 @@ class BigWig(Track, PlotBigWig, FetchBigWig):
         properties_dict['height'] = height
         properties_dict['color'] = color
         properties_dict['number_of_bins'] = number_of_bins
-        if type_ is not None:
-            properties_dict['type'] = type_
+        properties_dict['type'] = style
         if orientation is not None:
             properties_dict['orientation'] = orientation
         properties_dict['show_data_range'] = 'yes' if show_data_range else 'no'
@@ -403,9 +400,6 @@ class ABCompartment(BigWig):
 
     height : float, optional
         Height of track, default BigWig.DEFAULT_HEIGHT.
-
-    fontsize : int, optional
-        Font size, default BigWig.DEFAULT_FONTSIZE
 
     positive_color : str, optional
         Track's positive value color, default ABCompartment.DEFAULT_POSITIVE_COLOR
@@ -464,8 +458,9 @@ class BedGraph(Track, PlotBedGraph, FetchBedGraph):
     color : str, optional
         Track color, default BigWig.DEFAULT_COLOR
 
-    type_ : str, optional
-        Track graph type, format 'type:size', like 'line:2', 'points:0.5'
+    style : str, optional
+        Track graph type, format {'fill', 'line:`size`', 'points:`size`'},
+        example: 'line:2', 'points:0.5'. default: 'fill'
 
     extra : optional
 
@@ -487,8 +482,8 @@ class BedGraph(Track, PlotBedGraph, FetchBedGraph):
 
     DEFAULT_COLOR = '#a6cee3'
 
-    def __init__(self, file_, height=None, color=None,
-                 extra=None, show_data_range='yes', title='',
+    def __init__(self, file_, height=None, color=None, style='fill',
+                 extra=None, show_data_range=True, title='',
                  max_value='auto', min_value='auto', name=None):
 
         properties_dict = {}
@@ -501,6 +496,7 @@ class BedGraph(Track, PlotBedGraph, FetchBedGraph):
         properties_dict['file'] = file_
         properties_dict['height'] = height
         properties_dict['color'] = color
+        properties_dict['type'] = style
         if extra:
             properties_dict['extra'] = extra
         properties_dict['show_data_range'] = 'yes' if show_data_range else 'no'
