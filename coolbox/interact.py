@@ -265,8 +265,8 @@ class BrowserBase(object):
         else:
             self.current_range = self.get_init_range()
 
-        self.goto(self.current_range)
         self.widgets = widgets_box(self)
+        self.goto(self.current_range)
         self.fig = None
 
         # cache figs in dict, speed up the figure display process.
@@ -318,6 +318,11 @@ class BrowserBase(object):
                                   genome_range.start - 1, # NOTE: frame's start is zero based
                                   genome_range.end)
         self.frame.goto(frame_range)
+
+        if isinstance(self.widgets, SimpleWidgets):
+            self.widgets.widgets_dict['range_textbox'].value = str(genome_range)
+        else:
+            raise NotImplemented()
 
     def go_left(self, step_ratio=0.5, dry_run=False):
         window_size = self.window_size
