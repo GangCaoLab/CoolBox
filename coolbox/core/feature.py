@@ -148,6 +148,17 @@ class ShowDataRange(Feature):
             super().__init__('show_data_range', 'no')
 
 
+class ShowColorBar(Feature):
+    """
+    Show color bar or not.
+    """
+    def __init__(self, show=True):
+        if show:
+            super().__init__('color_bar', 'yes')
+        else:
+            super().__init__('color_bar', 'no')
+
+
 class FrameFeature(Feature):
     """
     FrameFeature base class.
