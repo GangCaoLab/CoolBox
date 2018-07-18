@@ -4,7 +4,7 @@ CoolBox
 Jupyter notebook based genomic data visualization toolkit.
 ---------------------------------------------------------
 
-![](imgs/browser_show_0.png)
+![](imgs/title-1.png)
 
 Use [pyGenomeTracks](https://github.com/deeptools/pyGenomeTracks) as plot system.
 
