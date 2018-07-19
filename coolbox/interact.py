@@ -128,15 +128,13 @@ class SimpleWidgets(WidgetsBox):
             # only change chromosome
             range_ = GenomeRange(new_chrom, current_range.start, current_range.end)
             range_ = self.browser.chrom_lengthes.bound_range(range_)
-            self.browser.goto(range_)
-            self.refresh_widgets(who="chromosomes_list")
+            self.browser.goto(range_, who='chromosomes_list')
             self.browser.refresh()
         self.widgets_dict['chromosomes_list'].observe(chrom_dropdown_val_change, names="value")
 
         # left_button click
         def left_button_click(b):
             self.browser.go_left()
-            self.refresh_widgets()
             self.browser.refresh()
 #            self.browser.preload_imgs('left')
         self.widgets_dict['left_button'].on_click(left_button_click)
@@ -144,7 +142,6 @@ class SimpleWidgets(WidgetsBox):
         # right_button click
         def right_button_click(b):
             self.browser.go_right()
-            self.refresh_widgets()
             self.browser.refresh()
 #            self.browser.preload_imgs('right')
         self.widgets_dict['right_button'].on_click(right_button_click)
@@ -152,7 +149,6 @@ class SimpleWidgets(WidgetsBox):
         # zoom_in_button click
         def zoom_in_button_click(b):
             self.browser.zoom_in()
-            self.refresh_widgets()
             self.browser.refresh()
 #            self.browser.preload_imgs('zoom-in')
         self.widgets_dict['zoom_in_button'].on_click(zoom_in_button_click)
@@ -160,7 +156,6 @@ class SimpleWidgets(WidgetsBox):
         # zoom_out_button click
         def zoom_out_button_click(b):
             self.browser.zoom_out()
-            self.refresh_widgets()
             self.browser.refresh()
 #            self.browser.preload_imgs('zoom-out')
         self.widgets_dict['zoom_out_button'].on_click(zoom_out_button_click)
@@ -169,8 +164,7 @@ class SimpleWidgets(WidgetsBox):
         def go_button_click(b):
             range_str = self.widgets_dict['range_textbox'].value.strip("'")
             range_ = GenomeRange(range_str)
-            self.browser.goto(range_)
-            self.refresh_widgets(who="go_button")
+            self.browser.goto(range_, who='go_button')
             self.browser.refresh()
         self.widgets_dict['go_button'].on_click(go_button_click)
 
@@ -179,8 +173,7 @@ class SimpleWidgets(WidgetsBox):
             start, end = change['new']
             chrom = self.browser.current_range.chrom
             new_range = GenomeRange(chrom, start, end)
-            self.browser.goto(new_range)
-            self.refresh_widgets(who="range_slider")
+            self.browser.goto(new_range, who='range_slider')
             self.browser.refresh()
         self.widgets_dict['range_slider'].observe(range_slider_val_change, names="value")
 
@@ -307,7 +300,7 @@ class BrowserBase(object):
         center = (self.current_range.start + self.current_range.end) // 2
         return center
 
-    def goto(self, genome_range):
+    def goto(self, genome_range, who=None):
         if isinstance(genome_range, str):
             genome_range = GenomeRange(genome_range)
         if not self.chrom_lengthes.check_range(genome_range):
@@ -320,7 +313,7 @@ class BrowserBase(object):
         self.frame.goto(frame_range)
 
         if isinstance(self.widgets, SimpleWidgets):
-            self.widgets.widgets_dict['range_textbox'].value = str(genome_range)
+            self.widgets.refresh_widgets(who=who)
         else:
             raise NotImplemented()
 
