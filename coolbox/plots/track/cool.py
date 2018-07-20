@@ -184,17 +184,20 @@ class PlotCool(TrackPlot):
         cmap.set_bad("white")
         cmap.set_under("white")
         c_min, c_max = self.matrix_val_range
+
+        depth_ratio = 1.0 if self.properties['depth_ratio'] == DEPTH_FULL else self.properties['depth_ratio']
+
         if self.style == STYLE_TRIANGULAR:
             # triangular style
             tri_matrix = self.__get_triangular_matrix(arr)
             img = ax.matshow(tri_matrix, cmap=cmap,
-                             extent=(start, end, 0, self.properties['depth_ratio'] * (end - start)/2),
+                             extent=(start, end, 0, depth_ratio * (end - start)/2),
                              aspect='auto')
         elif self.style == STYLE_WINDOW:
             # window style
             window_matrix = self.__get_window_matrix(arr)
             img = ax.matshow(window_matrix, cmap=cmap,
-                             extent=(start, end, 0, self.properties['depth_ratio'] * (end - start)/2),
+                             extent=(start, end, 0, depth_ratio * (end - start)/2),
                              aspect='auto')
         else:
             # matrix style
