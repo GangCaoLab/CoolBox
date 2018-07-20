@@ -82,11 +82,17 @@ class PlotFrame(object):
                 track.plot(axis, label_axis, chrom, start, end)
 
             except Exception as e:
+                import sys, os
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                fname = exc_tb.tb_frame.f_code.co_filename
                 log.error("Error occured when plot track:\n"
                           "\ttrack name: {}\n\ttrack type:{}\n"
-                          "\tError: {} {}".format(
+                          "\tError: {} {}\n"
+                          "\toccurred in \"{}\", line {}".format(
                     track.name, type(track),
-                    type(e), str(e)))
+                    type(e), str(e), fname, exc_tb.tb_lineno)
+                )
+                log.exception(e)
             # plot coverages
             if hasattr(track, 'coverages'):
                 for cov_idx, cov in enumerate(track.coverages):
@@ -99,6 +105,7 @@ class PlotFrame(object):
                                   "\tError: {} {}".format(
                             track.name, type(track), cov.name, type(cov),
                             type(e), str(e)))
+                        log.exception(e)
 
             axis_list.append(axis)
 
