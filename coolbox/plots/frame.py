@@ -82,7 +82,9 @@ class PlotFrame(object):
                 track.plot(axis, label_axis, chrom, start, end)
 
             except Exception as e:
-                log.error("Error occured when plot track 'name: {}, type:{}', {}:{}".format(
+                log.error("Error occured when plot track:\n"
+                          "\ttrack name: {}\n\ttrack type:{}\n"
+                          "\tError: {} {}".format(
                     track.name, type(track),
                     type(e), str(e)))
             # plot coverages
@@ -92,10 +94,10 @@ class PlotFrame(object):
                     try:
                         cov.plot(axis, chrom, start, end)
                     except Exception as e:
-                        log.error("Error occured when plot track's coverage "
-                                  "'track name: {}, track type:{}, cov idx: {}, cov type: {}', "
-                                  "{}:{}".format(
-                            track.name, type(track), cov_idx, type(cov),
+                        log.error("Error occured when plot track's coverage:\n"
+                                  "\ttrack name: {}\n\ttrack type:{}\n\tcoverage name: {}\n\tcov type: {}\n"
+                                  "\tError: {} {}".format(
+                            track.name, type(track), cov.name, type(cov),
                             type(e), str(e)))
 
             axis_list.append(axis)
