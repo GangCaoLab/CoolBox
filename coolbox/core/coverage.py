@@ -8,7 +8,7 @@ __all__ = [
     "CoverageStack",
     "Vlines", "VlinesFromFile",
     "HighLights", "HighLightsFromFile",
-    "HiCPeaks"
+    "HiCPeaks", "TADCoverage"
 ]
 
 
@@ -35,13 +35,34 @@ class Coverage(object):
     1
     """
 
-    def __init__(self, properties_dict):
+    def __new__(cls, *args, **kwargs):
+        if hasattr(cls, "_counts"):
+            cls._counts += 1
+        else:
+            cls._counts = 1
+        return super().__new__(cls)
+
+    def __init__(self, properties_dict, name=None):
         self.properties = properties_dict
+        if name is not None:
+            assert isinstance(name, str), "Coverage name must be a `str`."
+        else:
+            name = self.__class__.__name__ + ".{}".format(self.__class__._counts)
+        self.properties['name'] = name
+
         super().__init__()
 
         stack = get_feature_stack()
         for feature in stack:
             self.properties[feature.key] = feature.value
+
+    @property
+    def name(self):
+        return self.properties['name']
+
+    @name.setter
+    def name(self, value):
+        self.properties['name'] = value
 
     def __add__(self, other):
         from .track import Track
@@ -89,6 +110,13 @@ class Coverage(object):
     def __exit__(self, type, value, traceback):
         stack = get_coverage_stack()
         stack.pop()
+
+    def check_track_type(self, allow):
+        valid = any([isinstance(self.track, type_) for type_ in allow])
+        if not valid:
+            msg = "{} coverage's track must be a instance of {}".format(self.track.__class__.__name__,
+                                                                        [type_.__name__ for type_ in allow])
+            raise ValueError(msg)
 
 
 class CoverageStack(object):
@@ -390,6 +418,55 @@ class HiCPeaks(Coverage, PlotHiCPeaks):
         properties_dict['line_style'] = line_style
         properties_dict['fill_color'] = fill_color
         properties_dict['side'] = side
+
+        super().__init__(properties_dict)
+
+
+class TADCoverage(Coverage, PlotTADCoverage):
+    """
+    TAD Coverage is used for plot TAD on upper layer of a track.
+
+    Parameters
+    ----------
+    file_ : str
+        Path to the loop file, loop file is a tab splited text file, fields:
+        chr1, x1, x2, chr2, y1, y2, [color], ... (other optional fields)
+
+    color : str, optional
+        Peak color, use 'bed_rgb' for specify color in file,
+        default 'bed_rgb'.
+
+    alpha : float, optional
+        Peak alpha value, default 0.4.
+
+    line_color : str, optional
+        Border line color, default '#000000'.
+
+    line_width : float, optional
+        Border line width, default 1.0.
+
+    line_style : str, optional
+        Border line style, default 'solid'.
+
+    fill : bool, optional
+        Fill center or not, default True.
+
+    """
+
+    def __init__(self, file_, color='bed_rgb', alpha=0.4,
+                 line_color="#000000", line_width=1.0,
+                 line_style='solid', fill=True):
+
+        properties_dict = dict()
+
+        properties_dict['fill'] = 'yes' if fill else 'no'
+
+        properties_dict['file'] = file_
+        properties_dict['color'] = color
+        properties_dict['alpha'] = alpha
+        properties_dict['border_color'] = line_color
+        properties_dict['border_width'] = line_width
+        properties_dict['border_style'] = line_style
 
         super().__init__(properties_dict)
 
