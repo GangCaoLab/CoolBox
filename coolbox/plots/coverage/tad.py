@@ -104,6 +104,7 @@ class PlotTADCoverage(CoveragePlot):
 
                 if self.track_type == 'Cool:window' or self.track_type == 'Cool:triangular':
                     depth = (end_region - start_region) / 2
+                    ymax = (end_region - start_region)
                     self.__plot_triangular(region, ymax, depth)
                 else:
                     self.__plot_box(region)
@@ -154,9 +155,9 @@ class PlotTADCoverage(CoveragePlot):
         ax = self.ax
         from matplotlib.patches import Rectangle
 
-        x1 = region.start
+        x1 = region.begin
         x2 = region.end
-        x = y = (x1 + x2)//2
+        x = y = x1
         w = h = (x2 - x1)
 
         rgb, edgecolor = self.__get_rgb_and_edge_color(region.data)
