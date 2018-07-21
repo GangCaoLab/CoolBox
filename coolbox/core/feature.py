@@ -7,6 +7,7 @@ __all__ = [
     "Feature", "Color", "ColorMap",
     "TrackHeight", "Inverted", "Title",
     "MaxValue", "MinValue", "HistStyle", "ShowDataRange",
+    "ShowColorBar", "DepthRatio", "CoolStyle",
     "FrameFeature", "FrameTitle"
 ]
 
@@ -157,6 +158,22 @@ class ShowColorBar(Feature):
             super().__init__('color_bar', 'yes')
         else:
             super().__init__('color_bar', 'no')
+
+
+class DepthRatio(Feature):
+    """
+    Control Cool track's depth ratio.
+    """
+    def __init__(self, depth_ratio):
+        super().__init__('depth_ratio', depth_ratio)
+
+
+class CoolStyle(Feature):
+    """
+    Control Cool track's style.
+    """
+    def __init__(self, style='triangular'):
+        super().__init__('style', style)
 
 
 class FrameFeature(Feature):
