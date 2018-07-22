@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 from mpl_toolkits.axes_grid1.axes_divider import make_axes_locatable
@@ -25,6 +27,41 @@ STYLE_WINDOW = 'window'
 DEPTH_FULL = 'full'
 
 
+def is_muliti_cool(cooler_file):
+    """
+    Judge a cooler is muliti-resolution cool or not.
+
+    Parameters
+    ----------
+    cooler_file : str
+        Path to cooler file.
+    """
+    import re
+    if re.match(".*::/resolutions/[0-9]+$", cooler_file):
+        return False
+
+    import h5py
+    h5_file = h5py.File(cooler_file)
+    return 'resolutions' in h5_file
+
+
+def get_cooler_resolutions(cooler_file):
+    """
+    Get the resolutions of a muliti-cooler file
+
+    Parameters
+    ----------
+    cooler_file : str
+        Path to cooler file.
+    """
+    import h5py
+    h5_file = h5py.File(cooler_file)
+    resolutions = list(h5_file['resolutions'])
+    resolutions = [int(res) for res in resolutions]
+    resolutions.sort()
+    return resolutions
+
+
 class PlotCool(TrackPlot):
 
     DEFAULT_COLOR = 'YlOrRd'
@@ -32,8 +69,19 @@ class PlotCool(TrackPlot):
     def __init__(self, *args, **kwargs):
         TrackPlot.__init__(self, *args, **kwargs)
 
+        file_ = self.properties['file']
         import cooler
-        self.cool = cooler.Cooler(self.properties['file'])
+        self.is_multi = is_muliti_cool(file_)
+        if self.is_multi:
+            resolutions = get_cooler_resolutions(file_)
+
+            def cooler_reso(resolution):
+                return cooler.Cooler(file_ + "::/resolutions/{}".format(resolution))
+
+            self.coolers = OrderedDict([(reso, cooler_reso(reso)) for reso in resolutions])
+            self.cool = self.coolers[resolutions[0]] # set self.cool to lowest resolution
+        else:
+            self.cool = cooler.Cooler(file_)
 
         self.__set_default_properties()
 
@@ -114,13 +162,37 @@ class PlotCool(TrackPlot):
 
         return min_, max_
 
-    def fetch_matrix(self, genome_range):
+    def fetch_matrix(self, genome_range, resolution='auto'):
+        """
+        Fetch the matrix from the cooler file.
+
+        Parameters
+        ----------
+        genome_range : coolbox.utilities.GenomeRange
+            The genome range to fetch.
+
+        resolution : {'auto', int}
+            The matrix resolution, for multi-cooler file.
+            Use 'auto' to infer the resolution automatically.
+        """
+        if self.is_multi:
+            resolutions = [k for k in self.coolers.keys()]
+            if resolution == 'auto':
+                reso = self.__infer_resolution(genome_range, resolutions)
+            else:
+                assert resolution in resolutions, \
+                    "Multi-Cooler file not contain the resolution {}.".format(resolution)
+                reso = int(resolution)
+            cool = self.coolers[reso]
+        else:
+            cool = self.cool
+
         chrom, start, end = genome_range.chrom, genome_range.start, genome_range.end
-        if chrom not in self.cool.chromnames:
+        if chrom not in cool.chromnames:
             chrom = change_chrom_names(chrom)
 
         range_str = str(GenomeRange(chrom, start, end))
-        arr = self.cool.matrix(balance=self.is_balance).fetch(range_str)
+        arr = cool.matrix(balance=self.is_balance).fetch(range_str)
 
         # fill zero and nan with small value
         small = self.small_value
@@ -131,6 +203,20 @@ class PlotCool(TrackPlot):
             arr = self.__transform_matrix(arr)
 
         return arr
+
+    def __infer_resolution(self, genome_range, resolutions):
+        BIN_THRESH = 1000
+
+        resolutions.sort()
+        reso = resolutions[0]
+        for r in resolutions:
+            num_bins = genome_range.length // reso
+            if num_bins >= BIN_THRESH:
+                reso = r
+            else:
+                break
+
+        return reso
 
     def __get_triangular_matrix(self, arr):
         small = self.small_value
@@ -162,7 +248,8 @@ class PlotCool(TrackPlot):
             window_matrix = window_matrix[(rows//6):((rows//2) + 1), :(2*x+1)]
         elif self._out_of_bound == 'both':
             # double side out of bound
-            pass
+            x = cols // 3
+            window_matrix = window_matrix[(rows//6):((rows//2) + 1), :]
         else:
             # normal
             x = cols // 4
