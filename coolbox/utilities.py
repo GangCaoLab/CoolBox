@@ -725,6 +725,10 @@ class GenomeLength(dict):
 
             if genome_range.end > self[genome_range.chrom]:
                 end = self[genome_range.chrom]
+                if start >= end:
+                    start = end - genome_range.length
+                    if start < 1:
+                        start = 1
             else:
                 end = genome_range.end
 

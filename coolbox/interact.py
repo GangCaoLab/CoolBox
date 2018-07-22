@@ -170,9 +170,15 @@ class SimpleWidgets(WidgetsBox):
 
         # range_slider value change
         def range_slider_val_change(change):
+            start_old, end_old = change['old']
+            length_old = end_old - start_old
+
             start, end = change['new']
             chrom = self.browser.current_range.chrom
+            if end - start <= 0:
+                end = start + length_old
             new_range = GenomeRange(chrom, start, end)
+            new_range = self.browser.chrom_lengthes.bound_range(new_range)
             self.browser.goto(new_range, who='range_slider')
             self.browser.refresh()
         self.widgets_dict['range_slider'].observe(range_slider_val_change, names="value")
