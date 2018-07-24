@@ -8,6 +8,28 @@ class PlotSpacer(TrackPlot):
         pass
 
 
+class PlotHLine(TrackPlot):
+
+    def __init__(self, *args, **kwargs):
+        TrackPlot.__init__(self, *args, **kwargs)
+        if 'line_style' not in self.properties:
+            self.properties['line_style'] = '--'
+        if 'line_width' not in self.properties:
+            self.properties['line_width'] = 0.5
+        if 'color' not in self.properties:
+            self.properties['color'] = '#000000'
+        if 'alpha' not in self.properties:
+            self.properties['alpha'] = 0.75
+
+    def plot(self, ax, label_ax, chrom_region, region_start, region_end):
+        ax.set_xlim(region_start, region_end)
+        ax.hlines(0, region_start, region_end,
+                  linestyles=self.properties['line_style'],
+                  linewidth=self.properties['line_width'],
+                  colors=self.properties['color'],
+                  alpha=self.properties['alpha'])
+
+
 class PlotXAxis(TrackPlot):
 
     def __init__(self, *args, **kwargs):

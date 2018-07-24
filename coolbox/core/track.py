@@ -5,11 +5,11 @@ from coolbox.fetchdata import (
     FetchBed, FetchBedGraph, FetchBigWig,
     FetchArcs, FetchCool
 )
-from coolbox.utilities import op_err_msg, get_feature_stack, get_coverage_stack
+from coolbox.utilities import op_err_msg, get_feature_stack, get_coverage_stack, cm2inch
 
 
 __all__ = [
-    "Spacer", "XAxis", "Bed", "TADs",
+    "Spacer", "HLine", "XAxis", "Bed", "TADs",
     "BigWig", "ABCompartment", "BedGraph",
     "Arcs", "Cool", "HicCompare"
 ]
@@ -169,7 +169,7 @@ class Spacer(Track, PlotSpacer):
         The height of Spacer track. (Default: Spacer.DEFAULT_HEIGHT)
 
     name : str, optional
-        Track's name. (Default: "Spacer.{Spacer._counts}")
+        Track's name.
     """
 
     DEFAULT_HEIGHT = 1
@@ -184,6 +184,61 @@ class Spacer(Track, PlotSpacer):
 
         super().__init__(properties_dict, name)
 
+
+class HLine(Track, PlotHLine):
+    """
+    Horizontal line track.
+    Used for add a horizontal line between two tracks.
+
+    Parameters
+    ----------
+    line_width : float, optional
+        (Default: HLine.DEFAULT_LINE_WIDTH)
+
+    line_style : str, optional
+        (Default: HLine.DEFAULT_LINE_STYLE)
+
+    color : str, optional
+        (Default: HLine.DEFAULT_COLOR)
+
+    alpha : float, optional
+        (Default: HLine.DEFAULT_ALPHA)
+
+    height : float, optional
+        The height of Spacer track. (Default: HLine.DEFAULT_HEIGHT)
+
+    name : str, optional
+        Track's name.
+    """
+
+    DEFAULT_LINE_WIDTH = 1
+    DEFAULT_HEIGHT = cm2inch(DEFAULT_LINE_WIDTH)
+    DEFAULT_LINE_STYLE = '--'
+    DEFAULT_COLOR = '#000000'
+    DEFAULT_ALPHA = 0.75
+
+    def __init__(self, line_width=None, line_style=None,
+                 color=None, alpha=None, height=None, name=None):
+        properties_dict = {}
+
+        if height is None:
+            height = HLine.DEFAULT_HEIGHT
+        if line_width is None:
+            line_width = HLine.DEFAULT_LINE_WIDTH
+        if line_style is None:
+            line_style = HLine.DEFAULT_LINE_STYLE
+        if color is None:
+            color = HLine.DEFAULT_COLOR
+        if alpha is None:
+            alpha = HLine.DEFAULT_ALPHA
+
+        properties_dict['height'] = height
+        properties_dict['line_width'] = line_width
+        properties_dict['line_style'] = line_style
+        properties_dict['color'] = color
+        properties_dict['alpha'] = alpha
+
+        super().__init__(properties_dict, name)
 
 class XAxis(Track, PlotXAxis):
     """
@@ -202,7 +257,7 @@ class XAxis(Track, PlotXAxis):
         (Default: 'bottom')
 
     name (str, optional):
-        Track's name. (Default: "XAxis.{XAxis._counts}")
+        Track's name.
     """
 
     DEFAULT_FONTSIZE = 15
@@ -273,7 +328,7 @@ class Bed(Track, PlotBed, FetchBed):
         Min score. (Default: -inf)
 
     name : str, optional
-        Track's name (Default: "Bed.{Bed._counts}"
+        Track's name.
 
     """
 
@@ -711,7 +766,7 @@ class HicCompare(Track, PlotHicCompare):
         Show color bar or not.
 
     name : str, optional
-        Track's name (Default: "Bed.{Bed._counts}"
+        Track's name
 
     """
 
