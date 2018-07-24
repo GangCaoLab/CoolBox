@@ -5,7 +5,7 @@ from coolbox.fetchdata import (
     FetchBed, FetchBedGraph, FetchBigWig,
     FetchArcs, FetchCool
 )
-from coolbox.utilities import op_err_msg, get_feature_stack, get_coverage_stack, cm2inch
+from coolbox.utilities import op_err_msg, get_feature_stack, get_coverage_stack
 
 
 __all__ = [
@@ -211,8 +211,8 @@ class HLine(Track, PlotHLine):
         Track's name.
     """
 
-    DEFAULT_LINE_WIDTH = 1
-    DEFAULT_HEIGHT = cm2inch(DEFAULT_LINE_WIDTH)
+    DEFAULT_LINE_WIDTH = 1.0
+    DEFAULT_HEIGHT = max(DEFAULT_LINE_WIDTH / 50, 0.05)  # this just a empiric value
     DEFAULT_LINE_STYLE = '--'
     DEFAULT_COLOR = '#000000'
     DEFAULT_ALPHA = 0.75
@@ -239,6 +239,7 @@ class HLine(Track, PlotHLine):
         properties_dict['alpha'] = alpha
 
         super().__init__(properties_dict, name)
+
 
 class XAxis(Track, PlotXAxis):
     """
