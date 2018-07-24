@@ -9,7 +9,7 @@ log = get_logger(__name__)
 class PlotFrame(object):
 
     DEFAULT_WIDTH = 40
-    DEFAULT_WIDTH_RATIOS = (0.93, 0.07)
+    DEFAULT_WIDTH_RATIOS = (0.01, 0.93, 0.06)
     DEFAULT_MARGINS = {'left': 0.04, 'right': 0.92, 'bottom': 0, 'top': 1}
 
     def __init__(self, properties_dict, tracks, *args, **kwargs):
@@ -44,7 +44,7 @@ class PlotFrame(object):
                 # auto specify height for Cool Track
                 if track.properties['height'] == 'cool_auto':
                     cool_height = track.get_tracks_height(
-                        self.properties['width'] * self.properties['width_ratios'][0])
+                        self.properties['width'] * self.properties['width_ratios'][1])
                     heights.append(cool_height)
                 else:
                     heights.append(track.properties['height'])
@@ -67,19 +67,28 @@ class PlotFrame(object):
             fig.suptitle(self.properties['title'])
 
         grids = matplotlib.gridspec.GridSpec(
-            len(tracks_height), 2,
+            len(tracks_height), 3,
             height_ratios=tracks_height,
-            width_ratios=self.properties['width_ratios'])
+            width_ratios=self.properties['width_ratios'],
+            wspace=0.01)
+
         axis_list = []
         for idx, track in enumerate(self.tracks.values()):
-            axis = axisartist.Subplot(fig, grids[idx, 0])
-            fig.add_subplot(axis)
-            axis.axis[:].set_visible(False)
-            axis.patch.set_visible(False)
-            label_axis = plt.subplot(grids[idx, 1])
-            label_axis.set_axis_off()
+            y_ax = plt.subplot(grids[idx, 0])
+            y_ax.set_axis_off()
+
+            ax = axisartist.Subplot(fig, grids[idx, 1])
+            fig.add_subplot(ax)
+            ax.axis[:].set_visible(False)
+            ax.patch.set_visible(False)
+
+            label_ax = plt.subplot(grids[idx, 2])
+            label_ax.set_axis_off()
+
+            track.label_ax = label_ax
+            track.y_ax = y_ax
             try:
-                track.plot(axis, label_axis, chrom, start, end)
+                track.plot(ax, chrom, start, end)
 
             except Exception as e:
                 import sys, os
@@ -98,7 +107,7 @@ class PlotFrame(object):
                 for cov_idx, cov in enumerate(track.coverages):
                     cov.track = track
                     try:
-                        cov.plot(axis, chrom, start, end)
+                        cov.plot(ax, chrom, start, end)
                     except Exception as e:
                         log.error("Error occured when plot track's coverage:\n"
                                   "\ttrack name: {}\n\ttrack type:{}\n\tcoverage name: {}\n\tcov type: {}\n"
@@ -107,7 +116,7 @@ class PlotFrame(object):
                             type(e), str(e)))
                         log.exception(e)
 
-            axis_list.append(axis)
+            axis_list.append(ax)
 
         margins = self.properties['margins']
         fig.subplots_adjust(wspace=0, hspace=0.0,

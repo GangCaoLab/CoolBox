@@ -16,10 +16,14 @@ class PlotBigWig(TrackPlot):
         self.bw = pyBigWig.open(self.properties['file'])
         if 'color' not in self.properties:
             self.properties['color'] = PlotBigWig.DEFAULT_COLOR
+        if 'data_range_style' not in self.properties:
+            # choices: {'text', 'y-axis'}
+            # default 'text'
+            # 'y-axis' style need set the .y_ax attribute
+            self.properties['data_range_style'] = 'text'
 
-    def plot(self, ax, label_ax, chrom_region, start_region, end_region):
+    def plot(self, ax, chrom_region, start_region, end_region):
         self.ax = ax
-        self.label_ax = label_ax
 
         genome_range = GenomeRange(chrom_region, start_region, end_region)
         log.debug("plotting {}".format(self.properties['file']))
@@ -40,11 +44,10 @@ class PlotBigWig(TrackPlot):
         if "show_data_range" in self.properties and self.properties["show_data_range"] == 'no':
             pass
         else:
-            self.__plot_data_range(ymin, ymax, genome_range)
+            self.genome_range = genome_range
+            self.plot_data_range(ymin, ymax, self.properties['data_range_style'])
 
-        self.label_ax.text(0.15, 0.5, self.properties['title'],
-                           horizontalalignment='left', size='large',
-                           verticalalignment='center')
+        self.plot_label()
 
         return self.ax
 
@@ -144,7 +147,25 @@ class PlotBigWig(TrackPlot):
             self.ax.set_ylim(ymin, ymax)
         return ymin, ymax
 
-    def __plot_data_range(self, ymin, ymax, genome_range):
+    def plot_data_range(self, ymin, ymax, data_range_style):
+
+        if data_range_style == 'text':
+            assert hasattr(self, 'genome_range'), \
+                "If use text style data range must, must set the .genome_range attribute"
+            self.__plot_range_text(ymin, ymax)
+
+        else:  # 'y-axis' style
+            try:
+                y_ax = self.y_ax
+                self.plot_y_axis(y_ax)
+            except AttributeError as e:
+                log.exception(e)
+                msg = "If use y-axis style data range must, must set the .y_ax attribute, switch to text style."
+                log.warn(msg)
+                self.plot_data_range(ymin, ymax, data_range_style='text')
+
+    def __plot_range_text(self, ymin, ymax):
+        genome_range = self.genome_range
         ydelta = ymax - ymin
 
         # set min max

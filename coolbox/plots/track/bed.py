@@ -194,7 +194,7 @@ class PlotBed(TrackPlot):
             ypos = free_row * self.row_scale
         return ypos
 
-    def plot(self, ax, label_ax, chrom_region, start_region, end_region):
+    def plot(self, ax, chrom_region, start_region, end_region):
         self.counter = 0
         self.small_relative = 0.004 * (end_region - start_region)
         self.__get_length_w(ax.get_figure().get_figwidth(), start_region, end_region)
@@ -329,9 +329,7 @@ class PlotBed(TrackPlot):
 
         ax.set_xlim(start_region, end_region)
 
-        label_ax.text(0.15, 1, self.properties['title'],
-                      horizontalalignment='left', size='large',
-                      verticalalignment='top', transform=label_ax.transAxes)
+        self.plot_label()
 
     def get_rgb_and_edge_color(self, bed):
         rgb = self.properties['color']
@@ -543,10 +541,12 @@ class PlotBed(TrackPlot):
 
 class PlotTADs(PlotBed):
 
-    def plot(self, ax, label_ax, chrom_region, start_region, end_region):
+    def plot(self, ax, chrom_region, start_region, end_region):
         """
         Plots the boundaries as triangles in the given ax.
         """
+        self.ax = ax
+
         from matplotlib.patches import Polygon
         ymax = 0.001
         valid_regions = 0
@@ -588,7 +588,5 @@ class PlotTADs(PlotBed):
         else:
             ax.set_ylim(0, ymax)
 
-        label_ax.text(0.15, 0.5, self.properties['title'],
-                      horizontalalignment='left', size='large',
-                      verticalalignment='center')
+        self.plot_label()
 

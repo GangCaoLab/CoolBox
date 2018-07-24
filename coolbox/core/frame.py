@@ -48,7 +48,7 @@ class Frame(PlotFrame, FetchFrame):
     """
 
     DEFAULT_WIDTH = 40
-    DEFAULT_WIDTH_RATIOS = (0.93, 0.07)
+    DEFAULT_WIDTH_RATIOS = (0.01, 0.93, 0.06)
     DEFAULT_MARGINS = {'left': 0.04, 'right': 0.92, 'bottom': 0, 'top': 1}
 
     def __init__(self, *args, **kwargs):

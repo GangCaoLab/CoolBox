@@ -82,11 +82,13 @@ class PlotArcs(TrackPlot):
         if 'alpha' not in self.properties:
             self.properties['alpha'] = 0.8
 
-    def plot(self, ax, label_ax, chrom_region, region_start, region_end):
+    def plot(self, ax, chrom_region, region_start, region_end):
         """
         Makes and arc connecting two points on a linear scale representing
         interactions between Hi-C bins.
         """
+        self.ax = ax
+
         from matplotlib.patches import Arc
         height = 1
         max_diameter = 0
@@ -115,7 +117,7 @@ class PlotArcs(TrackPlot):
                              height*2, 0, 0, 180, color=self.properties['color'], lw=line_width))
 
         # increase max_diameter slightly to avoid cropping of the arcs.
-        #max_diameter += max_diameter * 0.05
+#       max_diameter += max_diameter * 0.05
         height += height * 0.05
         log.debug("{} were arcs plotted".format(count))
         if 'orientation' in self.properties and self.properties['orientation'] == 'inverted':
@@ -125,9 +127,8 @@ class PlotArcs(TrackPlot):
 
         ax.set_xlim(region_start, region_end)
         log.debug('title is {}'.format(self.properties['title']))
-        label_ax.text(0.15, 0.5, self.properties['title'],
-                      horizontalalignment='left', size='large',
-                      verticalalignment='center')
+
+        self.plot_label()
 
     def __is_header(self, line):
         fields = line.split()

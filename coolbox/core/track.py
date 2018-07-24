@@ -404,6 +404,9 @@ class BigWig(Track, PlotBigWig, FetchBigWig):
     show_data_range : bool, optional
         Show_data_range or not, default True.
 
+    data_range_style : {'text', 'y-axis'}
+        The style of the data range. default: 'y-axis'
+
     title : str, optional
         Label text, default ''
 
@@ -420,7 +423,8 @@ class BigWig(Track, PlotBigWig, FetchBigWig):
     DEFAULT_COLOR = "#dfccde"
 
     def __init__(self, file_, height=None, color=None,
-                 number_of_bins=700, style='fill', orientation=None, show_data_range=True,
+                 number_of_bins=700, style='fill', orientation=None,
+                 show_data_range=True, data_range_style="y-axis",
                  title='', max_value='auto', min_value='auto', name=None):
 
         properties_dict = {}
@@ -438,6 +442,7 @@ class BigWig(Track, PlotBigWig, FetchBigWig):
         if orientation is not None:
             properties_dict['orientation'] = orientation
         properties_dict['show_data_range'] = 'yes' if show_data_range else 'no'
+        properties_dict['data_range_style'] = data_range_style
         properties_dict['title'] = title
         properties_dict['max_value'] = max_value
         properties_dict['min_value'] = min_value
@@ -523,6 +528,9 @@ class BedGraph(Track, PlotBedGraph, FetchBedGraph):
     show_data_range : bool, optional
         Show_data_range or not, default True.
 
+    data_range_style : {'text', 'y-axis'}
+        The style of the data range. default: 'y-axis'
+
     title : str, optional
         Label text, default ''.
 
@@ -539,8 +547,8 @@ class BedGraph(Track, PlotBedGraph, FetchBedGraph):
     DEFAULT_COLOR = '#a6cee3'
 
     def __init__(self, file_, height=None, color=None, style='fill',
-                 extra=None, show_data_range=True, title='',
-                 max_value='auto', min_value='auto', name=None):
+                 extra=None, show_data_range=True, data_range_style="y-axis",
+                 title='', max_value='auto', min_value='auto', name=None):
 
         properties_dict = {}
 
@@ -556,6 +564,7 @@ class BedGraph(Track, PlotBedGraph, FetchBedGraph):
         if extra:
             properties_dict['extra'] = extra
         properties_dict['show_data_range'] = 'yes' if show_data_range else 'no'
+        properties_dict['data_range_style'] = data_range_style
         properties_dict['title'] = title
         properties_dict['max_value'] = max_value
         properties_dict['min_value'] = min_value

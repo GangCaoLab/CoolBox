@@ -20,9 +20,9 @@ class PlotBedGraph(TrackPlot):
         if 'min_value' not in self.properties or self.properties['min_value'] == 'auto':
             self.properties['min_value'] = ymin
 
-    def plot(self, ax, label_ax, chrom_region, start_region, end_region):
+    def plot(self, ax, chrom_region, start_region, end_region):
         self.ax = ax
-        self.label_ax = label_ax
+
         score_list = []
         pos_list = []
 
@@ -67,16 +67,42 @@ class PlotBedGraph(TrackPlot):
         ydelta = ymax - ymin
         small_x = 0.01 * (end_region - start_region)
 
-        if 'show_data_range' in self.properties and \
-                self.properties['show_data_range'] == 'no':
+        if 'show_data_range' in self.properties and self.properties['show_data_range'] == 'no':
             pass
         else:
             # by default show the data range
-            self.ax.text(start_region - small_x, ymax - ydelta * 0.2,
-                         "[{}-{}]".format(ymin, ymax_print),
-                         horizontalalignment='left', size='small',
-                         verticalalignment='bottom')
+            self.plot_data_range(ymin, ymax, self.properties['data_range_style'])
 
-        self.label_ax.text(0.15, 0.5, self.properties['title'],
-                           horizontalalignment='left', size='large',
-                           verticalalignment='center', transform=self.label_ax.transAxes)
+        self.plot_label()
+
+    def plot_data_range(self, ymin, ymax, data_range_style):
+
+        if data_range_style == 'text':
+            assert hasattr(self, 'genome_range'), \
+                "If use text style data range must, must set the .genome_range attribute"
+            self.__plot_range_text(ymin, ymax)
+
+        else:  # 'y-axis' style
+            try:
+                y_ax = self.y_ax
+                self.plot_y_axis(y_ax)
+            except AttributeError as e:
+                log.exception(e)
+                msg = "If use y-axis style data range must, must set the .y_ax attribute, switch to text style."
+                log.warn(msg)
+                self.plot_data_range(ymin, ymax, data_range_style='text')
+
+    def __plot_range_text(self, ymin, ymax):
+        genome_range = self.genome_range
+        ydelta = ymax - ymin
+
+        # set min max
+        format_lim = lambda lim: int(lim) if float(lim) %1 == 0 else "{:.2f}".format(lim)
+        ymax_print = format_lim(ymax)
+        ymin_print = format_lim(ymin)
+        small_x = 0.01 * genome_range.length
+        # by default show the data range
+        self.ax.text(genome_range.start - small_x, ymax - ydelta * 0.2,
+                     "[ {} ~ {} ]".format(ymin_print, ymax_print),
+                     horizontalalignment='left',
+                     verticalalignment='top')

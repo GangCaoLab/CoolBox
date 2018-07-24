@@ -317,18 +317,56 @@ class PlotCool(TrackPlot):
             ax.set_ylim(end, start)
         ax.set_xlim(start, end)
 
-    def __plot_colorbar(self, img):
-        ax_divider = make_axes_locatable(self.ax)
-        if self.is_inverted:
-            cax = ax_divider.append_axes("top", size=0.09, pad=0.2)
-        else:
-            cax = ax_divider.append_axes("bottom", size=0.09, pad=0.2)
-        colorbar(img, cax=cax, orientation='horizontal')
+    def __plot_colorbar(self, img, orientation='vertical'):
+        if orientation == 'horizontal':
+            ax_divider = make_axes_locatable(self.ax)
+            if self.is_inverted:
+                cax = ax_divider.append_axes("top", size=0.09, pad=0.2)
+            else:
+                cax = ax_divider.append_axes("bottom", size=0.09, pad=0.2)
+            colorbar(img, cax=cax, orientation='horizontal')
+        else:  # vertical
+            y_ax = self.y_ax
 
-    def __plot_label(self):
-        self.label_ax.text(0.15, 0.5, self.properties['title'],
-                           horizontalalignment='left', size='large',
-                           verticalalignment='center', transform=self.label_ax.transAxes)
+            if self.properties['norm'] == 'log':
+                from matplotlib.ticker import LogFormatter
+                formatter = LogFormatter(10, labelOnlyBase=False)
+                aa = np.array([1, 2, 5])
+                c_min, c_max = self.matrix_val_range
+                def abs_inc(num):
+                    if num != 0:
+                        sign = num / abs(num)
+                        return int(sign * abs(num + 1))
+                    else:
+                        return 1
+                lower_ = int(np.log10(c_min))
+                upper_ = abs_inc(int(np.log10(c_max)))
+                tick_values = np.concatenate([aa * 10 ** x for x in range(lower_, upper_)])
+
+                c_bar = plt.colorbar(img, ax=y_ax, ticks=tick_values, format=formatter, fraction=0.98)
+            else:
+                c_bar = plt.colorbar(img, ax=y_ax, fraction=0.98)
+
+            c_bar.solids.set_edgecolor("face")
+            c_bar.ax.tick_params(labelsize='smaller')
+
+            c_bar.ax.yaxis.set_ticks_position('left')
+
+            # adjust the labels of the colorbar
+#            labels = c_bar.ax.get_yticklabels()
+#            ticks = c_bar.ax.get_yticks()
+#
+#            if ticks[0] == 0:
+#                # if the label is at the start of the colobar
+#                # move it above avoid being cut or overlapping with other track
+#                labels[0].set_verticalalignment('bottom')
+#            if ticks[-1] == 1:
+#                # if the label is at the end of the colobar
+#                # move it a bit inside to avoid overlapping
+#                # with other labels
+#                labels[-1].set_verticalalignment('top')
+
+#            c_bar.ax.set_yticklabels(labels)
 
     def __fetch_window_matrix(self, genome_range):
         from copy import copy
@@ -353,7 +391,8 @@ class PlotCool(TrackPlot):
                 arr = self.fetch_matrix(fetch_range)
         return arr, fetch_range
 
-    def plot(self, ax, label_ax, chrom_region, start_region, end_region):
+    def plot(self, ax, chrom_region, start_region, end_region):
+        self.ax = ax
 
         self._out_of_bound = False
 
@@ -362,7 +401,6 @@ class PlotCool(TrackPlot):
         genome_range = GenomeRange(chrom_region, start_region, end_region)
 
         self.ax = ax
-        self.label_ax = label_ax
 
         # fetch matrix and perform transform process
         if self.style == STYLE_WINDOW:
@@ -379,12 +417,15 @@ class PlotCool(TrackPlot):
 
         # plot colorbar
         if self.properties['color_bar'] == 'yes':
-            self.__plot_colorbar(img)
+            if hasattr(self, 'y_ax') and self.style == STYLE_WINDOW:
+                self.__plot_colorbar(img, orientation='vertical')
+            else:
+                self.__plot_colorbar(img, orientation='horizontal')
         else:
             pass
 
         # plot label
-        self.__plot_label()
+        self.plot_label()
 
     def get_tracks_height(self, frame_width):
         """

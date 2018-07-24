@@ -48,9 +48,8 @@ class PlotHicCompare(TrackPlot):
             self.properties['norm'] = 'log'
         self.properties['style'] = 'matrix'
 
-    def plot(self, ax, label_ax, chrom_region, start_region, end_region):
+    def plot(self, ax, chrom_region, start_region, end_region):
         self.ax = ax
-        self.label_ax = label_ax
 
         genome_range = GenomeRange(chrom_region, start_region, end_region)
         arr1 = self.hic1.fetch_matrix(genome_range)
@@ -65,7 +64,7 @@ class PlotHicCompare(TrackPlot):
             self.__plot_colorbar(img)
         else:
             pass
-        self.__plot_label()
+        self.plot_label()
 
     def __plot_matrix(self, genome_range):
         start, end = genome_range.start, genome_range.end
@@ -117,11 +116,6 @@ class PlotHicCompare(TrackPlot):
         ax_divider = make_axes_locatable(self.ax)
         cax = ax_divider.append_axes("bottom", size=0.09, pad=0.2)
         plt.colorbar(img, cax=cax, orientation='horizontal')
-
-    def __plot_label(self):
-        self.label_ax.text(0.15, 0.5, self.properties['title'],
-                           horizontalalignment='left', size='large',
-                           verticalalignment='center', transform=self.label_ax.transAxes)
 
     def get_tracks_height(self, frame_width):
         """

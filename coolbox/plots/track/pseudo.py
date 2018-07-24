@@ -3,9 +3,9 @@ from coolbox.plots.track.base import TrackPlot
 
 class PlotSpacer(TrackPlot):
 
-    def plot(self, ax, label_ax, chrom_region, start_region, end_region):
+    def plot(self, ax, chrom_region, start_region, end_region):
+        self.ax = ax
         ax.set_xlim(start_region, end_region)
-        pass
 
 
 class PlotHLine(TrackPlot):
@@ -21,7 +21,9 @@ class PlotHLine(TrackPlot):
         if 'alpha' not in self.properties:
             self.properties['alpha'] = 0.75
 
-    def plot(self, ax, label_ax, chrom_region, region_start, region_end):
+    def plot(self, ax, chrom_region, region_start, region_end):
+        self.ax = ax
+
         ax.set_xlim(region_start, region_end)
         ax.hlines(0, region_start, region_end,
                   linestyles=self.properties['line_style'],
@@ -37,7 +39,9 @@ class PlotXAxis(TrackPlot):
         if 'fontsize' not in self.properties:
             self.properties['fontsize'] = 15
 
-    def plot(self, ax, label_axis, chrom_region, region_start, region_end):
+    def plot(self, ax, chrom_region, region_start, region_end):
+        self.ax = ax
+
         ax.set_xlim(region_start, region_end)
         ticks = ax.get_xticks()
         if ticks[-1] - ticks[1] <= 1e5:
