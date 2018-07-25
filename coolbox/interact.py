@@ -216,7 +216,7 @@ class BrowserBase(object):
     Browser base class.
     """
 
-    MAX_CACHE_SIZE = 10_000_000 # max fig cache size.(bytes)
+    MAX_CACHE_SIZE = 10 ** 7  # max fig cache size.(bytes)
 
     def __init__(self, frame, reference_genome='hg19',
                  init_range=None, widgets_box=SimpleWidgets,
@@ -287,7 +287,7 @@ class BrowserBase(object):
         if chrom is None:
             chrom = list(self.chrom_lengthes.keys())[0]
 
-        default_length = 10_000_000
+        default_length = 10 ** 7
 
         if self.chrom_lengthes[chrom] > default_length:
             range_ = GenomeRange(chrom, 1, default_length)
