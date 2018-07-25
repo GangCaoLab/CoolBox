@@ -2,7 +2,6 @@
 tests/manual_tests.ipynb
 
 # test_data
-tests/test_data
 demo/data
 
 # Byte-compiled / optimized / DLL files
