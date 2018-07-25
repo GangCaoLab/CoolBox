@@ -271,7 +271,7 @@ class Frame(PlotFrame, FetchFrame):
         >>> f + 1 # error operation
         Traceback (most recent call last):
         ...
-        TypeError: unsupported operand type(s) for +: '<class '__main__.Frame'>' and '<class 'int'>'
+        TypeError: unsupported operand type(s) for +: '<class 'coolbox.core.frame.Frame'>' and '<class 'int'>'
 
 
         """
@@ -317,6 +317,7 @@ class Frame(PlotFrame, FetchFrame):
         """
         >>> from coolbox.core.track import XAxis, BigWig
         >>> from coolbox.core.coverage import HighLights
+        >>> from coolbox.core.feature import Color
 
         Rule: Frame * Feature == Frame
         >>> f = XAxis() + BigWig("tests/test_data/bigwig_chrx_2e6_5e6.bw")

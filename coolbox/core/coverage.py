@@ -21,7 +21,7 @@ class Coverage(object):
     >>> from coolbox.core.track import Track
     >>> c1 = Coverage({})
     >>> c1.properties
-    {}
+    {'name': 'Coverage.1'}
     >>> c2 = Coverage({})
     >>> t1 = Track({})
     >>> t2 = c1 + c2 + t1
