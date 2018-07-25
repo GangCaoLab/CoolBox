@@ -44,15 +44,10 @@ def get_long_description():
 
 
 def get_install_requires():
-    requirements = [
-        "numpy >= 1.12.*",
-        "matplotlib >= 2.0.0",
-        "pandas >= 0.22.0",
-        "intervaltree >= 2.1.0",
-        "pybigwig >= 0.3.7",
-        "cooler >= 0.7.6",
-        "ipywidgets >= 7.1.2",
-    ]
+    requirements = []
+    with open('requirements.txt') as f:
+        for line in f:
+            requirements.append(line.strip())
     return requirements
 
 
