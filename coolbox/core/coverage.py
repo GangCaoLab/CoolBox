@@ -81,7 +81,7 @@ class Coverage(object):
             return result
         elif isinstance(other, Feature):
             result = copy(self)
-            result[other.key] = other.value
+            result.properties[other.key] = other.value
             return result
         elif isinstance(other, Coverage):
             stack = CoverageStack([self, other])

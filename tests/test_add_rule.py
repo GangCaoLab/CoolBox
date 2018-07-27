@@ -1,0 +1,57 @@
+"""
+
+`+` operation rules:
+
+    Track + Track = Frame
+    Track + Feature = Track
+    Track + Coverage = Track
+    Frame + Track = Frame
+    Frame + Coverage = Frame
+    Frame + Feature = Frame
+    Frame + FrameFeature = Frame
+    Frame + Frame = Frame
+    Frame + WidgetsPanel = Browser
+    Coverage + Feature = Coverage
+
+"""
+
+from coolbox.core.track import Track
+from coolbox.core.frame import Frame
+from coolbox.core.feature import Feature
+from coolbox.core.coverage import Coverage
+
+
+def test_track_add_track():
+    assert isinstance(Track({}) + Track({}), Frame)
+
+
+def test_track_add_frame():
+    assert isinstance(Frame() + Track({}), Frame)
+    assert isinstance(Track({}) + Frame(), Frame)
+
+
+def test_track_feature():
+    assert isinstance(Track({}) + Feature("", ""), Track)
+    assert isinstance(Feature("", "") + Track({}), Track)
+
+
+def test_frame_feature():
+    frame = Track({}) + Track({})
+    assert isinstance(frame + Feature("", ""), Frame)
+    assert isinstance(Feature("", "") + frame, Frame)
+
+
+def test_track_coverage():
+    assert isinstance(Track({}) + Coverage({}), Track)
+    assert isinstance(Coverage({}) + Track({}), Track)
+
+
+def test_frame_coverage():
+    frame = Track({}) + Track({})
+    assert isinstance(frame + Coverage({}), Frame)
+    assert isinstance(Coverage({}) + frame, Frame)
+
+
+def test_coverage_feature():
+    assert isinstance(Coverage({}) + Feature("", ""), Coverage)
+    assert isinstance(Feature("", "") + Coverage({}), Coverage)

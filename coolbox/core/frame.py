@@ -45,6 +45,15 @@ class Frame(PlotFrame, FetchFrame):
     current_range : GenomeRange, optional
         Current frame range.
 
+    Examples
+    --------
+    >>> frame_1 = Frame()
+    >>> frame_2 = Frame(genome_range="chr1:1000-2000")
+    >>> str(frame_2.current_range)
+    'chr1:1000-2000'
+    >>> frame_3 = Frame(genome_range=GenomeRange("chr1", 1000, 2000))
+    >>> str(frame_3.current_range)
+    'chr1:1000-2000'
     """
 
     DEFAULT_WIDTH = 40
@@ -52,16 +61,6 @@ class Frame(PlotFrame, FetchFrame):
     DEFAULT_MARGINS = {'left': 0.04, 'right': 0.92, 'bottom': 0, 'top': 1}
 
     def __init__(self, *args, **kwargs):
-        """
-        >>> frame_1 = Frame()
-        >>> frame_2 = Frame(genome_range="chr1:1000-2000")
-        >>> str(frame_2.current_range)
-        'chr1:1000-2000'
-        >>> frame_3 = Frame(genome_range=GenomeRange("chr1", 1000, 2000))
-        >>> str(frame_3.current_range)
-        'chr1:1000-2000'
-        """
-
         super().__init__({}, OrderedDict())
 
         # init range
@@ -117,6 +116,8 @@ class Frame(PlotFrame, FetchFrame):
             The range string,
             like "chr1:1000000-2000000", or GenomeRange object.
 
+        Examples
+        --------
         >>> frame = Frame()
         >>> frame.goto("chrX:3000000-5000000")
         >>> str(frame.current_range)
@@ -140,6 +141,8 @@ class Frame(PlotFrame, FetchFrame):
             The track need to be added to self.tracks
             pos (`str`, 'tail' or 'head'): add track to tail or head. ['tail']
 
+        Examples
+        --------
         >>> from coolbox.core.track import XAxis, BigWig
         >>> frame = Frame()
         >>> frame.add_track(XAxis())
@@ -165,6 +168,8 @@ class Frame(PlotFrame, FetchFrame):
         feature : Feature
             Feature object to be added to Frame's tracks.
 
+        Examples
+        --------
         >>> from coolbox.core.feature import Color
         >>> frame = Frame()
         >>> frame.add_feature_to_tracks(Color('#66ccff'))
@@ -179,6 +184,8 @@ class Frame(PlotFrame, FetchFrame):
         """
         set all bigwig and bedgraph tracks's min and max value.
 
+        Examples
+        --------
         >>> frame = Frame()
         >>> frame.set_tracks_min_max(-10, 10)
         >>> assert all([track.properties['min_value'] == -10 for track in frame.tracks.values()])
@@ -200,6 +207,8 @@ class Frame(PlotFrame, FetchFrame):
         cov : Coverage
             Coverage object to be added to Frame's tracks.
 
+        Examples
+        --------
         >>> from coolbox.core.track import XAxis, BigWig
         >>> from coolbox.core.coverage import HighLights
         >>> frame = Frame()
@@ -214,7 +223,8 @@ class Frame(PlotFrame, FetchFrame):
 
     def __add__(self, other):
         """
-
+        Examples
+        --------
         >>> from coolbox.api import *
         >>> frame1 = Frame()
         >>> frame2 = Frame()
@@ -315,6 +325,8 @@ class Frame(PlotFrame, FetchFrame):
 
     def __mul__(self, other):
         """
+        Examples
+        --------
         >>> from coolbox.core.track import XAxis, BigWig
         >>> from coolbox.core.coverage import HighLights
         >>> from coolbox.core.feature import Color
