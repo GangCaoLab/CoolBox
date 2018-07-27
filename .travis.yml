@@ -12,3 +12,4 @@ install:
 
 script:
   - pytest coolbox --doctest-modules
+  - pytest tests

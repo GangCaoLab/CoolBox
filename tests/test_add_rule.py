@@ -19,6 +19,7 @@ from coolbox.core.track import Track
 from coolbox.core.frame import Frame
 from coolbox.core.feature import Feature
 from coolbox.core.coverage import Coverage
+from coolbox.core.browser import WidgetsPanel, Browser
 
 
 def test_track_add_track():
@@ -55,3 +56,8 @@ def test_frame_coverage():
 def test_coverage_feature():
     assert isinstance(Coverage({}) + Feature("", ""), Coverage)
     assert isinstance(Feature("", "") + Coverage({}), Coverage)
+
+
+def test_frame_widgetspanel():
+    assert isinstance(Frame() + WidgetsPanel(), Browser)
+    assert isinstance(WidgetsPanel() + Frame(), Browser)
