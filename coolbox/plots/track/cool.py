@@ -27,7 +27,7 @@ STYLE_WINDOW = 'window'
 DEPTH_FULL = 'full'
 
 
-def is_muliti_cool(cooler_file):
+def is_multi_cool(cooler_file):
     """
     Judge a cooler is muliti-resolution cool or not.
 
@@ -37,12 +37,14 @@ def is_muliti_cool(cooler_file):
         Path to cooler file.
     """
     import re
-    if re.match(".*::/resolutions/[0-9]+$", cooler_file):
+    if re.match(".+::.+$", cooler_file):
         return False
 
     import h5py
     h5_file = h5py.File(cooler_file)
-    return 'resolutions' in h5_file
+    is_multi = 'pixels' not in h5_file  # use "pixels" group distinguish is multi-cool or not
+    h5_file.close()
+    return is_multi
 
 
 def get_cooler_resolutions(cooler_file):
@@ -56,9 +58,13 @@ def get_cooler_resolutions(cooler_file):
     """
     import h5py
     h5_file = h5py.File(cooler_file)
-    resolutions = list(h5_file['resolutions'])
-    resolutions = [int(res) for res in resolutions]
+    if 'resolutions' in h5_file:
+        resolutions = list(h5_file['resolutions'])
+        resolutions = [int(res) for res in resolutions]
+    else:
+        resolutions = [int(h5_file[i].attrs['bin-size']) for i in list(h5_file)]
     resolutions.sort()
+    h5_file.close()
     return resolutions
 
 
@@ -71,15 +77,25 @@ class PlotCool(TrackPlot):
 
         file_ = self.properties['file']
         import cooler
-        self.is_multi = is_muliti_cool(file_)
+        self.is_multi = is_multi_cool(file_)
         if self.is_multi:
             resolutions = get_cooler_resolutions(file_)
 
             def cooler_reso(resolution):
-                return cooler.Cooler(file_ + "::/resolutions/{}".format(resolution))
+                from h5py import File
+                with File(file_) as f:
+                    if "resolutions" in f:
+                        c = cooler.Cooler(file_ + "::/resolutions/{}".format(resolution))
+                    else:
+                        for grp_name in f:
+                            grp = f[grp_name]
+                            if str(grp.attrs['bin-size']) == str(resolution):
+                                c = cooler.Cooler(file_ + "::{}".format(grp_name))
+                                break
+                return c
 
             self.coolers = OrderedDict([(reso, cooler_reso(reso)) for reso in resolutions])
-            self.cool = self.coolers[resolutions[0]] # set self.cool to lowest resolution
+            self.cool = self.coolers[resolutions[0]]  # set self.cool to lowest resolution
         else:
             self.cool = cooler.Cooler(file_)
 
@@ -160,6 +176,9 @@ class PlotCool(TrackPlot):
         else:
             max_ = self.properties['max_value']
 
+        if max_ <= min_:
+            max_ = min_ + small
+
         return min_, max_
 
     def fetch_matrix(self, genome_range, resolution='auto'):
@@ -192,7 +211,12 @@ class PlotCool(TrackPlot):
             chrom = change_chrom_names(chrom)
 
         range_str = str(GenomeRange(chrom, start, end))
-        arr = cool.matrix(balance=self.is_balance).fetch(range_str)
+        try:
+            arr = cool.matrix(balance=self.is_balance).fetch(range_str)
+        except ValueError as e:
+            log.warning(str(e))
+            log.warning("Data is not balanced, force to use unbalanced matrix.")
+            arr = cool.matrix(balance=False).fetch(range_str)
 
         # fill zero and nan with small value
         small = self.small_value
