@@ -89,7 +89,6 @@ class PlotHicCompare(TrackPlot):
             rb_ = abs(c_ - b_) + 0.7
 
             midpoint = (ra_ / (ra_ + rb_))
-            print(a_, b_, c_, ra_, rb_, midpoint)
         else:
             midpoint = (abs(c_max_2) / (abs(c_max_1) + abs(c_max_2)))
 
