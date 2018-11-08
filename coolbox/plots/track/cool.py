@@ -229,17 +229,8 @@ class PlotCool(TrackPlot):
         return arr
 
     def __infer_resolution(self, genome_range, resolutions):
-        BIN_THRESH = 1000
-
-        resolutions.sort()
-        reso = resolutions[0]
-        for r in resolutions:
-            num_bins = genome_range.length // reso
-            if num_bins >= BIN_THRESH:
-                reso = r
-            else:
-                break
-
+        from coolbox.utilities.hic.tools import infer_resolution
+        reso = infer_resolution(genome_range, resolutions)
         return reso
 
     def __get_triangular_matrix(self, arr):
