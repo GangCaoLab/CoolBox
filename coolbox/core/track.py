@@ -11,7 +11,7 @@ from coolbox.utilities import op_err_msg, get_feature_stack, get_coverage_stack
 __all__ = [
     "Spacer", "HLine", "XAxis", "Bed", "TADs",
     "BigWig", "ABCompartment", "BedGraph",
-    "Arcs", "Cool", "HicCompare"
+    "Arcs", "Cool", "DotHiC", "HicCompare"
 ]
 
 
@@ -745,6 +745,35 @@ class Cool(Track, PlotCool, FetchCool):
         properties_dict['color'] = cmap
         properties_dict['style'] = style
         properties_dict['balance'] = 'yes' if balance else 'no'
+        properties_dict['depth_ratio'] = depth_ratio
+        properties_dict['color_bar'] = 'yes' if color_bar else 'no'
+        properties_dict['transform'] = transform
+        properties_dict['orientation'] = orientation
+        properties_dict['max_value'] = max_value
+        properties_dict['min_value'] = min_value
+        properties_dict['title'] = title
+
+        super().__init__(properties_dict, name)
+
+
+class DotHiC(Track, PlotDotHiC):
+    DEFAULT_COLOR = 'Reds'
+
+    def __init__(self, file_, cmap=None, style='triangular', balance=True,
+                 depth_ratio='full', color_bar=True, transform='no',
+                 orientation="normal",
+                 max_value='auto', min_value='auto', title='',
+                 name=None):
+
+        properties_dict = {}
+
+        if cmap is None:
+            cmap = self.DEFAULT_COLOR
+
+        properties_dict['file'] = file_
+        properties_dict['color'] = cmap
+        properties_dict['style'] = style
+        properties_dict['balance'] = 'KR' if balance else 'no'
         properties_dict['depth_ratio'] = depth_ratio
         properties_dict['color_bar'] = 'yes' if color_bar else 'no'
         properties_dict['transform'] = transform

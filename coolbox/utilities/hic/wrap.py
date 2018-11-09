@@ -1,3 +1,7 @@
+from coolbox.utilities.logtools import get_logger
+
+
+log = get_logger(__name__)
 
 
 class StrawWrap(object):
@@ -124,4 +128,94 @@ class StrawWrap(object):
             res = struct.unpack(b'<i', req.read(4))[0]
             resolutions.append(res)
         return chrs, resolutions, masterindex, genome, metadata
+
+
+class CoolerWrap(object):
+    """
+    wrap for cooler file,
+    deal with multi resolution.
+
+    Parameters
+    ----------
+    path : str
+        Path to the cooler file.
+
+    binsize : {'auto', int}
+        resolution of the data. for example 5000.
+        'auto' for calculate resolution automatically.
+        default 'auto'
+
+    balance : bool
+        Balance the matrix or not.
+        default True
+    """
+    def __init__(self, path, binsize='auto', balance=True):
+        import cooler
+        from .tools import is_multi_cool, get_cooler_resolutions
+        self.path = path
+
+        self.is_multi = is_multi_cool(path)
+        self.resolutions = get_cooler_resolutions(path)
+        if self.is_multi:
+            self.coolers = self.__load_multi_coolers(path)
+        else:
+            self.cool = cooler.Cooler(path)
+
+        self.binsize = binsize
+        self.balance = balance
+
+    def __load_multi_coolers(self, path):
+        from collections import OrderedDict
+        import cooler
+
+        def cooler_reso(resolution):
+            from h5py import File
+            with File(path) as f:
+                if "resolutions" in f:
+                    c = cooler.Cooler(path + "::/resolutions/{}".format(resolution))
+                else:
+                    for grp_name in f:
+                        grp = f[grp_name]
+                        if str(grp.attrs['bin-size']) == str(resolution):
+                            c = cooler.Cooler(path + "::{}".format(grp_name))
+                            break
+            return c
+
+        coolers = OrderedDict([(reso, cooler_reso(reso)) for reso in self.resolutions])
+        return coolers
+
+    def get_cool(self, genome_range):
+        from .tools import infer_resolution
+        if self.is_multi:
+            resolutions = [k for k in self.coolers.keys()]
+            if self.binsize == 'auto':
+                binsize = infer_resolution(genome_range, resolutions)
+            else:
+                assert self.binsize in resolutions, \
+                    "Multi-Cooler file not contain the resolution {}.".format(self.binsize)
+                binszie = int(self.binsize)
+            cool = self.coolers[binsize]
+        else:
+            cool = self.cool
+        return cool
+
+    def fetch(self, genome_range1, genome_range2=None):
+        cool = self.get_cool(genome_range1)
+
+        if genome_range2 is None:
+            genome_range2 = genome_range1
+
+        if genome_range1.chrom not in cool.chromnames:
+            genome_range1.change_chrom_names()
+        if genome_range2.chrom not in cool.chromnames:
+            genome_range2.change_chrom_names()
+
+        try:
+            mat = cool.matrix(balance=self.balance).fetch(str(genome_range1), str(genome_range2))
+        except ValueError as e:
+            log.warning(str(e))
+            log.warning("Data is not balanced, force to use unbalanced matrix.")
+            mat = cool.matrix(balance=False).fetch(str(genome_range1), str(genome_range2))
+
+        return mat
 
