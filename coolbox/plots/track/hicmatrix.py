@@ -100,7 +100,8 @@ class PlotHiCMatrix(TrackPlot):
         arr_no_nan = arr[np.logical_not(np.isnan(arr))]
 
         if self.properties['min_value'] == 'auto':
-            min_ = small
+            # set minimal value for color bar
+            min_ = arr[arr > arr.min()].min()
         else:
             min_ = self.properties['min_value']
 
