@@ -70,7 +70,7 @@ class StrawWrap(object):
         mat = np.zeros((binlen1, binlen2), dtype=np.float64)
         for loc1, loc2, c in zip(*straw_list):
             bin1id = (loc1 - genome_range1.start) // binsize
-            bin2id = (loc1 - genome_range2.start) // binsize
+            bin2id = (loc2 - genome_range2.start) // binsize
             mat[bin1id, bin2id] = c
             mat[bin2id, bin1id] = c
         return mat

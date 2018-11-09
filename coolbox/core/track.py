@@ -733,6 +733,7 @@ class Cool(Track, PlotCool, FetchCool):
     def __init__(self, file_, cmap=None, style='triangular', balance=True,
                  depth_ratio='full', color_bar=True, transform='no',
                  orientation="normal",
+                 norm='log',
                  max_value='auto', min_value='auto', title='',
                  name=None):
 
@@ -752,6 +753,7 @@ class Cool(Track, PlotCool, FetchCool):
         properties_dict['max_value'] = max_value
         properties_dict['min_value'] = min_value
         properties_dict['title'] = title
+        properties_dict['norm'] = norm
 
         super().__init__(properties_dict, name)
 
@@ -762,6 +764,7 @@ class DotHiC(Track, PlotDotHiC):
     def __init__(self, file_, cmap=None, style='triangular', balance=True,
                  depth_ratio='full', color_bar=True, transform='no',
                  orientation="normal",
+                 norm='log',
                  max_value='auto', min_value='auto', title='',
                  name=None):
 
@@ -781,6 +784,7 @@ class DotHiC(Track, PlotDotHiC):
         properties_dict['max_value'] = max_value
         properties_dict['min_value'] = min_value
         properties_dict['title'] = title
+        properties_dict['norm'] = norm
 
         super().__init__(properties_dict, name)
 
