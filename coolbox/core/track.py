@@ -694,9 +694,6 @@ class Cool(Track, PlotCool, FetchCool):
     cmap : str, optional
         Color map of hic matrix, default Cool.DEFAULT_COLOR.
 
-    triangular : bool, optional
-        Show traiangular form matrix or not, default True.
-
     style : {'triangular', 'window', 'matrix'}, optional
         Matrix style, default 'triangular'.
 
@@ -759,6 +756,51 @@ class Cool(Track, PlotCool, FetchCool):
 
 
 class DotHiC(Track, PlotDotHiC):
+
+    """
+    .hic Hi-C matrix (or triangular matrix) track.
+
+    Parameters
+    ----------
+    file_ : str
+        Path to bed file.
+
+    cmap : str, optional
+        Color map of hic matrix, default Cool.DEFAULT_COLOR.
+
+    style : {'triangular', 'window', 'matrix'}, optional
+        Matrix style,
+        default 'triangular'.
+
+    balance : {bool, 'KR', 'VC', 'VC_SQRT'}, optional
+        Matrix balance method,
+        default True('KR' balance)
+
+    depth_ratio : float, optional
+        Depth ratio of triangular matrix, use 'full' for full depth. default 'full'.
+
+    color_bar : bool, optional
+        Show color_bar or not, default True.
+
+    transform : str, optional
+        Transform for matrix, like 'log2', 'log10', use 'no' for not transform, default 'no'.
+
+    orientation : str, optional
+        Track orientation, use 'inverted' for inverted track plot.
+
+    title : str, optional
+        Label text, default ''.
+
+    max_value : {float, 'auto'}, optional
+        Max value of hic matrix, use 'auto' for specify max value automatically, default 'auto'.
+
+    min_value : {float, 'auto'}, optional
+        Min value of hic matrix, use 'auto' for specify min value automatically, default 'auto'.
+
+    name : str, optional
+        Track's name.
+
+    """
     DEFAULT_COLOR = 'Reds'
 
     def __init__(self, file_, cmap=None, style='triangular', balance=True,

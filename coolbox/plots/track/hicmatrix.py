@@ -41,7 +41,7 @@ class PlotHiCMatrix(TrackPlot):
         self._out_of_bound = False
 
     def __set_default_properties(self):
-        self.properties['height'] = 'cool_auto'
+        self.properties['height'] = 'hic_auto'
 
         if 'color' not in self.properties:
             self.properties['color'] = self.DEFAULT_COLOR
@@ -117,7 +117,7 @@ class PlotHiCMatrix(TrackPlot):
 
     def fetch_matrix(self, genome_range, resolution='auto'):
         """
-        Fetch the matrix from the cooler file.
+        Fetch the matrix.
 
         Parameters
         ----------
@@ -125,7 +125,7 @@ class PlotHiCMatrix(TrackPlot):
             The genome range to fetch.
 
         resolution : {'auto', int}
-            The matrix resolution, for multi-cooler file.
+            The matrix resolution, for multi-resolution(.hic or multi-cool) file.
             Use 'auto' to infer the resolution automatically.
             default 'auto'
         """
@@ -357,20 +357,20 @@ class PlotHiCMatrix(TrackPlot):
         calculate track height dynamically.
         """
         if self.style == STYLE_TRIANGULAR:
-            cool_height = frame_width * 0.5
+            height = frame_width * 0.5
         elif self.style == STYLE_WINDOW:
-            if 'height' in self.properties and self.properties['height'] != 'cool_auto':
-                cool_height = self.properties['height']
+            if 'height' in self.properties and self.properties['height'] != 'hic_auto':
+                height = self.properties['height']
             else:
-                cool_height = frame_width * 0.3
+                height = frame_width * 0.3
         else:
-            cool_height = frame_width * 0.8
+            height = frame_width * 0.8
 
         if 'depth_ratio' in self.properties and self.properties['depth_ratio'] != DEPTH_FULL:
             if self.properties['style'] != STYLE_MATRIX:
-                cool_height = cool_height * self.properties['depth_ratio']
+                height = height * self.properties['depth_ratio']
 
         if 'color_bar' in self.properties and self.properties['color_bar'] != 'no':
-            cool_height += 1.5
+            height += 1.5
 
-        return cool_height
+        return height

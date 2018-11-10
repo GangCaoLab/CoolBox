@@ -42,7 +42,7 @@ class PlotFrame(object):
             if 'height' in track.properties:
 
                 # auto specify height for Cool Track
-                if track.properties['height'] == 'cool_auto':
+                if track.properties['height'] == 'hic_auto':
                     cool_height = track.get_tracks_height(
                         self.properties['width'] * self.properties['width_ratios'][1])
                     heights.append(cool_height)
