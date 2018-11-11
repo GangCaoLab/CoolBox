@@ -40,6 +40,9 @@ class PlotHiCMatrix(TrackPlot):
         self.matrix = None
         self._out_of_bound = False
 
+        from coolbox.utilities.hic.tools import file_type
+        self.file_type = file_type(self.properties['file'])
+
     def __set_default_properties(self):
         self.properties['height'] = 'hic_auto'
 
@@ -77,12 +80,21 @@ class PlotHiCMatrix(TrackPlot):
             return STYLE_TRIANGULAR
 
     @property
-    def is_balance(self):
-        if 'balance' in self.properties and self.properties['balance'] == 'no':
+    def balance(self):
+        if self.properties['balance'] == 'no':
             return False
         else:
-            # default: balance
-            return True
+            if self.file_type == '.hic':
+                if self.properties['balance'] == 'yes':
+                    return 'KR'  # default use KR balance
+                else:
+                    return self.properties['balance']
+            else:
+                return True
+
+    @property
+    def is_balance(self):
+        return bool(self.balance)
 
     def __transform_matrix(self, arr):
         if self.properties['transform'] == 'log10':
@@ -115,7 +127,7 @@ class PlotHiCMatrix(TrackPlot):
 
         return min_, max_
 
-    def fetch_matrix(self, genome_range, resolution='auto'):
+    def __fetch_matrix(self, genome_range, resolution='auto'):
         """
         Fetch the matrix.
 
@@ -129,21 +141,13 @@ class PlotHiCMatrix(TrackPlot):
             Use 'auto' to infer the resolution automatically.
             default 'auto'
         """
-        from coolbox.utilities.hic.tools import file_type
         from coolbox.utilities.hic.wrap import StrawWrap, CoolerWrap
 
         path = self.properties['file']
-        if file_type(path) == '.hic':
-            if self.is_balance:
-                if self.properties['balance'] == 'yes':
-                    norm = 'KR'
-                else:
-                    norm = self.properties['balance']
-            else:
-                norm = False
-            wrap = StrawWrap(path, normalization=norm, binsize=resolution)
+        if self.file_type == '.hic':
+            wrap = StrawWrap(path, normalization=self.balance, binsize=resolution)
         else:
-            wrap = CoolerWrap(path, balance=self.is_balance, binsize=resolution)
+            wrap = CoolerWrap(path, balance=self.balance, binsize=resolution)
 
         arr = wrap.fetch(genome_range)
 
@@ -305,15 +309,15 @@ class PlotHiCMatrix(TrackPlot):
             self._out_of_bound = 'left'
 
         try:
-            arr = self.fetch_matrix(fetch_range)
+            arr = self.__fetch_matrix(fetch_range)
         except ValueError as e:
             if self._out_of_bound == 'left':
                 self._out_of_bound = 'both'
-                arr = self.fetch_matrix(genome_range)
+                arr = self.__fetch_matrix(genome_range)
             else:
                 self._out_of_bound = 'right'
                 fetch_range.end = genome_range.end
-                arr = self.fetch_matrix(fetch_range)
+                arr = self.__fetch_matrix(fetch_range)
         return arr, fetch_range
 
     def plot(self, ax, chrom_region, start_region, end_region):
@@ -332,7 +336,7 @@ class PlotHiCMatrix(TrackPlot):
             arr, fetch_region = self.__fetch_window_matrix(genome_range)
             self.fetch_region = fetch_region
         else:
-            arr = self.fetch_matrix(genome_range)
+            arr = self.__fetch_matrix(genome_range)
 
         self.matrix = arr
 

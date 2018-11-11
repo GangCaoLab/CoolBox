@@ -1,3 +1,8 @@
+"""
+Mixin classes,
+API for fetch the data of tracks.
+"""
+
 from collections import OrderedDict
 
 import pandas as pd
@@ -11,9 +16,8 @@ log.setLevel(logging.DEBUG)
 
 __all__ = [
     "FetchBigWig", "FetchBedGraph", "FetchBed",
-    "FetchArcs", "FetchCool", "FetchFrame"
+    "FetchArcs", "FetchCool", "FetchDotHiC", "FetchFrame"
 ]
-
 
 
 def split_genome_range(genome_range):
@@ -39,6 +43,9 @@ class FetchFrame(object):
     def fetch_data(self, genome_range=None):
         if genome_range is None:
             genome_range = self.current_range
+
+        if isinstance(genome_range, str):
+            genome_range = GenomeRange(genome_range)
 
         tracks_data = OrderedDict()
         for name, track in self.tracks.items():
@@ -267,8 +274,66 @@ class FetchCool(FetchTrackData):
 
         genome_range2 : {str, GenomeRange}, optional.
 
-        balance : {bool, optional}
-            Balance matrix or not, default False.
+        Return
+        ------
+        arr : numpy.ndarray
+        """
+        return self.fetch_array(genome_range1, genome_range2)
+
+    def fetch_array(self, genome_range, genome_range2=None, balance=None, resolution='auto'):
+        """
+        Parameters
+        ----------
+        genome_range : {str, GenomeRange}
+            Intervals within input chromosome range.
+
+        genome_range2 : {str, GenomeRange}, optional.
+
+        balance : bool, optional
+            balance matrix or not,
+            default `self.is_balance`.
+
+        resolution : {'auto', int}
+            resolution of the data. for example 5000.
+            'auto' for calculate resolution automatically.
+            default 'auto'
+
+        Return
+        ------
+        arr : numpy.ndarray
+        """
+        from coolbox.utilities.hic.wrap import CoolerWrap
+
+        path = self.properties['file']
+        if balance is None:
+            balance = self.is_balance
+        wrap = CoolerWrap(path, balance=balance, binsize=resolution)
+
+        arr = wrap.fetch(genome_range, genome_range2)
+        return arr
+
+    def fetch_pixels(self, genome_range, genome_range2=None, balance=None, resolution='auto', join=True):
+        """
+        Parameters
+        ----------
+        genome_range : {str, GenomeRange}
+            Intervals within input chromosome range.
+
+        genome_range2 : {str, GenomeRange}, optional.
+
+        balance : bool, optional
+            balance matrix or not,
+            default `self.is_balance`.
+
+        resolution : {'auto', int}
+            resolution of the data. for example 5000.
+            'auto' for calculate resolution automatically.
+            default 'auto'
+
+        join : bool
+            whether to expand the bin ID columns
+            into (chrom, start, end).
+            default True
 
         Return
         ------
@@ -276,42 +341,91 @@ class FetchCool(FetchTrackData):
             Hi-C pixels table.
             The pixel table contains the non-zero upper triangle entries of the contact map.
         """
-        return self.fetch_pixels(genome_range1, genome_range2)
+        from coolbox.utilities.hic.wrap import CoolerWrap
 
-    def fetch_array(self, genome_range, balance=False):
+        path = self.properties['file']
+        if balance is None:
+            balance = self.is_balance
+        wrap = CoolerWrap(path, balance=balance, binsize=resolution)
+
+        pixels = wrap.fetch_pixels(genome_range, genome_range2, join=join)
+        return pixels
+
+
+class FetchDotHiC(FetchTrackData):
+
+    def fetch_data(self, genome_range1, genome_range2=None):
+        """
+        Parameters
+        ----------
+        genome_range1 : {str, GenomeRange}
+
+        genome_range2 : {str, GenomeRange}, optional.
+
+        Return
+        ------
+        pixels : pandas.core.frame.DataFrame
+            Hi-C pixels table.
+            The pixel table contains the non-zero upper triangle entries of the contact map.
+        """
+        return self.fetch_array(genome_range1, genome_range2)
+
+    def fetch_array(self, genome_range, genome_range2=None, balance=None, resolution='auto'):
         """
         Parameters
         ----------
         genome_range : {str, GenomeRange}
+            Intervals within input chromosome range.
 
-        balance : bool, optional
-            balance matrix or not, default False.
+        balance : {bool, 'KR', 'VC', 'VC_SQRT'}, optional
+            matrix balance method,
+            default `self.balance`.
+
+        resolution : {'auto', int}
+            resolution of the data. for example 5000.
+            'auto' for calculate resolution automatically.
+            default 'auto'
 
         Return
         ------
         arr : numpy.ndarray
-            Intervals within input chromosome range.
         """
-        chrom, start, end = split_genome_range(genome_range)
-        arr = self.cool.matrix(balance=balance).fetch(str(GenomeRange(chrom, start, end)))
+        from coolbox.utilities.hic.wrap import StrawWrap
+
+        path = self.properties['file']
+        if balance is None:
+            balance = self.balance
+        wrap = StrawWrap(path, normalization=balance, binsize=resolution)
+
+        arr = wrap.fetch(genome_range, genome_range2)
         return arr
 
-    def fetch_pixels(self, genome_range1,
-                           genome_range2=None,
-                           join=True):
-        mat = self.cool.matrix(as_pixels=True, join=join)
-        chrom1, start1, end1 = split_genome_range(genome_range1)
+    def fetch_pixels(self, genome_range, genome_range2=None, balance=None, resolution='auto'):
+        """
+        Parameters
+        ----------
+        genome_range : {str, GenomeRange}
+            Intervals within input chromosome range.
 
-        if chrom1 not in self.cool.chromnames:
-            chrom1 = change_chrom_names(chrom1)
+        balance : {bool, 'KR', 'VC', 'VC_SQRT'}, optional
+            matrix balance method,
+            default `self.balance`.
 
-        if genome_range2 is not None:
-            chrom2, start2, end2 = split_genome_range(genome_range2)
-            if chrom2 not in self.cool.chromnames:
-                chrom2 = change_chrom_names(chrom2)
-            pixels = mat.fetch(str(GenomeRange(chrom1, start1, end1)),
-                               str(GenomeRange(chrom2, start2, end2)))
-        else:
-            pixels = mat.fetch(str(GenomeRange(str(GenomeRange(chrom1, start1, end1)))))
+        resolution : {'auto', int}
+            resolution of the data. for example 5000.
+            'auto' for calculate resolution automatically.
+            default 'auto'
 
+        Return
+        ------
+        pixels : pandas.core.frame.DataFrame
+        """
+        from coolbox.utilities.hic.wrap import StrawWrap
+
+        path = self.properties['file']
+        if balance is None:
+            balance = self.balance
+        wrap = StrawWrap(path, normalization=balance, binsize=resolution)
+
+        pixels = wrap.fetch_pixels(genome_range, genome_range2)
         return pixels

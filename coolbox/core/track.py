@@ -1,10 +1,7 @@
 from copy import copy
 
 from coolbox.plots.track import *
-from coolbox.fetchdata import (
-    FetchBed, FetchBedGraph, FetchBigWig,
-    FetchArcs, FetchCool
-)
+from coolbox.fetchdata import *
 from coolbox.utilities import op_err_msg, get_feature_stack, get_coverage_stack
 
 
@@ -755,7 +752,7 @@ class Cool(Track, PlotCool, FetchCool):
         super().__init__(properties_dict, name)
 
 
-class DotHiC(Track, PlotDotHiC):
+class DotHiC(Track, PlotDotHiC, FetchDotHiC):
 
     """
     .hic Hi-C matrix (or triangular matrix) track.

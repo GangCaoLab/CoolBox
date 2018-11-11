@@ -61,3 +61,11 @@ def test_coverage_feature():
 def test_frame_widgetspanel():
     assert isinstance(Frame() + WidgetsPanel(), Browser)
     assert isinstance(WidgetsPanel() + Frame(), Browser)
+
+
+def test_frame_compose():
+    frame1 = Track({}) + Track({})
+    frame2 = Track({}) + Track({})
+    frame3 = Track({}) + Track({})
+    frame = frame1 + frame2 + frame3
+    assert len(frame.tracks) == 6

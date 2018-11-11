@@ -36,8 +36,6 @@ class StrawWrap(object):
         matrix : numpy.ndarray
         """
         from coolbox.utilities.genome import GenomeRange
-        from .tools import infer_resolution
-        from .straw import straw
 
         if genome_range2 is None:
             genome_range2 = genome_range1
@@ -52,16 +50,48 @@ class StrawWrap(object):
         if genome_range2.chrom.startswith("chr"):
             genome_range2.change_chrom_names()
 
-        if self.binsize == 'auto':
-            binsize = infer_resolution(genome_range1, self.resolutions)
-        else:
-            binsize = self.binsize
+        binsize = self.__infer_binsize(genome_range1)
 
-        chr1loc = str(genome_range1).replace('-', ':')
-        chr2loc = str(genome_range2).replace('-', ':')
-        straw_list = straw(self.normalization, self.hic_file, chr1loc, chr2loc, 'BP', binsize)
+        straw_list = self.__fetch_straw_list(genome_range1, genome_range2, binsize)
         matrix = self.__list_to_matrix(straw_list, genome_range1, genome_range2, binsize)
         return matrix
+
+    def __infer_binsize(self, genome_range):
+        from .tools import infer_resolution
+        if self.binsize == 'auto':
+            binsize = infer_resolution(genome_range, self.resolutions)
+        else:
+            binsize = self.binsize
+        return binsize
+
+    def __fetch_straw_list(self, genome_range1, genome_range2, binsize):
+        from .straw import straw
+        chr1loc = str(genome_range1).replace('-', ':')
+        chr2loc = str(genome_range2).replace('-', ':')
+        slist = straw(self.normalization, self.hic_file, chr1loc, chr2loc, 'BP', binsize)
+        return slist
+
+    def fetch_pixels(self, genome_range1, genome_range2=None):
+        from pandas import DataFrame
+        if genome_range2 is None:
+            genome_range2 = genome_range1
+        if genome_range1.chrom.startswith("chr"):
+            genome_range1.change_chrom_names()
+        if genome_range2.chrom.startswith("chr"):
+            genome_range2.change_chrom_names()
+        binsize = self.__infer_binsize(genome_range1)
+        slist = self.__fetch_straw_list(genome_range1, genome_range2, binsize)
+        pixels = DataFrame(slist)
+        pixels = pixels.T
+        pixels.columns = ['start1', 'start2', 'value']
+        pixels['start1'] = pixels['start1'].astype('int32')
+        pixels['start2'] = pixels['start2'].astype('int32')
+        pixels['end1'] = pixels['start1'] + binsize
+        pixels['end2'] = pixels['start2'] + binsize
+        pixels['chrom1'] = genome_range1.chrom
+        pixels['chrom2'] = genome_range2.chrom
+        pixels = pixels[['chrom1', 'start1', 'end1', 'chrom2', 'start2', 'end2', 'value']]
+        return pixels
 
     def __list_to_matrix(self, straw_list, genome_range1, genome_range2, binsize):
         import numpy as np
@@ -193,7 +223,7 @@ class CoolerWrap(object):
             else:
                 assert self.binsize in resolutions, \
                     "Multi-Cooler file not contain the resolution {}.".format(self.binsize)
-                binszie = int(self.binsize)
+                binsize = int(self.binsize)
             cool = self.coolers[binsize]
         else:
             cool = self.cool
@@ -219,3 +249,18 @@ class CoolerWrap(object):
 
         return mat
 
+    def fetch_pixels(self, genome_range1, genome_range2=None, join=True):
+        cool = self.get_cool(genome_range1)
+
+        if genome_range2 is None:
+            genome_range2 = genome_range1
+
+        if genome_range1.chrom not in cool.chromnames:
+            genome_range1.change_chrom_names()
+        if genome_range2.chrom not in cool.chromnames:
+            genome_range2.change_chrom_names()
+
+        mat = cool.matrix(as_pixels=True, balance=self.balance, join=join)
+        pixels = mat.fetch(str(genome_range1), str(genome_range2))
+
+        return pixels
