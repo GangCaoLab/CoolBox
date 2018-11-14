@@ -11,7 +11,6 @@ from coolbox.utilities import (
 from coolbox.fetchdata import FetchFrame
 
 
-
 class Frame(PlotFrame, FetchFrame):
     """
     Frame for arrange and group plots.
