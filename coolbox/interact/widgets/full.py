@@ -4,14 +4,15 @@ from ipywidgets import (Tab)
 
 
 def compose_track_config_panel(widgets_panel):
-    return []
+    return VBox([])
 
 
 class FullWidgets(WidgetsBox):
 
     def get_widgets_dict(self):
+        chromosomes = self.browser.chrom_lengthes.keys()
         frame = Image()
-        navigation_bar = compose_navigation_bar_panel(frame)
+        navigation_bar = navigation_bar_widgets(chromosomes, frame)
         track_config = OrderedDict([
 
         ])

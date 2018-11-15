@@ -67,7 +67,6 @@ class BrowserBase(object):
         if widgets_box == 'simple':
             self.widgets = SimpleWidgets(self)
         elif widgets_box == 'full':
-            raise NotImplementedError()
             self.widgets = FullWidgets(self)
         else:
             raise NotImplementedError("widgets type {} not support, please use 'simple' or 'full'".format(widgets_box))
