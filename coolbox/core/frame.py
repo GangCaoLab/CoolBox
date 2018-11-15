@@ -318,7 +318,7 @@ class Frame(PlotFrame, FetchFrame):
                 last.pile_coverages(other.coverages, pos='top')
             return result
         elif isinstance(other, WidgetsPanel):
-            return Browser(self)
+            return Browser(self, reference_genome=other.ref, widgets_box=other.type)
         else:
             raise TypeError(op_err_msg(self, other))
 
