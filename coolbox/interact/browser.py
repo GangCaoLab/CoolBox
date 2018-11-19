@@ -124,10 +124,7 @@ class BrowserBase(object):
                                   genome_range.end)
         self.frame.goto(frame_range)
 
-        if isinstance(self.widgets, SimpleWidgets):
-            self.widgets.refresh_widgets(who=who)
-        else:
-            raise NotImplemented()
+        self.widgets.refresh_widgets(who=who)
 
     def go_left(self, step_ratio=0.5, dry_run=False):
         window_size = self.window_size
