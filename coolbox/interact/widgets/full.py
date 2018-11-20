@@ -13,7 +13,7 @@ class FullWidgets(WidgetsBox):
     def __init__(self, browser, *args, **kwargs):
         chromosomes = browser.chrom_lengthes.keys()
         frame_widget = Image()
-        self.navigation_bar = NavigationBar(chromosomes)
+        self.navigation_bar = NavigationBar(chromosomes, frame_widget)
         super().__init__(browser, frame_widget, *args, **kwargs)
 
     def get_widgets_dict(self):

@@ -200,7 +200,7 @@ class BrowserBase(object):
                 get_size(self.fig_cache) >= BrowserBase.MAX_CACHE_SIZE:
             self.clear_fig_cache()
 
-        self.widgets.widgets_dict['frame'].value = fig_bytes
+        self.widgets.frame_widget.value = fig_bytes
 
     def preload_imgs(self, directions):
         """
