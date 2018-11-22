@@ -44,7 +44,7 @@ def is_multi_cool(cooler_file):
     return is_multi
 
 
-def get_cooler_resolutions(cooler_file):
+def get_cooler_resolutions(cooler_file, is_multi=True):
     """
     Get the resolutions of a muliti-cooler file
 
@@ -55,11 +55,14 @@ def get_cooler_resolutions(cooler_file):
     """
     import h5py
     h5_file = h5py.File(cooler_file)
-    if 'resolutions' in h5_file:
-        resolutions = list(h5_file['resolutions'])
-        resolutions = [int(res) for res in resolutions]
+    if is_multi:
+        if 'resolutions' in h5_file:
+            resolutions = list(h5_file['resolutions'])
+            resolutions = [int(res) for res in resolutions]
+        else:
+            resolutions = [int(h5_file[i].attrs['bin-size']) for i in list(h5_file)]
+        resolutions.sort()
+        h5_file.close()
     else:
-        resolutions = [int(h5_file[i].attrs['bin-size']) for i in list(h5_file)]
-    resolutions.sort()
-    h5_file.close()
+        resolutions = [int(h5_file.attrs['bin-size'])]
     return resolutions

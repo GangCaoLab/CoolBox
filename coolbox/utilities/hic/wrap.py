@@ -185,7 +185,7 @@ class CoolerWrap(object):
         self.path = path
 
         self.is_multi = is_multi_cool(path)
-        self.resolutions = get_cooler_resolutions(path)
+        self.resolutions = get_cooler_resolutions(path, self.is_multi)
         if self.is_multi:
             self.coolers = self.__load_multi_coolers(path)
         else:
