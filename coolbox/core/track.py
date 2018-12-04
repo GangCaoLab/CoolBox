@@ -48,8 +48,10 @@ class Track(object):
             cls._counts = 1
         return super().__new__(cls)
 
-    def __init__(self, properties_dict, name=None):
+    def __init__(self, properties_dict):
         self.properties = properties_dict
+        self.__bool2str()
+        name = self.properties.get('name')
         if name is not None:
             assert isinstance(name, str), "Track name must be a `str`."
         else:
@@ -67,6 +69,17 @@ class Track(object):
         coverage_stack = get_coverage_stack()
         for coverage in coverage_stack:
             self.coverages.append(coverage)
+
+    def __bool2str(self):
+        """
+        Conver bool value to 'yes' or 'no', for compatible with pyGenomeTracks
+        """
+        for key, value in self.properties.items():
+            if isinstance(value, bool):
+                if value:
+                    self.properties[key] = 'yes'
+                else:
+                    self.properties[key] = 'no'
 
     def __del__(self):
         self.__class__._counts -= 1
@@ -171,15 +184,13 @@ class Spacer(Track, PlotSpacer):
 
     DEFAULT_HEIGHT = 1
 
-    def __init__(self, height=None, name=None):
-        properties_dict = {}
+    def __init__(self, **kwargs):
+        properties_dict = {
+            'height': Spacer.DEFAULT_HEIGHT,
+        }
+        properties_dict.update(kwargs)
 
-        if height is None:
-            height = Spacer.DEFAULT_HEIGHT
-
-        properties_dict['height'] = height
-
-        super().__init__(properties_dict, name)
+        super().__init__(properties_dict)
 
 
 class HLine(Track, PlotHLine):
@@ -214,28 +225,16 @@ class HLine(Track, PlotHLine):
     DEFAULT_COLOR = '#000000'
     DEFAULT_ALPHA = 0.75
 
-    def __init__(self, line_width=None, line_style=None,
-                 color=None, alpha=None, height=None, name=None):
-        properties_dict = {}
-
-        if height is None:
-            height = HLine.DEFAULT_HEIGHT
-        if line_width is None:
-            line_width = HLine.DEFAULT_LINE_WIDTH
-        if line_style is None:
-            line_style = HLine.DEFAULT_LINE_STYLE
-        if color is None:
-            color = HLine.DEFAULT_COLOR
-        if alpha is None:
-            alpha = HLine.DEFAULT_ALPHA
-
-        properties_dict['height'] = height
-        properties_dict['line_width'] = line_width
-        properties_dict['line_style'] = line_style
-        properties_dict['color'] = color
-        properties_dict['alpha'] = alpha
-
-        super().__init__(properties_dict, name)
+    def __init__(self, **kwargs):
+        properties_dict = {
+            'height': HLine.DEFAULT_HEIGHT,
+            'line_width': HLine.DEFAULT_LINE_WIDTH,
+            'line_style': HLine.DEFAULT_LINE_STYLE,
+            'color': HLine.DEFAULT_COLOR,
+            'alpha': HLine.DEFAULT_ALPHA,
+        }
+        properties_dict.update(**kwargs)
+        super().__init__(properties_dict)
 
 
 class XAxis(Track, PlotXAxis):
@@ -261,19 +260,15 @@ class XAxis(Track, PlotXAxis):
     DEFAULT_FONTSIZE = 15
     DEFAULT_HEIGHT = 2
 
-    def __init__(self, height=None, fontsize=None, where='bottom', name=None):
-        properties_dict = {}
+    def __init__(self, **kwargs):
+        properties_dict = {
+            'height': XAxis.DEFAULT_HEIGHT,
+            'fontsize': XAxis.DEFAULT_FONTSIZE,
+            'where': 'bottom',
+        }
+        properties_dict.update(kwargs)
 
-        if height is None:
-            height = XAxis.DEFAULT_HEIGHT
-        if fontsize is None:
-            fontsize = XAxis.DEFAULT_FONTSIZE
-
-        properties_dict['height'] = height
-        properties_dict['fontsize'] = fontsize
-        properties_dict['where'] = where
-
-        super().__init__(properties_dict, name)
+        super().__init__(properties_dict)
 
 
 class Bed(Track, PlotBed, FetchBed):
@@ -303,7 +298,7 @@ class Bed(Track, PlotBed, FetchBed):
 
     labels : {True, False, 'auto'}, optional
         Draw bed name or not. 'auto' for automate decision according to density.
-        'on' or 'off' or 'auto'. (Default: 'auto')
+        (Default: 'auto')
 
     display : {'stacked', 'interlaced', 'collapsed'}, optional
         Display mode. (Default: 'stacked')
@@ -332,26 +327,22 @@ class Bed(Track, PlotBed, FetchBed):
 
     DEFAULT_FONTSIZE = 12
 
-    def __init__(self, file_, height=None, color='bed_rgb', border_color='black',
-                 fontsize=None, title='', labels='auto', style='flybase', display='stacked',
-                 interval_height=None, global_max_row=None, gene_rows=None, max_value=None, min_value=None,
-                 name=None):
-        properties_dict = {}
+    def __init__(self, file_, **kwargs):
+        properties_dict = {
+            'file': file_,
+            'height': Bed.DEFAULT_HEIGHT,
+            'color': 'bed_rgb',
+            'border_color': 'black',
+            'fontsize': Bed.DEFAULT_FONTSIZE,
+            'title': '',
+            'labels': 'auto',
+            'style': 'flybase',
+            'display': 'stacked',
+            'global_max_row': False,
+        }
+        properties_dict.update(kwargs)
 
-        if height is None:
-            height = Bed.DEFAULT_HEIGHT
-        if fontsize is None:
-            fontsize = Bed.DEFAULT_FONTSIZE
-
-        properties_dict['file'] = file_
-        properties_dict['height'] = height
-        properties_dict['color'] = color
-        properties_dict['border_color'] = border_color
-        properties_dict['fontsize'] = fontsize
-        properties_dict['title'] = title
-        properties_dict['style'] = style
-        properties_dict['display'] = display
-
+        labels = properties_dict.get('labels')
         if labels == 'auto':
             properties_dict['labels'] = 'auto'
         elif labels is True:
@@ -359,18 +350,7 @@ class Bed(Track, PlotBed, FetchBed):
         else:
             properties_dict['labels'] = 'off'
 
-        if interval_height is not None:
-            properties_dict['interval_height'] = interval_height
-        if global_max_row is not None:
-            properties_dict['global_max_row'] = "yes" if global_max_row else "no"
-        if gene_rows is not None:
-            properties_dict['gene_rows'] = gene_rows
-        if max_value is not None:
-            properties_dict['max_value'] = max_value
-        if min_value is not None:
-            properties_dict['min_value'] = min_value
-
-        super().__init__(properties_dict, name)
+        super().__init__(properties_dict)
 
 
 class BigWig(Track, PlotBigWig, FetchBigWig):
@@ -419,32 +399,23 @@ class BigWig(Track, PlotBigWig, FetchBigWig):
 
     DEFAULT_COLOR = "#dfccde"
 
-    def __init__(self, file_, height=None, color=None,
-                 number_of_bins=700, style='fill', orientation=None,
-                 show_data_range=True, data_range_style="y-axis",
-                 title='', max_value='auto', min_value='auto', name=None):
+    def __init__(self, file_, **kwargs):
+        properties_dict = {
+            'file': file_,
+            'height': BigWig.DEFAULT_HEIGHT,
+            'color': BigWig.DEFAULT_COLOR,
+            'number_of_bins': 700,
+            'style': 'fill',
+            'show_data_range': True,
+            'data_range_style': 'y-axis',
+            'title': '',
+            'max_value': 'auto',
+            'min_value': 'auto',
+        }
+        properties_dict.update(kwargs)
+        properties_dict['type'] = properties_dict['style']  # change key word
 
-        properties_dict = {}
-
-        if height is None:
-            height = BigWig.DEFAULT_HEIGHT
-        if color is None:
-            color = BigWig.DEFAULT_COLOR
-
-        properties_dict['file'] = file_
-        properties_dict['height'] = height
-        properties_dict['color'] = color
-        properties_dict['number_of_bins'] = number_of_bins
-        properties_dict['type'] = style
-        if orientation is not None:
-            properties_dict['orientation'] = orientation
-        properties_dict['show_data_range'] = 'yes' if show_data_range else 'no'
-        properties_dict['data_range_style'] = data_range_style
-        properties_dict['title'] = title
-        properties_dict['max_value'] = max_value
-        properties_dict['min_value'] = min_value
-
-        super().__init__(properties_dict, name)
+        super().__init__(properties_dict)
 
 
 class ABCompartment(BigWig):
@@ -493,12 +464,13 @@ class ABCompartment(BigWig):
     DEFAULT_POSITIVE_COLOR = "#ff9c9c"
     DEFAULT_NEGATIVE_COLOR = "#66ccff"
 
-    def __init__(self, file_, positive_color=None, negative_color=None, **kwargs):
-        super().__init__(file_, **kwargs)
-        if positive_color is None:
-            self.properties['positive_color'] = ABCompartment.DEFAULT_POSITIVE_COLOR
-        if negative_color is None:
-            self.properties['negative_color'] = ABCompartment.DEFAULT_NEGATIVE_COLOR
+    def __init__(self, file_, **kwargs):
+        properties_dict = {
+            'positive_color': ABCompartment.DEFAULT_POSITIVE_COLOR,
+            'negative_color': ABCompartment.DEFAULT_NEGATIVE_COLOR,
+        }
+        properties_dict.update(kwargs)
+        super().__init__(file_, **properties_dict)
 
 
 class BedGraph(Track, PlotBedGraph, FetchBedGraph):
@@ -543,30 +515,23 @@ class BedGraph(Track, PlotBedGraph, FetchBedGraph):
 
     DEFAULT_COLOR = '#a6cee3'
 
-    def __init__(self, file_, height=None, color=None, style='fill',
-                 extra=None, show_data_range=True, data_range_style="y-axis",
-                 title='', max_value='auto', min_value='auto', name=None):
+    def __init__(self, file_, **kwargs):
 
-        properties_dict = {}
+        properties_dict = {
+            'file': file_,
+            'height': BedGraph.DEFAULT_HEIGHT,
+            'color': BedGraph.DEFAULT_COLOR,
+            'style': 'fill',
+            'show_data_range': True,
+            'data_range_style': 'y-axis',
+            'title': '',
+            'max_value': 'auto',
+            'min_value': 'auto',
+        }
+        properties_dict.update(kwargs)
+        properties_dict['type'] = properties_dict['style']  # change key word
 
-        if height is None:
-            height = BedGraph.DEFAULT_HEIGHT
-        if color is None:
-            color = BedGraph.DEFAULT_COLOR
-
-        properties_dict['file'] = file_
-        properties_dict['height'] = height
-        properties_dict['color'] = color
-        properties_dict['type'] = style
-        if extra:
-            properties_dict['extra'] = extra
-        properties_dict['show_data_range'] = 'yes' if show_data_range else 'no'
-        properties_dict['data_range_style'] = data_range_style
-        properties_dict['title'] = title
-        properties_dict['max_value'] = max_value
-        properties_dict['min_value'] = min_value
-
-        super().__init__(properties_dict, name)
+        super().__init__(properties_dict)
 
 
 class Arcs(Track, PlotArcs, FetchArcs):
@@ -603,28 +568,18 @@ class Arcs(Track, PlotArcs, FetchArcs):
     DEFAULT_COLOR = '#3297dc'
     DEFAULT_ALPHA = 0.8
 
-    def __init__(self, file_, height=None, color=None, alpha=0.8,
-                 line_width=None, orientation=None, title='', name=None):
+    def __init__(self, file_, **kwargs):
 
-        properties_dict = {}
+        properties_dict = {
+            'file': file_,
+            'height': Arcs.DEFAULT_HEIGHT,
+            'color': Arcs.DEFAULT_COLOR,
+            'alpha': Arcs.DEFAULT_ALPHA,
+            'title': '',
+        }
+        properties_dict.update(kwargs)
 
-        if height is None:
-            height = Arcs.DEFAULT_HEIGHT
-        if color is None:
-            color = Arcs.DEFAULT_COLOR
-        if alpha is None:
-            alpha = Arcs.DEFAULT_ALPHA
-
-        properties_dict['file'] = file_
-        properties_dict['height'] = height
-        properties_dict['color'] = color
-        if line_width:
-            properties_dict['line_width'] = line_width
-        if orientation:
-            properties_dict['orientation'] = orientation
-        properties_dict['title'] = title
-
-        super().__init__(properties_dict, name)
+        super().__init__(properties_dict)
 
 
 class TADs(Track, PlotTADs, FetchBed):
@@ -658,25 +613,18 @@ class TADs(Track, PlotTADs, FetchBed):
         Track's name
     """
 
-    def __init__(self, file_, height=None, color='bed_rgb', border_color='black',
-                 orientation=None, title='', name=None):
+    def __init__(self, file_, **kwargs):
 
-        properties_dict = {}
+        properties_dict = {
+            "file": file_,
+            "height": TADs.DEFAULT_HEIGHT,
+            "color": TADs.DEFAULT_COLOR,
+            "border_color": 'black',
+            "title": '',
+        }
+        properties_dict.update(kwargs)
 
-        if height is None:
-            height = TADs.DEFAULT_HEIGHT
-        if color is None:
-            color = TADs.DEFAULT_COLOR
-
-        properties_dict['file'] = file_
-        properties_dict['height'] = height
-        properties_dict['color'] = color
-        properties_dict['border_color'] = border_color
-        if orientation:
-            properties_dict['orientation'] = orientation
-        properties_dict['title'] = title
-
-        super().__init__(properties_dict, name)
+        super().__init__(properties_dict)
 
 
 class Cool(Track, PlotCool, FetchCool):
@@ -703,8 +651,8 @@ class Cool(Track, PlotCool, FetchCool):
     color_bar : bool, optional
         Show color_bar or not, default True.
 
-    transform : str, optional
-        Transform for matrix, like 'log2', 'log10', use 'no' for not transform, default 'no'.
+    transform : {str, bool}, optional
+        Transform for matrix, like 'log2', 'log10', default False.
 
     orientation : str, optional
         Track orientation, use 'inverted' for inverted track plot.
@@ -724,32 +672,25 @@ class Cool(Track, PlotCool, FetchCool):
 
     DEFAULT_COLOR = 'YlOrRd'
 
-    def __init__(self, file_, cmap=None, style='triangular', balance=True,
-                 depth_ratio='full', color_bar=True, transform='no',
-                 orientation="normal",
-                 norm='log',
-                 max_value='auto', min_value='auto', title='',
-                 name=None):
+    def __init__(self, file_, **kwargs):
 
-        properties_dict = {}
+        properties_dict = {
+            "file": file_,
+            "cmap": Cool.DEFAULT_COLOR,
+            "style": 'triangular',
+            "balance": True,
+            "depth_ratio": "full",
+            "color_bar": True,
+            "transform": False,
+            "norm": 'log',
+            "max_value": "auto",
+            "min_value": "auto",
+            "title": '',
+        }
+        properties_dict.update(kwargs)
+        properties_dict['color'] = properties_dict['cmap']
 
-        if cmap is None:
-            cmap = Cool.DEFAULT_COLOR
-
-        properties_dict['file'] = file_
-        properties_dict['color'] = cmap
-        properties_dict['style'] = style
-        properties_dict['balance'] = 'yes' if balance else 'no'
-        properties_dict['depth_ratio'] = depth_ratio
-        properties_dict['color_bar'] = 'yes' if color_bar else 'no'
-        properties_dict['transform'] = transform
-        properties_dict['orientation'] = orientation
-        properties_dict['max_value'] = max_value
-        properties_dict['min_value'] = min_value
-        properties_dict['title'] = title
-        properties_dict['norm'] = norm
-
-        super().__init__(properties_dict, name)
+        super().__init__(properties_dict)
 
 
 class DotHiC(Track, PlotDotHiC, FetchDotHiC):
@@ -779,8 +720,8 @@ class DotHiC(Track, PlotDotHiC, FetchDotHiC):
     color_bar : bool, optional
         Show color_bar or not, default True.
 
-    transform : str, optional
-        Transform for matrix, like 'log2', 'log10', use 'no' for not transform, default 'no'.
+    transform : {str, bool}, optional
+        Transform for matrix, like 'log2', 'log10', default False.
 
     orientation : str, optional
         Track orientation, use 'inverted' for inverted track plot.
@@ -800,32 +741,25 @@ class DotHiC(Track, PlotDotHiC, FetchDotHiC):
     """
     DEFAULT_COLOR = 'Reds'
 
-    def __init__(self, file_, cmap=None, style='triangular', balance=True,
-                 depth_ratio='full', color_bar=True, transform='no',
-                 orientation="normal",
-                 norm='log',
-                 max_value='auto', min_value='auto', title='',
-                 name=None):
+    def __init__(self, file_, **kwargs):
 
-        properties_dict = {}
+        properties_dict = {
+            "file": file_,
+            "cmap": Cool.DEFAULT_COLOR,
+            "style": 'triangular',
+            "balance": True,
+            "depth_ratio": "full",
+            "color_bar": True,
+            "transform": False,
+            "norm": 'log',
+            "max_value": "auto",
+            "min_value": "auto",
+            "title": '',
+        }
+        properties_dict.update(kwargs)
+        properties_dict['color'] = properties_dict['cmap']
 
-        if cmap is None:
-            cmap = self.DEFAULT_COLOR
-
-        properties_dict['file'] = file_
-        properties_dict['color'] = cmap
-        properties_dict['style'] = style
-        properties_dict['balance'] = 'KR' if balance else 'no'
-        properties_dict['depth_ratio'] = depth_ratio
-        properties_dict['color_bar'] = 'yes' if color_bar else 'no'
-        properties_dict['transform'] = transform
-        properties_dict['orientation'] = orientation
-        properties_dict['max_value'] = max_value
-        properties_dict['min_value'] = min_value
-        properties_dict['title'] = title
-        properties_dict['norm'] = norm
-
-        super().__init__(properties_dict, name)
+        super().__init__(properties_dict)
 
 
 class HicCompare(Track, PlotHicCompare):
@@ -847,6 +781,9 @@ class HicCompare(Track, PlotHicCompare):
     color_bar : bool, optional
         Show color bar or not.
 
+    title : str, optional
+        Label text, default ''.
+
     name : str, optional
         Track's name
 
@@ -854,24 +791,18 @@ class HicCompare(Track, PlotHicCompare):
 
     DEFAULT_COLOR = 'bwr'
 
-    def __init__(self, hic1, hic2,
-                 cmap=None,
-                 color_bar=True,
-                 title='', name=None):
-        properties_dict = {}
+    def __init__(self, hic1, hic2, **kwargs):
+        properties_dict = {
+            "hic1": hic1,
+            "hic2": hic2,
+            "cmap": HicCompare.DEFAULT_COLOR,
+            "color_bar": True,
+            "title": '',
+        }
+        properties_dict.update(kwargs)
+        properties_dict['color'] = properties_dict['cmap'] # change key word
 
-        if cmap is None:
-            properties_dict['color'] = HicCompare.DEFAULT_COLOR
-
-        properties_dict['hic1'] = hic1
-        properties_dict['hic2'] = hic2
-        if color_bar:
-            properties_dict['color_bar'] = 'yes'
-        else:
-            properties_dict['color_bar'] = 'no'
-        properties_dict['title'] = title
-
-        super().__init__(properties_dict, name)
+        super().__init__(properties_dict)
 
 
 if __name__ == "__main__":
