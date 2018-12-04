@@ -184,10 +184,13 @@ class Spacer(Track, PlotSpacer):
 
     DEFAULT_HEIGHT = 1
 
-    def __init__(self, **kwargs):
+    def __init__(self, *args, **kwargs):
         properties_dict = {
             'height': Spacer.DEFAULT_HEIGHT,
         }
+        if args:
+            height = args[0]
+            properties_dict['height'] = height
         properties_dict.update(kwargs)
 
         super().__init__(properties_dict)
@@ -802,6 +805,76 @@ class HicCompare(Track, PlotHicCompare):
         properties_dict.update(kwargs)
         properties_dict['color'] = properties_dict['cmap'] # change key word
 
+        super().__init__(properties_dict)
+
+
+class Virtual4C(Track, PlotVirtual4C):
+    """
+    Track for view virtual 4C related to a certain genome position,
+    and a HiC Track (include `Cool` and `DotHiC`).
+
+    Parameters
+    ----------
+    hic_track : {`Cool`, `DotHiC`}
+        related hic track.
+
+    genome_position : str
+        related genome position, like: 'chr1:2000000-2000000'
+
+    bin_width : int, optional
+        How many bin used for calculate the mean value.
+        default 3
+
+    color : str, optional
+        Track color.
+
+    height : int, optional
+        Track height
+
+    orientation : str, optional
+        Track orientation, use 'inverted' for inverted track plot.
+
+    max_value : {float, 'auto'}, optional
+        Max value of track, use 'auto' for specify max value automatically, default 'auto'.
+
+    min_value : {float, 'auto'}, optional
+        Min value of track, use 'auto' for specify min value automatically, default 'auto'.
+
+    show_data_range : bool, optional
+        Show_data_range or not, default True.
+
+    data_range_style : {'text', 'y-axis'}
+        The style of the data range. default: 'y-axis'
+
+    style : str, optional
+        Track graph type, format {'fill', 'line:`size`', 'points:`size`'},
+        example: 'line:2', 'points:0.5'. default: 'line:2'
+
+    title : str, optional
+        Label text, default ''.
+
+    name : str, optional
+        Track's name.
+
+    """
+
+    DEFAULT_COLOR = '#2855d8'
+
+    def __init__(self, hic_track, genome_position, **kwargs):
+        properties_dict = {
+            'hic': hic_track,
+            'color': Virtual4C.DEFAULT_COLOR,
+            'height': Virtual4C.DEFAULT_HEIGHT,
+            'genome_position': genome_position,
+            'bin_width': 3,
+            'max_value': 'auto',
+            'min_value': 'auto',
+            'show_data_range': True,
+            'data_range_style': 'y-axis',
+            'style': 'line:2',
+            'title': '',
+        }
+        properties_dict.update(kwargs)
         super().__init__(properties_dict)
 
 

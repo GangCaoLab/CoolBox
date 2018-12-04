@@ -43,6 +43,8 @@ class PlotHiCMatrix(TrackPlot):
         from coolbox.utilities.hic.tools import file_type
         self.file_type = file_type(self.properties['file'])
 
+        self.fetched_binsize = None
+
     def __set_default_properties(self):
         self.properties['height'] = 'hic_auto'
 
@@ -150,6 +152,8 @@ class PlotHiCMatrix(TrackPlot):
             wrap = CoolerWrap(path, balance=self.balance, binsize=resolution)
 
         arr = wrap.fetch(genome_range)
+
+        self.fetched_binsize = wrap.fetched_binsize  # expose fetched binsize
 
         # fill zero and nan with small value
         small = self.small_value

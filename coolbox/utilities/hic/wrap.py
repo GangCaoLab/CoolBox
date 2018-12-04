@@ -28,6 +28,7 @@ class StrawWrap(object):
         self.normalization = normalization
         self.binsize = binsize
         self.chromosomes, self.resolutions, self.masterindex, self.genome, self.metadata = self.__info()
+        self.fetched_binsize = None
 
     def fetch(self, genome_range1, genome_range2=None):
         """
@@ -51,6 +52,7 @@ class StrawWrap(object):
             genome_range2.change_chrom_names()
 
         binsize = self.__infer_binsize(genome_range1)
+        self.fetched_binsize = binsize  # expose fetched binsize
 
         straw_list = self.__fetch_straw_list(genome_range1, genome_range2, binsize)
         matrix = self.__list_to_matrix(straw_list, genome_range1, genome_range2, binsize)
@@ -224,9 +226,11 @@ class CoolerWrap(object):
                 assert self.binsize in resolutions, \
                     "Multi-Cooler file not contain the resolution {}.".format(self.binsize)
                 binsize = int(self.binsize)
+            self.fetched_binsize = binsize
             cool = self.coolers[binsize]
         else:
             cool = self.cool
+            self.fetched_binsize = cool.binsize  # expose fetched binsize
         return cool
 
     def fetch(self, genome_range1, genome_range2=None):
