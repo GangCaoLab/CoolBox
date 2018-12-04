@@ -131,6 +131,15 @@ class GenomeRange(object):
     def __hash__(self):
         return hash(str(self))
 
+    def __contains__(self, another):
+        if another.chrom != self.chrom:
+            return False
+        if another.start < self.start:
+            return False
+        if another.end > self.end:
+            return False
+        return True
+
 
 def change_chrom_names(chrom):
     """
