@@ -8,7 +8,7 @@ from coolbox.utilities import op_err_msg, get_feature_stack, get_coverage_stack
 __all__ = [
     "Spacer", "HLine", "XAxis", "Bed", "TADs",
     "BigWig", "ABCompartment", "BedGraph",
-    "Arcs", "Cool", "DotHiC", "HicCompare"
+    "Arcs", "Cool", "DotHiC", "HicCompare", "Virtual4C"
 ]
 
 
@@ -871,7 +871,7 @@ class Virtual4C(Track, PlotVirtual4C):
             'min_value': 'auto',
             'show_data_range': True,
             'data_range_style': 'y-axis',
-            'style': 'line:2',
+            'style': 'line:1',
             'title': '',
         }
         properties_dict.update(kwargs)

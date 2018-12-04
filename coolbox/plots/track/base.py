@@ -37,7 +37,10 @@ class TrackPlot(object):
             if value % 1 == 0:
                 str_value = str(int(value))
             else:
-                str_value = "{:.1f}".format(value)
+                if value < 0.01:
+                    str_value = "{:.4f}".format(value)
+                else:
+                    str_value = "{:.2f}".format(value)
             return str_value
 
         ymin, ymax = plot_axis.get_ylim()

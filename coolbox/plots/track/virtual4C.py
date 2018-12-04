@@ -26,6 +26,7 @@ class PlotVirtual4C(TrackPlot):
             # default 'text'
             # 'y-axis' style need set the .y_ax attribute
             self.properties['data_range_style'] = 'text'
+        self.properties['type'] = self.properties['style']
 
     def plot(self, ax, chrom_region, start_region, end_region):
         self.ax = ax
@@ -35,7 +36,7 @@ class PlotVirtual4C(TrackPlot):
 
         x_values = np.linspace(genome_range.start, genome_range.end, num_bins)
 
-        if 'style' in self.properties and self.properties['style'] != 'fill':
+        if 'type' in self.properties and self.properties['type'] != 'fill':
             self.__plot_line_or_points(scores_per_bin, x_values)
         else:
             self.__plot_fill(scores_per_bin, x_values)
