@@ -44,7 +44,7 @@ class GenomeRange(object):
                              "correct example: `range1 = GenomeRange(\"chr1:1000-2000\")` or "
                              "`range1 = GenomeRange(\"chr1\", 1000, 2000)`")
 
-        if end <= start:
+        if end < start:
             raise ValueError("Please check that the region end is larger than the region start. "
                              "Values given: start: {}, end: {}".format(start, end))
 
