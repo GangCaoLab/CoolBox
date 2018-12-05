@@ -2,7 +2,7 @@ from coolbox.utilities import (
     opener, ReadBed,
     Interval, IntervalTree,
     change_chrom_names, rgb2hex,
-    get_logger
+    get_logger, GenomeRange
 )
 
 from coolbox.plots.coverage.base import CoveragePlot
@@ -45,9 +45,25 @@ class PlotHighLightRegions(CoveragePlot):
             self.interval_tree = self.__process_bed()
         else:
             # from self.properties['regions']
-            self.regions = self.properties['highlight_regions']
+            self.interval_tree = self.__intervaltree_from_list(self.properties['highlight_regions'])
 
-    def __extract_regions_from_file(self, chrom, start, end):
+    def __intervaltree_from_list(self, region_list):
+        itree = {}
+        for r in region_list:
+            if isinstance(r, str):
+                grange = GenomeRange(r)
+            elif isinstance(r, tuple):
+                grange = GenomeRange(r[0], r[1], r[2])
+            elif isinstance(r, GenomeRange):
+                grange = r
+            else:
+                raise ValueError("position must be a tuple or string.")
+            chr_ = grange.chrom
+            itree.setdefault(chr_, IntervalTree())
+            itree[chr_][grange.start:grange.end+1] = grange
+        return itree
+
+    def __get_regions(self, chrom, start, end):
         regions = []
 
         if chrom not in list(self.interval_tree):
@@ -58,35 +74,9 @@ class PlotHighLightRegions(CoveragePlot):
 
         return regions
 
-    def __get_regions_from_properties(self, chrom):
-
-        def regions_with_color(regions):
-            color = self.properties['color']
-            res = []
-            for r in self.regions:
-                assert len(r) >= 2
-                start, end = r[0], r[1]
-                if len(r) == 2:
-                    res.append((start, end, color))
-                else:
-                    res.append(r)
-            return res
-
-        if self.properties['chr'] is not None:
-            if chrom == self.properties['chr']:
-                regions = regions_with_color(self.regions)
-            else:
-                regions = []
-        else:
-            regions = regions_with_color(self.regions)
-
-        return regions
-
     def plot(self, ax, chrom_region, start_region, end_region):
-        if 'file' in self.properties:
-            regions = self.__extract_regions_from_file(chrom_region, start_region, end_region)
-        else:
-            regions = self.__get_regions_from_properties(chrom_region)
+
+        regions = self.__get_regions(chrom_region, start_region, end_region)
 
         for (start, end, color) in regions:
             if self.properties['color'] != 'bed_rgb':
