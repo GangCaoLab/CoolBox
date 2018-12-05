@@ -1,5 +1,5 @@
 from coolbox.utilities import (
-    file_to_intervaltree, change_chrom_names
+    file_to_intervaltree, change_chrom_names, GenomeRange
 )
 
 from coolbox.plots.coverage.base import CoveragePlot
@@ -23,14 +23,31 @@ class PlotVlines(CoveragePlot):
             self.properties['color'] = PlotVlines.DEFAULT_COLOR
         if 'alpha' not in self.properties:
             self.properties['alpha'] = PlotVlines.DEFAULT_ALPHA
-        if 'chr' not in self.properties:
-            self.properties['chr'] = None
 
         if 'file' in self.properties:
             # plot vlines from file
             self.vlines_intval_tree, _, _ = file_to_intervaltree(self.properties['file'])
+        else:
+            self.vlines_intval_tree = self.__intervaltree_from_list(self.properties['vlines_list'])
 
-    def __extract_vlines_from_file(self, chrom, start, end):
+    def __intervaltree_from_list(self, vlines_list):
+        from intervaltree import IntervalTree
+        itree = {}
+        for v in vlines_list:
+            if isinstance(v, str):
+                grange = GenomeRange(v)
+            elif isinstance(v, tuple):
+                grange = GenomeRange(v[0], v[1], v[1])
+            elif isinstance(v, GenomeRange):
+                grange = v
+            else:
+                raise ValueError("position must be a tuple or string.")
+            chr_ = grange.chrom
+            itree.setdefault(chr_, IntervalTree())
+            itree[chr_][grange.start:grange.end+1] = grange
+        return itree
+
+    def __get_vlines(self, chrom, start, end):
         vlines_list = []
 
         if chrom not in list(self.vlines_intval_tree):
@@ -41,23 +58,8 @@ class PlotVlines(CoveragePlot):
 
         return vlines_list
 
-    def __get_vlines_from_properties(self, chrom):
-        if self.properties['chr'] is not None:
-            chr = self.properties['chr']
-            if chr == chrom:
-                vlines_list = self.properties['vlines_list']
-            else:
-                vlines_list = []
-        else:
-            vlines_list = self.properties['vlines_list']
-
-        return vlines_list
-
     def plot(self, ax, chrom_region, start_region, end_region):
-        if 'file' in self.properties:
-            vlines_list = self.__extract_vlines_from_file(chrom_region, start_region, end_region)
-        else:
-            vlines_list = self.__get_vlines_from_properties(chrom_region)
+        vlines_list = self.__get_vlines(chrom_region, start_region, end_region)
 
         ymin, ymax = ax.get_ylim()
 

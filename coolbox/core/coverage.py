@@ -213,11 +213,11 @@ class Vlines(Coverage, PlotVlines):
 
     Parameters
     ----------
-    vlines : list of int
-        A list of vline positions.
-
-    chr : str, optional
-        Chromosome of vline, if not specify will plot in all chromosome.
+    vlines : list of {int, str}
+        A list of vline positions. position can be expressed as a tuple like:
+        [('chr1', 10000), ('chr2', 50000)]
+        or a genome range string like:
+        ['chr1:10000-10000', 'chr2:50000-50000']
 
     color : str, optional
         Line color, default '#1e1e1e'.
@@ -232,7 +232,7 @@ class Vlines(Coverage, PlotVlines):
         Line width, default 0.5.
     """
 
-    def __init__(self, vlines, chr=None, color='#1e1e1e', alpha=0.8,
+    def __init__(self, vlines, color='#1e1e1e', alpha=0.8,
                  line_style='dashed', line_width=1):
         properties_dict = dict()
 
@@ -241,7 +241,6 @@ class Vlines(Coverage, PlotVlines):
         properties_dict['alpha'] = 0.8
         properties_dict['line_style'] = line_style
         properties_dict['line_width'] = line_width
-        properties_dict['chr'] = chr
 
         super().__init__(properties_dict)
 
@@ -308,12 +307,12 @@ class HighLights(Coverage, PlotHighLightRegions):
 
     Parameters
     ----------
-    highlight_regions : list of tuple
-        A list of regions for highlights, region tuple format: `(start, end)`,
-        like, [(100000, 120000), (130000, 150000)].
-
-    chr : str, optional
-        Chromosome of highlight regions, if not specify will plot in all chromosome.
+    highlight_regions : list of {str, tuple}
+        A list of regions for highlights, region can be expressed as a tuple or string.
+        region tuple like:
+        [('chr1', 100000, 120000), ('chr2', 130000, 150000)]
+        region string format: `chr:start-end` like:
+        ['chr1:100000-120000', 'chr2:130000-150000'].
 
     color : str, optional
         High light region color, default HighLights.DEFAULT_COLOR.
@@ -339,7 +338,7 @@ class HighLights(Coverage, PlotHighLightRegions):
 
     DEFAULT_COLOR = "#ff9c9c"
 
-    def __init__(self, highlight_regions, chr=None, color=None, alpha=0.6, border_line='yes',
+    def __init__(self, highlight_regions, color=None, alpha=0.6, border_line='yes',
                  border_line_style='dashed', border_line_width=1.0,
                  border_line_color='#000000', border_line_alpha=0.8):
 
@@ -360,7 +359,6 @@ class HighLights(Coverage, PlotHighLightRegions):
         properties_dict['border_line_width'] = border_line_width
         properties_dict['border_line_color'] = border_line_color
         properties_dict['border_line_alpha'] = border_line_alpha
-        properties_dict['chr'] = chr
 
         super().__init__(properties_dict)
 
