@@ -430,6 +430,22 @@ class TADCoverage(Coverage, PlotTADCoverage):
         Path to the loop file, loop file is a tab splited text file, fields:
         chr1, x1, x2, chr2, y1, y2, [color], ... (other optional fields)
 
+    show_score : bool
+        Show bed score or not.
+        default False.
+
+    score_font_size : {'auto', int}
+        Score text font size.
+        default 'auto'
+
+    score_font_color : str
+        Score text color.
+        default '#000000'
+
+    score_height_ratio : float
+        (text tag height) / (TAD height). used for adjust the position of Score text.
+        default 0.5
+
     color : str, optional
         Peak color, use 'bed_rgb' for specify color in file,
         default 'bed_rgb'.
@@ -454,11 +470,15 @@ class TADCoverage(Coverage, PlotTADCoverage):
     def __init__(self, file_, **kwargs):
         properties_dict = {
             "file": file_,
+            "show_score": False,
+            "score_font_size": 'auto',
+            "score_font_color": "#000000",
+            "score_height_ratio": 0.4,
             "color": "bed_rgb",
             "alpha": 0.3,
-            "line_color": "#000000",
-            "line_width": 1.0,
-            "line_style": "solid",
+            "border_color": "#000000",
+            "border_width": 1.0,
+            "border_style": "solid",
             "fill": True,
         }
         properties_dict.update(kwargs)

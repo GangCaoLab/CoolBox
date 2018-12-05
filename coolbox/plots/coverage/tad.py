@@ -25,6 +25,12 @@ class PlotTADCoverage(CoveragePlot):
 
         if 'color' not in self.properties:
             self.properties['color'] = 'bed_rgb'
+        if 'show_score' not in self.properties:
+            self.properties['show_score'] = 'yes'
+        if 'score_font_size' not in self.properties:
+            self.properties['score_font_size'] = 'auto'
+        if 'score_height_ratio' not in self.properties:
+            self.properties['score_height_ratio'] = 0.4
         if 'alpha' not in self.properties:
             self.properties['alpha'] = PlotTADCoverage.DEFAULT_ALPHA
         if 'border_color' not in self.properties:
@@ -48,8 +54,8 @@ class PlotTADCoverage(CoveragePlot):
         return a string for indicate self.track's type.
         """
         type_ = self.track.__class__.__name__
-        if type_ == 'Cool':
-            type_ = type_ + ":" + self.track.properties['style']
+        if type_ == 'Cool' or type_ == 'DotHiC':
+            type_ = "HiC" + ":" + self.track.properties['style']
         return type_
 
     def __process_bed(self):
@@ -74,9 +80,7 @@ class PlotTADCoverage(CoveragePlot):
             if bed.score > max_score:
                 max_score = bed.score
 
-            if bed.chromosome not in interval_tree:
-                interval_tree[bed.chromosome] = IntervalTree()
-
+            interval_tree.setdefault(bed.chromosome, IntervalTree())
             interval_tree[bed.chromosome].add(Interval(bed.start, bed.end, bed))
             valid_intervals += 1
 
@@ -90,6 +94,8 @@ class PlotTADCoverage(CoveragePlot):
         Plots the boundaries as triangles in the given ax.
         """
         self.ax = ax
+        genome_range = GenomeRange(chrom_region, start_region, end_region)
+        self._genome_range = genome_range
 
         if chrom_region not in self.interval_tree:
             orig = chrom_region
@@ -99,10 +105,9 @@ class PlotTADCoverage(CoveragePlot):
         current_regions = sorted(self.interval_tree[chrom_region][start_region:end_region])
         ymax = max([region.end - region.begin for region in current_regions])
         for region in current_regions:
+            if self.track_type.startswith('HiC'):
 
-            if self.track_type.startswith('Cool'):
-
-                if self.track_type == 'Cool:window' or self.track_type == 'Cool:triangular':
+                if self.track_type == 'HiC:window' or self.track_type == 'HiC:triangular':
                     depth = (end_region - start_region) / 2
                     ymax = (end_region - start_region)
                     self.__plot_triangular(region, ymax, depth)
@@ -150,6 +155,7 @@ class PlotTADCoverage(CoveragePlot):
                            linestyle=self.properties['border_style'],
                            linewidth=self.properties['border_width'])
         ax.add_artist(triangle)
+        self.__plot_score(region, 'triangular', ymax, depth)
 
     def __plot_box(self, region):
         ax = self.ax
@@ -172,6 +178,41 @@ class PlotTADCoverage(CoveragePlot):
                         linestyle=self.properties['border_style'],
                         linewidth=self.properties['border_width'])
         ax.add_patch(rec)
+        self.__plot_score(region, 'box')
+
+    def __plot_score(self, region, style, ymax=None, depth=None):
+        ax = self.ax
+        genome_range = self._genome_range
+        if self.properties['show_score'] != 'yes':
+            return
+        bed = region.data
+        score = bed.score
+        if not (isinstance(score, float) or isinstance(score, int)):
+            # score is not number not plot
+            return
+        region_length = region.end - region.begin
+        if region_length / genome_range.length < 0.05:
+            # region too small not plot score
+            return
+        font_size = self.properties.get('score_font_size')
+        if font_size == 'auto':
+            # inference the font size
+            from math import log2
+            base_size = 18
+            s_ = (region_length / genome_range.length) * 10
+            s_ = int(log2(s_))
+            font_size = base_size + s_
+        ratio = self.properties['score_height_ratio']
+        color = self.properties['score_font_color']
+        if style == 'box':
+            x1 = region.begin; x2 = region.end
+            w = x2 - x1
+            x = x2 - w * ratio
+            y = x1 + w * ratio
+        else:  # triangular
+            x = region.begin + region_length * 0.4
+            y = (region_length / ymax) * depth * ratio
+        ax.text(x, y, "{0:.3f}".format(score), fontsize=font_size, color=color)
 
     def __get_rgb_and_edge_color(self, bed):
         rgb = self.properties['color']
