@@ -53,7 +53,6 @@ class PlotVirtual4C(TrackPlot):
 
     def fetch_mean_arr(self, genome_range):
         from copy import copy
-        assert self.position in genome_range, "position must within plot region."
         bin_width = self.bin_width
         position = self.position
         binsize = self.hic.fetched_binsize
@@ -63,8 +62,6 @@ class PlotVirtual4C(TrackPlot):
         assert offset_ >= 0, "bin width must >= 1"
         window_range.start = window_range.start - offset_ * binsize
         window_range.end = window_range.end + offset_ * binsize
-        window_range.start = max(window_range.start, genome_range.start)
-        window_range.end = min(window_range.end, genome_range.end)
         arr = self.hic.fetch_array(window_range, genome_range)
         mean_arr = arr.mean(axis=0)
         return mean_arr
