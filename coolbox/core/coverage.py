@@ -42,8 +42,10 @@ class Coverage(object):
             cls._counts = 1
         return super().__new__(cls)
 
-    def __init__(self, properties_dict, name=None):
+    def __init__(self, properties_dict):
         self.properties = properties_dict
+        self.__bool2str()
+        name = self.properties.get("name")
         if name is not None:
             assert isinstance(name, str), "Coverage name must be a `str`."
         else:
@@ -55,6 +57,17 @@ class Coverage(object):
         stack = get_feature_stack()
         for feature in stack:
             self.properties[feature.key] = feature.value
+
+    def __bool2str(self):
+        """
+        Conver bool value to 'yes' or 'no', for compatible with pyGenomeTracks
+        """
+        for key, value in self.properties.items():
+            if isinstance(value, bool):
+                if value:
+                    self.properties[key] = 'yes'
+                else:
+                    self.properties[key] = 'no'
 
     @property
     def name(self):
@@ -189,20 +202,22 @@ class VlinesFromFile(Coverage, PlotVlines):
     line_style : str, optional
         Line style, default 'dashed'.
 
-    line_width : (float, optional)
+    line_width : float, optional
         Line width, default 0.5.
+
+    name : str, optional
+        The name of thr Coverage.
     """
 
-    def __init__(self, file_, color='#1e1e1e', alpha=0.8,
-                 line_style='dashed', line_width=1):
-        properties_dict = dict()
-
-        properties_dict['file'] = file_
-        properties_dict['color'] = color
-        properties_dict['alpha'] = 0.8
-        properties_dict['line_style'] = line_style
-        properties_dict['line_width'] = line_width
-
+    def __init__(self, file_, **kwargs):
+        properties_dict = {
+            "file": file_,
+            "color": "#1e1e1e",
+            "alpha": 0.8,
+            "line_style": "dashed",
+            "line_width": 1,
+        }
+        properties_dict.update(kwargs)
         super().__init__(properties_dict)
 
 
@@ -230,18 +245,20 @@ class Vlines(Coverage, PlotVlines):
 
     line_width : float, optional
         Line width, default 0.5.
+
+    name : str, optional
+        The name of thr Coverage.
     """
 
-    def __init__(self, vlines, color='#1e1e1e', alpha=0.8,
-                 line_style='dashed', line_width=1):
-        properties_dict = dict()
-
-        properties_dict['vlines_list'] = vlines
-        properties_dict['color'] = color
-        properties_dict['alpha'] = 0.8
-        properties_dict['line_style'] = line_style
-        properties_dict['line_width'] = line_width
-
+    def __init__(self, vlines, **kwargs):
+        properties_dict = {
+            "vlines_list": vlines,
+            "color": "#1e1e1e",
+            "alpha": 0.8,
+            "line_style": "dashed",
+            "line_width": 1,
+        }
+        properties_dict.update(kwargs)
         super().__init__(properties_dict)
 
 
@@ -260,7 +277,7 @@ class HighLightsFromFile(Coverage, PlotHighLightRegions):
         use 'bed_rgb' for specify color from the file, default 'bed_rgb'.
 
     alpha : float, optional
-        High light region alpha value, default 0.6.
+        High light region alpha value, default 0.5.
 
     border_line : bool, optional
         Plot border line or not, default True.
@@ -276,27 +293,23 @@ class HighLightsFromFile(Coverage, PlotHighLightRegions):
 
     border_line_alpha : float, optional
         Border line alpha value, default 0.8
+
+    name : str, optional
+        The name of thr Coverage.
     """
 
-    def __init__(self, file_, color='bed_rgb', alpha=0.6,
-                 border_line=True, border_line_style='dashed',
-                 border_line_width=1.0, border_line_color='#000000',
-                 border_line_alpha=0.8):
-        properties_dict = dict()
-
-        if border_line:
-            properties_dict['border_line'] = 'yes'
-        else:
-            properties_dict['border_line'] = 'no'
-
-        properties_dict['file'] = file_
-        properties_dict['color'] = color
-        properties_dict['alpha'] = alpha
-        properties_dict['border_line_style'] = border_line_style
-        properties_dict['border_line_width'] = border_line_width
-        properties_dict['border_line_color'] = border_line_color
-        properties_dict['border_line_alpha'] = border_line_alpha
-
+    def __init__(self, file_, **kwargs):
+        properties_dict = {
+            "file": file_,
+            "color": "bed_rgb",
+            "alpha": 0.5,
+            "border_line": True,
+            "border_line_style": "dashed",
+            "border_line_width": 1.0,
+            "border_line_color": "#000000",
+            "border_line_alpha": 0.8,
+        }
+        properties_dict.update(kwargs)
         super().__init__(properties_dict)
 
 
@@ -318,7 +331,7 @@ class HighLights(Coverage, PlotHighLightRegions):
         High light region color, default HighLights.DEFAULT_COLOR.
 
     alpha : float, optional
-        High light region alpha value, default 0.6
+        High light region alpha value, default 0.5
 
     border_line : bool, optional
         Plot border line or not, default True.
@@ -334,32 +347,25 @@ class HighLights(Coverage, PlotHighLightRegions):
 
     border_line_alpha : float, optional
         Border line alpha value, default 0.8
+
+    name : str, optional
+        The name of thr Coverage.
     """
 
     DEFAULT_COLOR = "#ff9c9c"
 
-    def __init__(self, highlight_regions, color=None, alpha=0.6, border_line='yes',
-                 border_line_style='dashed', border_line_width=1.0,
-                 border_line_color='#000000', border_line_alpha=0.8):
-
-        if color is None:
-            color = HighLights.DEFAULT_COLOR
-
-        properties_dict = dict()
-
-        if border_line:
-            properties_dict['border_line'] = 'yes'
-        else:
-            properties_dict['border_line'] = 'no'
-
-        properties_dict['highlight_regions'] = highlight_regions
-        properties_dict['color'] = color
-        properties_dict['alpha'] = alpha
-        properties_dict['border_line_style'] = border_line_style
-        properties_dict['border_line_width'] = border_line_width
-        properties_dict['border_line_color'] = border_line_color
-        properties_dict['border_line_alpha'] = border_line_alpha
-
+    def __init__(self, highlight_regions, **kwargs):
+        properties_dict = {
+            "highlight_regions": highlight_regions,
+            "color": HighLights.DEFAULT_COLOR,
+            "alpha": 0.5,
+            "border_line": True,
+            "border_line_style": "dashed",
+            "border_line_width": 1.0,
+            "border_line_color": "#000000",
+            "border_line_alpha": 0.8,
+        }
+        properties_dict.update(kwargs)
         super().__init__(properties_dict)
 
 
@@ -379,7 +385,7 @@ class HiCPeaks(Coverage, PlotHiCPeaks):
         default 'bed_rgb'.
 
     alpha : float, optional
-        Peak alpha value, default 0.8.
+        Peak alpha value, default 0.6.
 
     line_width : float, optional
         Peak border line width, default 1.0
@@ -399,24 +405,18 @@ class HiCPeaks(Coverage, PlotHiCPeaks):
         NOTE: This parameters is useful only if the Cool track in matrix format.
     """
 
-    def __init__(self, file_, color='bed_rgb', alpha=0.8,
-                 line_width=1.5, line_style='solid',
-                 fill=False, fill_color='bed_rgb', side='both'):
-        properties_dict = {}
-
-        if fill:
-            properties_dict['fill'] = 'yes'
-        else:
-            properties_dict['fill'] = 'no'
-
-        properties_dict['file'] = file_
-        properties_dict['color'] = color
-        properties_dict['alpha'] = alpha
-        properties_dict['line_width'] = line_width
-        properties_dict['line_style'] = line_style
-        properties_dict['fill_color'] = fill_color
-        properties_dict['side'] = side
-
+    def __init__(self, file_, **kwargs):
+        properties_dict = {
+            "file": file_,
+            "color": "bed_rgb",
+            "alpha": 0.6,
+            "line_width": 1.5,
+            "line_style": "solid",
+            "fill": False,
+            "fill_color": "bed_rgb",
+            "side": "both",
+        }
+        properties_dict.update(kwargs)
         super().__init__(properties_dict)
 
 
@@ -435,7 +435,7 @@ class TADCoverage(Coverage, PlotTADCoverage):
         default 'bed_rgb'.
 
     alpha : float, optional
-        Peak alpha value, default 0.4.
+        Peak alpha value, default 0.3.
 
     line_color : str, optional
         Border line color, default '#000000'.
@@ -451,21 +451,17 @@ class TADCoverage(Coverage, PlotTADCoverage):
 
     """
 
-    def __init__(self, file_, color='bed_rgb', alpha=0.4,
-                 line_color="#000000", line_width=1.0,
-                 line_style='solid', fill=True):
-
-        properties_dict = dict()
-
-        properties_dict['fill'] = 'yes' if fill else 'no'
-
-        properties_dict['file'] = file_
-        properties_dict['color'] = color
-        properties_dict['alpha'] = alpha
-        properties_dict['border_color'] = line_color
-        properties_dict['border_width'] = line_width
-        properties_dict['border_style'] = line_style
-
+    def __init__(self, file_, **kwargs):
+        properties_dict = {
+            "file": file_,
+            "color": "bed_rgb",
+            "alpha": 0.3,
+            "line_color": "#000000",
+            "line_width": 1.0,
+            "line_style": "solid",
+            "fill": True,
+        }
+        properties_dict.update(kwargs)
         super().__init__(properties_dict)
 
 
