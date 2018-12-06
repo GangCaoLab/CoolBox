@@ -81,9 +81,6 @@ class Track(object):
                 else:
                     self.properties[key] = 'no'
 
-    def __del__(self):
-        self.__class__._counts -= 1
-
     @property
     def name(self):
         return self.properties['name']
