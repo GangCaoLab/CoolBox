@@ -16,7 +16,9 @@ log.setLevel(logging.DEBUG)
 
 __all__ = [
     "FetchBigWig", "FetchBedGraph", "FetchBed",
-    "FetchArcs", "FetchCool", "FetchDotHiC", "FetchFrame"
+    "FetchArcs", "FetchCool", "FetchDotHiC",
+    "FetchVirtual4C",
+    "FetchFrame"
 ]
 
 
@@ -429,3 +431,18 @@ class FetchDotHiC(FetchTrackData):
 
         pixels = wrap.fetch_pixels(genome_range, genome_range2)
         return pixels
+
+
+class FetchVirtual4C(FetchTrackData):
+
+    def fetch_data(self, genome_range):
+        """
+        Parameters
+        ----------
+        genome_range : {str, GenomeRange}
+
+        Return
+        ------
+        mean_arr : numpy.ndarray
+        """
+        return self.fetch_mean_arr(genome_range)

@@ -805,7 +805,7 @@ class HicCompare(Track, PlotHicCompare):
         super().__init__(properties_dict)
 
 
-class Virtual4C(Track, PlotVirtual4C):
+class Virtual4C(Track, PlotVirtual4C, FetchVirtual4C):
     """
     Track for view virtual 4C related to a certain genome position,
     and a HiC Track (include `Cool` and `DotHiC`).
