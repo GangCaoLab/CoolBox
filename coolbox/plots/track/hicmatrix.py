@@ -360,7 +360,7 @@ class PlotHiCMatrix(TrackPlot):
         # plot label
         self.plot_label()
 
-    def get_tracks_height(self, frame_width):
+    def get_track_height(self, frame_width):
         """
         calculate track height dynamically.
         """

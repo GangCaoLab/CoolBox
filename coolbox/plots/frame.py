@@ -39,16 +39,12 @@ class PlotFrame(object):
         """
         heights = []
         for track in self.tracks.values():
-            if 'height' in track.properties:
-
-                # auto specify height for Cool Track
-                if track.properties['height'] == 'hic_auto':
-                    cool_height = track.get_tracks_height(
-                        self.properties['width'] * self.properties['width_ratios'][1])
-                    heights.append(cool_height)
-                else:
-                    heights.append(track.properties['height'])
-
+            if hasattr(track, 'get_track_height'):
+                frame_width = self.properties['width'] * self.properties['width_ratios'][1]
+                height = track.get_track_height(frame_width)
+                heights.append(height)
+            elif 'height' in track.properties:
+                heights.append(track.properties['height'])
             else:
                 heights.append(default_height)
         return heights
