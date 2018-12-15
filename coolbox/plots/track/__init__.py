@@ -7,3 +7,4 @@ from .cool import PlotCool
 from .dothic import PlotDotHiC
 from .hiccompare import PlotHicCompare
 from .virtual4C import PlotVirtual4C
+from .ideogram import PlotIdeogram

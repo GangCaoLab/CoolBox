@@ -38,6 +38,20 @@ def rgb2hex(r, g, b):
     return hex
 
 
+def hex2rgb(color_hex):
+    """
+    Convert hex color code to rgb tuple.
+
+    >>> hex2rgb('#819a46')
+    (129, 154, 70)
+    """
+    code = color_hex[1:]
+    r = int(code[0:2], 16)
+    g = int(code[2:4], 16)
+    b = int(code[4:6], 16)
+    return r, g, b
+
+
 def shiftedColorMap(cmap, start=0, midpoint=0.5, stop=1.0, name='shiftedcmap'):
     '''
     This function is from: https://stackoverflow.com/a/20528097/8500469

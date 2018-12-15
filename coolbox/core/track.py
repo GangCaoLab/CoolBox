@@ -8,7 +8,8 @@ from coolbox.utilities import op_err_msg, get_feature_stack, get_coverage_stack
 __all__ = [
     "Spacer", "HLine", "XAxis", "Bed", "TADs",
     "BigWig", "ABCompartment", "BedGraph",
-    "Arcs", "Cool", "DotHiC", "HicCompare", "Virtual4C"
+    "Arcs", "Cool", "DotHiC", "HicCompare", "Virtual4C",
+    "Ideogram",
 ]
 
 
@@ -869,6 +870,63 @@ class Virtual4C(Track, PlotVirtual4C, FetchVirtual4C):
             'show_data_range': True,
             'data_range_style': 'y-axis',
             'style': 'line:1',
+            'title': '',
+        }
+        properties_dict.update(kwargs)
+        super().__init__(properties_dict)
+
+
+class Ideogram(Track, PlotIdeogram):
+    """
+    The chromosome ideograme track.
+
+    Parameters
+    ----------
+    file_ : str
+        Path to chromosome ideogram txt file,
+        ideogram file is download from the UCSC Table Browser CytoBandIdeo table (in "all table" group).
+        see: http://genome.ucsc.edu/cgi-bin/hgTables?hgta_group=allTables&hgta_table=cytoBandIdeo
+    color_scheme : dict, optional
+        Color scheme of ideogram, default: Ideogram.DEFAULT_COLOR_SCHEME
+    show_name : bool, optional
+        Show band name or not. default True.
+    font_size : int, optional
+        Band name font size.
+    border_color : str, optional
+        Border color. default: '#000000'
+    border_width : float, optional
+        Border width. default: 1.2
+    height : int, optional
+        Track height.
+    title : str, optional
+        Label text, default ''.
+    name : str, optional
+        Track's name.
+    """
+
+    DEFAULT_HEIGHT = 1.2
+    DEFAULT_COLOR_SCHEME = {
+        'gneg':    '#ffffff',
+        'gpos25':  '#999999',
+        'gpos50':  '#666666',
+        'gpos75':  '#333333',
+        'gpos100': '#000000',
+        'acen':    '#cc6666',
+        'gvar':    '#cccccc',
+        'stalk':   '#e5e5e5',
+    }
+    DEFAULT_FONT_SIZE = 12
+    DEFAULT_BORDER_WIDTH = 1.2
+
+    def __init__(self, file_, **kwargs):
+        properties_dict = {
+            'file': file_,
+            'color_scheme': Ideogram.DEFAULT_COLOR_SCHEME,
+            'show_name': True,
+            'font_size': Ideogram.DEFAULT_FONT_SIZE,
+            'border_color': '#000000',
+            'border_width': Ideogram.DEFAULT_BORDER_WIDTH,
+            'height': Ideogram.DEFAULT_HEIGHT,
             'title': '',
         }
         properties_dict.update(kwargs)
