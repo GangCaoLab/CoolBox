@@ -2,7 +2,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import mpl_toolkits.axisartist as axisartist
 
-from coolbox.utilities import cm2inch, get_logger
+from coolbox.utilities import cm2inch, get_logger, GenomeRange
 log = get_logger(__name__)
 
 
@@ -49,10 +49,21 @@ class PlotFrame(object):
                 heights.append(default_height)
         return heights
 
-    def plot(self, chrom, start, end):
+    def plot(self, *args):
         """
         Plot all tracks.
+
+        >>> from coolbox.api import *
+        >>> frame = XAxis() + XAxis()
+        >>> frame.plot("chr1", 100000, 200000)
+        >>> frame.plot("chr1:100000-200000)
         """
+        if len(args) >= 3:
+            chrom, start, end = args[:3]
+        else:
+            region_str = args[0]
+            gr = GenomeRange(region_str)
+            chrom, start, end = (gr.chrom, gr.start, gr.end)
 
         tracks_height = self.get_tracks_height()
         self.properties['height'] = sum(tracks_height)
