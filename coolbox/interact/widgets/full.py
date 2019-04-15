@@ -1,7 +1,9 @@
-from .base import *
-from .navigation import *
+from collections import OrderedDict
 
-from ipywidgets import (Tab)
+from .base import WidgetsBox
+from .navigation import NavigationBar
+
+from ipywidgets import (Tab, Image, VBox, HTML)
 
 
 def compose_track_config_panel(widgets_panel):
@@ -12,7 +14,7 @@ class FullWidgets(WidgetsBox):
 
     def __init__(self, browser, *args, **kwargs):
         chromosomes = browser.chrom_lengthes.keys()
-        frame_widget = Image()
+        frame_widget = HTML()
         self.navigation_bar = NavigationBar(chromosomes, frame_widget)
         super().__init__(browser, frame_widget, *args, **kwargs)
 

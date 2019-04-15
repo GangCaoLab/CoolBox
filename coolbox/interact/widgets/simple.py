@@ -1,5 +1,7 @@
-from .base import *
-from .navigation import *
+from .base import WidgetsBox
+from .navigation import NavigationBar
+
+from ipywidgets import HTML
 
 import logging
 log = logging.getLogger(__name__)
@@ -17,7 +19,7 @@ class SimpleWidgets(WidgetsBox):
 
     def __init__(self, browser, *args, **kwargs):
         chromosomes = browser.chrom_lengthes.keys()
-        frame_widget = Image()
+        frame_widget = HTML()
         self.navigation_bar = NavigationBar(chromosomes, frame_widget)
         super().__init__(browser, frame_widget, *args, **kwargs)
 

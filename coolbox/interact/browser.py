@@ -20,7 +20,7 @@ class BrowserBase(object):
 
     def __init__(self, frame, reference_genome='hg19',
                  init_range=None, widgets_box='simple',
-                 dpi=None, img_format='png'):
+                 dpi=None, img_format='svg'):
         """
         Parameters
         ----------
@@ -43,8 +43,8 @@ class BrowserBase(object):
         dpi : int, optional
             The dpi of frame's image.
 
-        img_format : int, optional
-            Frame image format, default png.
+        img_format : str, optional
+            Frame image format, default svg.
         """
 
         self.dpi = dpi
@@ -193,6 +193,8 @@ class BrowserBase(object):
         else:
             fig_current = self.frame.show()
             fig_bytes = fig2bytes(fig_current, encode=self.img_format, dpi=self.dpi)
+            if self.img_format == 'svg':
+                fig_bytes = fig_bytes.decode("utf-8")
             self.fig_cache[self.current_range] = fig_bytes
 
         # auto clear fig cache for prevent memory leak

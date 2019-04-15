@@ -1,5 +1,7 @@
 import matplotlib
 import matplotlib.pyplot as plt
+plt.rcParams['svg.fonttype'] = 'none'
+
 import mpl_toolkits.axisartist as axisartist
 
 from coolbox.utilities import cm2inch, get_logger, GenomeRange

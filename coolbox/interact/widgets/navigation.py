@@ -1,7 +1,7 @@
 from ipywidgets import (
     HBox, VBox, Label, Dropdown, Button, Label,
     Checkbox, FloatText,
-    Text, Image, IntRangeSlider, Layout
+    Text, Image, IntRangeSlider, Layout, HTML
 )
 
 from coolbox.utilities import (
@@ -146,7 +146,7 @@ class NavigationBar(object):
 
     def __get_widgets(self, chromosomes, frame=None):
         if frame is None:
-            frame = Image()
+            frame = HTML()
         widgets = OrderedDict([
             ("chromosomes_list",          Dropdown(options=chromosomes)),
             ("left_button",               Button(icon="arrow-left")),

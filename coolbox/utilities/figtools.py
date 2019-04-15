@@ -139,7 +139,7 @@ def get_size(obj, seen=None):
     return size
 
 
-def fig2bytes(fig, encode='png', dpi=None):
+def fig2bytes(fig, encode='svg', dpi=None):
     """
     Convert matplotlib.figure.Figure object to image bytes.
     """
