@@ -20,7 +20,7 @@ jobs:
         $CONDA/bin/conda env update --file environment.yml --name base
     - name: Build and install
       run: |
-        python setup install
+        python setup.py install
     - name: Test with pytest
       run: |
         conda install pytest

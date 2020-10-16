@@ -6,15 +6,11 @@ import numpy as np
 
 from coolbox.utilities import (
     GenomeRange,
-    change_chrom_names,
     get_logger
 )
 
 from coolbox.plots.track.base import TrackPlot
 from coolbox.utilities import shiftedColorMap
-
-from . import cool
-PlotCool = cool.PlotCool
 
 
 log = get_logger(__name__)

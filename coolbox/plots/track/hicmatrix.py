@@ -381,3 +381,11 @@ class PlotHiCMatrix(TrackPlot):
             height += 1.5
 
         return height
+
+
+class PlotCool(PlotHiCMatrix):
+    DEFAULT_COLOR = 'YlOrRd'
+
+
+class PlotDotHiC(PlotHiCMatrix):
+    DEFAULT_COLOR = 'Reds'
