@@ -1,0 +1,22 @@
+name: coolbox
+
+channels:
+  - defaults
+  - conda-forge
+  - bioconda
+
+dependencies:
+  - python=3.7
+  - pip
+  - numpy
+  - scipy
+  - h5py
+  - pandas
+  - matplotlib>=3.1.1
+  - scipy>=1.0.0
+  - cooler
+  - pairix
+  - tabix
+  - pybigwig
+  - pip:
+      - -r requirements.txt

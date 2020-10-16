@@ -205,7 +205,7 @@ class CoolerWrap(object):
 
         def cooler_reso(resolution):
             from h5py import File
-            with File(path) as f:
+            with File(path, 'r') as f:
                 if "resolutions" in f:
                     c = cooler.Cooler(path + "::/resolutions/{}".format(resolution))
                 else:

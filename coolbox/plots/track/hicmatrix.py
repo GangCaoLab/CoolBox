@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 from mpl_toolkits.axes_grid1.axes_divider import make_axes_locatable
-from mpl_toolkits.axes_grid1.colorbar import colorbar
+from matplotlib import colorbar
 
 import numpy as np
 from scipy import ndimage
