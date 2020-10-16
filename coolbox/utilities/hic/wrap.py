@@ -1,4 +1,5 @@
 from coolbox.utilities.logtools import get_logger
+from coolbox.utilities.genome import to_gr
 
 
 log = get_logger(__name__)
@@ -40,6 +41,8 @@ class StrawWrap(object):
 
         if genome_range2 is None:
             genome_range2 = genome_range1
+        genome_range1 = to_gr(genome_range1)
+        genome_range2 = to_gr(genome_range2)
 
         if isinstance(genome_range1, str):
             genome_range1 = GenomeRange(genome_range1)
@@ -234,10 +237,13 @@ class CoolerWrap(object):
         return cool
 
     def fetch(self, genome_range1, genome_range2=None):
-        cool = self.get_cool(genome_range1)
-
         if genome_range2 is None:
             genome_range2 = genome_range1
+
+        genome_range1 = to_gr(genome_range1)
+        genome_range2 = to_gr(genome_range2)
+
+        cool = self.get_cool(genome_range1)
 
         if genome_range1.chrom not in cool.chromnames:
             genome_range1.change_chrom_names()

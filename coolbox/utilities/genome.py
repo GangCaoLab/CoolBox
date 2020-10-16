@@ -5,6 +5,21 @@ from .filetool import opener, to_string
 log = get_logger(__name__)
 
 
+def to_gr(obj):
+    """
+    Convert object to GenomeRange.
+
+    >>> gr = to_gr("chr1:0-1000")
+    >>> (gr.chrom, gr.start, gr.end)
+    ("chr1", 0, 1000)
+
+    """
+    if type(obj) is GenomeRange:
+        return obj
+    else:
+        return GenomeRange(obj)
+
+
 class GenomeRange(object):
     """
     Express a range on the genome.
