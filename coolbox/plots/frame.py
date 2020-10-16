@@ -58,7 +58,7 @@ class PlotFrame(object):
         >>> from coolbox.api import *
         >>> frame = XAxis() + XAxis()
         >>> frame.plot("chr1", 100000, 200000)
-        >>> frame.plot("chr1:100000-200000)
+        >>> frame.plot("chr1:100000-200000")
         """
         if len(args) >= 3:
             chrom, start, end = args[:3]

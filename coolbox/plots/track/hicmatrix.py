@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 from mpl_toolkits.axes_grid1.axes_divider import make_axes_locatable
-from matplotlib import colorbar
 
 import numpy as np
 from scipy import ndimage
@@ -271,7 +270,7 @@ class PlotHiCMatrix(TrackPlot):
                 cax = ax_divider.append_axes("top", size=0.09, pad=0.2)
             else:
                 cax = ax_divider.append_axes("bottom", size=0.09, pad=0.2)
-            colorbar(img, cax=cax, orientation='horizontal')
+            plt.colorbar(img, cax=cax, orientation='horizontal')
         else:  # vertical
             y_ax = self.y_ax
 
