@@ -244,3 +244,17 @@ class GenomeLength(dict):
             bounded_range = GenomeRange(chrom, start, end)
             return bounded_range
 
+
+def split_genome_range(genome_range):
+    """
+    Little helper func.
+    enforce genome_range is a GenomeRange object, and
+    split genome_range to chrom, start, end
+    """
+    if isinstance(genome_range, str):
+        genome_range = GenomeRange(genome_range)
+    else:
+        assert isinstance(genome_range, GenomeRange), \
+            "genome_range is a `GenomeRange` object or a genome range str"
+    chrom, start, end = genome_range.chrom, genome_range.start, genome_range.end
+    return chrom, start, end
