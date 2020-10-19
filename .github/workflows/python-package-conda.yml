@@ -16,12 +16,9 @@ jobs:
         python-version: 3.7
     - name: Install dependencies
       run: |
-        # $CONDA is an environment variable pointing to the root of the miniconda directory
-        $CONDA/bin/conda env update --file environment.yml --name base
-    - name: Build and install
-      run: |
-        python setup.py install
+        $CONDA/bin/conda env create -f environment.yml
     - name: Test with pytest
       run: |
-        conda install pytest
+        $CONDA/bin/conda activate coolbox
+        $CONDA/bin/conda install --yes pytest
         $CONDA/bin/pytest

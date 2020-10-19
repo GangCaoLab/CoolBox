@@ -14,12 +14,13 @@ from .arcs import FetchArcs
 from .cool import FetchCool
 from .dothic import FetchDotHiC
 from .v4c import FetchVirtual4C
+from .gtf import FetchGTF
 
 
 __all__ = [
     "FetchBigWig", "FetchBedGraph", "FetchBed",
     "FetchArcs", "FetchCool", "FetchDotHiC",
-    "FetchVirtual4C",
+    "FetchVirtual4C", "FetchGTF",
     "FetchFrame"
 ]
 

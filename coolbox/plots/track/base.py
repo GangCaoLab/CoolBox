@@ -1,4 +1,8 @@
-class TrackPlot(object):
+import abc
+from coolbox.utilities import split_genome_range
+
+
+class TrackPlot(abc.ABC):
     """
     The TrackPlot object is a holder for all tracks that are to be plotted.
     For example, to plot a bedgraph file a new class that extends TrackPlot
@@ -12,6 +16,25 @@ class TrackPlot(object):
         if not hasattr(self, 'properties'):
             self.properties = args[0]
         super().__init__()
+
+    @abc.abstractmethod
+    def plot(self, ax, chrom_region, start_region, end_region):
+        pass
+
+    def plot_genome_range(self, ax, genome_range):
+        """
+        Plot the track within a genome range.
+
+        Parameters
+        ----------
+        ax: matplotlib.axes.Axes
+            Axis to use to plot the scale.
+
+        genome_range : {str, GenomeRange}
+            Genome range to plot.
+        """
+        chrom, start, end = split_genome_range(genome_range)
+        self.plot(ax, chrom, start, end)
 
     def plot_y_axis(self, y_ax):
         """
@@ -55,7 +78,7 @@ class TrackPlot(object):
         y_ax.patch.set_visible(False)
 
     def plot_label(self):
-        if hasattr(self, 'label_ax'):
+        if hasattr(self, 'label_ax') and self.label_ax is not None:
             self.label_ax.text(0.15, 0.5, self.properties['title'],
                                horizontalalignment='left', size='large',
                                verticalalignment='center')

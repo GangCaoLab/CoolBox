@@ -13,13 +13,14 @@ REGION_MARK = REGION.replace("-", "_").replace(":", "_")
 r_ = REGION[3:]
 
 
-## source files
+# source files
 sources = {
     "cool": "/home/nanguage/DATA1/LD/differentiation/HiC/Ra-MseI-4sample-combin.multi.cool::resolutions/5000",
     "bam": "/home/nanguage/DATA2/public/ENCODE/ENCFF046HDL.sorted.bam",
     "chr_size": "/home/nanguage/S/Bioinfo/bedtools2/genomes/human.hg19.genome",
     "bed": "/home/nanguage/Test/BioInfo/CoolBox/demo/data/preprocessed/refGene.sorted.bed",
     "arcs": "/home/nanguage/Test/BioInfo/CoolBox/demo/data/preprocessed/K562_MbolI_looplist.arcs",
+    "gtf": "~/DATA1/Genomes/Homo_sapiens/hg19/Homo_sapiens.GRCh37.75.chr.gtf.gz",
 }
 
 # chr size
@@ -57,3 +58,5 @@ system(f"tabix -p bed {arcs_source}.sorted.gz")
 system(f"tabix {arcs_source}.sorted.gz {r_} > arcs_{REGION_MARK}.arcs")
 system(f"rm {arcs_source} {arcs_source}.sorted.gz {arcs_source}.sorted.gz.tbi")
 
+# gtf
+system(f"tabix {sources['gtf']} {REGION} > gtf_{REGION_MARK}.gtf")

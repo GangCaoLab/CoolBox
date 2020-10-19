@@ -7,3 +7,4 @@ from coolbox.plots.track.hicmatrix import PlotCool, PlotDotHiC
 from .hiccompare import PlotHicCompare
 from .virtual4C import PlotVirtual4C
 from .ideogram import PlotIdeogram
+from .gtf import PlotGTF

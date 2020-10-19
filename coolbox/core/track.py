@@ -9,7 +9,7 @@ __all__ = [
     "Spacer", "HLine", "XAxis", "Bed", "TADs",
     "BigWig", "ABCompartment", "BedGraph",
     "Arcs", "Cool", "DotHiC", "HicCompare", "Virtual4C",
-    "Ideogram",
+    "Ideogram", "GTF",
 ]
 
 
@@ -930,6 +930,44 @@ class Ideogram(Track, PlotIdeogram):
             'title': '',
         }
         properties_dict.update(kwargs)
+        super().__init__(properties_dict)
+
+
+
+class GTF(Track, PlotGTF, FetchGTF):
+
+    """
+    GTF gene annotation track.
+
+    Parameters
+    ----------
+    file_ : str
+        Path to .gtf(or .gtf.bgz) file.
+
+    height : float, optional
+        The height of Spacer track. (Default: Spacer.DEFAULT_HEIGHT)
+
+    color : {str, List[str]}
+        Annotation color. (Default: 'random')
+
+    title : str, optional
+        Label text, default ''.
+
+    name : str, optional
+        Track's name.
+
+    """
+    DEFAULT_HEIGHT = 4
+
+    def __init__(self, file_, **kwargs):
+        properties_dict = {
+            "file": file_,
+            "height": GTF.DEFAULT_HEIGHT,
+            "title": '',
+            "color": 'random'
+        }
+        properties_dict.update(kwargs)
+
         super().__init__(properties_dict)
 
 
