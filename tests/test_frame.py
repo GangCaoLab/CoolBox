@@ -14,10 +14,11 @@ def test_frame():
         Cool(f"{DATA_DIR}/cool_{test_itv}.mcool") + \
         Spacer(1) + \
         Arcs(f"{DATA_DIR}/arcs_{test_itv}.arcs") + Inverted() + \
-        BigWig(f"{DATA_DIR}/bigwig_{test_itv}.bw") + \
-        Bed(f"{DATA_DIR}/bed_{test_itv}.bed") + TrackHeight(10) + \
+        GTF(f"{DATA_DIR}/gtf_{test_itv}.gtf") + TrackHeight(7) + \
         Spacer(1) + \
-        GTF(f"{DATA_DIR}/gtf_{test_itv}.gtf") + TrackHeight(20)
+        BigWig(f"{DATA_DIR}/bigwig_{test_itv}.bw") + \
+        Spacer(1) + \
+        Bed(f"{DATA_DIR}/bed_{test_itv}.bed") + TrackHeight(10)
     fig = frame.plot(test_interval)
     tmp = "/tmp/test_coolbox_fig.pdf"
     fig.savefig(tmp)

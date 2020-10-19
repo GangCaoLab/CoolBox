@@ -933,7 +933,6 @@ class Ideogram(Track, PlotIdeogram):
         super().__init__(properties_dict)
 
 
-
 class GTF(Track, PlotGTF, FetchGTF):
 
     """
@@ -943,6 +942,9 @@ class GTF(Track, PlotGTF, FetchGTF):
     ----------
     file_ : str
         Path to .gtf(or .gtf.bgz) file.
+
+    row_filter : str, optional
+        Filter rows, only keep the rows for draw. (Default 'feature == "gene";source == "protein_coding"')
 
     height : float, optional
         The height of Spacer track. (Default: Spacer.DEFAULT_HEIGHT)
@@ -962,6 +964,7 @@ class GTF(Track, PlotGTF, FetchGTF):
     def __init__(self, file_, **kwargs):
         properties_dict = {
             "file": file_,
+            "row_filter": 'feature == "gene";source == "protein_coding"',
             "height": GTF.DEFAULT_HEIGHT,
             "title": '',
             "color": 'random'

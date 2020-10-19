@@ -1,4 +1,6 @@
 import random
+import re
+import string
 
 from dna_features_viewer import GraphicFeature, GraphicRecord
 
@@ -38,9 +40,19 @@ class PlotGTF(TrackPlot):
         self.ax = ax
         genome_range = GenomeRange(chrom_region, start_region, end_region)
         itv_df = self.fetch_intervals(genome_range)
-        genes = itv_df[itv_df['feature'] == 'gene']
+        df = itv_df
+        if self.has_prop("row_filter"):
+            filters = self.properties["row_filter"]
+            for filter_ in filters.split(";"):
+                try:
+                    op_idx = list(re.finditer("[=><!]", filter_))[0].start()
+                    l_ = filter_[:op_idx].strip()
+                    r_ = filter_[op_idx:]
+                    df = eval(f'df[df["{l_}"]{r_}]')
+                except IndexError:
+                    log.warning(f"row filter {filter_} is not valid.")
         features = []
-        for _, row in genes.iterrows():
+        for _, row in df.iterrows():
             gf = GraphicFeature(
                 start=row['start']-start_region,
                 end=row['end']-start_region,
@@ -50,5 +62,9 @@ class PlotGTF(TrackPlot):
             )
             features.append(gf)
         record = GraphicRecord(sequence_length=end_region-start_region, features=features)
-        record.plot(ax=ax, with_ruler=False)
+        record.plot(
+            ax=ax,
+            with_ruler=False,
+            draw_line=False
+        )
 

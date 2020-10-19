@@ -17,6 +17,9 @@ class TrackPlot(abc.ABC):
             self.properties = args[0]
         super().__init__()
 
+    def has_prop(self, p):
+        return (p in self.properties) and (self.properties[p] is not None)
+
     @abc.abstractmethod
     def plot(self, ax, chrom_region, start_region, end_region):
         pass
