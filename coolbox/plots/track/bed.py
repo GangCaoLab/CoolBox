@@ -6,8 +6,6 @@ import numpy as np
 
 from coolbox.utilities import (
     change_chrom_names,
-    Interval, IntervalTree,
-    opener, ReadBed,
     get_logger
 )
 
@@ -25,6 +23,9 @@ class PlotBed(TrackPlot):
         self.bed_type = None  # once the bed file is read, this is bed3, bed6 or bed12
         self.len_w = None  # this is the length of the letter 'w' given the font size
         self.interval_tree = {}  # interval tree of the bed regions
+        self.counter = None
+        self.small_relative = None
+        self.score_range = None
 
         from matplotlib import font_manager
         if 'fontsize' not in self.properties:
@@ -67,19 +68,6 @@ class PlotBed(TrackPlot):
         # to set the distance between rows
         self.row_scale = self.properties['interval_height'] * 2.3
 
-        self.interval_tree, min_score, max_score = self.__process_bed()
-        if self.colormap is not None:
-            if 'min_value' in self.properties:
-                min_score = self.properties['min_value']
-            if 'max_value' in self.properties:
-                max_score = self.properties['max_value']
-
-            norm = matplotlib.colors.Normalize(vmin=min_score,
-                                               vmax=max_score)
-
-            cmap = matplotlib.cm.get_cmap(self.properties['color'])
-            self.colormap = matplotlib.cm.ScalarMappable(norm=norm, cmap=cmap)
-
     def __get_length_w(self, fig_width, region_start, region_end):
         '''
         to improve the visualization of the genes it is good to have an estimation of the label
@@ -99,38 +87,23 @@ class PlotBed(TrackPlot):
 
         return self.len_w
 
-    def __process_bed(self):
+    def __update_colormap(self):
+        if self.colormap is not None:
+            min_score, max_score = self.score_range
+            if 'min_value' in self.properties:
+                min_score = self.properties['min_value']
+            if 'max_value' in self.properties:
+                max_score = self.properties['max_value']
 
-        bed_file_h = ReadBed(opener(self.properties['file']))
-        self.bed_type = bed_file_h.file_type
-
+            norm = matplotlib.colors.Normalize(vmin=min_score, vmax=max_score)
+            cmap = matplotlib.cm.get_cmap(self.properties['color'])
+            self.colormap = matplotlib.cm.ScalarMappable(norm=norm, cmap=cmap)
         if 'color' in self.properties and self.properties['color'] == 'bed_rgb' and \
                 self.bed_type not in ['bed12', 'bed9']:
             log.warning("*WARNING* Color set to 'bed_rgb', but bed file does not have the rgb field. The color has "
                         "been set to {}".format(PlotBed.DEFAULT_COLOR))
             self.properties['color'] = PlotBed.DEFAULT_COLOR
-
-        valid_intervals = 0
-        interval_tree = {}
-
-        max_score = float('-inf')
-        min_score = float('inf')
-        for bed in bed_file_h:
-            if bed.score < min_score:
-                min_score = bed.score
-            if bed.score > max_score:
-                max_score = bed.score
-
-            if bed.chromosome not in interval_tree:
-                interval_tree[bed.chromosome] = IntervalTree()
-
-            interval_tree[bed.chromosome].add(Interval(bed.start, bed.end, bed))
-            valid_intervals += 1
-
-        if valid_intervals == 0:
-            log.warning("No valid intervals were found in file {}".format(self.properties['file_name']))
-
-        return interval_tree, min_score, max_score
+            self.colormap = None
 
     def __get_max_num_row(self, len_w, small_relative):
         ''' Process the whole bed regions at the given figure length and font size to
@@ -195,14 +168,14 @@ class PlotBed(TrackPlot):
         return ypos
 
     def plot(self, ax, chrom_region, start_region, end_region):
+        self.load_range(f"{chrom_region}:{start_region}-{end_region}")
+        self.__update_colormap()
+
         self.counter = 0
         self.small_relative = 0.004 * (end_region - start_region)
         self.__get_length_w(ax.get_figure().get_figwidth(), start_region, end_region)
         if 'global_max_row' in self.properties and self.properties['global_max_row'] == 'yes':
             self.__get_max_num_row(self.len_w, self.small_relative)
-
-        if chrom_region not in self.interval_tree.keys():
-            chrom_region = change_chrom_names(chrom_region)
 
         genes_overlap = sorted(self.interval_tree[chrom_region][start_region:end_region])
 

@@ -4,7 +4,7 @@ import subprocess as subp
 import pandas as pd
 
 from coolbox.fetchdata.base import FetchTrackData
-from coolbox.utilities import split_genome_range, change_chrom_names
+from coolbox.utilities import split_genome_range, tabix_query
 
 import logging
 log = logging.getLogger(__name__)
@@ -26,14 +26,6 @@ def tabix_index(filename, preset="gff"):
     subp.check_call([
         'tabix', '-p', preset, filename
     ])
-
-
-def tabix_query(filename, chrom, start, end):
-    """Call tabix and generate an array of strings for each line it returns."""
-    query = '{}:{}-{}'.format(chrom, start, end)
-    p = subp.Popen(['tabix', '-f', filename, query], stdout=subp.PIPE)
-    for line in p.stdout:
-        yield line.decode('utf-8').strip().split('\t')
 
 
 def build_gtf_index(file):

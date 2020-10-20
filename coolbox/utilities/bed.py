@@ -1,6 +1,8 @@
-
+import subprocess as subp
+from functools import partial
 from intervaltree import Interval, IntervalTree
 import collections
+import types
 
 from .filetool import opener, to_string
 from .logtools import get_logger
@@ -124,7 +126,11 @@ class ReadBed(object):
         fields = fields.split()
 
         self.guess_file_type(fields)
-        self.file_handle.seek(0)
+        if type(file_handle) is types.GeneratorType:
+            self._file_name = "<from generator>"
+        else:
+            self._file_name = file_handle.name
+            self.file_handle.seek(0)
         self.prev_chrom = None
         self.prev_start = -1
         self.prev_line = None
@@ -197,7 +203,7 @@ class ReadBed(object):
             assert self.prev_start <= bed.start, \
                 "Bed file not sorted. Please use a sorted bed file.\n" \
                 "File: {}\n" \
-                "Previous line: {}\n Current line{} ".format(self.file_handle.name, self.prev_line, line)
+                "Previous line: {}\n Current line{} ".format(self._file_name, self.prev_line, line)
 
         self.prev_chrom = bed.chromosome
         self.prev_start = bed.start
@@ -218,7 +224,7 @@ class ReadBed(object):
             assert self.prev_start <= bed.start, \
                 "Bed file not sorted. Please use a sorted bed file.\n" \
                 "File: {}\n" \
-                "Previous line: {}\n Current line{} ".format(self.file_handle.name, self.prev_line, line)
+                "Previous line: {}\n Current line{} ".format(self._file_name, self.prev_line, line)
 
         self.prev_chrom = bed.chromosome
         self.prev_start = bed.start
@@ -339,3 +345,33 @@ class ReadBed(object):
 
         return self.BedInterval._make(line_values)
 
+
+def bgz_bed(bed_path, bgz_path):
+    cmd = ""
+    if bed_path.endswith(".gz"):
+        cmd += "zcat"
+    else:
+        cmd += "cat"
+    subp.check_call(cmd + f" {bed_path} | sort -k1,1 -k2,2 | bgzip > {bgz_path}",
+                    shell=True)
+    return bgz_path
+
+
+def index_bed(bgz_path):
+    cmd = ['tabix', '-p', bgz_path]
+    subp.check_call(cmd)
+
+
+def tabix_query(filename, chrom, start, end, split=True):
+    """Call tabix and generate an array of strings for each line it returns."""
+    query = '{}:{}-{}'.format(chrom, start, end)
+    p = subp.Popen(['tabix', '-f', filename, query], stdout=subp.PIPE)
+    for line in p.stdout:
+        line = line.decode('utf-8')
+        if not split:
+            yield line
+        else:
+            yield line.strip().split('\t')
+
+
+query_bed = partial(tabix_query, split=False)
