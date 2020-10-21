@@ -34,7 +34,7 @@ class PlotBigWig(TrackPlot):
 
         x_values = np.linspace(genome_range.start, genome_range.end, num_bins)
 
-        if 'type' in self.properties and self.properties['type'] != 'fill':
+        if 'style' in self.properties and self.properties['style'] != 'fill':
             self.__plot_line_or_points(scores_per_bin, x_values)
         else:
             self.__plot_fill(scores_per_bin, x_values)
@@ -96,42 +96,52 @@ class PlotBigWig(TrackPlot):
                         "and that the region is valid".format(str(genome_range), self.properties['file']))
 
     def __plot_line_or_points(self, scores_per_bin, x_values):
-        if self.properties['type'].find(":") > 0:
-            plot_type, size = self.properties['type'].split(":")
+        if self.properties['style'].find(":") > 0:
+            plot_type, size = self.properties['style'].split(":")
             try:
                 size = float(size)
             except ValueError:
                 raise ValueError("Invalid value: 'type = {}' in Track: {}\n"
                                  "A number was expected and found '{}'".format(
-                    self.properties['type'],
+                    self.properties['style'],
                     self.properties['name'],
                     size))
         else:
-            plot_type = self.properties['type']
+            plot_type = self.properties['style']
             size = None
 
+        alpha = self.properties.get("alpha", 1.0)
         if plot_type == 'line':
-            self.ax.plot(x_values, scores_per_bin, '-', linewidth=size, color=self.properties['color'])
+            self.ax.plot(x_values, scores_per_bin, '-',
+                         linewidth=size, color=self.properties['color'],
+                         alpha=alpha)
 
         elif plot_type == 'points':
-            self.ax.plot(x_values, scores_per_bin, '.', markersize=size, color=self.properties['color'])
+            self.ax.plot(x_values, scores_per_bin,
+                         '.', markersize=size,
+                         color=self.properties['color'],
+                         alpha=alpha)
 
         else:
-            raise ValueError("Invalid: 'type = {}' in Track: {}\n".format(self.properties['type'],
+            raise ValueError("Invalid: 'type = {}' in Track: {}\n".format(self.properties['style'],
                                                                           self.properties['name']))
 
     def __plot_fill(self, scores_per_bin, x_values):
+        alpha = self.properties.get('alpha', 1.0)
         if 'positive_color' not in self.properties or 'negative_color' not in self.properties:
             self.ax.fill_between(x_values, scores_per_bin, linewidth=0.1,
                                  color=self.properties['color'],
-                                 facecolor=self.properties['color'])
+                                 facecolor=self.properties['color'],
+                                 alpha=alpha)
         else:
             self.ax.fill_between(x_values, 0, scores_per_bin, where=(scores_per_bin > 0),
                                  linewidth=0.1, color=self.properties['positive_color'],
-                                 facecolor=self.properties['positive_color'])
+                                 facecolor=self.properties['positive_color'],
+                                 alpha=alpha)
             self.ax.fill_between(x_values, 0, scores_per_bin, where=(scores_per_bin < 0),
                                  linewidth=0.1, color=self.properties['negative_color'],
-                                 facecolor=self.properties['negative_color'])
+                                 facecolor=self.properties['negative_color'],
+                                 alpha=alpha)
 
     def __adjust_plot(self, genome_range):
         self.ax.set_xlim(genome_range.start, genome_range.end)

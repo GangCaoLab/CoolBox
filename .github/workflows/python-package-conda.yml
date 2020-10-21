@@ -16,9 +16,8 @@ jobs:
         python-version: 3.7
     - name: Install dependencies
       run: |
-        $CONDA/bin/conda env create -f environment.yml
+        $CONDA/bin/conda env update --file environment.yml
     - name: Test with pytest
       run: |
-        $CONDA/bin/conda activate coolbox
         $CONDA/bin/conda install --yes pytest
         $CONDA/bin/pytest

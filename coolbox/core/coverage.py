@@ -8,7 +8,8 @@ __all__ = [
     "CoverageStack",
     "Vlines", "VlinesFromFile",
     "HighLights", "HighLightsFromFile",
-    "HiCPeaks", "TADCoverage"
+    "HiCPeaks", "TADCoverage",
+    "BigWigCoverage"
 ]
 
 
@@ -181,6 +182,33 @@ class CoverageStack(object):
             return result
         else:
             raise TypeError(op_err_msg(self, other))
+
+
+def track_to_coverage(track_class):
+
+    def init(self, *args, **kwargs):
+        self.track_instance = track_class(*args, **kwargs)
+        self.properties = self.track_instance.properties
+
+    def plot(self, ax, chrom_region, start_region, end_region):
+        self.track_instance.plot(ax, chrom_region, start_region, end_region)
+
+    cov_class = type(
+        track_class.__name__+"Coverage",
+        (Coverage,),
+        {
+            "__init__": init,
+            "__doc__": track_class.__doc__,
+            "plot": plot
+        }
+    )
+
+    return cov_class
+
+
+from coolbox.core.track import BigWig
+
+BigWigCoverage = track_to_coverage(BigWig)
 
 
 class VlinesFromFile(Coverage, PlotVlines):

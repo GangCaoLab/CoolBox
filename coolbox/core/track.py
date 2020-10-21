@@ -369,6 +369,9 @@ class BigWig(Track, PlotBigWig, FetchBigWig):
     color : str, optional
         Track color, default BigWig.DEFAULT_COLOR.
 
+    alpha : float, optional
+        Alpha value of plot, default 1.0
+
     number_of_bins : int, optional
         Number_of_bins in current range, default 700.
 
@@ -405,6 +408,7 @@ class BigWig(Track, PlotBigWig, FetchBigWig):
             'file': file_,
             'height': BigWig.DEFAULT_HEIGHT,
             'color': BigWig.DEFAULT_COLOR,
+            'alpha': 1.0,
             'number_of_bins': 700,
             'style': 'fill',
             'show_data_range': True,
