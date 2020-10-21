@@ -1,6 +1,5 @@
 import random
 import re
-import string
 
 from dna_features_viewer import GraphicFeature, GraphicRecord
 
@@ -51,6 +50,10 @@ class PlotGTF(TrackPlot):
                     df = eval(f'df[df["{l_}"]{r_}]')
                 except IndexError:
                     log.warning(f"row filter {filter_} is not valid.")
+        region_length = end_region - start_region
+        if self.has_prop("length_ratio_thresh"):
+            len_ratio_th = self.properties["length_ratio_thresh"]
+            df = df[(df["end"] - df["start"]) > region_length*len_ratio_th]
         features = []
         for _, row in df.iterrows():
             gf = GraphicFeature(

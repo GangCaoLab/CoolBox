@@ -74,8 +74,8 @@ class FetchGTF(FetchTrackData):
         rows = []
         for row in tabix_query(self.bgz_file, chrom, start, end):
             rows.append(row)
-        df = pd.DataFrame(rows)
-        df.columns = ['seqname', 'source', 'feature', 'start', 'end', 'score', 'strand', 'frame', 'attribute']
+        columns = ['seqname', 'source', 'feature', 'start', 'end', 'score', 'strand', 'frame', 'attribute']
+        df = pd.DataFrame(rows, columns=columns)
         df['start'] = df['start'].astype(int)
         df['end'] = df['end'].astype(int)
         df['gene_name'] = df['attribute'].str.extract(".*gene_name (.*?) ").iloc[:, 0].str.strip('\";')

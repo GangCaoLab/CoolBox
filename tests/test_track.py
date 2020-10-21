@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 HERE = osp.dirname(osp.abspath(__file__))
 DATA_DIR = f"{HERE}/test_data"
 test_interval = "chr9:4000000-6000000"
+empty_interval = "chr10:4000000-6000000"
 test_itv = test_interval.replace(':', '_').replace('-', '_')
 
 
@@ -19,6 +20,7 @@ def test_bigwig():
     assert bw.fetch_data(test_interval) is not None
     fig, ax = plt.subplots()
     bw.plot_genome_range(ax, test_interval)
+    bw.fetch_data(empty_interval)
 
 
 def test_cool():
@@ -27,6 +29,7 @@ def test_cool():
     assert cl.fetch_data(test_interval, test_interval) is not None
     fig, ax = plt.subplots()
     cl.plot_genome_range(ax, test_interval)
+    cl.fetch_data(empty_interval)
 
 
 def test_bed():
@@ -34,6 +37,7 @@ def test_bed():
     assert bed.fetch_data(test_interval) is not None
     fig, ax = plt.subplots()
     bed.plot_genome_range(ax, test_interval)
+    bed.fetch_data(empty_interval)
 
 
 def test_arcs():
@@ -41,6 +45,7 @@ def test_arcs():
     assert arcs.fetch_data(test_interval) is not None
     fig, ax = plt.subplots()
     arcs.plot_genome_range(ax, test_interval)
+    arcs.fetch_data(empty_interval)
 
 
 def test_gtf():
@@ -48,6 +53,7 @@ def test_gtf():
     assert gtf.fetch_data(test_interval) is not None
     fig, ax = plt.subplots()
     gtf.plot_genome_range(ax, test_interval)
+    gtf.fetch_data(empty_interval)
 
 
 if __name__ == "__main__":

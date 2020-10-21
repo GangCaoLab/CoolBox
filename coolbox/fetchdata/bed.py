@@ -50,15 +50,19 @@ class FetchBed(FetchTrackData):
         self.score_range = (min_score, max_score)
 
     def __load(self, genome_range):
-        chrom, start, end = split_genome_range(genome_range)
-        bed_file_h = ReadBed(query_bed(self.bgz_file, chrom, start, end))
-        self.bed_type = bed_file_h.file_type
-
         valid_intervals = 0
         interval_tree = self.interval_tree
-
         max_score = float('-inf')
         min_score = float('inf')
+
+        chrom, start, end = split_genome_range(genome_range)
+        try:
+            bed_file_h = ReadBed(query_bed(self.bgz_file, chrom, start, end))
+        except StopIteration:
+            log.info(f"No records in the range {str(genome_range)}")
+            return valid_intervals, min_score, max_score
+        self.bed_type = bed_file_h.file_type
+
         for bed in bed_file_h:
             if bed.score < min_score:
                 min_score = bed.score
@@ -95,7 +99,10 @@ class FetchBed(FetchTrackData):
         chrom, start, end = split_genome_range(genome_range)
         if chrom not in self.interval_tree:
             chrom = change_chrom_names(chrom)
-        intervals = sorted(self.interval_tree[chrom][start:end])
+        if chrom not in self.interval_tree:
+            intervals = []
+        else:
+            intervals = sorted(self.interval_tree[chrom][start:end])
         intval_table = self.intervals2dataframe(intervals)
         return intval_table
 

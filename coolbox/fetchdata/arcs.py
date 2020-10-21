@@ -87,6 +87,9 @@ class FetchArcs(FetchTrackData):
         chrom, start, end = split_genome_range(genome_range)
         if chrom not in self.interval_tree:
             chrom = change_chrom_names(chrom)
+            if chrom not in self.interval_tree:
+                log.warning(f"chromosome of {str(genome_range)} not in Arc dataset.")
+                return pd.DataFrame([], columns=['chromsome', 'start', 'end', 'score'])
         intervals = self.interval_tree[chrom][start:end]
         intervals = [(chrom, itv.begin, itv.end, float(itv.data)) for itv in intervals]
         intval_table = pd.DataFrame(intervals, columns=['chromsome', 'start', 'end', 'score'])

@@ -946,6 +946,9 @@ class GTF(Track, PlotGTF, FetchGTF):
     row_filter : str, optional
         Filter rows, only keep the rows for draw. (Default 'feature == "gene";source == "protein_coding"')
 
+    length_ratio_thresh : float
+        Length ratio threshold of features, (Default 0.01)
+
     height : float, optional
         The height of Spacer track. (Default: Spacer.DEFAULT_HEIGHT)
 
@@ -965,9 +968,10 @@ class GTF(Track, PlotGTF, FetchGTF):
         properties_dict = {
             "file": file_,
             "row_filter": 'feature == "gene";source == "protein_coding"',
+            "length_ratio_thresh": 0.005,
             "height": GTF.DEFAULT_HEIGHT,
             "title": '',
-            "color": 'random'
+            "color": 'random',
         }
         properties_dict.update(kwargs)
 
