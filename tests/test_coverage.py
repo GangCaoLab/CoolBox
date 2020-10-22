@@ -1,6 +1,5 @@
 import os.path as osp
 from coolbox.api import *
-import matplotlib.pyplot as plt
 
 HERE = osp.dirname(osp.abspath(__file__))
 DATA_DIR = f"{HERE}/test_data"
@@ -26,3 +25,13 @@ def test_bigwig_coverage():
         BigWigCoverage(f"{DATA_DIR}/bigwig_{test_itv}.bw", style="fill", color="blue", alpha=0.3)
     fig = frame.plot(test_interval)
     fig.savefig("/tmp/test_coolbox_bwcov.pdf")
+
+
+def test_arcs_coverage():
+    frame = XAxis() + \
+        BigWig(f"{DATA_DIR}/bigwig_{test_itv}.bw", style="fill", alpha=0.5) + \
+        ArcsCoverage(f"{DATA_DIR}/arcs_{test_itv}.arcs")
+    fig = frame.plot(test_interval)
+    fig.savefig("/tmp/test_coolbox_arcscov.pdf")
+
+

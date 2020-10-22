@@ -9,7 +9,7 @@ __all__ = [
     "Vlines", "VlinesFromFile",
     "HighLights", "HighLightsFromFile",
     "HiCPeaks", "TADCoverage",
-    "BigWigCoverage"
+    "BigWigCoverage", "ArcsCoverage"
 ]
 
 
@@ -209,6 +209,10 @@ def track_to_coverage(track_class):
 from coolbox.core.track import BigWig
 
 BigWigCoverage = track_to_coverage(BigWig)
+
+from coolbox.core.track import Arcs
+
+ArcsCoverage = track_to_coverage(Arcs)
 
 
 class VlinesFromFile(Coverage, PlotVlines):

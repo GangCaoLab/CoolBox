@@ -2,7 +2,6 @@ import numpy as np
 
 from coolbox.utilities import (
     change_chrom_names,
-    Interval, IntervalTree,
     get_logger
 )
 
