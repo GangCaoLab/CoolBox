@@ -16,8 +16,9 @@ jobs:
         python-version: 3.7
     - name: Install dependencies
       run: |
-        $CONDA/bin/conda env update --file environment.yml
+        $CONDA/bin/conda env update --name base --file environment.yml
     - name: Test with pytest
       run: |
+        echo at $(pwd)
         $CONDA/bin/conda install --yes pytest
         $CONDA/bin/pytest

@@ -1,3 +1,4 @@
+import os
 import os.path as osp
 from coolbox.api import *
 import matplotlib.pyplot as plt
@@ -56,7 +57,26 @@ def test_gtf():
     gtf.fetch_data(empty_interval)
 
 
+def test_bam():
+    bam_path = f"{DATA_DIR}/bam_{test_itv}.bam"
+    bai_path = bam_path + ".bai"
+    if osp.exists(bai_path):
+        os.remove(bai_path)
+    bam = BAM(bam_path, style="alignment")
+    assert bam.fetch_data(test_interval) is not None
+    fig, ax = plt.subplots()
+    small_interval = "chr9:4998535-5006343"
+    bam.plot_genome_range(ax, small_interval)
+    fig.savefig("/tmp/test_coolbox_bam.pdf")
+    bam = BAM(bam_path, style="coverage")
+    fig, ax = plt.subplots()
+    bam.plot_genome_range(ax, test_interval)
+    fig.savefig("/tmp/test_coolbox_bam_stylecov.pdf")
+    bam.fetch_data(empty_interval)
+
+
 if __name__ == "__main__":
-    test_xaxis()
-    test_gtf()
+    #test_xaxis()
+    #test_gtf()
+    test_bam()
 

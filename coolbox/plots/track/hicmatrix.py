@@ -111,20 +111,25 @@ class PlotHiCMatrix(TrackPlot):
         small = 1e-4
         arr = self.matrix
         arr_no_nan = arr[np.logical_not(np.isnan(arr))]
+        min_, max_ = 1e-4, 1.0
 
-        if self.properties['min_value'] == 'auto':
-            # set minimal value for color bar
-            min_ = arr[arr > arr.min()].min()
-        else:
-            min_ = self.properties['min_value']
+        try:
+            if self.properties['min_value'] == 'auto':
+                # set minimal value for color bar
+                min_ = arr[arr > arr.min()].min()
+            else:
+                min_ = self.properties['min_value']
 
-        if self.properties['max_value'] == 'auto':
-            max_ = arr_no_nan.max()
-        else:
-            max_ = self.properties['max_value']
+            if self.properties['max_value'] == 'auto':
+                max_ = arr_no_nan.max()
+            else:
+                max_ = self.properties['max_value']
 
-        if max_ <= min_:
-            max_ = min_ + small
+            if max_ <= min_:
+                max_ = min_ + small
+        except ValueError as e:
+            log.warning(e)
+            return min_, max_
 
         return min_, max_
 

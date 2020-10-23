@@ -9,7 +9,7 @@ __all__ = [
     "Spacer", "HLine", "XAxis", "Bed", "TADs",
     "BigWig", "ABCompartment", "BedGraph",
     "Arcs", "Cool", "DotHiC", "HicCompare", "Virtual4C",
-    "Ideogram", "GTF",
+    "Ideogram", "GTF", "BAM"
 ]
 
 
@@ -954,7 +954,7 @@ class GTF(Track, PlotGTF, FetchGTF):
         Length ratio threshold of features, (Default 0.01)
 
     height : float, optional
-        The height of Spacer track. (Default: Spacer.DEFAULT_HEIGHT)
+        The height of track. (Default: GTF.DEFAULT_HEIGHT)
 
     color : {str, List[str]}
         Annotation color. (Default: 'random')
@@ -976,6 +976,60 @@ class GTF(Track, PlotGTF, FetchGTF):
             "height": GTF.DEFAULT_HEIGHT,
             "title": '',
             "color": 'random',
+        }
+        properties_dict.update(kwargs)
+
+        super().__init__(properties_dict)
+
+
+class BAM(Track, FetchBAM, PlotBAM):
+
+    """
+    BAM alignment track.
+
+    Parameters
+    ----------
+    file_ : str
+        Path to .gtf(or .gtf.bgz) file.
+
+    length_ratio_thresh : float
+        Length ratio threshold of show alignments. (Default 0.01)
+
+    height : float, optional
+        The height of Spacer track. (Default: BAM.DEFAULT_HEIGHT)
+
+    style : str
+        Plot style, 'alignment' or 'coverage'. (Default 'coverage')
+
+    color : {str}
+        Plot color.
+
+    alhpa : float.
+        Plot alpha. (Default 1.0)
+
+    bins : int
+        Number of bins when plot coverage. (Default 100)
+
+    title : str, optional
+        Label text, default ''.
+
+    name : str, optional
+        Track's name.
+
+    """
+    DEFAULT_HEIGHT = 4
+    DEFAULT_COLOR = "#6688ff"
+
+    def __init__(self, file_, **kwargs):
+        properties_dict = {
+            "file": file_,
+            "length_ratio_thresh": 0.005,
+            "height": BAM.DEFAULT_HEIGHT,
+            "style": "coverage",
+            "title": '',
+            "color": BAM.DEFAULT_COLOR,
+            "alpha": 1.0,
+            "bins": 100,
         }
         properties_dict.update(kwargs)
 
