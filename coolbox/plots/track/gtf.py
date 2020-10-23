@@ -70,4 +70,5 @@ class PlotGTF(TrackPlot):
             with_ruler=False,
             draw_line=False
         )
+        self.plot_label()
 
