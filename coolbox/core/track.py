@@ -1008,7 +1008,10 @@ class BAM(Track, FetchBAM, PlotBAM):
         Plot alpha. (Default 1.0)
 
     bins : int
-        Number of bins when plot coverage. (Default 100)
+        Number of bins when plot coverage. (Default 200)
+
+    data_range_style : str
+        Data range show style(y-axis or text), when plot coverage. (Default 'y-axis')
 
     title : str, optional
         Label text, default ''.
@@ -1017,7 +1020,7 @@ class BAM(Track, FetchBAM, PlotBAM):
         Track's name.
 
     """
-    DEFAULT_HEIGHT = 4
+    DEFAULT_HEIGHT = 3
     DEFAULT_COLOR = "#6688ff"
 
     def __init__(self, file_, **kwargs):
@@ -1029,7 +1032,8 @@ class BAM(Track, FetchBAM, PlotBAM):
             "title": '',
             "color": BAM.DEFAULT_COLOR,
             "alpha": 1.0,
-            "bins": 100,
+            "bins": 200,
+            "data_range_style": 'y-axis',
         }
         properties_dict.update(kwargs)
 

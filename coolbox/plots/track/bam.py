@@ -1,7 +1,6 @@
 import subprocess as subp
 
 import numpy as np
-import matplotlib.pyplot as plt
 from dna_features_viewer import GraphicFeature, GraphicRecord
 
 from coolbox.plots.track.base import TrackPlot
@@ -44,6 +43,7 @@ class PlotBAM(TrackPlot):
     def plot(self, ax, chrom_region, start_region, end_region):
         gr = GenomeRange(chrom_region, start_region, end_region)
         style = self.properties.get("style", "alignment")
+        self.ax = ax
         if style == "alignment":
             self.plot_align(ax, gr)
         else:
@@ -88,5 +88,46 @@ class PlotBAM(TrackPlot):
                         facecolor=self.properties['color'],
                         alpha=alpha)
         max_val = max(scores_per_bin)
-        ax.set_ylim(0, max_val+max(0.05, 0.05*max_val))
+        ymin = 0
+        ymax = max_val+max(0.05, 0.05*max_val)
+        ax.set_ylim(0, ymax)
+        self.plot_label()
+        if "show_data_range" in self.properties and self.properties["show_data_range"] == 'no':
+            pass
+        else:
+            self.genome_range = gr
+            self.plot_data_range(
+                ymin, ymax,
+                self.properties.get('data_range_style', 'y-axis')
+            )
 
+    def plot_data_range(self, ymin, ymax, data_range_style):
+        if data_range_style == 'text':
+            assert hasattr(self, 'genome_range'), \
+                "If use text style data range must, must set the .genome_range attribute"
+            self.__plot_range_text(ymin, ymax)
+
+        else:  # 'y-axis' style
+            try:
+                y_ax = self.y_ax
+                self.plot_y_axis(y_ax)
+            except AttributeError as e:
+                log.exception(e)
+                msg = "If use y-axis style data range must, must set the .y_ax attribute, switch to text style."
+                log.warn(msg)
+                self.plot_data_range(ymin, ymax, data_range_style='text')
+
+    def __plot_range_text(self, ymin, ymax):
+        genome_range = self.genome_range
+        ydelta = ymax - ymin
+
+        # set min max
+        format_lim = lambda lim: int(lim) if float(lim) %1 == 0 else "{:.2f}".format(lim)
+        ymax_print = format_lim(ymax)
+        ymin_print = format_lim(ymin)
+        small_x = 0.01 * genome_range.length
+        # by default show the data range
+        self.ax.text(genome_range.start - small_x, ymax - ydelta * 0.2,
+                     "[ {} ~ {} ]".format(ymin_print, ymax_print),
+                     horizontalalignment='left',
+                     verticalalignment='top')
