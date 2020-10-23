@@ -1,6 +1,8 @@
 CoolBox
 =======
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/GangCaoLab/CoolBox/master?filepath=demo%2FTestRegion.ipynb)
+
 WIP
 
 Flexible, user-friendly genomic data visualization toolkit. 
