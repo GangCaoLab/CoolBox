@@ -1,6 +1,7 @@
 name: Python Package using Conda
 
-on: [push]
+on: [push, pull_request]
+
 
 jobs:
   build-linux:
@@ -19,6 +20,7 @@ jobs:
         $CONDA/bin/conda env update --name base --file environment.yml
     - name: Test with pytest
       run: |
-        echo at $(pwd)
+        export PATH=$CONDA/bin:$PATH
         $CONDA/bin/conda install --yes pytest
+        export PYTHONPATH="./"
         $CONDA/bin/pytest
