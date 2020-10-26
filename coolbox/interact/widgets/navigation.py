@@ -1,7 +1,7 @@
 from ipywidgets import (
-    HBox, VBox, Label, Dropdown, Button, Label,
+    HBox, VBox, Dropdown, Button, Label,
     Checkbox, FloatText,
-    Text, Image, IntRangeSlider, Layout, HTML
+    Text, IntRangeSlider, Layout, HTML
 )
 
 from coolbox.utilities import (
@@ -25,8 +25,9 @@ class NavigationBar(object):
     frame
     """
 
-    def __init__(self, chromosomes, frame=None):
-        self.widgets =  self.__get_widgets(chromosomes, frame)
+    def __init__(self, browser, frame=None):
+        chromsomes = list(browser.chrom_lengthes.keys())
+        self.widgets = self.__get_widgets(chromsomes, browser, frame)
         self.panel = self.__compose_panel(self.widgets)
 
     def refresh_widgets(self, browser, who=None):
@@ -144,9 +145,10 @@ class NavigationBar(object):
         self.widgets['track_min_val_float_text'].observe(track_float_text_val_change, names="value")
         self.widgets['track_max_val_float_text'].observe(track_float_text_val_change, names="value")
 
-    def __get_widgets(self, chromosomes, frame=None):
+    def __get_widgets(self, chromosomes, browser, frame=None):
         if frame is None:
             frame = HTML()
+        tracks = [t.name for t in browser.tracks.values()]
         widgets = OrderedDict([
             ("chromosomes_list",          Dropdown(options=chromosomes)),
             ("left_button",               Button(icon="arrow-left")),
@@ -169,7 +171,11 @@ class NavigationBar(object):
             ("track_max_val_float_text",  FloatText(value=10, description="track's max value:", step=0.5, disabled=True,
                                                     layout=Layout(width='30%'),
                                                     style={'description_width': 'initial'})),
-
+            ("track_dropdown",  Dropdown(options=["ALL"] + tracks,
+                                         value="ALL",
+                                         description="Select track",
+                                         disable=False,
+                                         )),
             ("frame",                     frame)
         ])
         return widgets
@@ -187,6 +193,7 @@ class NavigationBar(object):
                     widgets_dict["auto_check_box"],
                     widgets_dict["track_min_val_float_text"],
                     widgets_dict["track_max_val_float_text"],
+                    widgets_dict["track_dropdown"],
                 ], layout=Layout(justify_content="flex-start")),
             ], layout=Layout(border='solid 2px')),
             widgets_dict["frame"],

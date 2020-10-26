@@ -12,15 +12,13 @@ class SimpleWidgets(WidgetsBox):
     """
     Simplest widgets panel design.
 
-
     -----
 
     """
 
     def __init__(self, browser, *args, **kwargs):
-        chromosomes = browser.chrom_lengthes.keys()
         frame_widget = HTML()
-        self.navigation_bar = NavigationBar(chromosomes, frame_widget)
+        self.navigation_bar = NavigationBar(browser, frame_widget)
         super().__init__(browser, frame_widget, *args, **kwargs)
 
     def get_widgets_dict(self):

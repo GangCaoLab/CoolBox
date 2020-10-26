@@ -1,5 +1,7 @@
+import abc
 
-class WidgetsBox(object):
+
+class WidgetsBox(abc.ABC):
     """
     Widgets panel base class.
     """

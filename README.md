@@ -2,6 +2,7 @@ CoolBox
 =======
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/GangCaoLab/CoolBox/master?filepath=demo%2FTestRegion.ipynb)
+[![Python Package using Conda](https://github.com/GangCaoLab/CoolBox/workflows/Python%20Package%20using%20Conda/badge.svg)](https://github.com/GangCaoLab/CoolBox/actions?query=workflow%3A%22Python+Package+using+Conda%22)
 
 WIP
 
@@ -9,29 +10,40 @@ Flexible, user-friendly genomic data visualization toolkit.
 
 ![](imgs/title.png)
 
-Use [pyGenomeTracks](https://github.com/deeptools/pyGenomeTracks) as plot system.
+Highlights:
 
-* Multi-omics data visualization
-* GUI widget
-* User-friendly API
-* Web Access
-* Compatible with Jupyter ecosystem
+* Multi-omics data interactively visualization
+* Show within Jupyter notebook
+* User-friendly API (ggplot2-like Python EDSL)
 
 Documents:
 * [Wiki](https://github.com/Nanguage/CoolBox/wiki)
 * Jupyter notebook [walkthrough](demo/coolbox_guide.ipynb)
 
 TODO List:
-1. Using in CLI and show in Qt Window.
+
++ Using in CLI and show in Qt Window.
     + fire CLI to compose tracks.
     + Panel in Qt.
-2. Interactively show in independent web-page.
+        - ref [qtvoila](https://luiztauffer.github.io/guacamole-data-science/posts/2020-04-20-qtvoila/)
++ Install with conda
+    + Upload to [Bioconda](https://bioconda.github.io/)
++ Better documents.
++ Interactively show in independent web-page.
     + ref this [example](https://github.com/jupyter-widgets/ipywidgets/tree/master/examples/web3)
-3. Speed up loading.
-    + speed up BED load with make index.
-4. Better documents.
-5. Optimizing plot
+    + [voila](https://github.com/voila-dashboards/voila)
++ Speed up loading.
+    + speed up Arcs/BEDGraph loading with make index.
++ Optimizing plot
     + other ploting system(JS based)
-6. Support more data type
-    + BAM/SAM file.
++ Support more data type
+    + Image type
+    + BEDPE/Pairs (For Arcs plot)
+
+
+Thanks
+
++ [pyGenomeTracks](https://github.com/deeptools/pyGenomeTracks),
+CoolBox's plot system is fork from it.
+
 
