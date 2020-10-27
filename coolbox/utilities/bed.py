@@ -358,7 +358,7 @@ def bgz_bed(bed_path, bgz_path):
 
 
 def index_bed(bgz_path):
-    cmd = ['tabix', '-p', bgz_path]
+    cmd = ['tabix', '-p', 'bed', bgz_path]
     subp.check_call(cmd)
 
 

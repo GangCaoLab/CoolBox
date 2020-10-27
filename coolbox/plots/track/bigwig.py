@@ -8,10 +8,11 @@ log = get_logger(__name__)
 
 class CoveragePlot(object):
     """Mixin for plot Coverage plot(BigWig, BedGraph, BAM(coverage))."""
-    def plot_coverage(self, ax, genome_range, scores_per_bin):
+    def plot_coverage(self, ax, genome_range, scores_per_bin, x_values=None):
 
         num_bins = scores_per_bin.shape[0]
-        x_values = np.linspace(genome_range.start, genome_range.end, num_bins)
+        if x_values is None:
+            x_values = np.linspace(genome_range.start, genome_range.end, num_bins)
 
         if 'style' in self.properties and self.properties['style'] != 'fill':
             self.__plot_line_or_points(ax, scores_per_bin, x_values)

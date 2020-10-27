@@ -12,30 +12,6 @@ from coolbox.utilities import (
 log = get_logger(__name__)
 
 
-def coverage_by_samtools(bam_path, region, bins):
-    cmd = ["samtools", "coverage", bam_path, "-r", region, "-w", str(bins)]
-    p = subp.Popen(cmd, stdout=subp.PIPE)
-    lines = []
-    for line in p.stdout:
-        line = line.decode('utf-8')
-        lines.append(line)
-    covs = parse_samtools_cov(lines)
-    return np.array(covs)
-
-
-def parse_samtools_cov(lines):
-    covs = {}
-    for line in lines[1:-1]:
-        left, mid, _ = line.split("│")
-        percent = float(left.strip("> %"))
-        for i, c in enumerate(mid):
-            covs.setdefault(i, 0)
-            if c != ' ' and covs[i] == 0:
-                covs[i] = percent
-    covs = [covs[i] for i in sorted(covs.keys())]
-    return covs
-
-
 class PlotBAM(TrackPlot, CoveragePlot):
 
     def __init__(self, *args, **kwargs):
@@ -81,6 +57,6 @@ class PlotBAM(TrackPlot, CoveragePlot):
     def plot_coverage(self, ax, genome_range):
         gr = genome_range
         bins = self.properties.get("bins", 40)
-        scores_per_bin = coverage_by_samtools(self.indexed_bam, str(gr), bins)
+        scores_per_bin = self.fetch_coverage(str(gr), bins)
         super().plot_coverage(ax, genome_range, scores_per_bin)
         self.plot_label()

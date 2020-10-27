@@ -75,8 +75,19 @@ def test_bam():
     bam.fetch_data(empty_interval)
 
 
+def test_bedgraph():
+    bg_path = f"{DATA_DIR}/bedgraph_{test_itv}.bg"
+    bg = BedGraph(bg_path)
+    assert bg.fetch_data(test_interval) is not None
+    bg.fetch_data(empty_interval)
+    fig, ax = plt.subplots()
+    bg.plot_genome_range(ax, test_interval)
+    fig.savefig("/tmp/test_coolbox_bg.pdf")
+
+
 if __name__ == "__main__":
     #test_xaxis()
     #test_gtf()
-    test_bam()
+    #test_bam()
+    test_bedgraph()
 

@@ -1,6 +1,7 @@
 import os.path as osp
 import subprocess as subp
 import pandas as pd
+import numpy as np
 
 from coolbox.fetchdata.base import FetchTrackData
 from coolbox.utilities import split_genome_range
@@ -53,6 +54,30 @@ def query_bam(filename, chrom, start, end, split=True):
             yield items_
 
 
+def coverage_by_samtools(bam_path, region, bins):
+    cmd = ["samtools", "coverage", bam_path, "-r", region, "-w", str(bins)]
+    p = subp.Popen(cmd, stdout=subp.PIPE)
+    lines = []
+    for line in p.stdout:
+        line = line.decode('utf-8')
+        lines.append(line)
+    covs = parse_samtools_cov(lines)
+    return np.array(covs)
+
+
+def parse_samtools_cov(lines):
+    covs = {}
+    for line in lines[1:-1]:
+        left, mid, _ = line.split("│")
+        percent = float(left.strip("> %"))
+        for i, c in enumerate(mid):
+            covs.setdefault(i, 0)
+            if c != ' ' and covs[i] == 0:
+                covs[i] = percent
+    covs = [covs[i] for i in sorted(covs.keys())]
+    return covs
+
+
 class FetchBAM(FetchTrackData):
 
     def __init__(self, *args, **kwargs):
@@ -86,3 +111,11 @@ class FetchBAM(FetchTrackData):
             df['pos'] = df['pos'].astype(int)
             df['mapq'] = df['mapq'].astype(int)
         return df
+
+    def fetch_coverage(self, genome_range, bins=100):
+        scores_per_bin = coverage_by_samtools(
+            self.indexed_bam,
+            str(genome_range),
+            bins
+        )
+        return scores_per_bin
