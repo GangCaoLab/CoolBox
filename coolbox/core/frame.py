@@ -179,7 +179,7 @@ class Frame(PlotFrame, FetchFrame):
         for track in self.tracks.values():
             track.properties[feature.key] = feature.value
 
-    def set_tracks_min_max(self, min_, max_):
+    def set_tracks_min_max(self, min_, max_, name=None):
         """
         set all bigwig and bedgraph tracks's min and max value.
 
@@ -190,10 +190,20 @@ class Frame(PlotFrame, FetchFrame):
         >>> assert all([track.properties['min_value'] == -10 for track in frame.tracks.values()])
         >>> assert all([track.properties['min_value'] ==  10 for track in frame.tracks.values()])
         """
-        from .track import BedGraph, BigWig
-        for track in self.tracks.values():
-            if isinstance(track, BedGraph) or \
-                    isinstance(track, BigWig):
+        from .track import BedGraph, BigWig, BAM
+        if name is None:  # set all setable tracks
+            for track in self.tracks.values():
+                if isinstance(track, BedGraph) or \
+                   isinstance(track, BigWig) or \
+                   (isinstance(track, BAM) and track.properties['style'] == "coverage"):
+                track.properties['min_value'] = min_
+                track.properties['max_value'] = max_
+        else:  # set specified track
+            if name not in self.tracks:
+                log.warning("Track {name} not in frame")
+                return
+            track = self.tracks[name]
+            if 'min_value' in track.properties:
                 track.properties['min_value'] = min_
                 track.properties['max_value'] = max_
 

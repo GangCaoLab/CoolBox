@@ -29,6 +29,7 @@ class NavigationBar(object):
         chromsomes = list(browser.chrom_lengthes.keys())
         self.widgets = self.__get_widgets(chromsomes, browser, frame)
         self.panel = self.__compose_panel(self.widgets)
+        self.selected_tracks = [t.name for t in browser.tracks.values()]
 
     def refresh_widgets(self, browser, who=None):
         range_ = browser.current_range
@@ -123,10 +124,12 @@ class NavigationBar(object):
             if change['new'] == True:
                 self.widgets['track_min_val_float_text'].disabled = True
                 self.widgets['track_max_val_float_text'].disabled = True
+                self.widgets['track_dropdown'].disabled = True
                 browser.frame.set_tracks_min_max('auto', 'auto')
             else:
                 self.widgets['track_min_val_float_text'].disabled = False
                 self.widgets['track_max_val_float_text'].disabled = False
+                self.widgets['track_dropdown'].disabled = False
                 min_ = self.widgets['track_min_val_float_text'].value
                 max_ = self.widgets['track_max_val_float_text'].value
                 browser.frame.set_tracks_min_max(min_, max_)
@@ -139,11 +142,22 @@ class NavigationBar(object):
         def track_float_text_val_change(change):
             min_ = self.widgets['track_min_val_float_text'].value
             max_ = self.widgets['track_max_val_float_text'].value
-            browser.frame.set_tracks_min_max(min_, max_)
+            if self.widgets['track_dropdown'].value == 'ALL':
+                browser.frame.set_tracks_min_max(min_, max_)
+            else:
+                for tname in self.selected_tracks:
+                    browser.set_tracks_min_max(min_, max_, tname)
             browser.clear_fig_cache()
             browser.refresh()
         self.widgets['track_min_val_float_text'].observe(track_float_text_val_change, names="value")
         self.widgets['track_max_val_float_text'].observe(track_float_text_val_change, names="value")
+
+        def track_dropdown_change(change):
+            if change['new'] == 'ALL':
+                self.selected_tracks = [t.name for t in browser.tracks.values()]
+            else:
+                self.selected_tracks = [change['new']]
+        self.widgets['track_dropdown'].observe(track_dropdown_change, names="value")
 
     def __get_widgets(self, chromosomes, browser, frame=None):
         if frame is None:
@@ -174,7 +188,7 @@ class NavigationBar(object):
             ("track_dropdown",  Dropdown(options=["ALL"] + tracks,
                                          value="ALL",
                                          description="Select track",
-                                         disable=False,
+                                         disabled=True,
                                          )),
             ("frame",                     frame)
         ])

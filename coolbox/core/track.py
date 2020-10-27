@@ -1013,6 +1013,12 @@ class BAM(Track, FetchBAM, PlotBAM):
     data_range_style : str
         Data range show style(y-axis or text), when plot coverage. (Default 'y-axis')
 
+    max_value : {float, 'auto'}, optional
+        Max value of track. 'auto' for specify max value automatically, default 'auto'.
+
+    min_value : {float, 'auto'}, optional
+        Min value of track. 'auto' for specify max value automatically, default 'auto'.
+
     title : str, optional
         Label text, default ''.
 
@@ -1034,6 +1040,8 @@ class BAM(Track, FetchBAM, PlotBAM):
             "alpha": 1.0,
             "bins": 200,
             "data_range_style": 'y-axis',
+            "max_value": "auto"
+            "min_value": "auto",
         }
         properties_dict.update(kwargs)
 
