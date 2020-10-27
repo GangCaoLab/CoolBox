@@ -11,6 +11,9 @@ from coolbox.utilities import (
 from collections import OrderedDict
 
 
+ALL_BW_MARK = "ALL(BW/BG)"
+
+
 class NavigationBar(object):
     """
     Layout:
@@ -29,7 +32,10 @@ class NavigationBar(object):
         chromsomes = list(browser.chrom_lengthes.keys())
         self.widgets = self.__get_widgets(chromsomes, browser, frame)
         self.panel = self.__compose_panel(self.widgets)
-        self.selected_tracks = [t.name for t in browser.tracks.values()]
+        self.selected_tracks = self.__get_tracks_name(browser)
+
+    def __get_tracks_name(self, browser):
+        return [t.name for t in browser.tracks.values() if 'min_value' in t.properties]
 
     def refresh_widgets(self, browser, who=None):
         range_ = browser.current_range
@@ -142,19 +148,19 @@ class NavigationBar(object):
         def track_float_text_val_change(change):
             min_ = self.widgets['track_min_val_float_text'].value
             max_ = self.widgets['track_max_val_float_text'].value
-            if self.widgets['track_dropdown'].value == 'ALL':
+            if self.widgets['track_dropdown'].value == ALL_BW_MARK:
                 browser.frame.set_tracks_min_max(min_, max_)
             else:
                 for tname in self.selected_tracks:
-                    browser.set_tracks_min_max(min_, max_, tname)
+                    browser.frame.set_tracks_min_max(min_, max_, tname)
             browser.clear_fig_cache()
             browser.refresh()
         self.widgets['track_min_val_float_text'].observe(track_float_text_val_change, names="value")
         self.widgets['track_max_val_float_text'].observe(track_float_text_val_change, names="value")
 
         def track_dropdown_change(change):
-            if change['new'] == 'ALL':
-                self.selected_tracks = [t.name for t in browser.tracks.values()]
+            if change['new'] == ALL_BW_MARK:
+                self.selected_tracks = self.__get_tracks_name(browser)
             else:
                 self.selected_tracks = [change['new']]
         self.widgets['track_dropdown'].observe(track_dropdown_change, names="value")
@@ -162,7 +168,7 @@ class NavigationBar(object):
     def __get_widgets(self, chromosomes, browser, frame=None):
         if frame is None:
             frame = HTML()
-        tracks = [t.name for t in browser.tracks.values()]
+        tracks = self.__get_tracks_name(browser)
         widgets = OrderedDict([
             ("chromosomes_list",          Dropdown(options=chromosomes)),
             ("left_button",               Button(icon="arrow-left")),
@@ -179,14 +185,14 @@ class NavigationBar(object):
             ("auto_check_box",            Checkbox(value=True, description="Auto Range",
                                                    layout=Layout(width='120px'),
                                                    style={'description_width': 'initial'})),
-            ("track_min_val_float_text",  FloatText(value=0,  description="track's min value:", step=0.5, disabled=True,
+            ("track_min_val_float_text",  FloatText(value=0.0001,  description="Track's min value:", step=0.5, disabled=True,
                                                     layout=Layout(width='30%'),
                                                     style={'description_width': 'initial'})),
-            ("track_max_val_float_text",  FloatText(value=10, description="track's max value:", step=0.5, disabled=True,
+            ("track_max_val_float_text",  FloatText(value=10, description="Track's max value:", step=0.5, disabled=True,
                                                     layout=Layout(width='30%'),
                                                     style={'description_width': 'initial'})),
-            ("track_dropdown",  Dropdown(options=["ALL"] + tracks,
-                                         value="ALL",
+            ("track_dropdown",  Dropdown(options=[ALL_BW_MARK] + tracks,
+                                         value=ALL_BW_MARK,
                                          description="Select track",
                                          disabled=True,
                                          )),

@@ -998,8 +998,12 @@ class BAM(Track, FetchBAM, PlotBAM):
     height : float, optional
         The height of Spacer track. (Default: BAM.DEFAULT_HEIGHT)
 
-    style : str
-        Plot style, 'alignment' or 'coverage'. (Default 'coverage')
+    plot_type : str
+        Plot type, 'alignment' or 'coverage'. (Default 'coverage')
+
+    style : str, optional
+        Track graph style(for 'coverage'), format {'fill', 'line:`size`', 'points:`size`'},
+        example: 'line:2', 'points:0.5'. default: 'fill'
 
     color : {str}
         Plot color.
@@ -1034,13 +1038,14 @@ class BAM(Track, FetchBAM, PlotBAM):
             "file": file_,
             "length_ratio_thresh": 0.005,
             "height": BAM.DEFAULT_HEIGHT,
-            "style": "coverage",
+            "plot_type": "coverage",
+            "style": 'fill',
             "title": '',
             "color": BAM.DEFAULT_COLOR,
             "alpha": 1.0,
             "bins": 200,
             "data_range_style": 'y-axis',
-            "max_value": "auto"
+            "max_value": "auto",
             "min_value": "auto",
         }
         properties_dict.update(kwargs)

@@ -5,10 +5,14 @@ from coolbox.plots.frame import PlotFrame
 
 from coolbox.utilities import (
     GenomeRange,
-    op_err_msg
+    op_err_msg,
+    get_logger,
 )
 
 from coolbox.fetchdata import FetchFrame
+
+
+log = get_logger(__name__)
 
 
 class Frame(PlotFrame, FetchFrame):
@@ -190,14 +194,13 @@ class Frame(PlotFrame, FetchFrame):
         >>> assert all([track.properties['min_value'] == -10 for track in frame.tracks.values()])
         >>> assert all([track.properties['min_value'] ==  10 for track in frame.tracks.values()])
         """
-        from .track import BedGraph, BigWig, BAM
+        from .track import BedGraph, BigWig
         if name is None:  # set all setable tracks
             for track in self.tracks.values():
                 if isinstance(track, BedGraph) or \
-                   isinstance(track, BigWig) or \
-                   (isinstance(track, BAM) and track.properties['style'] == "coverage"):
-                track.properties['min_value'] = min_
-                track.properties['max_value'] = max_
+                   isinstance(track, BigWig):
+                    track.properties['min_value'] = min_
+                    track.properties['max_value'] = max_
         else:  # set specified track
             if name not in self.tracks:
                 log.warning("Track {name} not in frame")

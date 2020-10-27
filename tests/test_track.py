@@ -62,16 +62,16 @@ def test_bam():
     bai_path = bam_path + ".bai"
     if osp.exists(bai_path):
         os.remove(bai_path)
-    bam = BAM(bam_path, style="alignment")
+    bam = BAM(bam_path, plot_type="alignment")
     assert bam.fetch_data(test_interval) is not None
     fig, ax = plt.subplots()
     small_interval = "chr9:4998535-5006343"
     bam.plot_genome_range(ax, small_interval)
     fig.savefig("/tmp/test_coolbox_bam.pdf")
-    bam = BAM(bam_path, style="coverage")
+    bam = BAM(bam_path, plot_type="coverage")
     fig, ax = plt.subplots()
     bam.plot_genome_range(ax, test_interval)
-    fig.savefig("/tmp/test_coolbox_bam_stylecov.pdf")
+    fig.savefig("/tmp/test_coolbox_bam_typecov.pdf")
     bam.fetch_data(empty_interval)
 
 
