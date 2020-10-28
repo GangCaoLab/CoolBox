@@ -42,7 +42,7 @@ def test_bed():
 
 
 def test_arcs():
-    arcs = Arcs(f"{DATA_DIR}/arcs_{test_itv}.arcs")
+    arcs = Arcs(f"{DATA_DIR}/bedpe_{test_itv}.bedpe")
     assert arcs.fetch_data(test_interval) is not None
     fig, ax = plt.subplots()
     arcs.plot_genome_range(ax, test_interval)
@@ -89,5 +89,6 @@ if __name__ == "__main__":
     #test_xaxis()
     #test_gtf()
     #test_bam()
-    test_bedgraph()
+    #test_bedgraph()
+    test_arcs()
 

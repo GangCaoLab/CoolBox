@@ -8,7 +8,8 @@ from coolbox.utilities import op_err_msg, get_feature_stack, get_coverage_stack
 __all__ = [
     "Spacer", "HLine", "XAxis", "Bed", "TADs",
     "BigWig", "ABCompartment", "BedGraph",
-    "Arcs", "Cool", "DotHiC", "HicCompare", "Virtual4C",
+    "Arcs", "BEDPE",
+    "Cool", "DotHiC", "HicCompare", "Virtual4C",
     "Ideogram", "GTF", "BAM"
 ]
 
@@ -539,7 +540,7 @@ class BedGraph(Track, PlotBedGraph, FetchBedGraph):
         super().__init__(properties_dict)
 
 
-class Arcs(Track, PlotArcs, FetchArcs):
+class _Arcs(Track, PlotBEDPE, FetchBEDPE):
     """
     Arcs(link) track.
 
@@ -563,6 +564,12 @@ class Arcs(Track, PlotArcs, FetchArcs):
     orientation : str, optional
         Track orientation, use 'inverted' for inverted track plot.
 
+    point_at : str, optional
+        Link anchor point method: 'start', 'end', or 'mid', default 'mid'
+
+    score_to_width : str, optional
+        Mapping of score to width, default: '0.5 + sqrt(score)'
+
     title : str, optional
         Label text. default ''
 
@@ -577,14 +584,28 @@ class Arcs(Track, PlotArcs, FetchArcs):
 
         properties_dict = {
             'file': file_,
-            'height': Arcs.DEFAULT_HEIGHT,
-            'color': Arcs.DEFAULT_COLOR,
-            'alpha': Arcs.DEFAULT_ALPHA,
+            'height': self.__class__.DEFAULT_HEIGHT,
+            'color': self.__class__.DEFAULT_COLOR,
+            'alpha': self.__class__.DEFAULT_ALPHA,
             'title': '',
+            'point_at': 'mid',
+            'score_to_width': '0.5 + sqrt(score)'
         }
         properties_dict.update(kwargs)
 
         super().__init__(properties_dict)
+
+
+class BEDPE(_Arcs):
+    pass
+
+
+def Arcs(file_, *args, **kwargs):
+    """Compose Arcs track(.bedpe, .pairs), determine type by file extension."""
+    if file_.endswith(".bedpe") or file_.endswith('.bedpe.bgz'):
+        return BEDPE(file_, *args, **kwargs)
+    else:
+        raise NotImplementedError("Arcs track only support .bedpe or .pairs input format.")
 
 
 class TADs(Track, PlotTADs, FetchBed):
@@ -765,6 +786,15 @@ class DotHiC(Track, PlotDotHiC, FetchDotHiC):
         properties_dict['color'] = properties_dict['cmap']
 
         super().__init__(properties_dict)
+
+
+def HiCMat(file_, *args, **kwargs):
+    if file_.endswith(".hic"):
+        return DotHiC(file_, *args, **kwargs)
+    elif file_.endswith(".cool") or file_.endswith(".mcool"):
+        return Cool(file_, *args, **kwargs)
+    else:
+        raise NotImplementedError("Hi-C Matrix only support .hic or .cool input format.")
 
 
 class HicCompare(Track, PlotHicCompare):

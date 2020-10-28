@@ -1,24 +1,81 @@
 import numpy as np
 
 from coolbox.utilities import (
-    change_chrom_names,
-    get_logger
+    GenomeRange,
+    to_gr,
+    get_logger,
 )
 
 from coolbox.plots.track.base import TrackPlot
+from matplotlib.patches import Arc
 
 
 log = get_logger(__name__)
 
 
-class PlotArcs(TrackPlot):
+class PlotArcs(object):
 
+    def plot_arcs(self, ax, genome_range, intervals):
+        """
+        Parameters
+        ----------
+        intervals : List[Tuple(int, int, float)]
+            List of intervals (start, end, score).
+        """
+        gr = to_gr(genome_range)
+        height = self.properties.get('height', 1.0)
+        max_diameter = 0
+        alpha = self.properties.get('alpha', 1.0)
+
+        for itv in intervals:
+            start, end, score = itv
+
+            line_width = self.__get_linewidth(score)
+
+            color = self.properties['color']
+
+            diameter = (end - start)
+            center = (start + end) / 2
+            if diameter > max_diameter:
+                max_diameter = diameter
+            ax.plot([center], [diameter])
+            arc = Arc(
+                (center, 0), diameter,
+                height*2, 0, 0, 180,
+                color=color,
+                alpha=alpha,
+                lw=line_width,
+            )
+            ax.add_patch(arc)
+
+        # increase max_diameter slightly to avoid cropping of the arcs.
+        #       max_diameter += max_diameter * 0.05
+        height += height * 0.05
+        self.__adjust_yaxis(ax, height)
+
+        ax.set_xlim(gr.start, gr.end)
+
+    def __get_linewidth(self, score):
+        if 'line_width' in self.properties:
+            return float(self.properties['line_width'])
+        elif 'score_to_width' in self.properties:
+            try:
+                return eval(self.properties['score_to_width'])
+            except Exception:
+                pass
+        line_width = 0.5 * np.sqrt(score)
+        return line_width
+
+    def __adjust_yaxis(self, ax, height):
+        if 'orientation' in self.properties and self.properties['orientation'] == 'inverted':
+            ax.set_ylim(height, 0.001)
+        else:
+            ax.set_ylim(-0.001, height)
+
+
+class PlotBEDPE(TrackPlot, PlotArcs):
     def __init__(self, *args, **kwarg):
         TrackPlot.__init__(self, *args, **kwarg)
-        # the file format expected is similar to file format of links in
-        # circos:
-        # chr1 100 200 chr1 250 300 0.5
-        # where the last value is a score.
 
         if 'color' not in self.properties:
             self.properties['color'] = 'blue'
@@ -26,52 +83,26 @@ class PlotArcs(TrackPlot):
         if 'alpha' not in self.properties:
             self.properties['alpha'] = 0.8
 
-    def plot(self, ax, chrom_region, region_start, region_end):
+    def plot(self, ax, region_chrom, region_start, region_end):
         """
         Makes and arc connecting two points on a linear scale representing
         interactions between Hi-C bins.
         """
         self.ax = ax
-
-        from matplotlib.patches import Arc
-        height = 1
-        max_diameter = 0
-        count = 0
-        if chrom_region not in list(self.interval_tree):
-            chrom_region = change_chrom_names(chrom_region)
-        arcs_in_region = sorted(self.interval_tree[chrom_region][region_start:region_end])
-
-        for idx, interval in enumerate(arcs_in_region):
-            # skip arcs whose start and end are outside the plotted region
-            if interval.begin < region_start and interval.end > region_end:
-                continue
-
-            if 'line_width' in self.properties:
-                line_width = float(self.properties['line_width'])
+        gr = GenomeRange(region_chrom, region_start, region_end)
+        itv_df = self.fetch_intervals(gr)
+        point_at = self.properties.get('point_at', 'mid')
+        intervals = []
+        for _, row in itv_df.iterrows():
+            if point_at == 'start':
+                s, e = row['start1'], row['start2']
+            elif point_at == 'end':
+                s, e = row['end1'], row['end2']
             else:
-                line_width = 0.5 * np.sqrt(interval.data)
-
-            diameter = (interval.end - interval.begin)
-            center = (interval.begin + interval.end) / 2
-            if diameter > max_diameter:
-                max_diameter = diameter
-            count += 1
-            ax.plot([center], [diameter])
-            ax.add_patch(Arc((center, 0), diameter,
-                             height*2, 0, 0, 180, color=self.properties['color'], lw=line_width))
-
-        # increase max_diameter slightly to avoid cropping of the arcs.
-#       max_diameter += max_diameter * 0.05
-        height += height * 0.05
-        log.debug("{} were arcs plotted".format(count))
-        if 'orientation' in self.properties and self.properties['orientation'] == 'inverted':
-            ax.set_ylim(height, 0.001)
-        else:
-            ax.set_ylim(-0.001, height)
-
-        ax.set_xlim(region_start, region_end)
-        log.debug('title is {}'.format(self.properties['title']))
-
+                s = (row['start1'] + row['end1']) // 2
+                e = (row['start2'] + row['end2']) // 2
+            s, e = sorted([s, e])
+            intervals.append((s, e, row['score']))
+        self.plot_arcs(ax, gr, intervals)
         self.plot_label()
-
 

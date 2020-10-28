@@ -30,7 +30,7 @@ def test_bigwig_coverage():
 def test_arcs_coverage():
     frame = XAxis() + \
         BigWig(f"{DATA_DIR}/bigwig_{test_itv}.bw", style="fill", alpha=0.5) + \
-        ArcsCoverage(f"{DATA_DIR}/arcs_{test_itv}.arcs")
+        ArcsCoverage(f"{DATA_DIR}/bedpe_{test_itv}.bedpe")
     fig = frame.plot(test_interval)
     fig.savefig("/tmp/test_coolbox_arcscov.pdf")
 

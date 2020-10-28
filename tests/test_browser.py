@@ -13,7 +13,7 @@ def test_browser():
     frame = XAxis() + \
             Cool(f"{DATA_DIR}/cool_{test_itv}.mcool") + \
             Spacer(1) + \
-            Arcs(f"{DATA_DIR}/arcs_{test_itv}.arcs") + Inverted() + \
+            Arcs(f"{DATA_DIR}/bedpe_{test_itv}.bedpe") + Inverted() + \
             GTF(f"{DATA_DIR}/gtf_{test_itv}.gtf") + TrackHeight(7) + \
             Spacer(1) + \
             BAM(f"{DATA_DIR}/bam_{test_itv}.bam") + \

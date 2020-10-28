@@ -2,7 +2,7 @@ from .bed import (PlotBed, PlotTADs)
 from .bedgraph import PlotBedGraph
 from .bigwig import (PlotBigWig, PlotABCompartment)
 from .pseudo import (PlotSpacer, PlotHLine, PlotXAxis)
-from .arcs import PlotArcs
+from .arcs import PlotBEDPE
 from coolbox.plots.track.hicmatrix import PlotCool, PlotDotHiC
 from .hiccompare import PlotHicCompare
 from .virtual4C import PlotVirtual4C
