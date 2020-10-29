@@ -10,7 +10,7 @@ from coolbox.utilities import GenomeRange
 from .bigwig import FetchBigWig
 from .bedgraph import FetchBedGraph
 from .bed import FetchBed
-from .arcs import FetchBEDPE
+from .arcs import FetchBEDPE, FetchPairs
 from .cool import FetchCool
 from .dothic import FetchDotHiC
 from .v4c import FetchVirtual4C
@@ -20,7 +20,8 @@ from .bam import FetchBAM
 
 __all__ = [
     "FetchBigWig", "FetchBedGraph", "FetchBed",
-    "FetchBEDPE", "FetchCool", "FetchDotHiC",
+    "FetchBEDPE", "FetchPairs",
+    "FetchCool", "FetchDotHiC",
     "FetchVirtual4C", "FetchGTF",
     "FetchFrame", "FetchBAM"
 ]

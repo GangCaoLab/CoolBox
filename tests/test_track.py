@@ -41,12 +41,27 @@ def test_bed():
     bed.fetch_data(empty_interval)
 
 
-def test_arcs():
-    arcs = Arcs(f"{DATA_DIR}/bedpe_{test_itv}.bedpe")
+def test_bedpe():
+    arcs = BEDPE(f"{DATA_DIR}/bedpe_{test_itv}.bedpe")
     assert arcs.fetch_data(test_interval) is not None
     fig, ax = plt.subplots()
     arcs.plot_genome_range(ax, test_interval)
     arcs.fetch_data(empty_interval)
+
+
+def test_pairs():
+    arcs = Pairs(f"{DATA_DIR}/pairs_{test_itv}.pairs")
+    assert arcs.fetch_data(test_interval) is not None
+    fig, ax = plt.subplots()
+    arcs.plot_genome_range(ax, test_interval)
+    arcs.fetch_data(empty_interval)
+
+
+def test_arcs():
+    arcs = Arcs(f"{DATA_DIR}/bedpe_{test_itv}.bedpe")
+    assert isinstance(arcs, BEDPE)
+    arcs = Arcs(f"{DATA_DIR}/pairs_{test_itv}.pairs")
+    assert isinstance(arcs, Pairs)
 
 
 def test_gtf():

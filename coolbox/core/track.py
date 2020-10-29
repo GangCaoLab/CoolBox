@@ -8,7 +8,7 @@ from coolbox.utilities import op_err_msg, get_feature_stack, get_coverage_stack
 __all__ = [
     "Spacer", "HLine", "XAxis", "Bed", "TADs",
     "BigWig", "ABCompartment", "BedGraph",
-    "Arcs", "BEDPE",
+    "Arcs", "BEDPE", "Pairs",
     "Cool", "DotHiC", "HicCompare", "Virtual4C",
     "Ideogram", "GTF", "BAM"
 ]
@@ -540,7 +540,7 @@ class BedGraph(Track, PlotBedGraph, FetchBedGraph):
         super().__init__(properties_dict)
 
 
-class _Arcs(Track, PlotBEDPE, FetchBEDPE):
+class _Arcs(Track):
     """
     Arcs(link) track.
 
@@ -584,9 +584,9 @@ class _Arcs(Track, PlotBEDPE, FetchBEDPE):
 
         properties_dict = {
             'file': file_,
-            'height': self.__class__.DEFAULT_HEIGHT,
-            'color': self.__class__.DEFAULT_COLOR,
-            'alpha': self.__class__.DEFAULT_ALPHA,
+            'height': self.DEFAULT_HEIGHT,
+            'color': self.DEFAULT_COLOR,
+            'alpha': self.DEFAULT_ALPHA,
             'title': '',
             'point_at': 'mid',
             'score_to_width': '0.5 + sqrt(score)'
@@ -596,14 +596,22 @@ class _Arcs(Track, PlotBEDPE, FetchBEDPE):
         super().__init__(properties_dict)
 
 
-class BEDPE(_Arcs):
-    pass
+class BEDPE(_Arcs, PlotBEDPE, FetchBEDPE):
+    DEFAULT_COLOR = '#3297dc'
+    DEFAULT_ALPHA = 0.8
+
+
+class Pairs(_Arcs, PlotPairs, FetchPairs):
+    DEFAULT_COLOR = '#dc9732'
+    DEFAULT_ALPHA = 0.8
 
 
 def Arcs(file_, *args, **kwargs):
     """Compose Arcs track(.bedpe, .pairs), determine type by file extension."""
     if file_.endswith(".bedpe") or file_.endswith('.bedpe.bgz'):
         return BEDPE(file_, *args, **kwargs)
+    elif file_.endswith(".pairs") or file_.endswith('.pairs.bgz'):
+        return Pairs(file_, *args, **kwargs)
     else:
         raise NotImplementedError("Arcs track only support .bedpe or .pairs input format.")
 

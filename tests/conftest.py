@@ -1,5 +1,4 @@
 import os
-import subprocess as subp
 import os.path as osp
 
 

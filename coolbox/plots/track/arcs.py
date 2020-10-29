@@ -86,7 +86,7 @@ class PlotBEDPE(TrackPlot, PlotArcs):
     def plot(self, ax, region_chrom, region_start, region_end):
         """
         Makes and arc connecting two points on a linear scale representing
-        interactions between Hi-C bins.
+        interactions between bins.
         """
         self.ax = ax
         gr = GenomeRange(region_chrom, region_start, region_end)
@@ -106,3 +106,30 @@ class PlotBEDPE(TrackPlot, PlotArcs):
         self.plot_arcs(ax, gr, intervals)
         self.plot_label()
 
+
+class PlotPairs(TrackPlot, PlotArcs):
+
+    def __init__(self, *args, **kwarg):
+        TrackPlot.__init__(self, *args, **kwarg)
+
+        if 'color' not in self.properties:
+            self.properties['color'] = 'cyan'
+
+        if 'alpha' not in self.properties:
+            self.properties['alpha'] = 0.7
+
+    def plot(self, ax, region_chrom, region_start, region_end):
+        """
+        Makes and arc connecting two points on a linear scale representing
+        interactions between bins.
+        """
+        self.ax = ax
+        gr = GenomeRange(region_chrom, region_start, region_end)
+        itv_df = self.fetch_intervals(gr)
+        intervals = []
+        for _, row in itv_df.iterrows():
+            s, e = row['pos1'], row['pos2']
+            s, e = sorted([s, e])
+            intervals.append((s, e, 1))
+        self.plot_arcs(ax, gr, intervals)
+        self.plot_label()
