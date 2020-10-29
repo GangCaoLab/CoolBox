@@ -23,37 +23,43 @@ class PlotArcs(object):
             List of intervals (start, end, score).
         """
         gr = to_gr(genome_range)
-        height = self.properties.get('height', 1.0)
-        max_diameter = 0
+        max_height = self.properties.get('height', 1.0)
         alpha = self.properties.get('alpha', 1.0)
+        self.__adjust_yaxis(ax, max_height)
+        ax.set_xlim(gr.start, gr.end)
+        color = self.properties['color']
+
+        if len(intervals) == 0:
+            return
+
+        max_itv = max(intervals, key=lambda t: t[1]-t[0])
+        max_diameter = max_itv[1] - max_itv[0]
 
         for itv in intervals:
             start, end, score = itv
-
             line_width = self.__get_linewidth(score)
-
-            color = self.properties['color']
-
             diameter = (end - start)
+            height = 2 * self.__get_height(max_height, max_diameter, diameter)
             center = (start + end) / 2
-            if diameter > max_diameter:
-                max_diameter = diameter
             ax.plot([center], [diameter])
             arc = Arc(
                 (center, 0), diameter,
-                height*2, 0, 0, 180,
+                height, 0, 0, 180,
                 color=color,
                 alpha=alpha,
                 lw=line_width,
             )
             ax.add_patch(arc)
 
-        # increase max_diameter slightly to avoid cropping of the arcs.
-        #       max_diameter += max_diameter * 0.05
-        height += height * 0.05
-        self.__adjust_yaxis(ax, height)
-
-        ax.set_xlim(gr.start, gr.end)
+    def __get_height(self, max_height, max_diameter, diameter):
+        max_height = 0.97 * max_height
+        key_ = 'diameter_to_height'
+        if key_ in self.properties:
+            try:
+                return eval(self.properties[key_])
+            except Exception:
+                pass
+        return max_height * diameter / max_diameter
 
     def __get_linewidth(self, score):
         if 'line_width' in self.properties:

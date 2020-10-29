@@ -568,7 +568,12 @@ class _Arcs(Track):
         Link anchor point method: 'start', 'end', or 'mid', default 'mid'
 
     score_to_width : str, optional
-        Mapping of score to width, default: '0.5 + sqrt(score)'
+        Mapping function of score to width, default: '0.5 + sqrt(score)'
+
+    diameter_to_height : str, optional
+        Mapping function of arc diameter(interval end - start) to height.
+        You can specify to 'max_diameter' let all arcs has same height.
+        default 'max_height * diameter / max_diameter'.
 
     title : str, optional
         Label text. default ''
@@ -577,6 +582,7 @@ class _Arcs(Track):
         Track's name.
     """
 
+    DEFAULT_HEIGHT = 2.0
     DEFAULT_COLOR = '#3297dc'
     DEFAULT_ALPHA = 0.8
 
@@ -589,7 +595,8 @@ class _Arcs(Track):
             'alpha': self.DEFAULT_ALPHA,
             'title': '',
             'point_at': 'mid',
-            'score_to_width': '0.5 + sqrt(score)'
+            'score_to_width': '0.5 + sqrt(score)',
+            'diameter_to_height': 'max_height * diameter / max_diameter',
         }
         properties_dict.update(kwargs)
 
@@ -597,11 +604,13 @@ class _Arcs(Track):
 
 
 class BEDPE(_Arcs, PlotBEDPE, FetchBEDPE):
+    __doc__ = _Arcs.__doc__
     DEFAULT_COLOR = '#3297dc'
     DEFAULT_ALPHA = 0.8
 
 
 class Pairs(_Arcs, PlotPairs, FetchPairs):
+    __doc__ = _Arcs.__doc__
     DEFAULT_COLOR = '#dc9732'
     DEFAULT_ALPHA = 0.8
 
@@ -614,6 +623,9 @@ def Arcs(file_, *args, **kwargs):
         return Pairs(file_, *args, **kwargs)
     else:
         raise NotImplementedError("Arcs track only support .bedpe or .pairs input format.")
+
+
+Arcs.__doc__ = _Arcs.__doc__
 
 
 class TADs(Track, PlotTADs, FetchBed):
