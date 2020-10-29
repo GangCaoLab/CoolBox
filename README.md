@@ -32,8 +32,6 @@ TODO List:
 + Interactively show in independent web-page.
     + ref this [example](https://github.com/jupyter-widgets/ipywidgets/tree/master/examples/web3)
     + [voila](https://github.com/voila-dashboards/voila)
-+ Speed up loading.
-    + speed up Arcs loading with make index.
 + Optimizing plot
     + other ploting system(JS based)
 + Support more data type
