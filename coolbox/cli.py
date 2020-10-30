@@ -23,21 +23,15 @@ class CLI(object):
 
     1. Draw tracks within a genome range, save figure to a pdf file:
 
-        $ coolbox \
-            add XAxis - \
-            add Cool tests/test_data/cool_chr9_4000000_6000000.mcool - \
-            add BAM  tests/test_data/bam_chr9_4000000_6000000.bam - \
-            goto "chr9:4000000-6000000" - \
-            plot /tmp/coolbox_test.pdf
+        $ coolbox add XAxis - add BigWig test.bw - goto "chr1:5000000-6000000" - plot test.pdf
 
     2. Generate a notebook and run jupyter to open browser:
 
-        $ coolbox \
-            add XAxis - \
-            add Cool tests/test_data/cool_chr9_4000000_6000000.mcool - \
-            add BAM  tests/test_data/bam_chr9_4000000_6000000.bam - \
-            goto "chr9:4000000-6000000" - \
-            run_jupyter
+        $ coolbox add XAxis - add BigWig test.bw - goto "chr1:5000000-6000000" - run_jupyter
+
+    3. Run a independent web application.
+
+        $ coolbox add XAxis - add BigWig test.bw - goto "chr1:5000000-6000000" - run_webapp
 
     """
 
@@ -159,6 +153,20 @@ class CLI(object):
             self.goto(genome_range)
         fig = self.frame.plot(str(self.current_range))
         fig.savefig(fig_path)
+
+    def run_webapp(self, voila_args=""):
+        """Run a independent coolbox browser web app.
+        (Create notebook and run voila)
+
+        :param voila_args: Arguments for run jupyter.
+        """
+        i = 0
+        tmp_notebook = lambda: f"/tmp/coolbox_tmp.{i}.ipynb"
+        while osp.exists(tmp_notebook()):
+            i += 1
+        tmp = tmp_notebook()
+        self.gen_notebook(tmp, notes=False, figsave=False)
+        subp.check_call(f"voila {tmp} " + voila_args, shell=True)
 
     def end(self):
         """Terminate the CLI pipeline"""

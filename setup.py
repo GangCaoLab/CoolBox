@@ -5,11 +5,9 @@ import re
 
 classifiers = [
     "Development Status :: 3 - Alpha",
-    "Operating System :: OS Independent",
+    "Operating System :: POSIX",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.4",
-    "Programming Language :: Python :: 3.5",
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
@@ -62,9 +60,10 @@ setup(
     keywords=keywords,
     url='https://github.com/Nanguage/CoolBox',
     packages=find_packages(),
+    scripts=['scripts/coolbox'],
     include_package_data=True,
     zip_safe=False,
     classifiers=classifiers,
     install_requires=get_install_requires(),
-    python_requires='>=3.4, <4',
+    python_requires='>=3.6, <4',
 )

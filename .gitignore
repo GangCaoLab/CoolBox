@@ -4,8 +4,10 @@ tests/manual_tests.ipynb
 # wiki dir
 CoolBox.wiki/
 
-# test_data
-demo/data
+# test_data index files(.bai .tbi .px2)
+tests/test_data/*.bai
+tests/test_data/*.tbi
+tests/test_data/*.px2
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

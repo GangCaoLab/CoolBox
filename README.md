@@ -22,21 +22,13 @@ Documents:
 
 TODO List:
 
-+ Using in CLI and show in Qt Window.
-    + fire CLI to compose tracks.
-    + Panel in Qt.
-        - ref [qtvoila](https://luiztauffer.github.io/guacamole-data-science/posts/2020-04-20-qtvoila/)
 + Install with conda
     + Upload to [Bioconda](https://bioconda.github.io/)
 + Better documents.
-+ Interactively show in independent web-page.
-    + ref this [example](https://github.com/jupyter-widgets/ipywidgets/tree/master/examples/web3)
-    + [voila](https://github.com/voila-dashboards/voila)
 + Optimizing plot
     + other ploting system(JS based)
 + Support more data type
     + Image type
-    + BEDPE/Pairs (For Arcs plot)
 
 
 Thanks

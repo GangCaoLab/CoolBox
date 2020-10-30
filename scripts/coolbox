@@ -1,0 +1,7 @@
+#!/usr/bin/env python
+
+from coolbox.cli import CLI
+import fire
+
+fire.Fire(CLI)
+
