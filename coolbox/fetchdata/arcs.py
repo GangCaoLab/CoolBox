@@ -23,9 +23,9 @@ def index_bedpe(bgz_path):
 
 
 def pairix_query(bgz_file, query, second=None, split=True):
-    cmd = ['pairix', bgz_file, query]
     if second:
-        cmd.append(second)
+        query = query+"-"+second
+    cmd = ['pairix', bgz_file, query]
     p = subp.Popen(cmd, stdout=subp.PIPE)
     for line in p.stdout:
         line = line.decode('utf-8')
