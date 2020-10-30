@@ -36,9 +36,10 @@ def get_version():
 
 
 def get_long_description():
-    with open("README.md") as f:
-        desc = f.read()
-    return desc
+    #with open("README.md") as f:
+    #    desc = f.read()
+    #return desc
+    return "https://github.com/GangCaoLab/CoolBox"
 
 
 def get_install_requires():
@@ -58,7 +59,7 @@ setup(
     description='Jupyter notebook based genomic data visulization toolkit.',
     long_description=get_long_description(),
     keywords=keywords,
-    url='https://github.com/Nanguage/CoolBox',
+    url='https://github.com/GangCaoLab/CoolBox',
     packages=find_packages(),
     scripts=['scripts/coolbox'],
     include_package_data=True,

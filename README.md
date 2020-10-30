@@ -8,7 +8,7 @@ WIP
 
 Flexible, user-friendly genomic data visualization toolkit. 
 
-![](imgs/title.png)
+![](docs/images/title.png)
 
 Highlights:
 

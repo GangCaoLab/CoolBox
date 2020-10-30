@@ -12,6 +12,8 @@ LABEL tags="Bioinformatics,Genomics,Hi-C,Visualization"
 
 MAINTAINER nanguage@yahoo.com
 
+ENV version=0.2.1
+
 ENV MINICONDA https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
 
 ENV LD_ALL C.UTF-8
@@ -69,18 +71,14 @@ RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
 ENV PATH=/opt/conda/bin:$PATH
 
 # add channels
-RUN conda config --add channels r
 RUN conda config --add channels bioconda
 RUN conda upgrade conda
 
-# install dependency
-RUN conda install --yes pybigwig
-RUN pip install --upgrade pip
-RUN pip install jupyter ipywidgets
+# Install
+RUN wget https://github.com/GangCaoLab/CoolBox/archive/${version}.tar.gz
+RUN tar zxvf ${version}.tar.gz
+RUN cd CoolBox-${version} && conda env update --file environment.yml -n base && python -m pip install . --no-deps -vv
 RUN jupyter nbextension enable --py widgetsnbextension
-
-# install DLO-HiC-Tools
-RUN pip install coolbox
 
 
 CMD ["/bin/bash"]

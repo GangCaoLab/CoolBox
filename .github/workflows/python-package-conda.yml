@@ -22,5 +22,6 @@ jobs:
       run: |
         export PATH=$CONDA/bin:$PATH
         $CONDA/bin/conda install --yes pytest
+        $CONDA/bin/conda install -c conda-forge --yes pytest-tornasync
         export PYTHONPATH="./"
         $CONDA/bin/pytest
