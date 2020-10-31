@@ -352,7 +352,7 @@ def bgz_bed(bed_path, bgz_path):
         cmd += "zcat"
     else:
         cmd += "cat"
-    subp.check_call(cmd + f" {bed_path} | sort -k1,1 -k2,2 | bgzip > {bgz_path}",
+    subp.check_call(cmd + f" {bed_path} | sort -k1,1 -k2,2n | bgzip > {bgz_path}",
                     shell=True)
     return bgz_path
 
