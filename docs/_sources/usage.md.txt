@@ -1,2 +1,180 @@
 # Usage
 
+CoolBox draws on the API design of ggplot2, the idea of "Grammar of Graphics". In CoolBox you can compose tracks and features together to a complex object 
+with `+` operator, just like in ggplot2. This allows us to create our own genome browser object easily and flexibly.
+
+There are 6 kinds of basic graphic elements defined in the CoolBox API:
++ [Track](#Track)
+
+## Track
+Track is the most basic element in CoolBox API. Track is used to represent a object which is associated with a chromosome interval. 
+Now, CoolBox support fllowing tracks:
+
+| Track Type  | CoolBox API | Description |
+| :---------: | :---------: | :---------: |
+| [XAxis](./Pseudo#XAxis) | `coolbox.api.XAxis` | X axis of genome. |
+| [Spacer](./Pseudo#Spacer) | `coolbox.api.Spacer` | For add vertical space between two tracks. |
+| [BigWig](./BigWig-and-BedGraph#BigWig) | `coolbox.api.BigWig` | Track of bigWig file. |
+| [BedGraph](./BigWig-and-BedGraph#BedGraph) | `coolbox.api.BedGraph` | Track of bedgraph file. |
+| Bed | `coolbox.api.Bed` | Track of Bed file, for visualization genome annotation,like refSeq genes chromatin states. |
+| [TAD](./Hi\-C#TADs) | `coolbox.api.TAD` | Track for show TAD(topologically associated domains). |
+| [Arcs](./Arcs) | `coolbox.api.Arcs` | Show the chromosome interactions get from ChIA-PET or Hi-C data. |
+| [Cool](./Hi\-C#Cool) | `coolbox.api.Cool` | Show the chromosome contact matrix from Hi-C data, accept [cooler](https://github.com/mirnylab/cooler)'s `.cool` format. |
+| [DotHiC](./Hi\-C#DotHiC) | `coolbox.api.DotHiC` | Show the chromosome contact matrix from Hi-C data, accept [`.hic`](https://github.com/aidenlab/juicer/wiki/Data#hic-files) file format. |
+| [HicCompare](./Hi\-C#HicCompare) | `coolbox.api.HicCompare` | Two HiC data on each half triangular matrix, for compare them conveniently. |  
+| [Virtual4C](./Hi\-C#Virtual4C) | `coolbox.api.Virtual4C` | Virtual 4C track, using Hi-C data to mimic 4C. |  
+
+You can create them by instantiation the classes in the `coolbox.api`. For example, create a XAxis track:
+``` Python
+>>> from coolbox.api import XAxis
+>>> xaxis = XAxis()
+```
+Create a bigWig track:
+``` Python
+>>> from coolbox.api import BigWig
+>>> bw = BigWig("path/to/bigwig")
+```
+
+### Track's properties
+All track's properties(feature) which directly associate with it's appearance are stored in a dictionary `self.properties`. This dictionary is the bridge between the API and plotting system. But modify it directly is not recommanded, you should use the `Feature` object to modify the features of track, 
+see [Feature](./Basic-conceptions#feature) section.
+
+### Track's Coverages
+The coverages of a track is stored in a list object, it is the track object's attribute `self.coverages`. more about coverages see [Coverage](https://github.com/GangCaoLab/CoolBox/wiki/Basic-conceptions#coverage) section.
+
+More detail about each kind of tracks, see their own wiki page.
+
+## Frame
+
+Then, the upper level graphic element is `Frame`, which means a stack of tracks. Frame object can be
+construct by `+` operation between tracks. For example:
+
+``` Python
+>>> frame = XAxis() + BigWig("/path/to/bigwig")
+```
+
+Here, we have constucted an frame contain two tracks: a xaxis track and a bigwig track.
+
+In the Frame level, you can draw the figure by call the `.plot` method, it takes three required parameters:
+`chrom`, `start` and `end`, which denote a region of genome. For example:
+
+![](./img/basic-conceptions/ex1.png)
+
+It will draw the frame under the genome region 'chr1:1000000-2000000', and return a `matplotlib.figure.Figure` object. Actually, you can even use a single expression to create a very complex frame object, which contain many tracks, features and coverages. In most situation CoolBox will determine the operational priority correctlly. For example:
+
+``` Python
+frame = XAxis() +\
+        Cool("data/K562_MbolI_5kb.cool") + MinValue(1e-1) +\
+        Arcs("data/preprocessed/K562_MbolI_looplist.arcs") + Inverted() +\
+        Spacer(1) +\
+        Bed("data/preprocessed/K562_chromHMM.sorted.bed", display="collapsed") + TrackHeight(0.6) +\
+        Spacer(1) +\
+        Bed("data/preprocessed/refGene.sorted.bed") + TrackHeight(10) +\
+        Spacer(1) +\
+        BigWig("data/K562_chiapet.bigWig") + Color("#ff9c9c") +\
+        Arcs("data/preprocessed/K562_chiapet_interaction.arcs") + Inverted() +\
+        BigWig("data/K562_H3K27ac.bigWig")  + Color("#fcbe07") + Title("H3K27ac") +\
+        BigWig("data/K562_H3K27me3.bigWig") + Color("#fcbe07") + Title("H3K27me3") +\
+        BigWig("data/K562_H3K4me3.bigWig")  + Color("#fcbe07") + Title("H3K4me3") +\
+        BigWig("data/K562_RNASeq.bigWig") + Color("#287f2f") +\
+        XAxis()
+```
+
+### Track container
+
+The tracks in the frame is stored in a list object, it's `self.tracks`.
+
+## Feature
+
+Feature denote the properties of `Track` and `Frame`. `Feature` objects are used to modify the appearance and behavior of track and frame.
+In CoolBox, the composition between track and feature also use the `+` operator. For example, we add a `Color` feature to a bigwig track:
+
+![](./img/basic-conceptions/ex2.png)
+
+Now, CoolBox support fllowing types of features:
+
+| Feature Type | CoolBox API | Description |
+| :----------: | :---------: | :---------: |
+| Color | `CoolBox.api.Color` | Feature for modify track's color. |
+| ColorMap | `CoolBox.api.ColorMap` | Feature for modify HiC(Cool) track's color. |
+| TrackHeight | `CoolBox.api.TrackHeight` | Track's height, unit: cm. |
+| Inverted | `CoolBox.api.Inverted` | Feature for invert the orientation of track. |
+| Title | `CoolBox.api.Title` | Track title. |
+| MaxValue | `CoolBox.api.MaxValue` | Maximum value of the track. |
+| MinValue | `CoolBox.api.MinValue` | Minimum value of the track. |
+| HistStyle | `CoolBox.api.HistStyle` | Style of BigWig and BedGraph track. |
+| ShowDataRange | `CoolBox.api.ShowDataRange` | ShowDataRange or not. |
+
+### Frame feature
+
+`FrameFeature` is a special kind of `Feature`, it is used to modify the properties of frame.
+Now only has a kind of `FrameFeature`, it is `FrameTitle`, it is used to add title to the frame. 
+
+### with statement
+
+There are an another more convenienty way to add features to more than one tracks.
+You can use Python's "with statement" with the `Feature` object, the tracks created under the with block
+will have corresponding properties. For example:
+
+![](./img/basic-conceptions/ex3.png)
+
+### `*` operator
+
+In addition, you can use `*` operator add feature to all tracks in a frame. For example:
+
+![](./img/basic-conceptions/ex4.png)
+
+
+## Coverage
+
+Coverage is the graphic element on the upper layer of tracks. The composition rule about coverage is
+similar to `Feature` (`+`, `*` operator and `with statement`).
+
+More details see [Coverage]().
+
+
+## Browser and Widget Panel
+
+`Browser` object is the top level element in CoolBox, it support the GUI for explore the genome data.
+By using browser, you can plot the frame by GUI widgets,
+instead of call the `.plot` method everytime when the genome region is changed.
+
+There are two different way to create browser object, by instantiate `coolbox.api.Browser` class,
+or `+` the `Frame` with `WidgetsPanel`.
+
+For example:
+
+```Python
+>>> bsr = Browser(frame)
+```
+
+Or,
+
+```Python
+>>> bsr = frame + WidgetsPanel()
+```
+
+And, when you want to show the frame and browser's GUI panel, just call `.show` method, for example:
+
+![](./img/basic-conceptions/ex5.png)
+
+## Composition rule
+
+The composition rule of CoolBox elements:
+
+```
+Track + Track = Frame
+Track + Feature = Track
+Track + Coverage = Track
+Frame + Track = Frame
+Frame + Coverage = Frame
+Frame + Feature = Frame
+Frame + FrameFeature = Frame
+Frame + Frame = Frame
+Frame + WidgetsPanel = Browser
+Coverage + Feature = Coverage
+
+Frame * Feature = Frame
+Frame * Coverage = Frame
+```
+

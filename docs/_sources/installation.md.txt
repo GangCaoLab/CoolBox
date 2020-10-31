@@ -1,14 +1,17 @@
-# Installation
+# Installation & Usage
+
+## Install CoolBox
 
 Recommend use [conda](https://docs.conda.io/en/latest/miniconda.html) to manage environments.
 
-## Install from bioconda channel
+You can install from the bioconda channel:
 
 ```bash
 $ conda install -c bioconda coolbox
 ```
 
-## Install from source
+Or install from the source code,
+by this way you can use the latest updated features:
 
 ```bash
 $ git clone https://github.com/GangCaoLab/CoolBox.git
@@ -17,7 +20,38 @@ $ conda env create --file environment.yml
 $ python -m pip install . --no-deps -vv
 ```
 
-## For Windows Users
+## Usage
+
+There are two kinds of way to use CoolBox. 
+Directly using it's Python API or using the command line interface.
+
+### API
+
+User can import `coolbox` in Jupyter notebook to 
+draw figures or compose a Browser object to
+interactively explore their genomic data. 
+
+![browser](../images/browser_compose_1.png)
+
+For this purpose, you can reference this
+[notebook walk through](https://binder_todo).
+
+
+Or just import `coolbox` as a
+Python plot package use in their own plot
+script(see [example](https://todo)).
+
+
+### CLI
+
+Their are another more convenient way
+to use CoolBox for command line user.
+They can directly draw genomic track plot or
+compose browser by simple command line:
+
+todo(cmd figure)
+
+### For Windows Users
 
 CoolBox not support run on Windows natively for now.
 But you can use the WSL(Windows Subsystem for Linux) to run it.
@@ -25,7 +59,7 @@ See [this](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
 
 Or, you can choice to use docker on Windows.
 
-## Using Docker
+### Docker
 
 Pull the CoolBox docker image:
 

@@ -12,7 +12,6 @@ Welcome to CoolBox's documentation!
    :maxdepth: 2
 
    installation
-   usage
 
 
 
