@@ -12,6 +12,7 @@ Welcome to CoolBox's documentation!
    :maxdepth: 2
 
    installation
+   quick_start_API.ipynb
 
 
 

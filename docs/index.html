@@ -30,6 +30,7 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -83,6 +84,7 @@
             
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation &amp; Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start_API.html">Quick start (API)</a></li>
 </ul>
 
             
@@ -148,7 +150,31 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="welcome-to-coolbox-s-documentation">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="welcome-to-coolbox-s-documentation">
 <h1>Welcome to CoolBox’s documentation!<a class="headerlink" href="#welcome-to-coolbox-s-documentation" title="Permalink to this headline">¶</a></h1>
 <img alt="_images/title.png" src="_images/title.png" />
 <div class="toctree-wrapper compound">
@@ -156,6 +182,16 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation &amp; Usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#install-coolbox">Install CoolBox</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#usage">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start_API.html">Quick start (API)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quick_start_API.html#Data-preparation">Data preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start_API.html#Track-is-the-basic-element">Track is the basic element</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start_API.html#Compose-Tracks-to-Frame">Compose Tracks to Frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start_API.html#Adjust-Tracks-and-Frame-with-Feature">Adjust Tracks and Frame with Feature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start_API.html#Coverage">Coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start_API.html#Explore-Genomic-Data-with-coolbox.api.Browser">Explore Genomic Data with <code class="docutils literal notranslate"><span class="pre">coolbox.api.Browser</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start_API.html#Fetch-precise-data-use-.fetch_data-API">Fetch precise data use <code class="docutils literal notranslate"><span class="pre">.fetch_data</span></code> API</a></li>
 </ul>
 </li>
 </ul>
