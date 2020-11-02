@@ -13,6 +13,7 @@ Welcome to CoolBox's documentation!
 
    installation
    quick_start_API.ipynb
+   quick_start_CLI.ipynb
 
 
 

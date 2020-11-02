@@ -34,7 +34,7 @@ interactively explore their genomic data.
 ![browser](../images/browser_compose_1.png)
 
 For this purpose, you can reference this
-[notebook walk through](https://binder_todo).
+[Quickstart (API) page]().
 
 
 Or just import `coolbox` as a
@@ -49,7 +49,7 @@ to use CoolBox for command line user.
 They can directly draw genomic track plot or
 compose browser by simple command line:
 
-todo(cmd figure)
+![fig_CLI](../images/fig_CLI.png)
 
 ### For Windows Users
 

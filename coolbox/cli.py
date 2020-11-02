@@ -5,7 +5,8 @@ import subprocess as subp
 import fire
 import nbformat as nbf
 
-from coolbox.api import *
+import coolbox
+import coolbox.api
 from coolbox.utilities import get_logger
 
 
@@ -39,9 +40,13 @@ class CLI(object):
         self.source = "Frame()"
         self.genome = genome
         if genome_range and isinstance(genome_range, str):
-            self.frame = Frame(genome_range=genome_range)
+            self.frame = coolbox.api.Frame(genome_range=genome_range)
         else:
-            self.frame = Frame()
+            self.frame = coolbox.api.Frame()
+
+    def version(self):
+        """print coolbox version"""
+        print(coolbox.__version__)
 
     def set_genome(self, genome):
         """Set reference genome for browser object.
@@ -69,10 +74,12 @@ class CLI(object):
         """Add a Element(Track, Coverage, Feature)
 
         :param elem_str: Element type string. Like BAM, BigWig, Cool ...
+        Full list of Track types
+        can be found here(https://gangcaolab.github.io/CoolBox/quick_start_API.html#Track-types).
         :param args: Positional args for create elements.
         :param kwargs: Keyword args for create elements.
         """
-        elem_tp = eval(elem_str)
+        elem_tp = eval("coolbox.api." + elem_str)
         elem = elem_tp(*args, **kwargs)
         self.frame = self.frame + elem
         compose_code = elem_str + "("

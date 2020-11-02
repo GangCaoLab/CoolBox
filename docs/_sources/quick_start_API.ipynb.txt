@@ -4,7 +4,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# Quick start (API)\n",
+    "# Quickstart (API)\n",
     "\n",
     "\n",
     "This document is for teach the basic usage of `coolbox` API and explain some basic conceptions.\n",
