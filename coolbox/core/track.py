@@ -9,7 +9,8 @@ __all__ = [
     "Spacer", "HLine", "XAxis", "Bed", "TADs",
     "BigWig", "ABCompartment", "BedGraph",
     "Arcs", "BEDPE", "Pairs",
-    "Cool", "DotHiC", "HicCompare", "Virtual4C",
+    "HiCMat", "Cool", "DotHiC",
+    "HicCompare", "Virtual4C",
     "Ideogram", "GTF", "BAM"
 ]
 

@@ -8,6 +8,7 @@ CoolBox.wiki/
 tests/test_data/*.bai
 tests/test_data/*.tbi
 tests/test_data/*.px2
+tests/test_data/*.bgz
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
