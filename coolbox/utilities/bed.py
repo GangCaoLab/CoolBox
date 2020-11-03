@@ -70,7 +70,7 @@ def file_to_intervaltree(file_name):
 
         if prev_chrom == chrom:
             assert prev_start <= start, \
-                "Bed file not sorted. Please use a sorted bed file.\n{}{} ".format(prev_line, line)
+                "BED file not sorted. Please use a sorted bed file.\n{}{} ".format(prev_line, line)
 
         if chrom not in interval_tree:
             interval_tree[chrom] = IntervalTree()
@@ -201,7 +201,7 @@ class ReadBed(object):
         bed = self.get_bed_interval(line)
         if self.prev_chrom == bed.chromosome:
             assert self.prev_start <= bed.start, \
-                "Bed file not sorted. Please use a sorted bed file.\n" \
+                "BED file not sorted. Please use a sorted bed file.\n" \
                 "File: {}\n" \
                 "Previous line: {}\n Current line{} ".format(self._file_name, self.prev_line, line)
 
@@ -222,7 +222,7 @@ class ReadBed(object):
         bed = self.get_bed_interval(line)
         if self.prev_chrom == bed.chromosome:
             assert self.prev_start <= bed.start, \
-                "Bed file not sorted. Please use a sorted bed file.\n" \
+                "BED file not sorted. Please use a sorted bed file.\n" \
                 "File: {}\n" \
                 "Previous line: {}\n Current line{} ".format(self._file_name, self.prev_line, line)
 

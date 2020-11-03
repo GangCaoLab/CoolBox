@@ -593,9 +593,9 @@ total 26M
 <td><p><a class="reference external" href="https://samtools.github.io/hts-specs/SAMv1.pdf">.bam</a></p></td>
 <td><p>BAM track for visualize the coverage or alignment.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Bed</p></td>
+<tr class="row-odd"><td><p>BED</p></td>
 <td><p><a class="reference external" href="https://genome.ucsc.edu/FAQ/FAQformat.html#format1">.bed</a></p></td>
-<td><p>Track of Bed file, for visualization genome annotation,like refSeq genes and chromatin states.</p></td>
+<td><p>Track of BED file, for visualization genome annotation,like refSeq genes and chromatin states.</p></td>
 </tr>
 <tr class="row-even"><td><p>GTF</p></td>
 <td><p><a class="reference external" href="https://genome.ucsc.edu/FAQ/FAQformat.html#format4">.gtf</a></p></td>
@@ -643,14 +643,14 @@ total 26M
 <h3>Other kinds of tracks:<a class="headerlink" href="#Other-kinds-of-tracks:" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="BED-track-:">
 <h4>BED track :<a class="headerlink" href="#BED-track-:" title="Permalink to this headline">¶</a></h4>
-<p>BED track used to show the genome annotation information like RefSeq or chromatin states. Here we have the RefSeq data, it can be visualized with <code class="docutils literal notranslate"><span class="pre">coolbox.api.Bed</span></code>:</p>
+<p>BED track used to show the genome annotation information like RefSeq or chromatin states. Here we have the RefSeq data, it can be visualized with <code class="docutils literal notranslate"><span class="pre">coolbox.api.BED</span></code>:</p>
 <p>Visualize RefSeq with CoolBox:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">Bed</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/bed_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.bed&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">TrackHeight</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">BED</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/bed_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.bed&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">TrackHeight</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
 
 <span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4700000-4900000&quot;</span><span class="p">)</span>
 </pre></div>

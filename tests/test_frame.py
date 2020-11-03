@@ -19,7 +19,7 @@ def test_frame():
         BAM(f"{DATA_DIR}/bam_{test_itv}.bam") +\
         BigWig(f"{DATA_DIR}/bigwig_{test_itv}.bw") + \
         Spacer(1) + \
-        Bed(f"{DATA_DIR}/bed_{test_itv}.bed") + TrackHeight(10)
+        BED(f"{DATA_DIR}/bed_{test_itv}.bed") + TrackHeight(10)
     fig = frame.plot(test_interval)
     tmp = "/tmp/test_coolbox_fig.pdf"
     fig.savefig(tmp)

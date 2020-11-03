@@ -6,7 +6,7 @@ from coolbox.utilities import op_err_msg, get_feature_stack, get_coverage_stack
 
 
 __all__ = [
-    "Spacer", "HLine", "XAxis", "Bed", "TADs",
+    "Spacer", "HLine", "XAxis", "BED", "TADs",
     "BigWig", "ABCompartment", "BedGraph",
     "Arcs", "BEDPE", "Pairs",
     "HiCMat", "Cool", "DotHiC",
@@ -274,9 +274,9 @@ class XAxis(Track, PlotXAxis):
         super().__init__(properties_dict)
 
 
-class Bed(Track, PlotBed, FetchBed):
+class BED(Track, PlotBed, FetchBed):
     """
-    Bed track.
+    BED track.
 
     Parameters
     ----------
@@ -284,10 +284,10 @@ class Bed(Track, PlotBed, FetchBed):
         Path to bed file.
 
     height : float, optional
-        Height of track. (Default: Bed.DEFAULT_HEIGHT)
+        Height of track. (Default: BED.DEFAULT_HEIGHT)
 
     fontsize : int, optional
-        Font size. (Default: Bed.DEFAULT_FONTSIZE)
+        Font size. (Default: BED.DEFAULT_FONTSIZE)
 
     color : str, optional
         Track color, 'bed_rgb' for auto specify color according to bed record.
@@ -333,10 +333,10 @@ class Bed(Track, PlotBed, FetchBed):
     def __init__(self, file_, **kwargs):
         properties_dict = {
             'file': file_,
-            'height': Bed.DEFAULT_HEIGHT,
+            'height': BED.DEFAULT_HEIGHT,
             'color': 'bed_rgb',
             'border_color': 'black',
-            'fontsize': Bed.DEFAULT_FONTSIZE,
+            'fontsize': BED.DEFAULT_FONTSIZE,
             'title': '',
             'labels': 'auto',
             'style': 'flybase',

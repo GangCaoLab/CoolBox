@@ -16,7 +16,7 @@ Now, CoolBox support fllowing tracks:
 | [Spacer](./Pseudo#Spacer) | `coolbox.api.Spacer` | For add vertical space between two tracks. |
 | [BigWig](./BigWig-and-BedGraph#BigWig) | `coolbox.api.BigWig` | Track of bigWig file. |
 | [BedGraph](./BigWig-and-BedGraph#BedGraph) | `coolbox.api.BedGraph` | Track of bedgraph file. |
-| Bed | `coolbox.api.Bed` | Track of Bed file, for visualization genome annotation,like refSeq genes chromatin states. |
+| BED | `coolbox.api.BED` | Track of BED file, for visualization genome annotation,like refSeq genes chromatin states. |
 | [TAD](./Hi\-C#TADs) | `coolbox.api.TAD` | Track for show TAD(topologically associated domains). |
 | [Arcs](./Arcs) | `coolbox.api.Arcs` | Show the chromosome interactions get from ChIA-PET or Hi-C data. |
 | [Cool](./Hi\-C#Cool) | `coolbox.api.Cool` | Show the chromosome contact matrix from Hi-C data, accept [cooler](https://github.com/mirnylab/cooler)'s `.cool` format. |
@@ -67,9 +67,9 @@ frame = XAxis() +\
         Cool("data/K562_MbolI_5kb.cool") + MinValue(1e-1) +\
         Arcs("data/preprocessed/K562_MbolI_looplist.arcs") + Inverted() +\
         Spacer(1) +\
-        Bed("data/preprocessed/K562_chromHMM.sorted.bed", display="collapsed") + TrackHeight(0.6) +\
+        BED("data/preprocessed/K562_chromHMM.sorted.bed", display="collapsed") + TrackHeight(0.6) +\
         Spacer(1) +\
-        Bed("data/preprocessed/refGene.sorted.bed") + TrackHeight(10) +\
+        BED("data/preprocessed/refGene.sorted.bed") + TrackHeight(10) +\
         Spacer(1) +\
         BigWig("data/K562_chiapet.bigWig") + Color("#ff9c9c") +\
         Arcs("data/preprocessed/K562_chiapet_interaction.arcs") + Inverted() +\

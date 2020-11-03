@@ -34,7 +34,7 @@ interactively explore their genomic data.
 ![browser](../images/browser_compose_1.png)
 
 For this purpose, you can reference this
-[Quickstart (API) page]().
+[Quickstart (API) page](https://gangcaolab.github.io/CoolBox/quick_start_API.html).
 
 
 Or just import `coolbox` as a

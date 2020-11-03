@@ -34,7 +34,7 @@ def test_cool():
 
 
 def test_bed():
-    bed = Bed(f"{DATA_DIR}/bed_{test_itv}.bed")
+    bed = BED(f"{DATA_DIR}/bed_{test_itv}.bed")
     assert bed.fetch_data(test_interval) is not None
     fig, ax = plt.subplots()
     bed.plot_genome_range(ax, test_interval)

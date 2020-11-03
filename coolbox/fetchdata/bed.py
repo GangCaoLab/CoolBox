@@ -87,7 +87,7 @@ class FetchBed(FetchTrackData):
         Return
         ------
         intervals : pandas.core.frame.DataFrame
-            Bed interval table.
+            BED interval table.
         """
         return self.fetch_intervals(genome_range)
 

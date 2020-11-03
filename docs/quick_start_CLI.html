@@ -87,7 +87,9 @@
 <li class="toctree-l1"><a class="reference internal" href="quick_start_API.html">Quickstart (API)</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart (CLI)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#Check-the-basic-information">Check the basic information</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Example-Dataset">Example Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Compose-Frame">Compose Frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Start-a-browser">Start a browser</a></li>
 </ul>
 </li>
 </ul>
@@ -428,13 +430,13 @@ div.rendered_html tbody tr:hover {
 <div class="section" id="Quickstart-(CLI)">
 <h1>Quickstart (CLI)<a class="headerlink" href="#Quickstart-(CLI)" title="Permalink to this headline">¶</a></h1>
 <p>This document is for teach the basic usage of CoolBox’s Command Line Interface.</p>
-<p>CoolBox CLI is a chainable command tool which can compose complex frame as easily with very intuition synatax.</p>
+<p>CoolBox CLI is a chainable command tool which can compose complex frame as easily with very intuition syntax.</p>
 <p><img alt="fig_CLI" src="_images/fig_CLI.png" /></p>
 <div class="section" id="Check-the-basic-information">
 <h2>Check the basic information<a class="headerlink" href="#Check-the-basic-information" title="Permalink to this headline">¶</a></h2>
 <p>Firstly, check the coolbox version:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
@@ -454,7 +456,7 @@ coolbox version
 </div>
 <p>CoolBox CLI is composed by many chainable sub-commands, we can print the help information to list them:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
@@ -543,8 +545,205 @@ coolbox
 </pre></div></div>
 </div>
 </div>
-<div class="section" id="Examples">
-<h2>Examples<a class="headerlink" href="#Examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Example-Dataset">
+<h2>Example Dataset<a class="headerlink" href="#Example-Dataset" title="Permalink to this headline">¶</a></h2>
+<p>Here, we use <a class="reference external" href="https://github.com/GangCaoLab/CoolBox/tree/master/tests/test_data">a small testing dataset</a> for convenient. This dataset contains files in differnet file formats, and they are in same genome range(chr9:4000000-6000000) of a reference genome (hg19).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>%%bash
+
+ls -lh ../../tests/test_data
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+total 26M
+-rw-rw-r-- 1 nanguage nanguage 787K 10月 27 09:50 bam_chr9_4000000_6000000.bam
+-rw-rw-r-- 1 nanguage nanguage 8.6K 10月 27 09:50 bed_chr9_4000000_6000000.bed
+-rw-rw-r-- 1 nanguage nanguage  18K 10月 27 20:35 bedgraph_chr9_4000000_6000000.bg
+-rw-rw-r-- 1 nanguage nanguage  264 10月 28 10:11 bedpe_chr9_4000000_6000000.bedpe
+-rw-rw-r-- 1 nanguage nanguage  31K 10月 27 09:50 bigwig_chr9_4000000_6000000.bw
+-rw-rw-r-- 1 nanguage nanguage  27M 10月 27 09:50 cool_chr9_4000000_6000000.mcool
+-rw-rw-r-- 1 nanguage nanguage 535K 10月 27 09:50 gtf_chr9_4000000_6000000.gtf
+-rw-rw-r-- 1 nanguage nanguage  33K 10月 27 09:50 hg19_ideogram.txt
+-rw-rw-r-- 1 nanguage nanguage 2.0K 10月 27 09:50 human.hg19.genome
+-rw-rw-r-- 1 nanguage nanguage 2.2K 10月 27 09:50 make_test_dataset.py
+-rw-rw-r-- 1 nanguage nanguage  777 10月 29 09:55 pairs_chr9_4000000_6000000.pairs
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Compose-Frame">
+<h2>Compose Frame<a class="headerlink" href="#Compose-Frame" title="Permalink to this headline">¶</a></h2>
+<p>CoolBox CLI is designed for compose Frame object by a command chain. The key command of the chain is the <code class="docutils literal notranslate"><span class="pre">add</span></code> sub-command, It just like the <code class="docutils literal notranslate"><span class="pre">+</span></code> operator in CoolBox API.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>%%bash
+
+coolbox add -- --help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+<span class="ansi-bold">NAME</span>
+    coolbox add - Add a Element(Track, Coverage, Feature)
+
+<span class="ansi-bold">SYNOPSIS</span>
+    coolbox add <span class="ansi-underline">ELEM_STR</span> &lt;flags&gt; [<span class="ansi-underline">ARGS</span>]...
+
+<span class="ansi-bold">DESCRIPTION</span>
+    Add a Element(Track, Coverage, Feature)
+
+<span class="ansi-bold">POSITIONAL ARGUMENTS</span>
+    <span class="ansi-bold ansi-underline">ELEM_STR</span>
+        Element type string. Like BAM, BigWig, Cool ... Full list of Track types can be found here(https://gangcaolab.github.io/CoolBox/quick_start_API.html#Track-types).
+    <span class="ansi-bold ansi-underline">ARGS</span>
+        Positional args for create elements.
+
+<span class="ansi-bold">FLAGS</span>
+    Flags are accepted.
+        Keyword args for create elements.
+
+<span class="ansi-bold">NOTES</span>
+    You can also use flags syntax for POSITIONAL ARGUMENTS
+</pre></div></div>
+</div>
+<p>Here, give a example of draw a figure using CoolBox CLI:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>%%bash
+
+<span class="nv">DIR</span><span class="o">=</span>../../tests/test_data
+
+coolbox add XAxis - <span class="se">\</span>
+add Cool <span class="nv">$DIR</span>/cool_chr9_4000000_6000000.mcool - <span class="se">\</span>
+add BAM <span class="nv">$DIR</span>/bam_chr9_4000000_6000000.bam - <span class="se">\</span>
+add BigWig <span class="nv">$DIR</span>/bigwig_chr9_4000000_6000000.bw - <span class="se">\</span>
+goto <span class="s2">&quot;chr9:4000000-6000000&quot;</span> - <span class="se">\</span>
+plot /tmp/test_coolbox.jpg
+</pre></div>
+</div>
+</div>
+<p>We have draw a figure and save it to <code class="docutils literal notranslate"><span class="pre">/tmp/test_coolbox.jpg</span></code>, let’s take a look:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;/tmp/test_coolbox.jpg&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/quick_start_CLI_12_0.jpg" src="_images/quick_start_CLI_12_0.jpg" />
+</div>
+</div>
+<p>As we can see, we compose our data using the <code class="docutils literal notranslate"><span class="pre">add</span></code> command, then plot the figure.</p>
+<p>The first argument of <code class="docutils literal notranslate"><span class="pre">add</span></code> is the coolbox element type name. The most frequently used element is the <code class="docutils literal notranslate"><span class="pre">Track</span></code>, all <code class="docutils literal notranslate"><span class="pre">Track</span></code> type can be found <a class="reference external" href="https://gangcaolab.github.io/CoolBox/quick_start_API.html#Track-types">here</a></p>
+</div>
+<div class="section" id="Start-a-browser">
+<h2>Start a browser<a class="headerlink" href="#Start-a-browser" title="Permalink to this headline">¶</a></h2>
+<p>CoolBox <code class="docutils literal notranslate"><span class="pre">CLI</span></code> can automatically generate a notebook which contain the browser composition code equivalent to using CoolBox <code class="docutils literal notranslate"><span class="pre">API</span></code>.</p>
+<p>And this notebook will be run in Jupyter environment or Volia webapp. Then you can open your web browser to use this GUI to explore your genomic data, for example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ coolbox add XAxis - <span class="se">\</span>
+add Cool ./tests/test_data/cool_chr9_4000000_6000000.mcool - <span class="se">\</span>
+add BAM ./tests/test_data/bam_chr9_4000000_6000000.bam - <span class="se">\</span>
+add BigWig ./tests/test_data/bigwig_chr9_4000000_6000000.bw - <span class="se">\</span>
+goto <span class="s2">&quot;chr9:4000000-6000000&quot;</span> - <span class="se">\</span>
+run_jupyter
+</pre></div>
+</div>
+<p>This will start a jupyter server and run a coolbox browser within the notebook. And you can also to run a independent web app using similar command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ coolbox add XAxis - <span class="se">\</span>
+add Cool ./tests/test_data/cool_chr9_4000000_6000000.mcool - <span class="se">\</span>
+add BAM ./tests/test_data/bam_chr9_4000000_6000000.bam - <span class="se">\</span>
+add BigWig ./tests/test_data/bigwig_chr9_4000000_6000000.bw - <span class="se">\</span>
+goto <span class="s2">&quot;chr9:4000000-6000000&quot;</span> - <span class="se">\</span>
+run_webapp
+</pre></div>
+</div>
+<p>More detail usage see the help info:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>%%bash
+
+coolbox run_jupyter -- --help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+<span class="ansi-bold">NAME</span>
+    coolbox run_jupyter - Create a notebook according to command line, then start a jupyter process.
+
+<span class="ansi-bold">SYNOPSIS</span>
+    coolbox run_jupyter &lt;flags&gt;
+
+<span class="ansi-bold">DESCRIPTION</span>
+    Create a notebook according to command line, then start a jupyter process.
+
+<span class="ansi-bold">FLAGS</span>
+    --jupyter_args=<span class="ansi-underline">JUPYTER_ARGS</span>
+        Arguments for run jupyter.
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>%%bash
+
+coolbox run_webapp -- --help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+<span class="ansi-bold">NAME</span>
+    coolbox run_webapp - Run a independent coolbox browser web app. (Create notebook and run voila)
+
+<span class="ansi-bold">SYNOPSIS</span>
+    coolbox run_webapp &lt;flags&gt;
+
+<span class="ansi-bold">DESCRIPTION</span>
+    Run a independent coolbox browser web app. (Create notebook and run voila)
+
+<span class="ansi-bold">FLAGS</span>
+    --voila_args=<span class="ansi-underline">VOILA_ARGS</span>
+        Arguments for run jupyter.
+</pre></div></div>
+</div>
 </div>
 </div>
 
