@@ -48,7 +48,6 @@ class PlotVirtual4C(TrackPlot, CoveragePlot):
         window_range.start = window_range.start - offset_ * binsize
         window_range.end = window_range.end + offset_ * binsize
         arr = self.hic.fetch_array(window_range, genome_range)
-        #mean_arr = arr.mean(axis=0)
         mean_arr = np.nanmean(arr, axis=0)
         return mean_arr
 

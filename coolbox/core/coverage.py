@@ -1,6 +1,7 @@
 from copy import copy
 
 from coolbox.plots.coverage import *
+from coolbox.fetchdata import *
 from coolbox.utilities import op_err_msg, get_coverage_stack, get_feature_stack
 
 
@@ -452,7 +453,7 @@ class HiCPeaks(Coverage, PlotHiCPeaks):
         super().__init__(properties_dict)
 
 
-class TADCoverage(Coverage, PlotTADCoverage):
+class TADCoverage(Coverage, PlotTADCoverage, FetchBed):
     """
     TAD Coverage is used for plot TAD on upper layer of a track.
 

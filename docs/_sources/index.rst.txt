@@ -8,6 +8,10 @@ Welcome to CoolBox's documentation!
 
 .. image:: ../images/title.png
 
+
+Table of contents
+=================
+
 .. toctree::
    :maxdepth: 2
 
@@ -16,11 +20,3 @@ Welcome to CoolBox's documentation!
    quick_start_CLI.ipynb
    gallery.rst
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

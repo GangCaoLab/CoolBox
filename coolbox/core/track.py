@@ -868,11 +868,14 @@ class Virtual4C(Track, PlotVirtual4C, FetchVirtual4C):
 
     Parameters
     ----------
-    hic_track : {`Cool`, `DotHiC`}
-        related hic track.
+    hic_track_or_file : {`Cool`, `DotHiC`}
+        related hic track or Hi-C file path.
 
     genome_position : str
         related genome position, like: 'chr1:2000000-2000000'
+
+    args_hic : dict, optional
+        Argument for create hic track, needed only if first argument is a path.
 
     bin_width : int, optional
         How many bin used for calculate the mean value.
@@ -913,7 +916,12 @@ class Virtual4C(Track, PlotVirtual4C, FetchVirtual4C):
 
     DEFAULT_COLOR = '#2855d8'
 
-    def __init__(self, hic_track, genome_position, **kwargs):
+    def __init__(self, hic_track_or_file, genome_position, args_hic=None, **kwargs):
+        if isinstance(hic_track_or_file, str):
+            args_hic = args_hic or {}
+            hic_track = HiCMat(hic_track_or_file, **args_hic)
+        else:
+            hic_track = hic_track_or_file
         properties_dict = {
             'hic': hic_track,
             'color': Virtual4C.DEFAULT_COLOR,

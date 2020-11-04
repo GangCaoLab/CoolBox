@@ -45,7 +45,10 @@
    "cell_type": "code",
    "execution_count": 3,
    "metadata": {
-    "scrolled": false
+    "scrolled": false,
+    "tags": [
+     "nbsphinx-thumbnail"
+    ]
    },
    "outputs": [
     {
@@ -84,6 +87,7 @@
    "lastCommId": null,
    "lastKernelId": null
   },
+  "celltoolbar": "编辑元数据",
   "kernelspec": {
    "display_name": "Python 3",
    "language": "python",

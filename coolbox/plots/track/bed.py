@@ -518,6 +518,7 @@ class PlotTADs(PlotBed):
         """
         Plots the boundaries as triangles in the given ax.
         """
+        self.load_range(f"{chrom_region}:{start_region}-{end_region}")
         self.ax = ax
 
         from matplotlib.patches import Polygon

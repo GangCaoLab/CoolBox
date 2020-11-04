@@ -1,8 +1,7 @@
 import numpy as np
-from intervaltree import IntervalTree, Interval
 
 from coolbox.utilities import (change_chrom_names, get_logger,
-                               opener, ReadBed, GenomeRange)
+                               GenomeRange)
 from coolbox.plots.coverage.base import CoveragePlot
 
 
@@ -42,8 +41,6 @@ class PlotTADCoverage(CoveragePlot):
         if 'fill' not in self.properties:
             self.properties['fill'] = 'yes'
 
-        self.interval_tree, min_score, max_score = self.__process_bed()
-
     def check_track_type(self):
         from coolbox.core.track import BigWig, BedGraph, Cool, HicCompare, Arcs
         CoveragePlot.check_track_type(allow=[BigWig, BedGraph, Cool, HicCompare, Arcs])
@@ -58,41 +55,11 @@ class PlotTADCoverage(CoveragePlot):
             type_ = "HiC" + ":" + self.track.properties['style']
         return type_
 
-    def __process_bed(self):
-
-        bed_file_h = ReadBed(opener(self.properties['file']))
-        self.bed_type = bed_file_h.file_type
-
-        if 'color' in self.properties and self.properties['color'] == 'bed_rgb' and \
-                self.bed_type not in ['bed12', 'bed9']:
-            log.warning("*WARNING* Color set to 'bed_rgb', but bed file does not have the rgb field. The color has "
-                        "been set to {}".format(PlotTADCoverage.DEFAULT_COLOR))
-            self.properties['color'] = PlotTADCoverage.DEFAULT_COLOR
-
-        valid_intervals = 0
-        interval_tree = {}
-
-        max_score = float('-inf')
-        min_score = float('inf')
-        for bed in bed_file_h:
-            if bed.score < min_score:
-                min_score = bed.score
-            if bed.score > max_score:
-                max_score = bed.score
-
-            interval_tree.setdefault(bed.chromosome, IntervalTree())
-            interval_tree[bed.chromosome].add(Interval(bed.start, bed.end, bed))
-            valid_intervals += 1
-
-        if valid_intervals == 0:
-            log.warning("No valid intervals were found in file {}".format(self.properties['file_name']))
-
-        return interval_tree, min_score, max_score
-
     def plot(self, ax, chrom_region, start_region, end_region):
         """
         Plots the boundaries as triangles in the given ax.
         """
+        self.load_range(f"{chrom_region}:{start_region}-{end_region}")
         self.ax = ax
         genome_range = GenomeRange(chrom_region, start_region, end_region)
         self._genome_range = genome_range
