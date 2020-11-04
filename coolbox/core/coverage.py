@@ -4,6 +4,10 @@ from coolbox.plots.coverage import *
 from coolbox.fetchdata import *
 from coolbox.utilities import op_err_msg, get_coverage_stack, get_feature_stack
 
+from coolbox.core.track import BigWig
+from coolbox.core.track import Arcs
+
+
 
 __all__ = [
     "CoverageStack",
@@ -188,6 +192,10 @@ class CoverageStack(object):
 def track_to_coverage(track_class):
 
     def init(self, *args, **kwargs):
+        if track_class is BigWig:
+            kwargs.update({
+                "show_data_range": False,
+            })
         self.track_instance = track_class(*args, **kwargs)
         self.properties = self.track_instance.properties
 
@@ -207,11 +215,8 @@ def track_to_coverage(track_class):
     return cov_class
 
 
-from coolbox.core.track import BigWig
-
 BigWigCoverage = track_to_coverage(BigWig)
 
-from coolbox.core.track import Arcs
 
 ArcsCoverage = track_to_coverage(Arcs)
 

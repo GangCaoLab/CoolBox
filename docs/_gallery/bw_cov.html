@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>TADs &mdash; CoolBox  documentation</title>
+  <title>BigWig Coverage &mdash; CoolBox  documentation</title>
   
 
   
@@ -38,8 +38,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="BigWig Coverage" href="bw_cov.html" />
-    <link rel="prev" title="Virtual 4C" href="v4c.html" /> 
+    <link rel="next" title="API Reference" href="../api.html" />
+    <link rel="prev" title="TADs" href="TADs.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -90,8 +90,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../quick_start_CLI.html">Quickstart (CLI)</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../gallery.html">CoolBox Gallery</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="v4c.html">Virtual 4C</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">TADs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bw_cov.html">BigWig Coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TADs.html">TADs</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">BigWig Coverage</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
@@ -143,13 +143,13 @@
         
           <li><a href="../gallery.html">CoolBox Gallery</a> &raquo;</li>
         
-      <li>TADs</li>
+      <li>BigWig Coverage</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/_gallery/TADs.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/_gallery/bw_cov.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -432,9 +432,8 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="TADs">
-<h1>TADs<a class="headerlink" href="#TADs" title="Permalink to this headline">¶</a></h1>
-<p>Plot TAD(topologically associated domains)s in upon Hi-C contact matrix.</p>
+<div class="section" id="BigWig-Coverage">
+<h1>BigWig Coverage<a class="headerlink" href="#BigWig-Coverage" title="Permalink to this headline">¶</a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -463,48 +462,41 @@ div.rendered_html tbody tr:hover {
 &#39;0.2.2&#39;
 </pre></div></div>
 </div>
-<p>TAD file should store as BED6 format:</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">!</span>head -n <span class="m">10</span> ../../../tests/test_data/tad_chr9_4000000_6000000.bed
+<span></span><span class="n">data_dir</span> <span class="o">=</span> <span class="s2">&quot;/home/nanguage/Test/BioInfo/CoolBox/demo/data&quot;</span>
+<span class="n">bw1</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data_dir</span><span class="si">}</span><span class="s2">/K562_H3K27ac.bigWig&quot;</span>
+<span class="n">bw2</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data_dir</span><span class="si">}</span><span class="s2">/K562_H3K27me3.bigWig&quot;</span>
+<span class="n">bw3</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data_dir</span><span class="si">}</span><span class="s2">/K562_H3K4me3.bigWig&quot;</span>
+<span class="n">bw4</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data_dir</span><span class="si">}</span><span class="s2">/K562_RNASeq.bigWig&quot;</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-chr9    4060000 4170000 .       0       .
-chr9    4290000 4370000 .       0       .
-chr9    4370000 4590000 .       0       .
-chr9    4590000 5790000 .       0       .
-chr9    4660000 5620000 .       0       .
-chr9    4660000 4750000 .       0       .
-chr9    4750000 5620000 .       0       .
-chr9    4750000 5120000 .       0       .
-chr9    4750000 4980000 .       0       .
-chr9    4920000 4980000 .       0       .
-</pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">example_cool</span> <span class="o">=</span> <span class="s2">&quot;../../../tests/test_data/cool_chr9_4000000_6000000.mcool&quot;</span>
-<span class="n">example_tads</span> <span class="o">=</span> <span class="s2">&quot;../../../tests/test_data/tad_chr9_4000000_6000000.bed&quot;</span>
+<span></span><span class="n">frame</span> <span class="o">=</span> \
+    <span class="n">BigWig</span><span class="p">(</span><span class="n">bw4</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span> <span class="o">+</span> <span class="n">Color</span><span class="p">(</span><span class="s2">&quot;#ff9c9c&quot;</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">BigWigCoverage</span><span class="p">(</span><span class="n">bw1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#fcbe07&quot;</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;RNA / H3K27ac&quot;</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">BigWig</span><span class="p">(</span><span class="n">bw4</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span> <span class="o">+</span> <span class="n">Color</span><span class="p">(</span><span class="s2">&quot;#ff9c9c&quot;</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">BigWigCoverage</span><span class="p">(</span><span class="n">bw3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#07fcbe&quot;</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;RNA / H3K4me3&quot;</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">BigWig</span><span class="p">(</span><span class="n">bw4</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span> <span class="o">+</span> <span class="n">Color</span><span class="p">(</span><span class="s2">&quot;#ff9c9c&quot;</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">BigWigCoverage</span><span class="p">(</span><span class="n">bw2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#66ccff&quot;</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;RNA / H3K27me3&quot;</span><span class="p">)</span>
 
-<span class="n">test_region</span> <span class="o">=</span> <span class="s2">&quot;chr9:4000000-6000000&quot;</span>
+<span class="n">frame</span> <span class="o">*=</span> <span class="n">MaxValue</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">*=</span> <span class="n">MinValue</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">*</span> <span class="n">TrackHeight</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 
-<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> \
-    <span class="n">Cool</span><span class="p">(</span><span class="n">example_cool</span><span class="p">)</span> <span class="o">+</span> \
-    <span class="n">TADCoverage</span><span class="p">(</span><span class="n">example_tads</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
-
-<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_region</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">frame</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr1:1-5000000&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -513,7 +505,7 @@ chr9    4920000 4980000 .       0       .
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_gallery_TADs_5_0.png" src="../_images/_gallery_TADs_5_0.png" />
+<img alt="../_images/_gallery_bw_cov_4_0.png" src="../_images/_gallery_bw_cov_4_0.png" />
 </div>
 </div>
 </div>
@@ -526,10 +518,10 @@ chr9    4920000 4980000 .       0       .
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="bw_cov.html" class="btn btn-neutral float-right" title="BigWig Coverage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../api.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="v4c.html" class="btn btn-neutral float-left" title="Virtual 4C" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="TADs.html" class="btn btn-neutral float-left" title="TADs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

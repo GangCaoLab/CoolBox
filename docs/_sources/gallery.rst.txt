@@ -8,3 +8,10 @@ CoolBox Gallery
 
 	_gallery/v4c.ipynb
 	_gallery/TADs.ipynb
+
+.. nbgallery::
+	:caption: Others
+	:name: other-gallery
+	:glob:
+
+	_gallery/bw_cov.ipynb
