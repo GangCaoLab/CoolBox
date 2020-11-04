@@ -34,6 +34,7 @@ extensions = [
     'sphinx_rtd_theme',
     'recommonmark',
     'nbsphinx',
+    'sphinx_gallery.load_style',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
