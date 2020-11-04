@@ -30,6 +30,7 @@ import sphinx_rtd_theme
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
+    'autodocsumm',
     'numpydoc',
     'sphinx_rtd_theme',
     'recommonmark',

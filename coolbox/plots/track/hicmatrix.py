@@ -218,9 +218,13 @@ class PlotHiCMatrix(TrackPlot):
         start, end = genome_range.start, genome_range.end
         ax = self.ax
         arr = self.matrix
-        cmap = plt.get_cmap(self.properties['color'])
-        cmap.set_bad("white")
-        cmap.set_under("white")
+        cm = self.properties['color']
+        if isinstance(cm, str):
+            cmap = plt.get_cmap(self.properties['color'])
+            cmap.set_bad("white")
+            cmap.set_under("white")
+        else:
+            cmap = cm
         c_min, c_max = self.matrix_val_range
 
         depth_ratio = 1.0 if self.properties['depth_ratio'] == DEPTH_FULL else self.properties['depth_ratio']

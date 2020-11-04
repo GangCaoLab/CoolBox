@@ -1,0 +1,2903 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>API Reference &mdash; CoolBox  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="TADs" href="_gallery/TADs.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> CoolBox
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation &amp; Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start_API.html">Quickstart (API)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start_CLI.html">Quickstart (CLI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gallery.html">CoolBox Gallery</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-coolbox.core.track">Track</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-coolbox.core.coverage">Coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-coolbox.core.feature">Feature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-coolbox.core.frame">Frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-coolbox.core.browser">Browser</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CoolBox</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>API Reference</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-coolbox.core.track">
+<span id="track"></span><h2>Track<a class="headerlink" href="#module-coolbox.core.track" title="Permalink to this headline">¶</a></h2>
+<p><strong>Classes:</strong></p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Spacer" title="coolbox.core.track.Spacer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Spacer</span></code></a>(*args, **kwargs)</p></td>
+<td><p>The spacer track, not have any real content, just used to split two tracks.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.HLine" title="coolbox.core.track.HLine"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HLine</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Horizontal line track.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.XAxis" title="coolbox.core.track.XAxis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAxis</span></code></a>(*args, **kwargs)</p></td>
+<td><p>The x axis track.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.BED" title="coolbox.core.track.BED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BED</span></code></a>(*args, **kwargs)</p></td>
+<td><p>BED track.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.TADs" title="coolbox.core.track.TADs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TADs</span></code></a>(*args, **kwargs)</p></td>
+<td><p>TADs track.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.BigWig" title="coolbox.core.track.BigWig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BigWig</span></code></a>(*args, **kwargs)</p></td>
+<td><p>BigWig track.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.ABCompartment" title="coolbox.core.track.ABCompartment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ABCompartment</span></code></a>(*args, **kwargs)</p></td>
+<td><p>A/B Comapartment BigWig track.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.BedGraph" title="coolbox.core.track.BedGraph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BedGraph</span></code></a>(*args, **kwargs)</p></td>
+<td><p>BedGraph track.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.BEDPE" title="coolbox.core.track.BEDPE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BEDPE</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Arcs(link) track.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.Pairs" title="coolbox.core.track.Pairs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pairs</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Arcs(link) track.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Cool" title="coolbox.core.track.Cool"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Cool</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Cool Hi-C matrix (or triangular matrix) track.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.DotHiC" title="coolbox.core.track.DotHiC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DotHiC</span></code></a>(*args, **kwargs)</p></td>
+<td><p>.hic Hi-C matrix (or triangular matrix) track.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.HicCompare" title="coolbox.core.track.HicCompare"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HicCompare</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Track for express the comparison between two HiC Track.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.Virtual4C" title="coolbox.core.track.Virtual4C"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Virtual4C</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Track for view virtual 4C related to a certain genome position, and a HiC Track (include <cite>Cool</cite> and <cite>DotHiC</cite>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Ideogram" title="coolbox.core.track.Ideogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Ideogram</span></code></a>(*args, **kwargs)</p></td>
+<td><p>The chromosome ideograme track.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.GTF" title="coolbox.core.track.GTF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GTF</span></code></a>(*args, **kwargs)</p></td>
+<td><p>GTF gene annotation track.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.BAM" title="coolbox.core.track.BAM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BAM</span></code></a>(*args, **kwargs)</p></td>
+<td><p>BAM alignment track.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Functions:</strong></p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Arcs" title="coolbox.core.track.Arcs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Arcs</span></code></a>(file_, *args, **kwargs)</p></td>
+<td><p>Compose Arcs track(.bedpe, .pairs), determine type by file extension.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.HiCMat" title="coolbox.core.track.HiCMat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HiCMat</span></code></a>(file_, *args, **kwargs)</p></td>
+<td><p>Compose Hi-C track(.cool, .mcool, .hic), determine type by file extension.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt id="coolbox.core.track.ABCompartment">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">ABCompartment</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.ABCompartment" title="Permalink to this definition">¶</a></dt>
+<dd><p>A/B Comapartment BigWig track.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_</strong><span class="classifier">str</span></dt><dd><p>Path to bigwig file.</p>
+</dd>
+<dt><strong>height</strong><span class="classifier">float, optional</span></dt><dd><p>Height of track, default BigWig.DEFAULT_HEIGHT.</p>
+</dd>
+<dt><strong>positive_color</strong><span class="classifier">str, optional</span></dt><dd><p>Track’s positive value color, default ABCompartment.DEFAULT_POSITIVE_COLOR</p>
+</dd>
+<dt><strong>negative_color</strong><span class="classifier">str, optional</span></dt><dd><p>Track’s negative value color, default ABCompartment.DEFAULT_NEGATIVE_COLOR</p>
+</dd>
+<dt><strong>number_of_bins</strong><span class="classifier">int, optional</span></dt><dd><p>Number_of_bins in current range, default 700</p>
+</dd>
+<dt><strong>type_</strong><span class="classifier">str, optional</span></dt><dd><p>Track graph type, format ‘type:size’, like ‘line:2’, ‘points:0.5’</p>
+</dd>
+<dt><strong>orientation</strong><span class="classifier">str, optional</span></dt><dd><p>Track orientation, use ‘inverted’ for inverted track plot.</p>
+</dd>
+<dt><strong>show_data_range</strong><span class="classifier">bool, optional</span></dt><dd><p>Show_data_range or not, default True.</p>
+</dd>
+<dt><strong>title</strong><span class="classifier">str, optional</span></dt><dd><p>Label text. default ‘’</p>
+</dd>
+<dt><strong>max_value</strong><span class="classifier">{float, ‘auto’}, optional</span></dt><dd><p>Max value of track, use ‘auto’ for specify max value automatically, default ‘auto’.</p>
+</dd>
+<dt><strong>min_value</strong><span class="classifier">{float, ‘auto’}, optional</span></dt><dd><p>Min value of track, use ‘auto’ for specify min value automatically, default ‘auto’.</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Track’s name</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
+<td><p>Append coverage to this track.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code>(genome_range)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_intervals</span></code>(genome_range)</p></td>
+<td><p>Fetch BigWig intervals within input chromosome range.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_scores</span></code>(genome_range[, num_bins])</p></td>
+<td><p>Fetch bins scores within input chromosome range.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<td><p>Pile a stack of coverages with self’s coverages</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<td><p>Plot the track within a genome range.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(y_ax)</p></td>
+<td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 66%" />
+<col style="width: 34%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>plot_coverage</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot_data_range</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="coolbox.core.track.Arcs">
+<code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">Arcs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.Arcs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compose Arcs track(.bedpe, .pairs), determine type by file extension.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.track.BAM">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">BAM</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.BAM" title="Permalink to this definition">¶</a></dt>
+<dd><p>BAM alignment track.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_</strong><span class="classifier">str</span></dt><dd><p>Path to .gtf(or .gtf.bgz) file.</p>
+</dd>
+<dt><strong>length_ratio_thresh</strong><span class="classifier">float</span></dt><dd><p>Length ratio threshold of show alignments. (Default 0.01)</p>
+</dd>
+<dt><strong>height</strong><span class="classifier">float, optional</span></dt><dd><p>The height of Spacer track. (Default: BAM.DEFAULT_HEIGHT)</p>
+</dd>
+<dt><strong>plot_type</strong><span class="classifier">str</span></dt><dd><p>Plot type, ‘alignment’ or ‘coverage’. (Default ‘coverage’)</p>
+</dd>
+<dt><strong>style</strong><span class="classifier">str, optional</span></dt><dd><p>Track graph style(for ‘coverage’), format {‘fill’, ‘line:<cite>size</cite>’, ‘points:<cite>size</cite>’},
+example: ‘line:2’, ‘points:0.5’. default: ‘fill’</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">{str}</span></dt><dd><p>Plot color.</p>
+</dd>
+<dt><strong>alhpa</strong><span class="classifier">float.</span></dt><dd><p>Plot alpha. (Default 1.0)</p>
+</dd>
+<dt><strong>bins</strong><span class="classifier">int</span></dt><dd><p>Number of bins when plot coverage. (Default 200)</p>
+</dd>
+<dt><strong>data_range_style</strong><span class="classifier">str</span></dt><dd><p>Data range show style(y-axis or text), when plot coverage. (Default ‘y-axis’)</p>
+</dd>
+<dt><strong>max_value</strong><span class="classifier">{float, ‘auto’}, optional</span></dt><dd><p>Max value of track. ‘auto’ for specify max value automatically, default ‘auto’.</p>
+</dd>
+<dt><strong>min_value</strong><span class="classifier">{float, ‘auto’}, optional</span></dt><dd><p>Min value of track. ‘auto’ for specify max value automatically, default ‘auto’.</p>
+</dd>
+<dt><strong>title</strong><span class="classifier">str, optional</span></dt><dd><p>Label text, default ‘’.</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Track’s name.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
+<td><p>Append coverage to this track.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code>(genome_range)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<td><p>Pile a stack of coverages with self’s coverages</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<td><p>Plot the track within a genome range.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(y_ax)</p></td>
+<td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 66%" />
+<col style="width: 34%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>fetch_coverage</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>fetch_intervals</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>plot_align</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot_coverage</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>plot_data_range</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.track.BED">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">BED</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.BED" title="Permalink to this definition">¶</a></dt>
+<dd><p>BED track.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_</strong><span class="classifier">str</span></dt><dd><p>Path to bed file.</p>
+</dd>
+<dt><strong>height</strong><span class="classifier">float, optional</span></dt><dd><p>Height of track. (Default: BED.DEFAULT_HEIGHT)</p>
+</dd>
+<dt><strong>fontsize</strong><span class="classifier">int, optional</span></dt><dd><p>Font size. (Default: BED.DEFAULT_FONTSIZE)</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Track color, ‘bed_rgb’ for auto specify color according to bed record.
+(Default: ‘bed_rgb’)</p>
+</dd>
+<dt><strong>border_color</strong><span class="classifier">str, optional</span></dt><dd><p>Border_color of gene. (Default: ‘black’)</p>
+</dd>
+<dt><strong>title</strong><span class="classifier">str, optional</span></dt><dd><p>Label text. (Default: ‘’)</p>
+</dd>
+<dt><strong>labels</strong><span class="classifier">{True, False, ‘auto’}, optional</span></dt><dd><p>Draw bed name or not. ‘auto’ for automate decision according to density.
+(Default: ‘auto’)</p>
+</dd>
+<dt><strong>display</strong><span class="classifier">{‘stacked’, ‘interlaced’, ‘collapsed’}, optional</span></dt><dd><p>Display mode. (Default: ‘stacked’)</p>
+</dd>
+<dt><strong>interval_height</strong><span class="classifier">int, optional</span></dt><dd><p>The height of the interval. (Default: 100)</p>
+</dd>
+<dt><strong>global_max_row</strong><span class="classifier">bool, optional</span></dt><dd><p>If set to True, will process the whole bed regions
+at the given figure length and font size to
+determine the maximum number of rows required. (Default: False)</p>
+</dd>
+<dt><strong>gene_row</strong><span class="classifier">int, optional</span></dt><dd><p>Set the max interval rows. (Default: unlimited interval rows)</p>
+</dd>
+<dt><strong>max_value</strong><span class="classifier">float, optional</span></dt><dd><p>Max score. (Default: inf)</p>
+</dd>
+<dt><strong>min_value</strong><span class="classifier">float, optional</span></dt><dd><p>Min score. (Default: -inf)</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Track’s name.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
+<td><p>Append coverage to this track.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code>(genome_range)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_intervals</span></code>(genome_range)</p></td>
+<td><p>Fetch intervals within input chromosome range.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">intervals2dataframe</span></code>(intervals)</p></td>
+<td><p>Convert intervals list to pandas.DataFrame</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<td><p>Pile a stack of coverages with self’s coverages</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<td><p>Plot the track within a genome range.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(y_ax)</p></td>
+<td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 72%" />
+<col style="width: 28%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>get_rgb_and_edge_color</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>has_prop</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>load_range</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.track.BEDPE">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">BEDPE</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.BEDPE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Arcs(link) track.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_</strong><span class="classifier">str</span></dt><dd><p>Path to bedgraph file.</p>
+</dd>
+<dt><strong>height</strong><span class="classifier">float</span></dt><dd><p>Height of track, default Boundaries.DEFAULT_HEIGHT.</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Track color, default BigWig.DEFAULT_COLOR.</p>
+</dd>
+<dt><strong>alpha</strong><span class="classifier">float, optional</span></dt><dd><p>Alpha value of track, default 0.8.</p>
+</dd>
+<dt><strong>line_width</strong><span class="classifier">float, optional</span></dt><dd><p>Width of arc line.</p>
+</dd>
+<dt><strong>orientation</strong><span class="classifier">str, optional</span></dt><dd><p>Track orientation, use ‘inverted’ for inverted track plot.</p>
+</dd>
+<dt><strong>point_at</strong><span class="classifier">str, optional</span></dt><dd><p>Link anchor point method: ‘start’, ‘end’, or ‘mid’, default ‘mid’</p>
+</dd>
+<dt><strong>score_to_width</strong><span class="classifier">str, optional</span></dt><dd><p>Mapping function of score to width, default: ‘0.5 + sqrt(score)’</p>
+</dd>
+<dt><strong>diameter_to_height</strong><span class="classifier">str, optional</span></dt><dd><p>Mapping function of arc diameter(interval end - start) to height.
+You can specify to ‘max_diameter’ let all arcs has same height.
+default ‘max_height * diameter / max_diameter’.</p>
+</dd>
+<dt><strong>title</strong><span class="classifier">str, optional</span></dt><dd><p>Label text. default ‘’</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Track’s name.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
+<td><p>Append coverage to this track.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code>(genome_range)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<td><p>Pile a stack of coverages with self’s coverages</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, region_chrom, region_start, region_end)</p></td>
+<td><p>Makes and arc connecting two points on a linear scale representing interactions between bins.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_arcs</span></code>(ax, genome_range, intervals)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<td><p>Plot the track within a genome range.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(y_ax)</p></td>
+<td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 66%" />
+<col style="width: 34%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>convert_type</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>fetch_intervals</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>load</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.track.BedGraph">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">BedGraph</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.BedGraph" title="Permalink to this definition">¶</a></dt>
+<dd><p>BedGraph track.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_</strong><span class="classifier">str</span></dt><dd><p>Path to bedgraph file.</p>
+</dd>
+<dt><strong>height</strong><span class="classifier">float, optional</span></dt><dd><p>Height of track, default BigWig.DEFAULT_HEIGHT</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Track color, default BigWig.DEFAULT_COLOR</p>
+</dd>
+<dt><strong>style</strong><span class="classifier">str, optional</span></dt><dd><p>Track graph type, format {‘fill’, ‘line:<cite>size</cite>’, ‘points:<cite>size</cite>’},
+example: ‘line:2’, ‘points:0.5’. default: ‘fill’</p>
+</dd>
+<dt><strong>extra</strong><span class="classifier">optional</span></dt><dd></dd>
+<dt><strong>show_data_range</strong><span class="classifier">bool, optional</span></dt><dd><p>Show_data_range or not, default True.</p>
+</dd>
+<dt><strong>data_range_style</strong><span class="classifier">{‘text’, ‘y-axis’}</span></dt><dd><p>The style of the data range. default: ‘y-axis’</p>
+</dd>
+<dt><strong>title</strong><span class="classifier">str, optional</span></dt><dd><p>Label text, default ‘’.</p>
+</dd>
+<dt><strong>max_value</strong><span class="classifier">{float, ‘auto’}, optional</span></dt><dd><p>Max value of track, use ‘auto’ for specify max value automatically, default ‘auto’.</p>
+</dd>
+<dt><strong>min_value</strong><span class="classifier">{float, ‘auto’}, optional</span></dt><dd><p>Min value of track, use ‘auto’ for specify min value automatically, default ‘auto’.</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Track’s name.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
+<td><p>Append coverage to this track.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code>(genome_range)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_intervals</span></code>(genome_range)</p></td>
+<td><p>Fetch intervals within input chromosome range.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<td><p>Pile a stack of coverages with self’s coverages</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<td><p>Plot the track within a genome range.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(y_ax)</p></td>
+<td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 66%" />
+<col style="width: 34%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>plot_coverage</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot_data_range</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.track.BigWig">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">BigWig</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.BigWig" title="Permalink to this definition">¶</a></dt>
+<dd><p>BigWig track.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_</strong><span class="classifier">str</span></dt><dd><p>Path to bigwig file.</p>
+</dd>
+<dt><strong>height</strong><span class="classifier">float, optional</span></dt><dd><p>Height of track, default BigWig.DEFAULT_HEIGHT.</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Track color, default BigWig.DEFAULT_COLOR.</p>
+</dd>
+<dt><strong>alpha</strong><span class="classifier">float, optional</span></dt><dd><p>Alpha value of plot, default 1.0</p>
+</dd>
+<dt><strong>number_of_bins</strong><span class="classifier">int, optional</span></dt><dd><p>Number_of_bins in current range, default 700.</p>
+</dd>
+<dt><strong>style</strong><span class="classifier">str, optional</span></dt><dd><p>Track graph type, format {‘fill’, ‘line:<cite>size</cite>’, ‘points:<cite>size</cite>’},
+example: ‘line:2’, ‘points:0.5’. default: ‘fill’</p>
+</dd>
+<dt><strong>orientation</strong><span class="classifier">str, optional</span></dt><dd><p>Track orientation, use ‘inverted’ for inverted track plot.</p>
+</dd>
+<dt><strong>show_data_range</strong><span class="classifier">bool, optional</span></dt><dd><p>Show_data_range or not, default True.</p>
+</dd>
+<dt><strong>data_range_style</strong><span class="classifier">{‘text’, ‘y-axis’}</span></dt><dd><p>The style of the data range. default: ‘y-axis’</p>
+</dd>
+<dt><strong>title</strong><span class="classifier">str, optional</span></dt><dd><p>Label text, default ‘’</p>
+</dd>
+<dt><strong>max_value</strong><span class="classifier">{float, ‘auto’}, optional</span></dt><dd><p>Max value of track. ‘auto’ for specify max value automatically, default ‘auto’.</p>
+</dd>
+<dt><strong>min_value</strong><span class="classifier">{float, ‘auto’}, optional</span></dt><dd><p>Min value of track. ‘auto’ for specify max value automatically, default ‘auto’.</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Track’s name.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
+<td><p>Append coverage to this track.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code>(genome_range)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_intervals</span></code>(genome_range)</p></td>
+<td><p>Fetch BigWig intervals within input chromosome range.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_scores</span></code>(genome_range[, num_bins])</p></td>
+<td><p>Fetch bins scores within input chromosome range.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<td><p>Pile a stack of coverages with self’s coverages</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<td><p>Plot the track within a genome range.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(y_ax)</p></td>
+<td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 66%" />
+<col style="width: 34%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>plot_coverage</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot_data_range</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.track.Cool">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">Cool</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.Cool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cool Hi-C matrix (or triangular matrix) track.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_</strong><span class="classifier">str</span></dt><dd><p>Path to bed file.</p>
+</dd>
+<dt><strong>cmap</strong><span class="classifier">str, optional</span></dt><dd><p>Color map of hic matrix, default Cool.DEFAULT_COLOR.</p>
+</dd>
+<dt><strong>style</strong><span class="classifier">{‘triangular’, ‘window’, ‘matrix’}, optional</span></dt><dd><p>Matrix style, default ‘triangular’.</p>
+</dd>
+<dt><strong>balance</strong><span class="classifier">bool, optional</span></dt><dd><p>Show balanced matrix or not, default True</p>
+</dd>
+<dt><strong>depth_ratio</strong><span class="classifier">float, optional</span></dt><dd><p>Depth ratio of triangular matrix, use ‘full’ for full depth. default ‘full’.</p>
+</dd>
+<dt><strong>color_bar</strong><span class="classifier">bool, optional</span></dt><dd><p>Show color_bar or not, default True.</p>
+</dd>
+<dt><strong>transform</strong><span class="classifier">{str, bool}, optional</span></dt><dd><p>Transform for matrix, like ‘log2’, ‘log10’, default False.</p>
+</dd>
+<dt><strong>orientation</strong><span class="classifier">str, optional</span></dt><dd><p>Track orientation, use ‘inverted’ for inverted track plot.</p>
+</dd>
+<dt><strong>title</strong><span class="classifier">str, optional</span></dt><dd><p>Label text, default ‘’.</p>
+</dd>
+<dt><strong>max_value</strong><span class="classifier">{float, ‘auto’}, optional</span></dt><dd><p>Max value of hic matrix, use ‘auto’ for specify max value automatically, default ‘auto’.</p>
+</dd>
+<dt><strong>min_value</strong><span class="classifier">{float, ‘auto’}, optional</span></dt><dd><p>Min value of hic matrix, use ‘auto’ for specify min value automatically, default ‘auto’.</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Track’s name.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>balance</strong></dt><dd></dd>
+<dt><strong>is_balance</strong></dt><dd></dd>
+<dt><strong>is_inverted</strong></dt><dd></dd>
+<dt><strong>matrix_val_range</strong></dt><dd></dd>
+<dt><strong>name</strong></dt><dd></dd>
+<dt><strong>style</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
+<td><p>Append coverage to this track.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_array</span></code>(genome_range[, genome_range2, …])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code>(genome_range1[, genome_range2])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_pixels</span></code>(genome_range[, genome_range2, …])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width)</p></td>
+<td><p>calculate track height dynamically.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<td><p>Pile a stack of coverages with self’s coverages</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<td><p>Plot the track within a genome range.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(y_ax)</p></td>
+<td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 58%" />
+<col style="width: 42%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.track.DotHiC">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">DotHiC</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.DotHiC" title="Permalink to this definition">¶</a></dt>
+<dd><p>.hic Hi-C matrix (or triangular matrix) track.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_</strong><span class="classifier">str</span></dt><dd><p>Path to bed file.</p>
+</dd>
+<dt><strong>cmap</strong><span class="classifier">str, optional</span></dt><dd><p>Color map of hic matrix, default DotHiC.DEFAULT_COLOR.</p>
+</dd>
+<dt><strong>style</strong><span class="classifier">{‘triangular’, ‘window’, ‘matrix’}, optional</span></dt><dd><p>Matrix style,
+default ‘triangular’.</p>
+</dd>
+<dt><strong>balance</strong><span class="classifier">{bool, ‘KR’, ‘VC’, ‘VC_SQRT’}, optional</span></dt><dd><p>Matrix balance method,
+default True(‘KR’ balance)</p>
+</dd>
+<dt><strong>depth_ratio</strong><span class="classifier">float, optional</span></dt><dd><p>Depth ratio of triangular matrix, use ‘full’ for full depth. default ‘full’.</p>
+</dd>
+<dt><strong>color_bar</strong><span class="classifier">bool, optional</span></dt><dd><p>Show color_bar or not, default True.</p>
+</dd>
+<dt><strong>transform</strong><span class="classifier">{str, bool}, optional</span></dt><dd><p>Transform for matrix, like ‘log2’, ‘log10’, default False.</p>
+</dd>
+<dt><strong>orientation</strong><span class="classifier">str, optional</span></dt><dd><p>Track orientation, use ‘inverted’ for inverted track plot.</p>
+</dd>
+<dt><strong>title</strong><span class="classifier">str, optional</span></dt><dd><p>Label text, default ‘’.</p>
+</dd>
+<dt><strong>max_value</strong><span class="classifier">{float, ‘auto’}, optional</span></dt><dd><p>Max value of hic matrix, use ‘auto’ for specify max value automatically, default ‘auto’.</p>
+</dd>
+<dt><strong>min_value</strong><span class="classifier">{float, ‘auto’}, optional</span></dt><dd><p>Min value of hic matrix, use ‘auto’ for specify min value automatically, default ‘auto’.</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Track’s name.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>balance</strong></dt><dd></dd>
+<dt><strong>is_balance</strong></dt><dd></dd>
+<dt><strong>is_inverted</strong></dt><dd></dd>
+<dt><strong>matrix_val_range</strong></dt><dd></dd>
+<dt><strong>name</strong></dt><dd></dd>
+<dt><strong>style</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DEFAULT_COLOR</span></code>(X[, alpha, bytes])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
+<td><p>Append coverage to this track.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_array</span></code>(genome_range[, genome_range2, …])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code>(genome_range1[, genome_range2])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_pixels</span></code>(genome_range[, genome_range2, …])</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width)</p></td>
+<td><p>calculate track height dynamically.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<td><p>Pile a stack of coverages with self’s coverages</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<td><p>Plot the track within a genome range.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(y_ax)</p></td>
+<td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 58%" />
+<col style="width: 42%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.track.GTF">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">GTF</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.GTF" title="Permalink to this definition">¶</a></dt>
+<dd><p>GTF gene annotation track.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_</strong><span class="classifier">str</span></dt><dd><p>Path to .gtf(or .gtf.bgz) file.</p>
+</dd>
+<dt><strong>row_filter</strong><span class="classifier">str, optional</span></dt><dd><p>Filter rows, only keep the rows for draw. (Default ‘feature == “gene”;source == “protein_coding”’)</p>
+</dd>
+<dt><strong>length_ratio_thresh</strong><span class="classifier">float</span></dt><dd><p>Length ratio threshold of features, (Default 0.01)</p>
+</dd>
+<dt><strong>height</strong><span class="classifier">float, optional</span></dt><dd><p>The height of track. (Default: GTF.DEFAULT_HEIGHT)</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">{str, List[str]}</span></dt><dd><p>Annotation color. (Default: ‘random’)</p>
+</dd>
+<dt><strong>title</strong><span class="classifier">str, optional</span></dt><dd><p>Label text, default ‘’.</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Track’s name.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
+<td><p>Append coverage to this track.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_intervals</span></code>(genome_range)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<td><p>Pile a stack of coverages with self’s coverages</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<td><p>Plot the track within a genome range.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(y_ax)</p></td>
+<td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 58%" />
+<col style="width: 42%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>fetch_data</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>has_prop</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>plot</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.track.HLine">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">HLine</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.HLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Horizontal line track.
+Used for add a horizontal line between two tracks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>line_width</strong><span class="classifier">float, optional</span></dt><dd><p>(Default: HLine.DEFAULT_LINE_WIDTH)</p>
+</dd>
+<dt><strong>line_style</strong><span class="classifier">str, optional</span></dt><dd><p>(Default: HLine.DEFAULT_LINE_STYLE)</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>(Default: HLine.DEFAULT_COLOR)</p>
+</dd>
+<dt><strong>alpha</strong><span class="classifier">float, optional</span></dt><dd><p>(Default: HLine.DEFAULT_ALPHA)</p>
+</dd>
+<dt><strong>height</strong><span class="classifier">float, optional</span></dt><dd><p>The height of Spacer track. (Default: HLine.DEFAULT_HEIGHT)</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Track’s name.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
+<td><p>Append coverage to this track.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<td><p>Pile a stack of coverages with self’s coverages</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<td><p>Plot the track within a genome range.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(y_ax)</p></td>
+<td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 58%" />
+<col style="width: 42%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="coolbox.core.track.HiCMat">
+<code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">HiCMat</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.HiCMat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compose Hi-C track(.cool, .mcool, .hic), determine type by file extension.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.track.HicCompare">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">HicCompare</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.HicCompare" title="Permalink to this definition">¶</a></dt>
+<dd><p>Track for express the comparison between two HiC Track.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>hic1</strong><span class="classifier">coolbox.api.track.Cool</span></dt><dd><p>First HiC Track.</p>
+</dd>
+<dt><strong>hic2</strong><span class="classifier">coolbox.api.track.Cool</span></dt><dd><p>Second HiC Track.</p>
+</dd>
+<dt><strong>cmap</strong><span class="classifier">{str, matplotlib.colors.Colormap}, optional</span></dt><dd><p>A diverging colormap, left color represent the first HiC file,
+and right represent the second HiC file.</p>
+</dd>
+<dt><strong>color_bar</strong><span class="classifier">bool, optional</span></dt><dd><p>Show color bar or not.</p>
+</dd>
+<dt><strong>title</strong><span class="classifier">str, optional</span></dt><dd><p>Label text, default ‘’.</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Track’s name</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
+<td><p>Append coverage to this track.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tracks_height</span></code>(frame_width)</p></td>
+<td><p>calculate track height dynamically.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<td><p>Pile a stack of coverages with self’s coverages</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<td><p>Plot the track within a genome range.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(y_ax)</p></td>
+<td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 58%" />
+<col style="width: 42%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.track.Ideogram">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">Ideogram</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.Ideogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>The chromosome ideograme track.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_</strong><span class="classifier">str</span></dt><dd><p>Path to chromosome ideogram txt file,
+ideogram file is download from the UCSC Table Browser CytoBandIdeo table (in “all table” group).
+see: <a class="reference external" href="http://genome.ucsc.edu/cgi-bin/hgTables?hgta_group=allTables&amp;hgta_table=cytoBandIdeo">http://genome.ucsc.edu/cgi-bin/hgTables?hgta_group=allTables&amp;hgta_table=cytoBandIdeo</a></p>
+</dd>
+<dt><strong>color_scheme</strong><span class="classifier">dict, optional</span></dt><dd><p>Color scheme of ideogram, default: Ideogram.DEFAULT_COLOR_SCHEME</p>
+</dd>
+<dt><strong>show_name</strong><span class="classifier">bool, optional</span></dt><dd><p>Show band name or not. default True.</p>
+</dd>
+<dt><strong>font_size</strong><span class="classifier">int, optional</span></dt><dd><p>Band name font size.</p>
+</dd>
+<dt><strong>border_color</strong><span class="classifier">str, optional</span></dt><dd><p>Border color. default: ‘#000000’</p>
+</dd>
+<dt><strong>border_width</strong><span class="classifier">float, optional</span></dt><dd><p>Border width. default: 1.2</p>
+</dd>
+<dt><strong>height</strong><span class="classifier">int, optional</span></dt><dd><p>Track height.</p>
+</dd>
+<dt><strong>title</strong><span class="classifier">str, optional</span></dt><dd><p>Label text, default ‘’.</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Track’s name.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
+<td><p>Append coverage to this track.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<td><p>Pile a stack of coverages with self’s coverages</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<td><p>Plot the track within a genome range.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(y_ax)</p></td>
+<td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 68%" />
+<col style="width: 32%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>lookup_band_color</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>plot</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>plot_text</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.track.Pairs">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">Pairs</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.Pairs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Arcs(link) track.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_</strong><span class="classifier">str</span></dt><dd><p>Path to bedgraph file.</p>
+</dd>
+<dt><strong>height</strong><span class="classifier">float</span></dt><dd><p>Height of track, default Boundaries.DEFAULT_HEIGHT.</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Track color, default BigWig.DEFAULT_COLOR.</p>
+</dd>
+<dt><strong>alpha</strong><span class="classifier">float, optional</span></dt><dd><p>Alpha value of track, default 0.8.</p>
+</dd>
+<dt><strong>line_width</strong><span class="classifier">float, optional</span></dt><dd><p>Width of arc line.</p>
+</dd>
+<dt><strong>orientation</strong><span class="classifier">str, optional</span></dt><dd><p>Track orientation, use ‘inverted’ for inverted track plot.</p>
+</dd>
+<dt><strong>point_at</strong><span class="classifier">str, optional</span></dt><dd><p>Link anchor point method: ‘start’, ‘end’, or ‘mid’, default ‘mid’</p>
+</dd>
+<dt><strong>score_to_width</strong><span class="classifier">str, optional</span></dt><dd><p>Mapping function of score to width, default: ‘0.5 + sqrt(score)’</p>
+</dd>
+<dt><strong>diameter_to_height</strong><span class="classifier">str, optional</span></dt><dd><p>Mapping function of arc diameter(interval end - start) to height.
+You can specify to ‘max_diameter’ let all arcs has same height.
+default ‘max_height * diameter / max_diameter’.</p>
+</dd>
+<dt><strong>title</strong><span class="classifier">str, optional</span></dt><dd><p>Label text. default ‘’</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Track’s name.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
+<td><p>Append coverage to this track.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code>(genome_range)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<td><p>Pile a stack of coverages with self’s coverages</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, region_chrom, region_start, region_end)</p></td>
+<td><p>Makes and arc connecting two points on a linear scale representing interactions between bins.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_arcs</span></code>(ax, genome_range, intervals)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<td><p>Plot the track within a genome range.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(y_ax)</p></td>
+<td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 66%" />
+<col style="width: 34%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>convert_type</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>fetch_intervals</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>load</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.track.Spacer">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">Spacer</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.Spacer" title="Permalink to this definition">¶</a></dt>
+<dd><p>The spacer track,
+not have any real content, just used to split two tracks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>height</strong><span class="classifier">float, optional</span></dt><dd><p>The height of Spacer track. (Default: Spacer.DEFAULT_HEIGHT)</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Track’s name.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
+<td><p>Append coverage to this track.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<td><p>Pile a stack of coverages with self’s coverages</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<td><p>Plot the track within a genome range.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(y_ax)</p></td>
+<td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 58%" />
+<col style="width: 42%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.track.TADs">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">TADs</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.TADs" title="Permalink to this definition">¶</a></dt>
+<dd><p>TADs track.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_</strong><span class="classifier">str</span></dt><dd><p>Path to bed file.</p>
+</dd>
+<dt><strong>height</strong><span class="classifier">float, optional</span></dt><dd><p>Height of track, default TADs.DEFAULT_HEIGHT</p>
+</dd>
+<dt><strong>fontsize</strong><span class="classifier">int, optional</span></dt><dd><p>Font size, default TADs.DEFAULT_FONTSIZE</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Track color, use ‘bed_rgb’ for specify color according to file, default ‘bed_rgb’.</p>
+</dd>
+<dt><strong>border_color</strong><span class="classifier">str, optional</span></dt><dd><p>Border_color of gene, default ‘black’.</p>
+</dd>
+<dt><strong>orientation</strong><span class="classifier">str, optional</span></dt><dd><p>Track orientation, use ‘inverted’ for inverted track plot.</p>
+</dd>
+<dt><strong>title</strong><span class="classifier">str, optional</span></dt><dd><p>Label text, default ‘’.</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Track’s name</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
+<td><p>Append coverage to this track.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code>(genome_range)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_intervals</span></code>(genome_range)</p></td>
+<td><p>Fetch intervals within input chromosome range.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">intervals2dataframe</span></code>(intervals)</p></td>
+<td><p>Convert intervals list to pandas.DataFrame</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<td><p>Pile a stack of coverages with self’s coverages</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, chrom_region, start_region, end_region)</p></td>
+<td><p>Plots the boundaries as triangles in the given ax.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<td><p>Plot the track within a genome range.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(y_ax)</p></td>
+<td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 72%" />
+<col style="width: 28%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>get_rgb_and_edge_color</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>has_prop</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>load_range</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.track.Virtual4C">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">Virtual4C</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.Virtual4C" title="Permalink to this definition">¶</a></dt>
+<dd><p>Track for view virtual 4C related to a certain genome position,
+and a HiC Track (include <cite>Cool</cite> and <cite>DotHiC</cite>).</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>hic_track_or_file</strong><span class="classifier">{<cite>Cool</cite>, <cite>DotHiC</cite>}</span></dt><dd><p>related hic track or Hi-C file path.</p>
+</dd>
+<dt><strong>genome_position</strong><span class="classifier">str</span></dt><dd><p>related genome position, like: ‘chr1:2000000-2000000’</p>
+</dd>
+<dt><strong>args_hic</strong><span class="classifier">dict, optional</span></dt><dd><p>Argument for create hic track, needed only if first argument is a path.</p>
+</dd>
+<dt><strong>bin_width</strong><span class="classifier">int, optional</span></dt><dd><p>How many bin used for calculate the mean value.
+default 3</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Track color.</p>
+</dd>
+<dt><strong>height</strong><span class="classifier">int, optional</span></dt><dd><p>Track height</p>
+</dd>
+<dt><strong>orientation</strong><span class="classifier">str, optional</span></dt><dd><p>Track orientation, use ‘inverted’ for inverted track plot.</p>
+</dd>
+<dt><strong>max_value</strong><span class="classifier">{float, ‘auto’}, optional</span></dt><dd><p>Max value of track, use ‘auto’ for specify max value automatically, default ‘auto’.</p>
+</dd>
+<dt><strong>min_value</strong><span class="classifier">{float, ‘auto’}, optional</span></dt><dd><p>Min value of track, use ‘auto’ for specify min value automatically, default ‘auto’.</p>
+</dd>
+<dt><strong>show_data_range</strong><span class="classifier">bool, optional</span></dt><dd><p>Show_data_range or not, default True.</p>
+</dd>
+<dt><strong>data_range_style</strong><span class="classifier">{‘text’, ‘y-axis’}</span></dt><dd><p>The style of the data range. default: ‘y-axis’</p>
+</dd>
+<dt><strong>style</strong><span class="classifier">str, optional</span></dt><dd><p>Track graph type, format {‘fill’, ‘line:<cite>size</cite>’, ‘points:<cite>size</cite>’},
+example: ‘line:2’, ‘points:0.5’. default: ‘line:2’</p>
+</dd>
+<dt><strong>title</strong><span class="classifier">str, optional</span></dt><dd><p>Label text, default ‘’.</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Track’s name.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
+<td><p>Append coverage to this track.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code>(genome_range)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<td><p>Pile a stack of coverages with self’s coverages</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<td><p>Plot the track within a genome range.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(y_ax)</p></td>
+<td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 66%" />
+<col style="width: 34%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>fetch_mean_arr</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>has_prop</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>plot</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot_coverage</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>plot_data_range</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.track.XAxis">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">XAxis</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.XAxis" title="Permalink to this definition">¶</a></dt>
+<dd><p>The x axis track.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>height</strong><span class="classifier">float, optional</span></dt><dd><p>Height of Spacer track. (Default: XAxis.DEFAULT_HEIGHT)</p>
+</dd>
+<dt><strong>fontsize</strong><span class="classifier">int, optional</span></dt><dd><p>Font size of XAxis. (Default: XAxis.DEFAULT_FONTSIZE)</p>
+</dd>
+<dt><strong>where</strong><span class="classifier">{‘top’, ‘bottom’}, optional</span></dt><dd><p>The position of tick labels relative to the axis.
+(Default: ‘bottom’)</p>
+</dd>
+<dt><strong>name (str, optional):</strong></dt><dd><p>Track’s name.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
+<td><p>Append coverage to this track.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<td><p>Pile a stack of coverages with self’s coverages</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<td><p>Plot the track within a genome range.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(y_ax)</p></td>
+<td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 58%" />
+<col style="width: 42%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-coolbox.core.coverage">
+<span id="coverage"></span><h2>Coverage<a class="headerlink" href="#module-coolbox.core.coverage" title="Permalink to this headline">¶</a></h2>
+<p><strong>Classes:</strong></p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.coverage.CoverageStack" title="coolbox.core.coverage.CoverageStack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoverageStack</span></code></a>(coverages)</p></td>
+<td><p>Denote a stack of Coverage.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.coverage.Vlines" title="coolbox.core.coverage.Vlines"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vlines</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Vertical lines.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.coverage.VlinesFromFile" title="coolbox.core.coverage.VlinesFromFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VlinesFromFile</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Vertical lines from the file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.coverage.HighLights" title="coolbox.core.coverage.HighLights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HighLights</span></code></a>(*args, **kwargs)</p></td>
+<td><p>High light region.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.coverage.HighLightsFromFile" title="coolbox.core.coverage.HighLightsFromFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HighLightsFromFile</span></code></a>(*args, **kwargs)</p></td>
+<td><p>High light regions coverage, read the regions from the file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.coverage.HiCPeaks" title="coolbox.core.coverage.HiCPeaks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HiCPeaks</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Hi-C Peaks(Loops) Coverge is a special kind of Coverage.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.coverage.TADCoverage" title="coolbox.core.coverage.TADCoverage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TADCoverage</span></code></a>(*args, **kwargs)</p></td>
+<td><p>TAD Coverage is used for plot TAD on upper layer of a track.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.coverage.BigWigCoverage" title="coolbox.core.coverage.BigWigCoverage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BigWigCoverage</span></code></a>(*args, **kwargs)</p></td>
+<td><p>BigWig track.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.coverage.ArcsCoverage" title="coolbox.core.coverage.ArcsCoverage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ArcsCoverage</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Compose Arcs track(.bedpe, .pairs), determine type by file extension.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt id="coolbox.core.coverage.ArcsCoverage">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.coverage.</code><code class="sig-name descname">ArcsCoverage</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.coverage.ArcsCoverage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compose Arcs track(.bedpe, .pairs), determine type by file extension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 67%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>check_track_type</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.coverage.BigWigCoverage">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.coverage.</code><code class="sig-name descname">BigWigCoverage</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.coverage.BigWigCoverage" title="Permalink to this definition">¶</a></dt>
+<dd><p>BigWig track.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_</strong><span class="classifier">str</span></dt><dd><p>Path to bigwig file.</p>
+</dd>
+<dt><strong>height</strong><span class="classifier">float, optional</span></dt><dd><p>Height of track, default BigWig.DEFAULT_HEIGHT.</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Track color, default BigWig.DEFAULT_COLOR.</p>
+</dd>
+<dt><strong>alpha</strong><span class="classifier">float, optional</span></dt><dd><p>Alpha value of plot, default 1.0</p>
+</dd>
+<dt><strong>number_of_bins</strong><span class="classifier">int, optional</span></dt><dd><p>Number_of_bins in current range, default 700.</p>
+</dd>
+<dt><strong>style</strong><span class="classifier">str, optional</span></dt><dd><p>Track graph type, format {‘fill’, ‘line:<cite>size</cite>’, ‘points:<cite>size</cite>’},
+example: ‘line:2’, ‘points:0.5’. default: ‘fill’</p>
+</dd>
+<dt><strong>orientation</strong><span class="classifier">str, optional</span></dt><dd><p>Track orientation, use ‘inverted’ for inverted track plot.</p>
+</dd>
+<dt><strong>show_data_range</strong><span class="classifier">bool, optional</span></dt><dd><p>Show_data_range or not, default True.</p>
+</dd>
+<dt><strong>data_range_style</strong><span class="classifier">{‘text’, ‘y-axis’}</span></dt><dd><p>The style of the data range. default: ‘y-axis’</p>
+</dd>
+<dt><strong>title</strong><span class="classifier">str, optional</span></dt><dd><p>Label text, default ‘’</p>
+</dd>
+<dt><strong>max_value</strong><span class="classifier">{float, ‘auto’}, optional</span></dt><dd><p>Max value of track. ‘auto’ for specify max value automatically, default ‘auto’.</p>
+</dd>
+<dt><strong>min_value</strong><span class="classifier">{float, ‘auto’}, optional</span></dt><dd><p>Min value of track. ‘auto’ for specify max value automatically, default ‘auto’.</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Track’s name.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 67%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>check_track_type</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.coverage.CoverageStack">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.coverage.</code><code class="sig-name descname">CoverageStack</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coverages</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.coverage.CoverageStack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Denote a stack of Coverage.</p>
+<dl class="simple">
+<dt>ps: this “Stack” is actually a “Deque”,</dt><dd><p>name it “Stack” is just for imaging it vertically.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>coverages</strong><span class="classifier">list of coolbox.core.coverage.Coverage</span></dt><dd><p>coverages list.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 57%" />
+<col style="width: 43%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>to_bottom</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>to_top</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.coverage.HiCPeaks">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.coverage.</code><code class="sig-name descname">HiCPeaks</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.coverage.HiCPeaks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hi-C Peaks(Loops) Coverge is a special kind of Coverage.
+Used to show the peaks on the Hi-C interaction map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_</strong><span class="classifier">str</span></dt><dd><p>Path to the loop file, loop file is a tab splited text file, fields:
+chr1, x1, x2, chr2, y1, y2, [color], … (other optional fields)</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Peak color, use ‘bed_rgb’ for specify color in file,
+default ‘bed_rgb’.</p>
+</dd>
+<dt><strong>alpha</strong><span class="classifier">float, optional</span></dt><dd><p>Peak alpha value, default 0.6.</p>
+</dd>
+<dt><strong>line_width</strong><span class="classifier">float, optional</span></dt><dd><p>Peak border line width, default 1.0</p>
+</dd>
+<dt><strong>line_style</strong><span class="classifier">str, optional</span></dt><dd><p>Border line style, default ‘solid’</p>
+</dd>
+<dt><strong>fill</strong><span class="classifier">bool, optional</span></dt><dd><p>Fill center or not, default False.</p>
+</dd>
+<dt><strong>fill_color</strong><span class="classifier">str, optional</span></dt><dd><p>Fill color, use ‘bed_rgb’ for specify color in file,
+default ‘bed_rgb’.</p>
+</dd>
+<dt><strong>side</strong><span class="classifier">{‘upper’, ‘lower’, ‘both’}</span></dt><dd><p>Plot peak in which side of the matrix.
+NOTE: This parameters is useful only if the Cool track in matrix format.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 67%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>check_track_type</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.coverage.HighLights">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.coverage.</code><code class="sig-name descname">HighLights</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.coverage.HighLights" title="Permalink to this definition">¶</a></dt>
+<dd><p>High light region.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>highlight_regions</strong><span class="classifier">list of {str, tuple}</span></dt><dd><p>A list of regions for highlights, region can be expressed as a tuple or string.
+region tuple like:
+[(‘chr1’, 100000, 120000), (‘chr2’, 130000, 150000)]
+region string format: <cite>chr:start-end</cite> like:
+[‘chr1:100000-120000’, ‘chr2:130000-150000’].</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>High light region color, default HighLights.DEFAULT_COLOR.</p>
+</dd>
+<dt><strong>alpha</strong><span class="classifier">float, optional</span></dt><dd><p>High light region alpha value, default 0.5</p>
+</dd>
+<dt><strong>border_line</strong><span class="classifier">bool, optional</span></dt><dd><p>Plot border line or not, default True.</p>
+</dd>
+<dt><strong>border_line_style</strong><span class="classifier">str, optional</span></dt><dd><p>Border line style, default ‘dashed’</p>
+</dd>
+<dt><strong>border_line_width</strong><span class="classifier">float, optional</span></dt><dd><p>Border line width, default 1.0</p>
+</dd>
+<dt><strong>border_line_color</strong><span class="classifier">str, optional</span></dt><dd><p>Border line color, default ‘#000000’</p>
+</dd>
+<dt><strong>border_line_alpha</strong><span class="classifier">float, optional</span></dt><dd><p>Border line alpha value, default 0.8</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>The name of thr Coverage.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 67%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>check_track_type</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.coverage.HighLightsFromFile">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.coverage.</code><code class="sig-name descname">HighLightsFromFile</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.coverage.HighLightsFromFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>High light regions coverage, read the regions from the file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_</strong><span class="classifier">str</span></dt><dd><p>Path to the file.</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>High light region color,
+use ‘bed_rgb’ for specify color from the file, default ‘bed_rgb’.</p>
+</dd>
+<dt><strong>alpha</strong><span class="classifier">float, optional</span></dt><dd><p>High light region alpha value, default 0.5.</p>
+</dd>
+<dt><strong>border_line</strong><span class="classifier">bool, optional</span></dt><dd><p>Plot border line or not, default True.</p>
+</dd>
+<dt><strong>border_line_style</strong><span class="classifier">str, optional</span></dt><dd><p>Border line style, default ‘dashed’.</p>
+</dd>
+<dt><strong>border_line_width</strong><span class="classifier">float, optional</span></dt><dd><p>Border line width, default 1.0.</p>
+</dd>
+<dt><strong>border_line_color</strong><span class="classifier">str, optional</span></dt><dd><p>Border line color, default ‘#000000’</p>
+</dd>
+<dt><strong>border_line_alpha</strong><span class="classifier">float, optional</span></dt><dd><p>Border line alpha value, default 0.8</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>The name of thr Coverage.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 67%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>check_track_type</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.coverage.TADCoverage">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.coverage.</code><code class="sig-name descname">TADCoverage</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.coverage.TADCoverage" title="Permalink to this definition">¶</a></dt>
+<dd><p>TAD Coverage is used for plot TAD on upper layer of a track.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_</strong><span class="classifier">str</span></dt><dd><p>Path to the loop file, loop file is a tab splited text file, fields:
+chr1, x1, x2, chr2, y1, y2, [color], … (other optional fields)</p>
+</dd>
+<dt><strong>show_score</strong><span class="classifier">bool</span></dt><dd><p>Show bed score or not.
+default False.</p>
+</dd>
+<dt><strong>score_font_size</strong><span class="classifier">{‘auto’, int}</span></dt><dd><p>Score text font size.
+default ‘auto’</p>
+</dd>
+<dt><strong>score_font_color</strong><span class="classifier">str</span></dt><dd><p>Score text color.
+default ‘#000000’</p>
+</dd>
+<dt><strong>score_height_ratio</strong><span class="classifier">float</span></dt><dd><p>(text tag height) / (TAD height). used for adjust the position of Score text.
+default 0.5</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Peak color, use ‘bed_rgb’ for specify color in file,
+default ‘bed_rgb’.</p>
+</dd>
+<dt><strong>alpha</strong><span class="classifier">float, optional</span></dt><dd><p>Peak alpha value, default 0.3.</p>
+</dd>
+<dt><strong>line_color</strong><span class="classifier">str, optional</span></dt><dd><p>Border line color, default ‘#000000’.</p>
+</dd>
+<dt><strong>line_width</strong><span class="classifier">float, optional</span></dt><dd><p>Border line width, default 1.0.</p>
+</dd>
+<dt><strong>line_style</strong><span class="classifier">str, optional</span></dt><dd><p>Border line style, default ‘solid’.</p>
+</dd>
+<dt><strong>fill</strong><span class="classifier">bool, optional</span></dt><dd><p>Fill center or not, default True.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">track_type</span></code></dt><dd><p>return a string for indicate self.track’s type.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code>(genome_range)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_intervals</span></code>(genome_range)</p></td>
+<td><p>Fetch intervals within input chromosome range.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">intervals2dataframe</span></code>(intervals)</p></td>
+<td><p>Convert intervals list to pandas.DataFrame</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, chrom_region, start_region, end_region)</p></td>
+<td><p>Plots the boundaries as triangles in the given ax.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 67%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>check_track_type</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>load_range</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.coverage.Vlines">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.coverage.</code><code class="sig-name descname">Vlines</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.coverage.Vlines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vertical lines.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>vlines</strong><span class="classifier">list of {int, str}</span></dt><dd><p>A list of vline positions. position can be expressed as a tuple like:
+[(‘chr1’, 10000), (‘chr2’, 50000)]
+or a genome range string like:
+[‘chr1:10000-10000’, ‘chr2:50000-50000’]</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Line color, default ‘#1e1e1e’.</p>
+</dd>
+<dt><strong>alpha</strong><span class="classifier">float, optional</span></dt><dd><p>Line alpha value, default 0.8.</p>
+</dd>
+<dt><strong>line_style</strong><span class="classifier">str, optional</span></dt><dd><p>Line style, default ‘dashed’.</p>
+</dd>
+<dt><strong>line_width</strong><span class="classifier">float, optional</span></dt><dd><p>Line width, default 0.5.</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>The name of thr Coverage.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 67%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>check_track_type</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.coverage.VlinesFromFile">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.coverage.</code><code class="sig-name descname">VlinesFromFile</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.coverage.VlinesFromFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vertical lines from the file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_</strong><span class="classifier">str</span></dt><dd><p>Path to file.</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Line color, default ‘#1e1e1e’.</p>
+</dd>
+<dt><strong>alpha</strong><span class="classifier">float, optional</span></dt><dd><p>Line alpha value, default 0.8.</p>
+</dd>
+<dt><strong>line_style</strong><span class="classifier">str, optional</span></dt><dd><p>Line style, default ‘dashed’.</p>
+</dd>
+<dt><strong>line_width</strong><span class="classifier">float, optional</span></dt><dd><p>Line width, default 0.5.</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>The name of thr Coverage.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 67%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>check_track_type</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-coolbox.core.feature">
+<span id="feature"></span><h2>Feature<a class="headerlink" href="#module-coolbox.core.feature" title="Permalink to this headline">¶</a></h2>
+<p><strong>Classes:</strong></p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.Feature" title="coolbox.core.feature.Feature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Feature</span></code></a>(key, value)</p></td>
+<td><p>Feature base class.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.Color" title="coolbox.core.feature.Color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Color</span></code></a>(value)</p></td>
+<td><p>Track color.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.ColorMap" title="coolbox.core.feature.ColorMap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ColorMap</span></code></a>(value)</p></td>
+<td><p>Track color map.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.TrackHeight" title="coolbox.core.feature.TrackHeight"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TrackHeight</span></code></a>(value)</p></td>
+<td><p>Track height.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.Inverted" title="coolbox.core.feature.Inverted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Inverted</span></code></a>()</p></td>
+<td><p>Invert the orientation of track.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.Title" title="coolbox.core.feature.Title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Title</span></code></a>(value)</p></td>
+<td><p>Track title.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.MaxValue" title="coolbox.core.feature.MaxValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MaxValue</span></code></a>(value)</p></td>
+<td><p>Max value of track.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.MinValue" title="coolbox.core.feature.MinValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MinValue</span></code></a>(value)</p></td>
+<td><p>Min value of track.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.HistStyle" title="coolbox.core.feature.HistStyle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HistStyle</span></code></a>([type, size])</p></td>
+<td><p>Style of BigWig or BedGraph.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.ShowDataRange" title="coolbox.core.feature.ShowDataRange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShowDataRange</span></code></a>([show])</p></td>
+<td><p>Show data range or not.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.ShowColorBar" title="coolbox.core.feature.ShowColorBar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShowColorBar</span></code></a>([show])</p></td>
+<td><p>Show color bar or not.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.DepthRatio" title="coolbox.core.feature.DepthRatio"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DepthRatio</span></code></a>(depth_ratio)</p></td>
+<td><p>Control Cool track’s depth ratio.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.CoolStyle" title="coolbox.core.feature.CoolStyle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoolStyle</span></code></a>([style])</p></td>
+<td><p>Control Cool track’s style.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.FrameFeature" title="coolbox.core.feature.FrameFeature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameFeature</span></code></a>(key, value)</p></td>
+<td><p>FrameFeature base class.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.FrameTitle" title="coolbox.core.feature.FrameTitle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTitle</span></code></a>(value)</p></td>
+<td><p>Frame title.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt id="coolbox.core.feature.Color">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.feature.</code><code class="sig-name descname">Color</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.feature.Color" title="Permalink to this definition">¶</a></dt>
+<dd><p>Track color.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.feature.ColorMap">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.feature.</code><code class="sig-name descname">ColorMap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.feature.ColorMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Track color map.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.feature.CoolStyle">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.feature.</code><code class="sig-name descname">CoolStyle</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">style</span><span class="o">=</span><span class="default_value">'triangular'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.feature.CoolStyle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Control Cool track’s style.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.feature.DepthRatio">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.feature.</code><code class="sig-name descname">DepthRatio</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">depth_ratio</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.feature.DepthRatio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Control Cool track’s depth ratio.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.feature.Feature">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.feature.</code><code class="sig-name descname">Feature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.feature.Feature" title="Permalink to this definition">¶</a></dt>
+<dd><p>Feature base class.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.feature.FrameFeature">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.feature.</code><code class="sig-name descname">FrameFeature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.feature.FrameFeature" title="Permalink to this definition">¶</a></dt>
+<dd><p>FrameFeature base class.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.feature.FrameTitle">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.feature.</code><code class="sig-name descname">FrameTitle</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.feature.FrameTitle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Frame title.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.feature.HistStyle">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.feature.</code><code class="sig-name descname">HistStyle</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">type</span><span class="o">=</span><span class="default_value">'fill'</span></em>, <em class="sig-param"><span class="n">size</span><span class="o">=</span><span class="default_value">0.5</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.feature.HistStyle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Style of BigWig or BedGraph.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.feature.Inverted">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.feature.</code><code class="sig-name descname">Inverted</code><a class="headerlink" href="#coolbox.core.feature.Inverted" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invert the orientation of track.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.feature.MaxValue">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.feature.</code><code class="sig-name descname">MaxValue</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.feature.MaxValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Max value of track.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.feature.MinValue">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.feature.</code><code class="sig-name descname">MinValue</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.feature.MinValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Min value of track.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.feature.ShowColorBar">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.feature.</code><code class="sig-name descname">ShowColorBar</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">show</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.feature.ShowColorBar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show color bar or not.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.feature.ShowDataRange">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.feature.</code><code class="sig-name descname">ShowDataRange</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">show</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.feature.ShowDataRange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show data range or not.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.feature.Title">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.feature.</code><code class="sig-name descname">Title</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.feature.Title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Track title.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.feature.TrackHeight">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.feature.</code><code class="sig-name descname">TrackHeight</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.feature.TrackHeight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Track height.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-coolbox.core.frame">
+<span id="frame"></span><h2>Frame<a class="headerlink" href="#module-coolbox.core.frame" title="Permalink to this headline">¶</a></h2>
+<p><strong>Classes:</strong></p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">FetchFrame</span></code>()</p></td>
+<td><p>FetchFrame used for fetch data from all tracks in the frame.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame" title="coolbox.core.frame.Frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Frame for arrange and group plots.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">GenomeRange</span></code>(*args)</p></td>
+<td><p>Express a range on the genome.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">OrderedDict</span></code></p></td>
+<td><p>Dictionary that remembers insertion order</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Functions:</strong></p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code>(x)</p></td>
+<td><p>Shallow copy operation on arbitrary Python objects.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">op_err_msg</span></code>(a, b[, op])</p></td>
+<td><p>Generate the error message of error operand type.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt id="coolbox.core.frame.Frame">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.frame.</code><code class="sig-name descname">Frame</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.frame.Frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Frame for arrange and group plots.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>genome_range</strong><span class="classifier">{GenomeRange, str}, optional</span></dt><dd><p>The init genome range.</p>
+</dd>
+<dt><strong>width</strong><span class="classifier">{int, float}, optional</span></dt><dd><p>Width of frame, default Frame.DEFAULT_WIDTH.</p>
+</dd>
+<dt><strong>width_ratios</strong><span class="classifier">tuple, optional</span></dt><dd><p>Width ratios of track and track title,
+like <cite>(0.9, 0.1)</cite>. default Frame.DEFAULT_WIDTH_RATIOS.</p>
+</dd>
+<dt><strong>margins</strong><span class="classifier">dict, optional</span></dt><dd><p>Margins of frame, default Frame.DEFAULT_MARGINS.</p>
+</dd>
+<dt><strong>title</strong><span class="classifier">str, optional</span></dt><dd><p>The title of this frame, default ‘’.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">frame_1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">frame_2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">genome_range</span><span class="o">=</span><span class="s2">&quot;chr1:1000-2000&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">frame_2</span><span class="o">.</span><span class="n">current_range</span><span class="p">)</span>
+<span class="go">&#39;chr1:1000-2000&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">frame_3</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">genome_range</span><span class="o">=</span><span class="n">GenomeRange</span><span class="p">(</span><span class="s2">&quot;chr1&quot;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">frame_3</span><span class="o">.</span><span class="n">current_range</span><span class="p">)</span>
+<span class="go">&#39;chr1:1000-2000&#39;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>properties</strong><span class="classifier">dict</span></dt><dd><p>Frame properties dict.</p>
+</dd>
+<dt><strong>tracks</strong><span class="classifier">OrderedDict</span></dt><dd><p>Container of all tracks.</p>
+</dd>
+<dt><strong>current_range</strong><span class="classifier">GenomeRange, optional</span></dt><dd><p>Current frame range.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.add_cov_to_tracks" title="coolbox.core.frame.Frame.add_cov_to_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_cov_to_tracks</span></code></a>(cov)</p></td>
+<td><p>Add coverage to all tracks in this frame.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.add_feature_to_tracks" title="coolbox.core.frame.Frame.add_feature_to_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_feature_to_tracks</span></code></a>(feature)</p></td>
+<td><p>Add feature to all tracks in this frame.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.add_track" title="coolbox.core.frame.Frame.add_track"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_track</span></code></a>(track[, pos])</p></td>
+<td><p>Add <cite>Track</cite> object to self.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tracks_height</span></code>([default_height])</p></td>
+<td><p>Get heights of all tracks.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.goto" title="coolbox.core.frame.Frame.goto"><code class="xref py py-obj docutils literal notranslate"><span class="pre">goto</span></code></a>(genome_range)</p></td>
+<td><p>Go to the range on the genome.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(*args)</p></td>
+<td><p>Plot all tracks.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.set_tracks_min_max" title="coolbox.core.frame.Frame.set_tracks_min_max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_tracks_min_max</span></code></a>(min_, max_[, name])</p></td>
+<td><p>set all bigwig and bedgraph tracks’s min and max value.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.show" title="coolbox.core.frame.Frame.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>()</p></td>
+<td><p>Display self’s elements on screen.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 58%" />
+<col style="width: 42%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>fetch_data</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.add_cov_to_tracks" title="coolbox.core.frame.Frame.add_cov_to_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_cov_to_tracks</span></code></a>(cov)</p></td>
+<td><p>Add coverage to all tracks in this frame.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.add_feature_to_tracks" title="coolbox.core.frame.Frame.add_feature_to_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_feature_to_tracks</span></code></a>(feature)</p></td>
+<td><p>Add feature to all tracks in this frame.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.add_track" title="coolbox.core.frame.Frame.add_track"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_track</span></code></a>(track[, pos])</p></td>
+<td><p>Add <cite>Track</cite> object to self.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.goto" title="coolbox.core.frame.Frame.goto"><code class="xref py py-obj docutils literal notranslate"><span class="pre">goto</span></code></a>(genome_range)</p></td>
+<td><p>Go to the range on the genome.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.set_tracks_min_max" title="coolbox.core.frame.Frame.set_tracks_min_max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_tracks_min_max</span></code></a>(min_, max_[, name])</p></td>
+<td><p>set all bigwig and bedgraph tracks’s min and max value.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.show" title="coolbox.core.frame.Frame.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>()</p></td>
+<td><p>Display self’s elements on screen.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="coolbox.core.frame.Frame.add_cov_to_tracks">
+<code class="sig-name descname">add_cov_to_tracks</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cov</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.frame.Frame.add_cov_to_tracks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add coverage to all tracks in this frame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>cov</strong><span class="classifier">Coverage</span></dt><dd><p>Coverage object to be added to Frame’s tracks.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">coolbox.core.track</span> <span class="kn">import</span> <span class="n">XAxis</span><span class="p">,</span> <span class="n">BigWig</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">coolbox.core.coverage</span> <span class="kn">import</span> <span class="n">HighLights</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">add_track</span><span class="p">(</span><span class="n">XAxis</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">add_track</span><span class="p">(</span><span class="n">BigWig</span><span class="p">(</span><span class="s2">&quot;tests/test_data/bigwig_chrx_2e6_5e6.bw&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">highlights</span> <span class="o">=</span> <span class="n">HighLights</span><span class="p">([(</span><span class="s2">&quot;chr1&quot;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;chr2&quot;</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">4000</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">add_cov_to_tracks</span><span class="p">(</span><span class="n">highlights</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="p">[</span><span class="n">track</span><span class="o">.</span><span class="n">coverages</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="n">highlights</span> <span class="k">for</span> <span class="n">track</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coolbox.core.frame.Frame.add_feature_to_tracks">
+<code class="sig-name descname">add_feature_to_tracks</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">feature</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.frame.Frame.add_feature_to_tracks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add feature to all tracks in this frame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>feature</strong><span class="classifier">Feature</span></dt><dd><p>Feature object to be added to Frame’s tracks.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">coolbox.core.feature</span> <span class="kn">import</span> <span class="n">Color</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">add_feature_to_tracks</span><span class="p">(</span><span class="n">Color</span><span class="p">(</span><span class="s1">&#39;#66ccff&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="nb">all</span><span class="p">([</span><span class="n">track</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;#66ccff&#39;</span> <span class="k">for</span> <span class="n">track</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coolbox.core.frame.Frame.add_track">
+<code class="sig-name descname">add_track</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">track</span></em>, <em class="sig-param"><span class="n">pos</span><span class="o">=</span><span class="default_value">'tail'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.frame.Frame.add_track" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add <cite>Track</cite> object to self.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>track</strong><span class="classifier">Track</span></dt><dd><p>The track need to be added to self.tracks
+pos (<cite>str</cite>, ‘tail’ or ‘head’): add track to tail or head. [‘tail’]</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">coolbox.core.track</span> <span class="kn">import</span> <span class="n">XAxis</span><span class="p">,</span> <span class="n">BigWig</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">add_track</span><span class="p">(</span><span class="n">XAxis</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">add_track</span><span class="p">(</span><span class="n">BigWig</span><span class="p">(</span><span class="s2">&quot;tests/test_data/bigwig_chrx_2e6_5e6.bw&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">tracks</span><span class="p">)</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coolbox.core.frame.Frame.goto">
+<code class="sig-name descname">goto</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">genome_range</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.frame.Frame.goto" title="Permalink to this definition">¶</a></dt>
+<dd><p>Go to the range on the genome.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>genome_range</strong><span class="classifier">{str, GenomeRange}</span></dt><dd><p>The range string,
+like “chr1:1000000-2000000”, or GenomeRange object.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">goto</span><span class="p">(</span><span class="s2">&quot;chrX:3000000-5000000&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">current_range</span><span class="p">)</span>
+<span class="go">&#39;chrX:3000000-5000000&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">goto</span><span class="p">(</span><span class="n">GenomeRange</span><span class="p">(</span><span class="s2">&quot;chr1&quot;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">current_range</span><span class="p">)</span>
+<span class="go">&#39;chr1:1000-2000&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coolbox.core.frame.Frame.set_tracks_min_max">
+<code class="sig-name descname">set_tracks_min_max</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">min_</span></em>, <em class="sig-param"><span class="n">max_</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.frame.Frame.set_tracks_min_max" title="Permalink to this definition">¶</a></dt>
+<dd><p>set all bigwig and bedgraph tracks’s min and max value.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">set_tracks_min_max</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="nb">all</span><span class="p">([</span><span class="n">track</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;min_value&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">10</span> <span class="k">for</span> <span class="n">track</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="nb">all</span><span class="p">([</span><span class="n">track</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;min_value&#39;</span><span class="p">]</span> <span class="o">==</span>  <span class="mi">10</span> <span class="k">for</span> <span class="n">track</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coolbox.core.frame.Frame.show">
+<code class="sig-name descname">show</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.frame.Frame.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display self’s elements on screen.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-coolbox.core.browser">
+<span id="browser"></span><h2>Browser<a class="headerlink" href="#module-coolbox.core.browser" title="Permalink to this headline">¶</a></h2>
+<p><strong>Classes:</strong></p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.browser.WidgetsPanel" title="coolbox.core.browser.WidgetsPanel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WidgetsPanel</span></code></a>([type, reference_genome])</p></td>
+<td><p>Widgets container.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.browser.Browser" title="coolbox.core.browser.Browser"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Browser</span></code></a>(frame[, reference_genome, …])</p></td>
+<td><p>Genoeme browser. include:     * Frame: for show plots     * widgetsPanel: for control genome region showed in Frame.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt id="coolbox.core.browser.Browser">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.browser.</code><code class="sig-name descname">Browser</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span></em>, <em class="sig-param"><span class="n">reference_genome</span><span class="o">=</span><span class="default_value">'hg19'</span></em>, <em class="sig-param"><span class="n">init_range</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">widgets_box</span><span class="o">=</span><span class="default_value">'simple'</span></em>, <em class="sig-param"><span class="n">dpi</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">img_format</span><span class="o">=</span><span class="default_value">'svg'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.browser.Browser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Genoeme browser.
+include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Frame: for show plots</p></li>
+<li><p>widgetsPanel: for control genome region showed in Frame.</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>center</strong></dt><dd></dd>
+<dt><strong>tracks</strong></dt><dd></dd>
+<dt><strong>window_size</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear_fig_cache</span></code>()</p></td>
+<td><p>Clear the fig cache.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_init_range</span></code>([chrom])</p></td>
+<td><p>Generate an initial range within a chromosome.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">preload_imgs</span></code>(directions)</p></td>
+<td><p>Preloading images to self.fig_cache.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">refresh</span></code>([hard])</p></td>
+<td><p>Refresh the image display.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code>(path[, dpi])</p></td>
+<td><p>Save current frame’s image to file.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code>(*args, **kwargs)</p></td>
+<td><p>Show widgets and frame.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 58%" />
+<col style="width: 42%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>fetch_data</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>go_left</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>go_right</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>goto</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>zoom_in</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>zoom_out</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.browser.WidgetsPanel">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.browser.</code><code class="sig-name descname">WidgetsPanel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">type</span><span class="o">=</span><span class="default_value">'simple'</span></em>, <em class="sig-param"><span class="n">reference_genome</span><span class="o">=</span><span class="default_value">'hg19'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.browser.WidgetsPanel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Widgets container.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>type</strong><span class="classifier">{‘simple’, ‘full’}, optional</span></dt><dd><p>Widgets type ‘simple’ or ‘full’,
+default ‘simple’</p>
+</dd>
+<dt><strong>reference_genome</strong><span class="classifier">str, optional</span></dt><dd><p>Reference genome,
+built-in references:(‘hg19’, ‘hg38’, ‘mm9’, ‘mm10’)
+if you want use other genome, you can specify the “chromosome length file”,
+that is a tab splited file, first column is the chromosomes,
+and second column is the length of correspond chromosome.
+default ‘hg19’</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="_gallery/TADs.html" class="btn btn-neutral float-left" title="TADs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, WeizeXu
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

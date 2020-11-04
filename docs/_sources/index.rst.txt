@@ -19,4 +19,5 @@ Table of contents
    quick_start_API.ipynb
    quick_start_CLI.ipynb
    gallery.rst
+   api.rst
 

@@ -626,9 +626,6 @@ def Arcs(file_, *args, **kwargs):
         raise NotImplementedError("Arcs track only support .bedpe or .pairs input format.")
 
 
-Arcs.__doc__ = _Arcs.__doc__
-
-
 class TADs(Track, PlotTADs, FetchBed):
     """
     TADs track.
@@ -740,6 +737,12 @@ class Cool(Track, PlotCool, FetchCool):
         super().__init__(properties_dict)
 
 
+from matplotlib.colors import LinearSegmentedColormap
+JuiceBoxLikeColor = LinearSegmentedColormap.from_list('interaction', ['#FFFFFF','#FFDFDF','#FF7575','#FF2626','#F70000'])
+JuiceBoxLikeColor.set_bad("white")
+JuiceBoxLikeColor.set_under("white")
+
+
 class DotHiC(Track, PlotDotHiC, FetchDotHiC):
 
     """
@@ -751,7 +754,7 @@ class DotHiC(Track, PlotDotHiC, FetchDotHiC):
         Path to bed file.
 
     cmap : str, optional
-        Color map of hic matrix, default Cool.DEFAULT_COLOR.
+        Color map of hic matrix, default DotHiC.DEFAULT_COLOR.
 
     style : {'triangular', 'window', 'matrix'}, optional
         Matrix style,
@@ -786,13 +789,13 @@ class DotHiC(Track, PlotDotHiC, FetchDotHiC):
         Track's name.
 
     """
-    DEFAULT_COLOR = 'Reds'
+    DEFAULT_COLOR = JuiceBoxLikeColor
 
     def __init__(self, file_, **kwargs):
 
         properties_dict = {
             "file": file_,
-            "cmap": Cool.DEFAULT_COLOR,
+            "cmap": DotHiC.DEFAULT_COLOR,
             "style": 'triangular',
             "balance": True,
             "depth_ratio": "full",
@@ -810,6 +813,7 @@ class DotHiC(Track, PlotDotHiC, FetchDotHiC):
 
 
 def HiCMat(file_, *args, **kwargs):
+    """Compose Hi-C track(.cool, .mcool, .hic), determine type by file extension."""
     if file_.endswith(".hic"):
         return DotHiC(file_, *args, **kwargs)
     elif file_.endswith(".cool") or file_.endswith(".mcool"):
