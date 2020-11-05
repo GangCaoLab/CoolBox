@@ -454,13 +454,15 @@ div.rendered_html tbody tr:hover {
 <div class="section" id="Quickstart-(API)">
 <h1>Quickstart (API)<a class="headerlink" href="#Quickstart-(API)" title="Permalink to this headline">¶</a></h1>
 <p>This document is for teach the basic usage of <code class="docutils literal notranslate"><span class="pre">coolbox</span></code> API and explain some basic conceptions. It’s can be a good start point to use CoolBox.</p>
+<p>Interactive online version: <img alt="a431fc80ada64de48bfac9ba0be9802d" src="https://mybinder.org/badge_logo.svg" /></p>
 <p>Firstly import all components from <code class="docutils literal notranslate"><span class="pre">coolbox.api</span></code>, and check your CoolBox version.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">coolbox</span>
+<span></span><span class="kn">import</span> <span class="nn">sys</span><span class="p">;</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;../../&quot;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">coolbox</span>
 <span class="kn">from</span> <span class="nn">coolbox.api</span> <span class="kn">import</span> <span class="o">*</span>
 </pre></div>
 </div>

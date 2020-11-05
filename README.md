@@ -16,20 +16,19 @@ Flexible, user-friendly genomic data visualization toolkit.
 Highlights:
 
 * Multi-omics data interactively visualization.
-* User-friendly API (ggplot2-like Python EDSL) and CLI.
+* User-friendly [API (ggplot2-like Python EDSL)](https://gangcaolab.github.io/CoolBox/quick_start_API.html) and CLI(https://gangcaolab.github.io/CoolBox/quick_start_CLI.html).
 * Show within Jupyter notebook.
 * Ease to fetch data and in cooperation with other Python package.
 
-More details please read the [document](https://gangcaolab.github.io/CoolBox/index.html).
+More details please read the [documentation](https://gangcaolab.github.io/CoolBox/index.html).
+Interactively online demo: [binder](https://mybinder.org/v2/gh/GangCaoLab/CoolBox/master?filepath=tests%2FTestRegion.ipynb)
 
 TODO List:
 
 + Test with more real world data.
 + Better documents.
-	+ RTD
 	+ Better title image.
-	+ Gallery (Each with a binder.)
-	+ More Figure to illustrate.
+	+ More Gallery
 	+ Refine walk through notebook. (with binder)
 + Support more data type
     + Image type

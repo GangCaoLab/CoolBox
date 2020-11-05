@@ -8,6 +8,7 @@ Welcome to CoolBox's documentation!
 
 .. image:: ../images/title.png
 
+Project page: `GitHub <https://github.com/GangCaoLab/CoolBox>`_
 
 Table of contents
 =================
