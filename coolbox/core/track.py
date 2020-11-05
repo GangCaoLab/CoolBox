@@ -10,7 +10,7 @@ __all__ = [
     "BigWig", "ABCompartment", "BedGraph",
     "Arcs", "BEDPE", "Pairs",
     "HiCMat", "Cool", "DotHiC",
-    "HicCompare", "Virtual4C",
+    "Virtual4C", "HiCDiff",
     "Ideogram", "GTF", "BAM"
 ]
 
@@ -823,7 +823,7 @@ def HiCMat(file_, *args, **kwargs):
 
 
 class HicCompare(Track, PlotHicCompare):
-    """
+    """Not in use for now!
     Track for express the comparison between two HiC Track.
 
     Parameters
@@ -1112,6 +1112,89 @@ class BAM(Track, FetchBAM, PlotBAM):
             "min_value": "auto",
         }
         properties_dict.update(kwargs)
+
+        super().__init__(properties_dict)
+
+
+class HiCDiff(Track, FetchHiCDiff, PlotHiCDiff):
+    """
+    Track for express the comparison between two HiC Track.
+
+    Parameters
+    ----------
+    hic1 : coolbox.api.track.Cool
+        First HiC Track or hic file path(.cool, .mcool, .hic).
+
+    hic2 : coolbox.api.track.Cool
+        Second HiC Track or hic file path(.cool, .mcool, .hic).
+
+    args_hic : dict, optional
+        Argument to create Hi-C instance, only in use
+        when first or second argument is a path.
+
+    style : {'triangular', 'window', 'matrix'}, optional
+        Matrix style, default 'triangular'.
+
+    depth_ratio : float, optional
+        Depth ratio of triangular matrix, use 'full' for full depth. default 'full'.
+
+    orientation : str, optional
+        Track orientation, use 'inverted' for inverted track plot.
+
+    normalize : str
+        Normalization method ('none', 'zscore', 'total', 'expect'), default 'expect'
+
+    diff_method : str
+        Difference method ('diff', 'log2fc'), default 'diff'
+
+    resolution : int, str
+        Resolution of sub two sample. default 'auto'
+
+    cmap : {str, matplotlib.colors.Colormap}, optional
+        A diverging colormap, positive color represent the first HiC file,
+        and negative represent the second HiC file.
+
+    color_bar : bool, optional
+        Show color bar or not.
+
+    max_value : {float, 'auto'}, optional
+        Max value of hic matrix, use 'auto' for specify max value automatically, default 'auto'.
+
+    min_value : {float, 'auto'}, optional
+        Min value of hic matrix, use 'auto' for specify min value automatically, default 'auto'.
+
+    title : str, optional
+        Label text, default ''.
+
+    name : str, optional
+        Track's name
+
+    """
+
+    DEFAULT_COLOR = "RdYlBu"
+
+    def __init__(self, hic1, hic2, args_hic=None, **kwargs):
+        args_hic = args_hic or {}
+        if isinstance(hic1, str):
+            hic1 = HiCMat(hic1, **args_hic)
+        if isinstance(hic2, str):
+            hic2 = HiCMat(hic2, **args_hic)
+        properties_dict = {
+            "hic1": hic1,
+            "hic2": hic2,
+            "resolution": "auto",
+            "normalize": "expect",
+            "diff_method": "diff",
+            "style": "triangular",
+            "depth_ratio": "full",
+            "cmap": HiCDiff.DEFAULT_COLOR,
+            "color_bar": True,
+            "max_value": "auto",
+            "min_value": "auto",
+            "title": '',
+        }
+        properties_dict.update(kwargs)
+        properties_dict['color'] = properties_dict['cmap']  # change key word
 
         super().__init__(properties_dict)
 

@@ -46,9 +46,9 @@ class PlotHicCompare(TrackPlot):
         self.ax = ax
 
         genome_range = GenomeRange(chrom_region, start_region, end_region)
-        arr1 = self.hic1.__fetch_matrix(genome_range)
+        arr1 = self.hic1.fetch_matrix(genome_range)
         self.hic1.matrix = arr1
-        arr2 = self.hic2.__fetch_matrix(genome_range)
+        arr2 = self.hic2.fetch_matrix(genome_range)
         self.hic2.matrix = arr2
         self.matrix = np.triu(arr1 * (-1), 1) + np.tril(arr2, -1)
 
@@ -110,7 +110,7 @@ class PlotHicCompare(TrackPlot):
         cax = ax_divider.append_axes("bottom", size=0.09, pad=0.2)
         plt.colorbar(img, cax=cax, orientation='horizontal')
 
-    def get_tracks_height(self, frame_width):
+    def get_track_height(self, frame_width):
         """
         calculate track height dynamically.
         """

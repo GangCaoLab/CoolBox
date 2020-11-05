@@ -16,6 +16,7 @@ from .dothic import FetchDotHiC
 from .v4c import FetchVirtual4C
 from .gtf import FetchGTF
 from .bam import FetchBAM
+from .hicdiff import FetchHiCDiff
 
 
 __all__ = [
@@ -23,7 +24,8 @@ __all__ = [
     "FetchBEDPE", "FetchPairs",
     "FetchCool", "FetchDotHiC",
     "FetchVirtual4C", "FetchGTF",
-    "FetchFrame", "FetchBAM"
+    "FetchFrame", "FetchBAM",
+    "FetchHiCDiff",
 ]
 
 

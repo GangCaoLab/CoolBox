@@ -7,7 +7,6 @@ from scipy import ndimage
 
 from coolbox.utilities import (
     GenomeRange,
-    change_chrom_names,
     get_logger
 )
 
@@ -38,9 +37,6 @@ class PlotHiCMatrix(TrackPlot):
         self.label_ax = None
         self.matrix = None
         self._out_of_bound = False
-
-        from coolbox.utilities.hic.tools import file_type
-        self.file_type = file_type(self.properties['file'])
 
         self.fetched_binsize = None
 
@@ -85,7 +81,9 @@ class PlotHiCMatrix(TrackPlot):
         if self.properties['balance'] == 'no':
             return False
         else:
-            if self.file_type == '.hic':
+            file = self.properties['file']
+            from coolbox.utilities.hic.tools import file_type
+            if file_type(file) == '.hic':
                 if self.properties['balance'] == 'yes':
                     return 'KR'  # default use KR balance
                 else:
@@ -133,7 +131,7 @@ class PlotHiCMatrix(TrackPlot):
 
         return min_, max_
 
-    def __fetch_matrix(self, genome_range, resolution='auto'):
+    def fetch_matrix(self, genome_range, resolution='auto'):
         """
         Fetch the matrix.
 
@@ -150,7 +148,9 @@ class PlotHiCMatrix(TrackPlot):
         from coolbox.utilities.hic.wrap import StrawWrap, CoolerWrap
 
         path = self.properties['file']
-        if self.file_type == '.hic':
+
+        from coolbox.utilities.hic.tools import file_type
+        if file_type(self.properties['file']) == '.hic':
             wrap = StrawWrap(path, normalization=self.balance, binsize=resolution)
         else:
             wrap = CoolerWrap(path, balance=self.balance, binsize=resolution)
@@ -321,15 +321,15 @@ class PlotHiCMatrix(TrackPlot):
             self._out_of_bound = 'left'
 
         try:
-            arr = self.__fetch_matrix(fetch_range)
+            arr = self.fetch_matrix(fetch_range)
         except ValueError as e:
             if self._out_of_bound == 'left':
                 self._out_of_bound = 'both'
-                arr = self.__fetch_matrix(genome_range)
+                arr = self.fetch_matrix(genome_range)
             else:
                 self._out_of_bound = 'right'
                 fetch_range.end = genome_range.end
-                arr = self.__fetch_matrix(fetch_range)
+                arr = self.fetch_matrix(fetch_range)
         return arr, fetch_range
 
     def plot(self, ax, chrom_region, start_region, end_region):
@@ -337,18 +337,14 @@ class PlotHiCMatrix(TrackPlot):
 
         self._out_of_bound = False
 
-        log.debug("plotting {}".format(self.properties['file']))
-
         genome_range = GenomeRange(chrom_region, start_region, end_region)
-
-        self.ax = ax
 
         # fetch matrix and perform transform process
         if self.style == STYLE_WINDOW:
             arr, fetch_region = self.__fetch_window_matrix(genome_range)
             self.fetch_region = fetch_region
         else:
-            arr = self.__fetch_matrix(genome_range)
+            arr = self.fetch_matrix(genome_range)
 
         self.matrix = arr
 

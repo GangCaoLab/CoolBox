@@ -8,6 +8,7 @@ CoolBox Gallery
 
 	_gallery/v4c.ipynb
 	_gallery/TADs.ipynb
+	_gallery/HiCDiff.ipynb
 
 .. nbgallery::
 	:caption: Others
