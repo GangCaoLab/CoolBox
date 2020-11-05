@@ -200,6 +200,10 @@ def track_to_coverage(track_class):
         self.properties = self.track_instance.properties
 
     def plot(self, ax, chrom_region, start_region, end_region):
+        if hasattr(self, 'track'):
+            if (track_class is Arcs) or (track_class is BigWig):
+                # update height when plot
+                self.track_instance.properties['height'] = self.track.properties['height']
         self.track_instance.plot(ax, chrom_region, start_region, end_region)
 
     cov_class = type(

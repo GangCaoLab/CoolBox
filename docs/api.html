@@ -232,11 +232,11 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.DotHiC" title="coolbox.core.track.DotHiC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DotHiC</span></code></a>(*args, **kwargs)</p></td>
 <td><p>.hic Hi-C matrix (or triangular matrix) track.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.HicCompare" title="coolbox.core.track.HicCompare"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HicCompare</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Track for express the comparison between two HiC Track.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.Virtual4C" title="coolbox.core.track.Virtual4C"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Virtual4C</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Virtual4C" title="coolbox.core.track.Virtual4C"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Virtual4C</span></code></a>(*args, **kwargs)</p></td>
 <td><p>Track for view virtual 4C related to a certain genome position, and a HiC Track (include <cite>Cool</cite> and <cite>DotHiC</cite>).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.HiCDiff" title="coolbox.core.track.HiCDiff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HiCDiff</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Track for express the comparison between two HiC Track.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Ideogram" title="coolbox.core.track.Ideogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Ideogram</span></code></a>(*args, **kwargs)</p></td>
 <td><p>The chromosome ideograme track.</p></td>
@@ -942,23 +942,26 @@ example: ‘line:2’, ‘points:0.5’. default: ‘fill’</p>
 </dl>
 </p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_pixels</span></code>(genome_range[, genome_range2, …])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_matrix</span></code>(genome_range[, resolution])</p></td>
+<td><p>Fetch the matrix.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_pixels</span></code>(genome_range[, genome_range2, …])</p></td>
 <td><p><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
 </p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width)</p></td>
 <td><p>calculate track height dynamically.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
 <td><p>Pile a stack of coverages with self’s coverages</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
 <td><p>Plot the track within a genome range.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(y_ax)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(y_ax)</p></td>
 <td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
 </tr>
 </tbody>
@@ -1055,23 +1058,26 @@ default True(‘KR’ balance)</p>
 </dl>
 </p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_pixels</span></code>(genome_range[, genome_range2, …])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_matrix</span></code>(genome_range[, resolution])</p></td>
+<td><p>Fetch the matrix.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_pixels</span></code>(genome_range[, genome_range2, …])</p></td>
 <td><p><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
 </p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width)</p></td>
 <td><p>calculate track height dynamically.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
 <td><p>Pile a stack of coverages with self’s coverages</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
 <td><p>Plot the track within a genome range.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(y_ax)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(y_ax)</p></td>
 <td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
 </tr>
 </tbody>
@@ -1242,27 +1248,40 @@ Used for add a horizontal line between two tracks.</p>
 </table>
 </dd></dl>
 
-<dl class="py function">
-<dt id="coolbox.core.track.HiCMat">
-<code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">HiCMat</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.HiCMat" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compose Hi-C track(.cool, .mcool, .hic), determine type by file extension.</p>
-</dd></dl>
-
 <dl class="py class">
-<dt id="coolbox.core.track.HicCompare">
-<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">HicCompare</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.HicCompare" title="Permalink to this definition">¶</a></dt>
+<dt id="coolbox.core.track.HiCDiff">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">HiCDiff</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.HiCDiff" title="Permalink to this definition">¶</a></dt>
 <dd><p>Track for express the comparison between two HiC Track.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>hic1</strong><span class="classifier">coolbox.api.track.Cool</span></dt><dd><p>First HiC Track.</p>
+<dt><strong>hic1</strong><span class="classifier">coolbox.api.track.Cool</span></dt><dd><p>First HiC Track or hic file path(.cool, .mcool, .hic).</p>
 </dd>
-<dt><strong>hic2</strong><span class="classifier">coolbox.api.track.Cool</span></dt><dd><p>Second HiC Track.</p>
+<dt><strong>hic2</strong><span class="classifier">coolbox.api.track.Cool</span></dt><dd><p>Second HiC Track or hic file path(.cool, .mcool, .hic).</p>
 </dd>
-<dt><strong>cmap</strong><span class="classifier">{str, matplotlib.colors.Colormap}, optional</span></dt><dd><p>A diverging colormap, left color represent the first HiC file,
-and right represent the second HiC file.</p>
+<dt><strong>args_hic</strong><span class="classifier">dict, optional</span></dt><dd><p>Argument to create Hi-C instance, only in use
+when first or second argument is a path.</p>
+</dd>
+<dt><strong>style</strong><span class="classifier">{‘triangular’, ‘window’, ‘matrix’}, optional</span></dt><dd><p>Matrix style, default ‘triangular’.</p>
+</dd>
+<dt><strong>depth_ratio</strong><span class="classifier">float, optional</span></dt><dd><p>Depth ratio of triangular matrix, use ‘full’ for full depth. default ‘full’.</p>
+</dd>
+<dt><strong>orientation</strong><span class="classifier">str, optional</span></dt><dd><p>Track orientation, use ‘inverted’ for inverted track plot.</p>
+</dd>
+<dt><strong>normalize</strong><span class="classifier">str</span></dt><dd><p>Normalization method (‘none’, ‘zscore’, ‘total’, ‘expect’), default ‘expect’</p>
+</dd>
+<dt><strong>diff_method</strong><span class="classifier">str</span></dt><dd><p>Difference method (‘diff’, ‘log2fc’), default ‘diff’</p>
+</dd>
+<dt><strong>resolution</strong><span class="classifier">int, str</span></dt><dd><p>Resolution of sub two sample. default ‘auto’</p>
+</dd>
+<dt><strong>cmap</strong><span class="classifier">{str, matplotlib.colors.Colormap}, optional</span></dt><dd><p>A diverging colormap, positive color represent the first HiC file,
+and negative represent the second HiC file.</p>
 </dd>
 <dt><strong>color_bar</strong><span class="classifier">bool, optional</span></dt><dd><p>Show color bar or not.</p>
+</dd>
+<dt><strong>max_value</strong><span class="classifier">{float, ‘auto’}, optional</span></dt><dd><p>Max value of hic matrix, use ‘auto’ for specify max value automatically, default ‘auto’.</p>
+</dd>
+<dt><strong>min_value</strong><span class="classifier">{float, ‘auto’}, optional</span></dt><dd><p>Min value of hic matrix, use ‘auto’ for specify min value automatically, default ‘auto’.</p>
 </dd>
 <dt><strong>title</strong><span class="classifier">str, optional</span></dt><dd><p>Label text, default ‘’.</p>
 </dd>
@@ -1272,7 +1291,12 @@ and right represent the second HiC file.</p>
 </dd>
 <dt class="field-even">Attributes</dt>
 <dd class="field-even"><dl class="simple">
+<dt><strong>balance</strong></dt><dd></dd>
+<dt><strong>is_balance</strong></dt><dd></dd>
+<dt><strong>is_inverted</strong></dt><dd></dd>
+<dt><strong>matrix_val_range</strong></dt><dd></dd>
 <dt><strong>name</strong></dt><dd></dd>
+<dt><strong>style</strong></dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -1286,26 +1310,35 @@ and right represent the second HiC file.</p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
 <td><p>Append coverage to this track.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tracks_height</span></code>(frame_width)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_matrix</span></code>(genome_range[, resolution])</p></td>
+<td><p>Fetch the matrix.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width)</p></td>
 <td><p>calculate track height dynamically.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
 <td><p>Pile a stack of coverages with self’s coverages</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
 <td><p>Plot the track within a genome range.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(y_ax)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(y_ax)</p></td>
 <td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
 </tr>
 </tbody>
 </table>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 58%" />
-<col style="width: 42%" />
+<col style="width: 71%" />
+<col style="width: 29%" />
 </colgroup>
 <tbody>
+<tr class="row-odd"><td><p><strong>fetch_data</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>fetch_related_tracks</strong></p></td>
+<td></td>
+</tr>
 <tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
 <td></td>
 </tr>
@@ -1317,6 +1350,12 @@ and right represent the second HiC file.</p>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="coolbox.core.track.HiCMat">
+<code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">HiCMat</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.HiCMat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compose Hi-C track(.cool, .mcool, .hic), determine type by file extension.</p>
 </dd></dl>
 
 <dl class="py class">

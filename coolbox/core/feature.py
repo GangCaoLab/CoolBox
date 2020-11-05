@@ -135,7 +135,7 @@ class HistStyle(Feature):
             value = type + ":" + str(size)
         else:
             value = 'fill'
-        super().__init__('type', value)
+        super().__init__('style', value)
 
 
 class ShowDataRange(Feature):
