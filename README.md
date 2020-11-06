@@ -1,10 +1,16 @@
-CoolBox
+<p align="center">
+  <img src="docs/images/banner.png">
+</p>
+
+ 
 =======
 
+<p align="center">
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/GangCaoLab/CoolBox/master?filepath=tests%2FTestRegion.ipynb)
 [![Install with conda](https://anaconda.org/bioconda/coolbox/badges/installer/conda.svg)](https://anaconda.org/bioconda/coolbox)
 [![Python Package using Conda](https://github.com/GangCaoLab/CoolBox/workflows/Python%20Package%20using%20Conda/badge.svg)](https://github.com/GangCaoLab/CoolBox/actions?query=workflow%3A%22Python+Package+using+Conda%22)
 [![Documentation Status](https://readthedocs.org/projects/ansicolortags/badge/?version=latest)](https://gangcaolab.github.io/CoolBox/index.html)
+</p>
 
 
 WIP
