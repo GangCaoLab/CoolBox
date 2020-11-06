@@ -10,17 +10,16 @@
     <img src="https://mybinder.org/badge_logo.svg" alt="Binder" />
   </a>
   
-  
-  <a href="https://anaconda.org/bioconda/coolbox/badges/installer/conda.svg">
-    <img src="https://anaconda.org/bioconda/coolbox" alt="Install with conda" />
+  <a href="https://anaconda.org/bioconda/coolbox">
+    <img src="https://anaconda.org/bioconda/coolbox/badges/installer/conda.svg" alt="Install with conda" />
   </a>
   
-  <a href="https://github.com/GangCaoLab/CoolBox/workflows/Python%20Package%20using%20Conda/badge.svg">
-    <img src="https://github.com/GangCaoLab/CoolBox/actions?query=workflow%3A%22Python+Package+using+Conda%22" alt="Python Package using Conda" />
+  <a href="https://github.com/GangCaoLab/CoolBox/actions?query=workflow%3A%22Python+Package+using+Conda%22">
+    <img src="https://github.com/GangCaoLab/CoolBox/workflows/Python%20Package%20using%20Conda/badge.svg" alt="Python Package using Conda" />
   </a>
   
-  <a href="https://readthedocs.org/projects/ansicolortags/badge/?version=latest">
-    <img src="https://gangcaolab.github.io/CoolBox/index.html" alt="Documentation Status" />
+  <a href="https://gangcaolab.github.io/CoolBox/index.html">
+    <img src="https://readthedocs.org/projects/ansicolortags/badge/?version=latest" alt="Documentation Status" />
   </a>
 </p>
 
