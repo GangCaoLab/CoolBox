@@ -456,19 +456,38 @@ div.rendered_html tbody tr:hover {
 <p>This document is for teach the basic usage of <code class="docutils literal notranslate"><span class="pre">coolbox</span></code> API and explain some basic conceptions. It’s can be a good start point to use CoolBox.</p>
 <p>Interactive online version: <a class="reference external" href="https://mybinder.org/v2/gh/GangCaoLab/CoolBox/HEAD?filepath=docs%2Fsource%2Fquick_start_API.ipynb">Binder</a></p>
 <p>Firstly import all components from <code class="docutils literal notranslate"><span class="pre">coolbox.api</span></code>, and check your CoolBox version.</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">sys</span><span class="p">;</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;../../&quot;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">coolbox</span>
+<span></span><span class="c1"># change working directory</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s2">&quot;../../&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Current working directory: </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">curdir</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Current working directory: /home/nanguage/DATA2/Dropbox/workspace/CoolBox
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">coolbox</span>
 <span class="kn">from</span> <span class="nn">coolbox.api</span> <span class="kn">import</span> <span class="o">*</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -477,12 +496,12 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;0.2.2&#39;
+&#39;0.2.5&#39;
 </pre></div></div>
 </div>
 <div class="section" id="Data-preparation">
@@ -491,11 +510,11 @@ div.rendered_html tbody tr:hover {
 <h3>Testing dataset<a class="headerlink" href="#Testing-dataset" title="Permalink to this headline">¶</a></h3>
 <p>Here, we use <a class="reference external" href="https://github.com/GangCaoLab/CoolBox/tree/master/tests/test_data">a small testing dataset</a> for convenient. This dataset contains files in differnet file formats, and they are in same genome range(chr9:4000000-6000000) of a reference genome (hg19).</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">!</span>ls -lh ../../tests/test_data/
+<span></span><span class="o">!</span>ls -lh tests/test_data/
 </pre></div>
 </div>
 </div>
@@ -516,15 +535,17 @@ total 26M
 -rw-rw-r-- 1 nanguage nanguage 2.0K 10月 27 09:50 human.hg19.genome
 -rw-rw-r-- 1 nanguage nanguage 2.2K 10月 27 09:50 make_test_dataset.py
 -rw-rw-r-- 1 nanguage nanguage  777 10月 29 09:55 pairs_chr9_4000000_6000000.pairs
+-rw-rw-r-- 1 nanguage nanguage  432 11月  4 15:09 tad_chr9_4000000_6000000.bed
+lrwxrwxrwx 1 nanguage nanguage   70 11月  4 14:33 test.hic -&gt; /home/nanguage/DATA1/LD/differentiation/HiC/Ra-MseI-4sample-combin.hic
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># Here we define const values for reference files easily later</span>
-<span class="n">DATA_DIR</span> <span class="o">=</span> <span class="s2">&quot;../../tests/test_data&quot;</span>
+<span class="n">DATA_DIR</span> <span class="o">=</span> <span class="s2">&quot;tests/test_data&quot;</span>
 <span class="n">TEST_RANGE</span> <span class="o">=</span> <span class="s2">&quot;chr9:4000000-6000000&quot;</span>
 <span class="n">RANGE_MARK</span> <span class="o">=</span> <span class="s2">&quot;chr9_4000000_6000000&quot;</span>
 </pre></div>
@@ -537,7 +558,7 @@ total 26M
 <p>In CoolBox ploting system, “Track” is the basic element. If you have used genome browser like <a class="reference external" href="https://genome.ucsc.edu/">UCSC Genome Browser</a> or <a class="reference external" href="https://epigenomegateway.wustl.edu/">WashU EpiGenome Browser</a>, you must know what it is.</p>
 <p>Basically, “Track” is a image what is related to a piece of continuous region on the reference genome. The most common track is the bigWig track, If you have read some papers about epigenomics you must have seen some figures like this:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -549,11 +570,11 @@ total 26M
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/quick_start_API_8_0.png" src="_images/quick_start_API_8_0.png" />
+<img alt="_images/quick_start_API_9_0.png" src="_images/quick_start_API_9_0.png" />
 </div>
 </div>
 <p>Actually, bigWig is just one kind of track, there are other kinds of tracks in CoolBox, for display other kind of genomic data like long range genome interaction from ChIA-PET and genome contact matrix from Hi-C.</p>
@@ -647,7 +668,7 @@ total 26M
 <p>BED track used to show the genome annotation information like RefSeq or chromatin states. Here we have the RefSeq data, it can be visualized with <code class="docutils literal notranslate"><span class="pre">coolbox.api.BED</span></code>:</p>
 <p>Visualize RefSeq with CoolBox:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -658,11 +679,11 @@ total 26M
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/quick_start_API_13_0.png" src="_images/quick_start_API_13_0.png" />
+<img alt="_images/quick_start_API_14_0.png" src="_images/quick_start_API_14_0.png" />
 </div>
 </div>
 </div>
@@ -670,7 +691,7 @@ total 26M
 <h4>GTFtrack :<a class="headerlink" href="#GTFtrack-:" title="Permalink to this headline">¶</a></h4>
 <p>GTF track is also for visualize gene annotations:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -681,11 +702,11 @@ total 26M
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/quick_start_API_15_0.png" src="_images/quick_start_API_15_0.png" />
+<img alt="_images/quick_start_API_16_0.png" src="_images/quick_start_API_16_0.png" />
 </div>
 </div>
 </div>
@@ -700,7 +721,7 @@ total 26M
 <p>Cooler file support multi-resolution interaction matrix storage (normally file name ends with <code class="docutils literal notranslate"><span class="pre">.mcool</span></code>), this feature allow us take appropriate resolution matrix data depending on the corresponding genome region size, it let program respond fast when plot the hic matrix.</p>
 <p>The multi-resolution cooler file is suggested, you can use <code class="docutils literal notranslate"><span class="pre">cooler</span> <span class="pre">zoomify</span></code> command to create multi-resolution cooler file from a single resolution cooler file.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -710,40 +731,22 @@ total 26M
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/quick_start_API_18_0.png" src="_images/quick_start_API_18_0.png" />
+<img alt="_images/quick_start_API_19_0.png" src="_images/quick_start_API_19_0.png" />
 </div>
 </div>
 <p>Default Hi-C Track will be plot in <code class="docutils literal notranslate"><span class="pre">triangular</span></code> style, it also can be <code class="docutils literal notranslate"><span class="pre">matrix</span></code> or <code class="docutils literal notranslate"><span class="pre">window</span></code> style.</p>
 <p>Just change the specify the <code class="docutils literal notranslate"><span class="pre">style</span></code> parameter, when create Cool instance, like this:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">HiCMat</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/cool_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.mcool&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;matrix&#39;</span><span class="p">)</span>
 <span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">TEST_RANGE</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<img alt="_images/quick_start_API_20_0.png" src="_images/quick_start_API_20_0.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">HiCMat</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/cool_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.mcool&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="n">depth_ratio</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
-<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4500000-5500000&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -755,13 +758,12 @@ total 26M
 <img alt="_images/quick_start_API_21_0.png" src="_images/quick_start_API_21_0.png" />
 </div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">Cool</span></code> show balanced matrix as default, if you want to show the unbalanced matrix, you can set as:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">HiCMat</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/cool_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.mcool&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="n">depth_ratio</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">HiCMat</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/cool_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.mcool&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="n">depth_ratio</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
 <span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4500000-5500000&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -771,7 +773,26 @@ total 26M
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/quick_start_API_23_0.png" src="_images/quick_start_API_23_0.png" />
+<img alt="_images/quick_start_API_22_0.png" src="_images/quick_start_API_22_0.png" />
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Cool</span></code> show balanced matrix as default, if you want to show the unbalanced matrix, you can set as:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">HiCMat</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/cool_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.mcool&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="n">depth_ratio</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4500000-5500000&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/quick_start_API_24_0.png" src="_images/quick_start_API_24_0.png" />
 </div>
 </div>
 </div>
@@ -782,7 +803,7 @@ total 26M
 <p>And, some times, Hi-C contact matrix is too informative to understand, we only need some most important interactions from it, We use some tools like <a class="reference external" href="https://github.com/theaidenlab/juicer/wiki/HiCCUPS">HICCUPS</a> call the most significant interactions, or “Peaks” from contact matrix.</p>
 <p>In either case, Arcs Track can be used to visulize the data. Arcs track accept <code class="docutils literal notranslate"><span class="pre">.pairs</span></code> or <code class="docutils literal notranslate"><span class="pre">.bedpe</span></code> format:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -793,15 +814,15 @@ total 26M
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/quick_start_API_25_0.png" src="_images/quick_start_API_25_0.png" />
+<img alt="_images/quick_start_API_26_0.png" src="_images/quick_start_API_26_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -812,11 +833,11 @@ total 26M
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/quick_start_API_26_0.png" src="_images/quick_start_API_26_0.png" />
+<img alt="_images/quick_start_API_27_0.png" src="_images/quick_start_API_27_0.png" />
 </div>
 </div>
 </div>
@@ -830,7 +851,7 @@ total 26M
 </div>
 <p>Frame is a higher level object, denote a set of relevant tracks. We can use a long “+” expression compose a complex Frame.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -853,7 +874,7 @@ total 26M
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -862,11 +883,11 @@ total 26M
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/quick_start_API_29_0.png" src="_images/quick_start_API_29_0.png" />
+<img alt="_images/quick_start_API_30_0.png" src="_images/quick_start_API_30_0.png" />
 </div>
 </div>
 </div>
@@ -876,7 +897,7 @@ total 26M
 <p>These elements is <code class="docutils literal notranslate"><span class="pre">Feature</span></code>, it is represent the features of the Track.</p>
 <p>For example, we set the color and track height feature of a bigWig track.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -887,7 +908,7 @@ total 26M
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -896,16 +917,16 @@ total 26M
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/quick_start_API_32_0.png" src="_images/quick_start_API_32_0.png" />
+<img alt="_images/quick_start_API_33_0.png" src="_images/quick_start_API_33_0.png" />
 </div>
 </div>
 <p>And we can adjust the min value and max value of the track:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -917,7 +938,7 @@ total 26M
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -926,16 +947,16 @@ total 26M
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/quick_start_API_35_0.png" src="_images/quick_start_API_35_0.png" />
+<img alt="_images/quick_start_API_36_0.png" src="_images/quick_start_API_36_0.png" />
 </div>
 </div>
 <p>By the way, there are one useful trick, you can use Feature with “<code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">statement</span></code>”, like:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -954,7 +975,7 @@ total 26M
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -963,11 +984,11 @@ total 26M
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/quick_start_API_38_0.png" src="_images/quick_start_API_38_0.png" />
+<img alt="_images/quick_start_API_39_0.png" src="_images/quick_start_API_39_0.png" />
 </div>
 </div>
 <p>As shown above, any tracks created inside the “<code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">statement</span></code>” will have the specified feature.</p>
@@ -979,7 +1000,7 @@ total 26M
 <div class="section" id="Vertical-lines:">
 <h3>Vertical lines:<a class="headerlink" href="#Vertical-lines:" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -989,7 +1010,7 @@ total 26M
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -998,16 +1019,16 @@ total 26M
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/quick_start_API_43_0.png" src="_images/quick_start_API_43_0.png" />
+<img alt="_images/quick_start_API_44_0.png" src="_images/quick_start_API_44_0.png" />
 </div>
 </div>
 <p>Like the <code class="docutils literal notranslate"><span class="pre">Feature</span></code> if you want a set of tracks with same coverge, you can use the “<code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">statement</span></code>”:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1020,7 +1041,7 @@ total 26M
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1029,16 +1050,16 @@ total 26M
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/quick_start_API_46_0.png" src="_images/quick_start_API_46_0.png" />
+<img alt="_images/quick_start_API_47_0.png" src="_images/quick_start_API_47_0.png" />
 </div>
 </div>
 <p>Or, you can also use <code class="docutils literal notranslate"><span class="pre">*</span></code> operator do this:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1051,7 +1072,7 @@ total 26M
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1060,18 +1081,18 @@ total 26M
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/quick_start_API_49_0.png" src="_images/quick_start_API_49_0.png" />
+<img alt="_images/quick_start_API_50_0.png" src="_images/quick_start_API_50_0.png" />
 </div>
 </div>
 </div>
 <div class="section" id="HighLights:">
 <h3>HighLights:<a class="headerlink" href="#HighLights:" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1089,7 +1110,7 @@ total 26M
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1098,11 +1119,11 @@ total 26M
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/quick_start_API_52_0.png" src="_images/quick_start_API_52_0.png" />
+<img alt="_images/quick_start_API_53_0.png" src="_images/quick_start_API_53_0.png" />
 </div>
 </div>
 </div>
@@ -1112,7 +1133,7 @@ total 26M
 <p>When you want to explore the data, you will change the genome region window very frequently. Under these circumstances, when you want to do the operations like “move right”, “move left”, “zoom in”, “zoom out”, if you use above <code class="docutils literal notranslate"><span class="pre">Frame.plot</span></code> API to plot the figure, you must change parameters and run again. It is troublesome and boring. In order to solve this problem, CoolBox impletmented a simple GUI with <a class="reference external" href="https://ipywidgets.readthedocs.io/">ipywidgets</a>.</p>
 <p>You can crate a <code class="docutils literal notranslate"><span class="pre">Browser</span></code> instance with a composed frame, and call <code class="docutils literal notranslate"><span class="pre">.show()</span></code> method to show the browser.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1139,7 +1160,7 @@ total 26M
 </div>
 <p><strong>Note: browser is valid only when the jupyter kernel is active</strong></p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1151,7 +1172,7 @@ total 26M
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "d613a64ac3ae4d18bb7892280689cc70", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "565569c59f6a4fe9a5fda43a7377a6e4", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 </div>
 <div class="section" id="Fetch-precise-data-use-.fetch_data-API">
@@ -1159,7 +1180,7 @@ total 26M
 <p>In CoolBox, data and figure is bound together with a single Python object. So, you can fetch precise data of what you see in the figure.</p>
 <p>Call the <code class="docutils literal notranslate"><span class="pre">.fetch_data</span></code> method of <code class="docutils literal notranslate"><span class="pre">Browser</span></code> or <code class="docutils literal notranslate"><span class="pre">Frame</span></code>, will return an <code class="docutils literal notranslate"><span class="pre">collection.OrderDict</span></code> which store many <code class="docutils literal notranslate"><span class="pre">pandas.Dataframe</span></code> object correspond to each tracks in the browser or frame , and the data is only about the current genome region.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1168,28 +1189,36 @@ total 26M
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-OrderedDict([(&#39;XAxis.21&#39;, &lt;coolbox.core.track.XAxis at 0x7f4ddd5e7210&gt;),
-             (&#39;Cool.6&#39;, &lt;coolbox.core.track.Cool at 0x7f4dd4b03550&gt;),
-             (&#39;Spacer.6&#39;, &lt;coolbox.core.track.Spacer at 0x7f4dd5eb59d0&gt;),
-             (&#39;Virtual4C.2&#39;, &lt;coolbox.core.track.Virtual4C at 0x7f4dd4b03710&gt;),
-             (&#39;Spacer.7&#39;, &lt;coolbox.core.track.Spacer at 0x7f4dd4b03650&gt;),
-             (&#39;BAM.2&#39;, &lt;coolbox.core.track.BAM at 0x7f4dd4b03850&gt;),
-             (&#39;Spacer.8&#39;, &lt;coolbox.core.track.Spacer at 0x7f4dd4b03890&gt;),
-             (&#39;BEDPE.3&#39;, &lt;coolbox.core.track.BEDPE at 0x7f4dd4b03690&gt;),
-             (&#39;Spacer.9&#39;, &lt;coolbox.core.track.Spacer at 0x7f4dd4b03950&gt;),
-             (&#39;Pairs.3&#39;, &lt;coolbox.core.track.Pairs at 0x7f4dd4b03990&gt;),
-             (&#39;GTF.3&#39;, &lt;coolbox.core.track.GTF at 0x7f4dd4b03a50&gt;),
-             (&#39;Spacer.10&#39;, &lt;coolbox.core.track.Spacer at 0x7f4dd4b03a90&gt;),
-             (&#39;BigWig.20&#39;, &lt;coolbox.core.track.BigWig at 0x7f4dd4b03ad0&gt;)])
+OrderedDict([(&#39;XAxis.21&#39;, &lt;coolbox.core.track.pseudo.XAxis at 0x7f933bf12090&gt;),
+             (&#39;Cool.6&#39;,
+              &lt;coolbox.core.track.hicmat.cool.Cool at 0x7f9339b7d890&gt;),
+             (&#39;Spacer.6&#39;,
+              &lt;coolbox.core.track.pseudo.Spacer at 0x7f9339b7d8d0&gt;),
+             (&#39;Virtual4C.2&#39;,
+              &lt;coolbox.core.track.v4c.Virtual4C at 0x7f9339b7da50&gt;),
+             (&#39;Spacer.7&#39;,
+              &lt;coolbox.core.track.pseudo.Spacer at 0x7f9339b7da90&gt;),
+             (&#39;BAM.2&#39;, &lt;coolbox.core.track.bam.BAM at 0x7f9339b7dbd0&gt;),
+             (&#39;Spacer.8&#39;,
+              &lt;coolbox.core.track.pseudo.Spacer at 0x7f9339b7dc10&gt;),
+             (&#39;BEDPE.3&#39;, &lt;coolbox.core.track.arcs.BEDPE at 0x7f9339b7d9d0&gt;),
+             (&#39;Spacer.9&#39;,
+              &lt;coolbox.core.track.pseudo.Spacer at 0x7f9339b7dd10&gt;),
+             (&#39;Pairs.3&#39;, &lt;coolbox.core.track.arcs.Pairs at 0x7f9339b7dd50&gt;),
+             (&#39;GTF.3&#39;, &lt;coolbox.core.track.gtf.GTF at 0x7f9339b7de10&gt;),
+             (&#39;Spacer.10&#39;,
+              &lt;coolbox.core.track.pseudo.Spacer at 0x7f9339b7de50&gt;),
+             (&#39;BigWig.20&#39;,
+              &lt;coolbox.core.track.hist.bigwig.BigWig at 0x7f9339b7de90&gt;)])
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1198,7 +1227,7 @@ OrderedDict([(&#39;XAxis.21&#39;, &lt;coolbox.core.track.XAxis at 0x7f4ddd5e7210
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1207,7 +1236,7 @@ OrderedDict([(&#39;XAxis.21&#39;, &lt;coolbox.core.track.XAxis at 0x7f4ddd5e7210
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1229,7 +1258,7 @@ OrderedDict([(&#39;XAxis.21&#39;, &lt;coolbox.core.track.XAxis at 0x7f4ddd5e7210
 </div>
 <p>Data of each track related to the current genome range are stored in this dict:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1238,7 +1267,7 @@ OrderedDict([(&#39;XAxis.21&#39;, &lt;coolbox.core.track.XAxis at 0x7f4ddd5e7210
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1256,7 +1285,7 @@ OrderedDict([(&#39;XAxis.21&#39;, &lt;coolbox.core.track.XAxis at 0x7f4ddd5e7210
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1265,7 +1294,7 @@ OrderedDict([(&#39;XAxis.21&#39;, &lt;coolbox.core.track.XAxis at 0x7f4ddd5e7210
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1274,7 +1303,7 @@ OrderedDict([(&#39;XAxis.21&#39;, &lt;coolbox.core.track.XAxis at 0x7f4ddd5e7210
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">

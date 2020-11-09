@@ -24,6 +24,7 @@ DEPTH_FULL = 'full'
 class PlotHiCMatrix(abc.ABC):
 
     DEFAULT_COLOR = 'YlOrRd'
+    SMALL_VALUE = 1e-12
 
     def __init__(self, *args, **kwargs):
 

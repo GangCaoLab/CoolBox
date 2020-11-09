@@ -4,7 +4,8 @@ from coolbox.utilities import (
     opener, ReadBed,
     Interval, IntervalTree,
     rgb2hex,
-    get_logger, GenomeRange
+    get_logger, GenomeRange,
+    to_gr
 )
 
 
@@ -15,8 +16,8 @@ class _Highlights(object):
 
     DEFAULT_COLOR = '#ff5d0f'
 
-    def fetch_data(self, chrom, start, end):
-        gr = GenomeRange(chrom, start, end)
+    def fetch_data(self, genome_range):
+        gr = to_gr(genome_range)
         regions = []
 
         if gr.chrom not in list(self.interval_tree):
@@ -29,7 +30,8 @@ class _Highlights(object):
 
     def plot(self, ax, chrom_region, start_region, end_region):
 
-        regions = self.__get_regions(chrom_region, start_region, end_region)
+        gr = GenomeRange(chrom_region, start_region, end_region)
+        regions = self.fetch_data(gr)
 
         for (start, end, color) in regions:
             if self.properties['color'] != 'bed_rgb':
@@ -49,7 +51,7 @@ class _Highlights(object):
                           alpha=self.properties['border_line_alpha'])
 
 
-class HighLightsFromFile(Coverage):
+class HighLightsFromFile(Coverage, _Highlights):
 
     """
     High light regions coverage, read the regions from the file.
@@ -89,10 +91,10 @@ class HighLightsFromFile(Coverage):
         properties_dict = {
             "file": file_,
             "color": "bed_rgb",
-            "alpha": 0.3,
+            "alpha": 0.25,
             "border_line": True,
             "border_line_style": "dashed",
-            "border_line_width": 1.0,
+            "border_line_width": 0,
             "border_line_color": "#000000",
             "border_line_alpha": 0.8,
         }
@@ -124,7 +126,7 @@ class HighLightsFromFile(Coverage):
         return interval_tree
 
 
-class HighLights(Coverage):
+class HighLights(Coverage, _Highlights):
 
     """
     High light region.
@@ -169,10 +171,10 @@ class HighLights(Coverage):
         properties_dict = {
             "highlight_regions": highlight_regions,
             "color": HighLights.DEFAULT_COLOR,
-            "alpha": 0.5,
+            "alpha": 0.25,
             "border_line": True,
             "border_line_style": "dashed",
-            "border_line_width": 1.0,
+            "border_line_width": 0,
             "border_line_color": "#000000",
             "border_line_alpha": 0.8,
         }

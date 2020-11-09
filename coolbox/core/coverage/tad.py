@@ -4,6 +4,7 @@ from coolbox.utilities import (change_chrom_names, get_logger,
                                GenomeRange)
 from .base import Coverage
 from coolbox.mixin.bed import FetchBed
+from coolbox.utilities.bed import build_bed_index
 
 log = get_logger(__name__)
 
@@ -34,6 +35,9 @@ class TADCoverage(Coverage, FetchBed):
         (text tag height) / (TAD height). used for adjust the position of Score text.
         default 0.5
 
+    border_only : bool
+        Only show border, default False
+
     color : str, optional
         Peak color, use 'bed_rgb' for specify color in file,
         default 'bed_rgb'.
@@ -63,11 +67,12 @@ class TADCoverage(Coverage, FetchBed):
             "score_font_size": 'auto',
             "score_font_color": "#000000",
             "score_height_ratio": 0.4,
+            "border_only": False,
             "color": "bed_rgb",
             "alpha": 0.3,
             "border_color": "#000000",
-            "border_width": 1.0,
-            "border_style": "solid",
+            "border_width": 2.0,
+            "border_style": "--",
             "fill": True,
         }
         properties_dict.update(kwargs)
@@ -75,6 +80,7 @@ class TADCoverage(Coverage, FetchBed):
         self.track = None
         self.bed_type = None  # once the bed file is read, this is bed3, bed6 or bed12
         self.interval_tree = {}  # interval tree of the bed regions
+        self.bgz_file = build_bed_index(file_)
 
     def check_track_type(self):
         from coolbox.core.track import BigWig, BedGraph, Cool, DotHiC, Arcs
@@ -220,7 +226,9 @@ class TADCoverage(Coverage, FetchBed):
         rgb = self.properties['color']
         edgecolor = self.properties['border_color']
 
-        if self.properties['color'] == 'bed_rgb':
+        if self.properties['border_only']:
+            rgb = 'none'
+        elif self.properties['color'] == 'bed_rgb':
             # if rgb is set in the bed line, this overrides the previously
             # defined colormap
             if self.bed_type in ['bed9', 'bed12'] and len(bed.rgb) == 3:

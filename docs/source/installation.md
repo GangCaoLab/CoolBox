@@ -17,6 +17,7 @@ by this way you can use the latest updated features:
 $ git clone https://github.com/GangCaoLab/CoolBox.git
 $ cd CoolBox
 $ conda env create --file environment.yml
+$ conda activate coolbox
 $ python -m pip install . --no-deps -vv
 ```
 

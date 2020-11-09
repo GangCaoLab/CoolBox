@@ -34,3 +34,4 @@ Browser
 .. automodule:: coolbox.core.browser
 	:autosummary:
 	:members:
+
