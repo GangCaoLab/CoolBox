@@ -41,11 +41,10 @@ Interactively online demo: [binder](https://mybinder.org/v2/gh/GangCaoLab/CoolBo
 
 TODO List:
 
-+ Test with more real world data.
++ Refine code organize.
 + Better documents.
-	+ Better title image.
 	+ More Gallery
-	+ Refine walk through notebook. (with binder)
+	+ Advance usage
 + Support more data type
     + Image type
     + Code type (code as data)

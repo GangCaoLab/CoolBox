@@ -22,10 +22,10 @@ class Feature(object):
         self.value = value
 
     def __add__(self, other):
-        from .track import Track
+        from .track.base import Track
         from .frame import Frame
-        from .coverage import Coverage
-        from .coverage import CoverageStack
+        from .coverage.base import Coverage
+        from .coverage.base import CoverageStack
 
         if isinstance(other, Track):
             result = copy(other)

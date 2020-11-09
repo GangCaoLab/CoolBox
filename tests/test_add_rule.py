@@ -15,10 +15,10 @@
 
 """
 
-from coolbox.core.track import Track
+from coolbox.core.track.base import Track
 from coolbox.core.frame import Frame
 from coolbox.core.feature import Feature
-from coolbox.core.coverage import Coverage
+from coolbox.core.coverage.base import Coverage
 from coolbox.core.browser import WidgetsPanel, Browser
 
 

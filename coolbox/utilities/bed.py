@@ -1,5 +1,7 @@
 import subprocess as subp
 from functools import partial
+from os import path as osp
+
 from intervaltree import Interval, IntervalTree
 import collections
 import types
@@ -375,3 +377,130 @@ def tabix_query(filename, chrom, start, end, split=True):
 
 
 query_bed = partial(tabix_query, split=False)
+
+
+def index_bedgraph(bgz_file):
+    cmd = ['tabix', '-b', '2', '-e', '3', bgz_file]
+    subp.check_call(cmd)
+
+
+def build_bedgraph_bgz(file):
+    if file.endswith(".bgz"):
+        bgz_file = file
+    else:
+        bgz_file = file + '.bgz'
+        log.info(f"Bgzip bedgraph file, save to {bgz_file}")
+        bgz_bed(file, bgz_file)
+    if not osp.exists(bgz_file + '.tbi'):
+        log.info(f"Make tabix of bgz file, save to {bgz_file}.tbi")
+        index_bedgraph(bgz_file)
+    return bgz_file
+
+
+def build_bed_index(file):
+    if file.endswith(".bgz"):
+        bgz_file = file
+    else:
+        bgz_file = file + '.bgz'
+        log.info(f"Bgzip bed file, save to {bgz_file}")
+        bgz_bed(file, bgz_file)
+    if not osp.exists(bgz_file + '.tbi'):
+        log.info(f"Make tabix of bgz file, save to {bgz_file}.tbi")
+        index_bed(bgz_file)
+    return bgz_file
+
+
+def bgz_bedpe(bedpe_path, bgz_path):
+    if not osp.exists(bgz_path):
+        cmd = f"sort -k1,1 -k4,4 -k2,2n -k5,5n {bedpe_path} | bgzip > {bgz_path}"
+        subp.check_call(cmd, shell=True)
+
+
+def index_bedpe(bgz_path):
+    cmd = f"pairix -f -s 1 -d 4 -b 2 -e 3 -u 5 -v 6 {bgz_path}".split(" ")
+    subp.check_call(cmd)
+
+
+def pairix_query(bgz_file, query, second=None, split=True):
+    if second:
+        query = query+"-"+second
+    cmd = ['pairix', bgz_file, query]
+    p = subp.Popen(cmd, stdout=subp.PIPE)
+    for line in p.stdout:
+        line = line.decode('utf-8')
+        if not split:
+            yield line
+        else:
+            yield line.strip().split('\t')
+
+
+def process_bedpe(path):
+    if path.endswith(".bgz"):
+        bgz_file = path
+    else:
+        bgz_file = path + ".bgz"
+        bgz_bedpe(path, bgz_file)
+    if not osp.exists(f"{bgz_file}.px2"):
+        index_bedpe(bgz_file)
+    return bgz_file
+
+
+def bgz_pairs(pairs_path, bgz_path):
+    if not osp.exists(bgz_path):
+        cmd = f"grep -v '#' {pairs_path} | sort -k2,2 -k4,4 -k3,3n -k5,5n | bgzip > {bgz_path}"
+        subp.check_call(cmd, shell=True)
+
+
+def index_pairs(bgz_path):
+    cmd = f"pairix -f -p pairs {bgz_path}".split(" ")
+    subp.check_call(cmd)
+
+
+def process_pairs(path):
+    if path.endswith(".bgz"):
+        bgz_file = path
+    else:
+        bgz_file = path + ".bgz"
+        bgz_pairs(path, bgz_file)
+    if not osp.exists(f"{bgz_file}.px2"):
+        index_pairs(bgz_file)
+    return bgz_file
+
+
+def process_gtf(gtf_path, out_path):
+    cmd = f'(grep ^"#" {gtf_path}; grep -v ^"#" {gtf_path} | sort -k1,1 -k4,4n) | bgzip > {out_path}'
+    subp.check_call(cmd, shell=True)
+
+
+def gtf_gz_to_bgz(gz, bgz):
+    cmd = f'gunzip -c {gz} | grep -v ^"#" | bgzip > {bgz}'
+    subp.check_call(cmd, shell=True)
+
+
+def tabix_index(filename, preset="gff"):
+    """Call tabix to create an index for a bgzip-compressed file."""
+    subp.check_call([
+        'tabix', '-p', preset, filename
+    ])
+
+
+def build_gtf_index(file):
+    if file.endswith(".gtf"):
+        bgz_file = file + ".bgz"
+        if not osp.exists(bgz_file):
+            log.info(f"Process the gtf and do bgzip, save to {bgz_file}.")
+            process_gtf(file, bgz_file)
+    elif file.endswith(".gtf.gz"):
+        bgz_file = file[-7:] + ".bgz"
+        log.info(f"Convert .gtf.gz to .gtf.bgz, save to {bgz_file}.")
+        gtf_gz_to_bgz(file, bgz_file)
+    elif file.endswith(".gtf.bgz"):
+        bgz_file = file
+    else:
+        raise IOError(f"GTF track only support GTF file(.gtf or .gtf.gz), got {file}.")
+
+    idx_file = bgz_file + ".tbi"
+    if not osp.exists(idx_file):
+        log.info(f"Tabix index not found, build it in {idx_file}")
+        tabix_index(bgz_file)
+    return bgz_file
