@@ -9,3 +9,4 @@ from .ideogram import Ideogram
 from .gtf import GTF
 from .bam import BAM
 from .hicdiff import HiCDiff
+from .snp import SNP

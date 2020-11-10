@@ -63,6 +63,8 @@ class Track(object):
         for coverage in coverage_stack:
             self.coverages.append(coverage)
 
+        self.ax = None
+
     def __bool2str(self):
         """
         Conver bool value to 'yes' or 'no', for compatible with pyGenomeTracks

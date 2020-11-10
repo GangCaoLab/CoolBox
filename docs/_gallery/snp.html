@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>BigWig track styles &mdash; CoolBox  documentation</title>
+  <title>SNP Manhattan plot &mdash; CoolBox  documentation</title>
   
 
   
@@ -38,8 +38,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="BigWig Coverage" href="bw_cov.html" />
-    <link rel="prev" title="Hi-C Diff" href="HiCDiff.html" /> 
+    <link rel="next" title="API Reference" href="../api.html" />
+    <link rel="prev" title="Arcs coverage" href="arcs_cov.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -92,10 +92,10 @@
 <li class="toctree-l2"><a class="reference internal" href="v4c.html">Virtual 4C</a></li>
 <li class="toctree-l2"><a class="reference internal" href="TADs.html">TADs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="HiCDiff.html">Hi-C Diff</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">BigWig track styles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bw_style.html">BigWig track styles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bw_cov.html">BigWig Coverage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="arcs_cov.html">Arcs coverage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="snp.html">SNP Manhattan plot</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">SNP Manhattan plot</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
@@ -147,13 +147,13 @@
         
           <li><a href="../gallery.html">CoolBox Gallery</a> &raquo;</li>
         
-      <li>BigWig track styles</li>
+      <li>SNP Manhattan plot</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/_gallery/bw_style.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/_gallery/snp.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -436,8 +436,8 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="BigWig-track-styles">
-<h1>BigWig track styles<a class="headerlink" href="#BigWig-track-styles" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="SNP-Manhattan-plot">
+<h1>SNP Manhattan plot<a class="headerlink" href="#SNP-Manhattan-plot" title="Permalink to this headline">¶</a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -466,29 +466,55 @@ div.rendered_html tbody tr:hover {
 &#39;0.2.5&#39;
 </pre></div></div>
 </div>
-<p>BigWig hist styles: + fill + line + points</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">bw</span> <span class="o">=</span> <span class="s2">&quot;../../../tests/test_data/bigwig_chr9_4000000_6000000.bw&quot;</span>
-
-<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> \
-    <span class="n">BigWig</span><span class="p">(</span><span class="n">bw</span><span class="p">)</span> <span class="o">+</span> \
-    <span class="n">BigWig</span><span class="p">(</span><span class="n">bw</span><span class="p">)</span> <span class="o">+</span> <span class="n">Color</span><span class="p">(</span><span class="s2">&quot;#fcbe07&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">HistStyle</span><span class="p">(</span><span class="s2">&quot;line&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> \
-    <span class="n">BigWig</span><span class="p">(</span><span class="n">bw</span><span class="p">)</span> <span class="o">+</span> <span class="n">Color</span><span class="p">(</span><span class="s2">&quot;#000000&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">HistStyle</span><span class="p">(</span><span class="s2">&quot;points&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-
-<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4700000-4950000&quot;</span><span class="p">)</span>
+<span></span><span class="n">snp_file</span> <span class="o">=</span> <span class="s2">&quot;../../../tests/test_data/snp_chr9_4000000_6000000.snp&quot;</span>
+<span class="n">test_region</span> <span class="o">=</span> <span class="s2">&quot;chr9:4000000-6000000&quot;</span>
+</pre></div>
+</div>
+</div>
+<p>SNP file:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">!</span>head -n <span class="m">5</span> ../../../tests/test_data/snp_chr9_4000000_6000000.snp
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+9       rs189401472     4000487 C       T       261481  0.00113584      -0.00280829     0.00319297      0.379119
+9       rs141556758     4000942 T       G       262192  0.00131392      0.00119277      0.00296521      0.687497
+9       rs117844905     4001207 A       G       262342  0.0301343       -0.000341362    0.000628006     0.586741
+9       rs142341062     4002372 A       T       261738  0.00123979      6.13843e-05     0.003055        0.983969
+9       rs500044        4002823 G       A       262342  0.131891        0.000325518     0.000317269     0.304892
+</pre></div></div>
+</div>
+<p>Specify the column index of chromosome, position and pvalue of the input file:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">SNP</span><span class="p">(</span><span class="n">snp_file</span><span class="p">,</span> <span class="n">col_chrom</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">col_pos</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">col_pval</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_region</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_gallery_bw_style_4_0.png" src="../_images/_gallery_bw_style_4_0.png" />
+<img alt="../_images/_gallery_snp_7_0.png" src="../_images/_gallery_snp_7_0.png" />
 </div>
 </div>
 </div>
@@ -501,10 +527,10 @@ div.rendered_html tbody tr:hover {
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="bw_cov.html" class="btn btn-neutral float-right" title="BigWig Coverage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../api.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="HiCDiff.html" class="btn btn-neutral float-left" title="Hi-C Diff" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="arcs_cov.html" class="btn btn-neutral float-left" title="Arcs coverage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
