@@ -24,7 +24,7 @@ class DotHiC(Track, PlotHiCMatrix, FetchHiC):
 
     style : {'triangular', 'window', 'matrix'}, optional
         Matrix style,
-        default 'triangular'.
+        default 'window'.
 
     balance : {bool, 'KR', 'VC', 'VC_SQRT'}, optional
         Matrix balance method,
@@ -33,8 +33,8 @@ class DotHiC(Track, PlotHiCMatrix, FetchHiC):
     depth_ratio : float, optional
         Depth ratio of triangular matrix, use 'full' for full depth. default 'full'.
 
-    color_bar : bool, optional
-        Show color_bar or not, default True.
+    color_bar : {'vertical', 'horizontal', 'no'}, optional
+        Color bar style. default 'vertical'.
 
     transform : {str, bool}, optional
         Transform for matrix, like 'log2', 'log10', default False.
@@ -62,10 +62,10 @@ class DotHiC(Track, PlotHiCMatrix, FetchHiC):
         properties_dict = {
             "file": file_,
             "cmap": DotHiC.DEFAULT_COLOR,
-            "style": 'triangular',
+            "style": 'window',
             "balance": True,
             "depth_ratio": "full",
-            "color_bar": True,
+            "color_bar": "vertical",
             "transform": False,
             "norm": 'log',
             "max_value": "auto",

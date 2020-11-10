@@ -745,7 +745,8 @@ lrwxrwxrwx 1 nanguage nanguage   70 11月  4 14:33 test.hic -&gt; /home/nanguage
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">HiCMat</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/cool_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.mcool&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;matrix&#39;</span><span class="p">)</span>
+<span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> \
+    <span class="n">HiCMat</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/cool_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.mcool&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;matrix&#39;</span><span class="p">,</span> <span class="n">color_bar</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">)</span>
 <span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">TEST_RANGE</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -763,7 +764,7 @@ lrwxrwxrwx 1 nanguage nanguage   70 11月  4 14:33 test.hic -&gt; /home/nanguage
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">HiCMat</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/cool_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.mcool&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="n">depth_ratio</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+<span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">HiCMat</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/cool_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.mcool&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="n">depth_ratio</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
 <span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4500000-5500000&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -782,7 +783,7 @@ lrwxrwxrwx 1 nanguage nanguage   70 11月  4 14:33 test.hic -&gt; /home/nanguage
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">HiCMat</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/cool_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.mcool&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="n">depth_ratio</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">HiCMat</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/cool_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.mcool&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="n">depth_ratio</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4500000-5500000&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1172,7 +1173,7 @@ lrwxrwxrwx 1 nanguage nanguage   70 11月  4 14:33 test.hic -&gt; /home/nanguage
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "565569c59f6a4fe9a5fda43a7377a6e4", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "1d70ca70e5a74d78a98b19879bfffe52", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 </div>
 <div class="section" id="Fetch-precise-data-use-.fetch_data-API">
@@ -1194,27 +1195,27 @@ lrwxrwxrwx 1 nanguage nanguage   70 11月  4 14:33 test.hic -&gt; /home/nanguage
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-OrderedDict([(&#39;XAxis.21&#39;, &lt;coolbox.core.track.pseudo.XAxis at 0x7f933bf12090&gt;),
+OrderedDict([(&#39;XAxis.21&#39;, &lt;coolbox.core.track.pseudo.XAxis at 0x7f51e7c21f10&gt;),
              (&#39;Cool.6&#39;,
-              &lt;coolbox.core.track.hicmat.cool.Cool at 0x7f9339b7d890&gt;),
+              &lt;coolbox.core.track.hicmat.cool.Cool at 0x7f51deae7390&gt;),
              (&#39;Spacer.6&#39;,
-              &lt;coolbox.core.track.pseudo.Spacer at 0x7f9339b7d8d0&gt;),
+              &lt;coolbox.core.track.pseudo.Spacer at 0x7f51deb645d0&gt;),
              (&#39;Virtual4C.2&#39;,
-              &lt;coolbox.core.track.v4c.Virtual4C at 0x7f9339b7da50&gt;),
+              &lt;coolbox.core.track.v4c.Virtual4C at 0x7f51deb992d0&gt;),
              (&#39;Spacer.7&#39;,
-              &lt;coolbox.core.track.pseudo.Spacer at 0x7f9339b7da90&gt;),
-             (&#39;BAM.2&#39;, &lt;coolbox.core.track.bam.BAM at 0x7f9339b7dbd0&gt;),
+              &lt;coolbox.core.track.pseudo.Spacer at 0x7f51deae74d0&gt;),
+             (&#39;BAM.2&#39;, &lt;coolbox.core.track.bam.BAM at 0x7f51deae7610&gt;),
              (&#39;Spacer.8&#39;,
-              &lt;coolbox.core.track.pseudo.Spacer at 0x7f9339b7dc10&gt;),
-             (&#39;BEDPE.3&#39;, &lt;coolbox.core.track.arcs.BEDPE at 0x7f9339b7d9d0&gt;),
+              &lt;coolbox.core.track.pseudo.Spacer at 0x7f51deae7650&gt;),
+             (&#39;BEDPE.3&#39;, &lt;coolbox.core.track.arcs.BEDPE at 0x7f51deae7350&gt;),
              (&#39;Spacer.9&#39;,
-              &lt;coolbox.core.track.pseudo.Spacer at 0x7f9339b7dd10&gt;),
-             (&#39;Pairs.3&#39;, &lt;coolbox.core.track.arcs.Pairs at 0x7f9339b7dd50&gt;),
-             (&#39;GTF.3&#39;, &lt;coolbox.core.track.gtf.GTF at 0x7f9339b7de10&gt;),
+              &lt;coolbox.core.track.pseudo.Spacer at 0x7f51deae7710&gt;),
+             (&#39;Pairs.3&#39;, &lt;coolbox.core.track.arcs.Pairs at 0x7f51dec30c10&gt;),
+             (&#39;GTF.3&#39;, &lt;coolbox.core.track.gtf.GTF at 0x7f51deae7790&gt;),
              (&#39;Spacer.10&#39;,
-              &lt;coolbox.core.track.pseudo.Spacer at 0x7f9339b7de50&gt;),
+              &lt;coolbox.core.track.pseudo.Spacer at 0x7f51e4517610&gt;),
              (&#39;BigWig.20&#39;,
-              &lt;coolbox.core.track.hist.bigwig.BigWig at 0x7f9339b7de90&gt;)])
+              &lt;coolbox.core.track.hist.bigwig.BigWig at 0x7f51deae7810&gt;)])
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">

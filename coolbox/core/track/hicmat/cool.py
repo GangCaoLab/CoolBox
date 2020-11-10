@@ -16,7 +16,7 @@ class Cool(Track, PlotHiCMatrix, FetchHiC):
         Color map of hic matrix, default Cool.DEFAULT_COLOR.
 
     style : {'triangular', 'window', 'matrix'}, optional
-        Matrix style, default 'triangular'.
+        Matrix style, default 'window'.
 
     balance : bool, optional
         Show balanced matrix or not, default True
@@ -24,8 +24,8 @@ class Cool(Track, PlotHiCMatrix, FetchHiC):
     depth_ratio : float, optional
         Depth ratio of triangular matrix, use 'full' for full depth. default 'full'.
 
-    color_bar : bool, optional
-        Show color_bar or not, default True.
+    color_bar : {'vertical', 'horizontal', 'no'}, optional
+        Color bar style. default 'vertical'.
 
     transform : {str, bool}, optional
         Transform for matrix, like 'log2', 'log10', default False.
@@ -53,10 +53,10 @@ class Cool(Track, PlotHiCMatrix, FetchHiC):
         properties_dict = {
             "file": file_,
             "cmap": Cool.DEFAULT_COLOR,
-            "style": 'triangular',
+            "style": 'window',
             "balance": True,
             "depth_ratio": "full",
-            "color_bar": True,
+            "color_bar": 'vertical',
             "transform": False,
             "norm": 'log',
             "max_value": "auto",

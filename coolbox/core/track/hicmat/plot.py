@@ -27,33 +27,10 @@ class PlotHiCMatrix(abc.ABC):
     SMALL_VALUE = 1e-12
 
     def __init__(self, *args, **kwargs):
-
-        self.__set_default_properties()
-
         self.ax = None
         self.label_ax = None
         self.matrix = None
         self._out_of_bound = False
-
-    def __set_default_properties(self):
-        self.properties['height'] = 'hic_auto'
-
-        if 'color' not in self.properties:
-            self.properties['color'] = self.DEFAULT_COLOR
-        if 'style' not in self.properties:
-            self.properties['style'] = STYLE_TRIANGULAR
-        if 'balance' not in self.properties:
-            self.properties['balance'] = 'no'
-        if 'color_bar' not in self.properties:
-            self.properties['color_bar'] = 'yes'
-        if 'transform' not in self.properties:
-            self.properties['transform'] = 'no'
-        if 'title' not in self.properties:
-            self.properties['title'] = ''
-        if 'depth_ratio' not in self.properties:
-            self.properties['depth_ratio'] = DEPTH_FULL
-        if 'norm' not in self.properties:
-            self.properties['norm'] = 'log'
 
     @property
     def is_inverted(self):
@@ -301,13 +278,13 @@ class PlotHiCMatrix(abc.ABC):
         self.__adjust_figure(genome_range)
 
         # plot colorbar
-        if self.properties['color_bar'] == 'yes':
-            if hasattr(self, 'y_ax') and self.style == STYLE_WINDOW:
+        if self.properties['color_bar'] == 'no':
+            pass
+        else:
+            if hasattr(self, 'y_ax') and self.properties['color_bar'] == 'vertical':
                 self.__plot_colorbar(img, orientation='vertical')
             else:
                 self.__plot_colorbar(img, orientation='horizontal')
-        else:
-            pass
 
         # plot label
         self.plot_label()
@@ -322,7 +299,7 @@ class PlotHiCMatrix(abc.ABC):
             if 'height' in self.properties and self.properties['height'] != 'hic_auto':
                 height = self.properties['height']
             else:
-                height = frame_width * 0.3
+                height = frame_width * 0.5
         else:
             height = frame_width * 0.8
 

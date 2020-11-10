@@ -18,6 +18,17 @@ def test_vlines():
     fig.savefig("/tmp/test_coolbox_vline.pdf")
 
 
+def test_highlights():
+    highlights = HighLights([
+        ("chr9", 4000000, 5000000),
+        "chr9:5000000-6000000",
+    ])
+    with highlights:
+        frame = XAxis() + XAxis()
+    fig = frame.plot(test_interval)
+    fig.savefig("/tmp/test_coolbox_highlights.pdf")
+
+
 def test_bigwig_coverage():
     frame = XAxis() +\
         BigWig(f"{DATA_DIR}/bigwig_{test_itv}.bw", style="line:1") + \
@@ -35,3 +46,9 @@ def test_arcs_coverage():
     fig.savefig("/tmp/test_coolbox_arcscov.pdf")
 
 
+def test_tad_coverage():
+    frame = XAxis() + \
+        Cool(f"{DATA_DIR}/cool_{test_itv}.mcool") + \
+        TADCoverage(f"{DATA_DIR}/tad_{test_itv}.bed")
+    fig = frame.plot(test_interval)
+    fig.savefig("/tmp/test_coobox_tadcov.pdf")
