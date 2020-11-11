@@ -6,6 +6,7 @@ CoolBox Gallery
 	:name: hic-gallery
 	:glob:
 
+	_gallery/hicmat_cmaps.ipynb
 	_gallery/v4c.ipynb
 	_gallery/TADs.ipynb
 	_gallery/HiCDiff.ipynb

@@ -3,12 +3,6 @@ from .plot import PlotHiCMatrix
 from .fetch import FetchHiC
 
 
-from matplotlib.colors import LinearSegmentedColormap
-JuiceBoxLikeColor = LinearSegmentedColormap.from_list('interaction', ['#FFFFFF','#FFDFDF','#FF7575','#FF2626','#F70000'])
-JuiceBoxLikeColor.set_bad("white")
-JuiceBoxLikeColor.set_under("white")
-
-
 class DotHiC(Track, PlotHiCMatrix, FetchHiC):
 
     """
@@ -20,7 +14,7 @@ class DotHiC(Track, PlotHiCMatrix, FetchHiC):
         Path to bed file.
 
     cmap : str, optional
-        Color map of hic matrix, default DotHiC.DEFAULT_COLOR.
+        Color map of hic matrix, default "JuiceBoxLike".
 
     style : {'triangular', 'window', 'matrix'}, optional
         Matrix style,
@@ -55,13 +49,11 @@ class DotHiC(Track, PlotHiCMatrix, FetchHiC):
         Track's name.
 
     """
-    DEFAULT_COLOR = JuiceBoxLikeColor
-
     def __init__(self, file_, **kwargs):
 
         properties_dict = {
             "file": file_,
-            "cmap": DotHiC.DEFAULT_COLOR,
+            "cmap": "JuiceBoxLike",
             "style": 'window',
             "balance": True,
             "depth_ratio": "full",

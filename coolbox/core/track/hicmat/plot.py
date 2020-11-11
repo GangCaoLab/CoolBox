@@ -2,6 +2,7 @@ import abc
 
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
+from matplotlib.colors import LinearSegmentedColormap
 from mpl_toolkits.axes_grid1.axes_divider import make_axes_locatable
 import numpy as np
 from scipy import ndimage
@@ -19,6 +20,17 @@ STYLE_MATRIX = 'matrix'
 STYLE_WINDOW = 'window'
 
 DEPTH_FULL = 'full'
+
+
+JuiceBoxLikeColor = LinearSegmentedColormap.from_list(
+    'interaction', ['#FFFFFF', '#FFDFDF', '#FF7575', '#FF2626', '#F70000'])
+JuiceBoxLikeColor.set_bad("white")
+JuiceBoxLikeColor.set_under("white")
+
+
+cmaps = {
+    "JuiceBoxLike": JuiceBoxLikeColor
+}
 
 
 class PlotHiCMatrix(abc.ABC):
@@ -145,9 +157,13 @@ class PlotHiCMatrix(abc.ABC):
         arr = self.matrix
         cm = self.properties['color']
         if isinstance(cm, str):
-            cmap = plt.get_cmap(self.properties['color'])
-            cmap.set_bad("white")
-            cmap.set_under("white")
+            if cm in cmaps:
+                cmap = cmaps[cm]
+            else:
+                cmap = plt.get_cmap(self.properties['color'])
+                lowest = cmap(0)
+                cmap.set_bad(lowest)
+                cmap.set_under(lowest)
         else:
             cmap = cm
         c_min, c_max = self.matrix_val_range
