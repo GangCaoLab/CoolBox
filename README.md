@@ -41,6 +41,8 @@ Interactively online demo: [binder](https://mybinder.org/v2/gh/GangCaoLab/CoolBo
 
 TODO List:
 
++ HiCMat rotate method.
++ HiCDiff expect global.
 + Better documents.
 	+ More Gallery
 	+ Advance usage

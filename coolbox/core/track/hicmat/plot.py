@@ -1,7 +1,9 @@
 import abc
+import math
 
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
+from matplotlib import transforms
 from matplotlib.colors import LinearSegmentedColormap
 from mpl_toolkits.axes_grid1.axes_divider import make_axes_locatable
 import numpy as np
@@ -106,22 +108,6 @@ class PlotHiCMatrix(abc.ABC):
 
         return min_, max_
 
-    def __get_triangular_matrix(self, arr):
-        small = self.SMALL_VALUE
-        tri_matrix = ndimage.rotate(arr, 45, prefilter=False, cval=small)
-
-        rows = tri_matrix.shape[0]
-
-        tri_matrix = tri_matrix[0:(rows//2 + 1), :]
-
-        # cut depth
-        if self.properties['depth_ratio'] != 'auto' and self.properties['depth_ratio'] != DEPTH_FULL:
-            depth_ratio = float(self.properties['depth_ratio'])
-            depth = int(tri_matrix.shape[0] * depth_ratio)
-            tri_matrix = tri_matrix[-depth:, :]
-
-        return tri_matrix
-
     def __get_window_matrix(self, arr):
         small = self.SMALL_VALUE
         window_matrix = ndimage.rotate(arr, 45, prefilter=False, cval=small)
@@ -168,19 +154,30 @@ class PlotHiCMatrix(abc.ABC):
             cmap = cm
         c_min, c_max = self.matrix_val_range
 
-        depth_ratio = 1.0 if self.properties['depth_ratio'] == DEPTH_FULL else self.properties['depth_ratio']
-
         if self.style == STYLE_TRIANGULAR:
             # triangular style
-            tri_matrix = self.__get_triangular_matrix(arr)
-            img = ax.matshow(tri_matrix, cmap=cmap,
-                             extent=(start, end, 0, depth_ratio * (end - start)/2),
+            scale_r = 1 / math.sqrt(2)
+            r_len = end - start
+            tr = transforms.Affine2D().translate(-start, -start)\
+                .rotate_deg_around(0, 0, 45)\
+                .scale(scale_r)\
+                .translate(start+r_len/2, -r_len/2)
+            img = ax.matshow(arr, cmap=cmap,
+                             transform=tr+ax.transData,
+                             extent=(start, end, start, end),
                              aspect='auto')
         elif self.style == STYLE_WINDOW:
             # window style
-            window_matrix = self.__get_window_matrix(arr)
-            img = ax.matshow(window_matrix, cmap=cmap,
-                             extent=(start, end, 0, depth_ratio * (end - start)/2),
+            scale_r = 2 / math.sqrt(2)
+            r_len = end - start
+            delta_left = start - self.fetch_region.start
+            tr = transforms.Affine2D().translate(-start-delta_left, -start) \
+                .rotate_deg_around(0, 0, 45) \
+                .scale(scale_r) \
+                .translate(start+delta_left+r_len/2, -r_len/2)
+            img = ax.matshow(arr, cmap=cmap,
+                             transform=tr + ax.transData,
+                             extent=(start, end, start, end),
                              aspect='auto')
         else:
             # matrix style
@@ -197,21 +194,21 @@ class PlotHiCMatrix(abc.ABC):
 
     def __adjust_figure(self, genome_range):
         ax = self.ax
-        start, end = genome_range.start, genome_range.end
+        gr = genome_range
         if self.style == STYLE_TRIANGULAR or self.style == STYLE_WINDOW:
 
             if self.properties['depth_ratio'] == DEPTH_FULL:
-                depth = genome_range.length / 2
+                depth = gr.length / 2
             else:
-                depth = (genome_range.length / 2) * self.properties['depth_ratio']
+                depth = (gr.length / 2) * self.properties['depth_ratio']
 
             if self.is_inverted:
                 ax.set_ylim(depth, 0)
             else:
                 ax.set_ylim(0, depth)
         else:
-            ax.set_ylim(end, start)
-        ax.set_xlim(start, end)
+            ax.set_ylim(gr.end, gr.start)
+        ax.set_xlim(gr.start, gr.end)
 
     def __plot_colorbar(self, img, orientation='vertical'):
         if orientation == 'horizontal':
