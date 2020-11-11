@@ -11,7 +11,7 @@ test_itv = test_interval.replace(':', '_').replace('-', '_')
 
 def test_cli_plot():
     cmd = [
-        "coolbox",
+        "python", "-m", "coolbox.cli",
         "add", "XAxis", "-",
         "add", "BigWig", f"{DATA_DIR}/bigwig_{test_itv}.bw", "-",
         "add", "BedGraph", f"{DATA_DIR}/bedgraph_{test_itv}.bg", "-",
@@ -24,7 +24,7 @@ def test_cli_plot():
 
 def test_cli_gen_notebook():
     cmd = [
-        "coolbox",
+        "python", "-m", "coolbox.cli",
         "add", "XAxis", "-",
         "add", "BigWig", f"{DATA_DIR}/bigwig_{test_itv}.bw", "-",
         "add", "BedGraph", f"{DATA_DIR}/bedgraph_{test_itv}.bg", "-",

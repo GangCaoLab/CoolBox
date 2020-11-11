@@ -535,6 +535,7 @@ total 26M
 -rw-rw-r-- 1 nanguage nanguage 2.0K 10月 27 09:50 human.hg19.genome
 -rw-rw-r-- 1 nanguage nanguage 2.2K 10月 27 09:50 make_test_dataset.py
 -rw-rw-r-- 1 nanguage nanguage  777 10月 29 09:55 pairs_chr9_4000000_6000000.pairs
+-rw-rw-r-- 1 nanguage nanguage 765K 11月 10 21:17 snp_chr9_4000000_6000000.snp
 -rw-rw-r-- 1 nanguage nanguage  432 11月  4 15:09 tad_chr9_4000000_6000000.bed
 lrwxrwxrwx 1 nanguage nanguage   70 11月  4 14:33 test.hic -&gt; /home/nanguage/DATA1/LD/differentiation/HiC/Ra-MseI-4sample-combin.hic
 </pre></div></div>
@@ -657,6 +658,10 @@ lrwxrwxrwx 1 nanguage nanguage   70 11月  4 14:33 test.hic -&gt; /home/nanguage
 <tr class="row-odd"><td><p>HiCDiff</p></td>
 <td><p>.cool, .mcool, .hic</p></td>
 <td><p>Show the difference between two contact matrix.</p></td>
+</tr>
+<tr class="row-even"><td><p>SNP</p></td>
+<td><p>.tsv</p></td>
+<td><p>Track for show SNPs Manhattan plot. Input file is a tab-split file, contain SNP’s chrom, position, pvalue information.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1099,9 +1104,9 @@ lrwxrwxrwx 1 nanguage nanguage   70 11月  4 14:33 test.hic -&gt; /home/nanguage
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">regions</span><span class="o">=</span> <span class="p">[</span><span class="s2">&quot;chr9:4600000-5000000&quot;</span><span class="p">,</span> <span class="s2">&quot;chr9:5750000-5950000&quot;</span><span class="p">]</span>
 
-<span class="n">highlights</span> <span class="o">=</span> <span class="n">HighLights</span><span class="p">(</span><span class="n">regions</span><span class="p">)</span>
+<span class="n">highlights</span> <span class="o">=</span> <span class="n">HighLights</span><span class="p">(</span><span class="n">regions</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
 
-<span class="k">with</span> <span class="n">highlights</span><span class="p">:</span>
+<span class="k">with</span> <span class="n">highlights</span><span class="p">,</span> <span class="n">Color</span><span class="p">(</span><span class="s2">&quot;#aa5cff&quot;</span><span class="p">):</span>
     <span class="n">frame</span> <span class="o">=</span> <span class="n">BigWig</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/bigwig_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.bw&quot;</span><span class="p">)</span> <span class="o">+</span>\
             <span class="n">BigWig</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/bigwig_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.bw&quot;</span><span class="p">)</span> <span class="o">+</span>\
             <span class="n">BigWig</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/bigwig_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.bw&quot;</span><span class="p">)</span>
@@ -1173,7 +1178,7 @@ lrwxrwxrwx 1 nanguage nanguage   70 11月  4 14:33 test.hic -&gt; /home/nanguage
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "1d70ca70e5a74d78a98b19879bfffe52", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "f16e3dbdee5e4e6c93e9c324d2d0a7a6", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 </div>
 <div class="section" id="Fetch-precise-data-use-.fetch_data-API">
@@ -1195,27 +1200,27 @@ lrwxrwxrwx 1 nanguage nanguage   70 11月  4 14:33 test.hic -&gt; /home/nanguage
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-OrderedDict([(&#39;XAxis.21&#39;, &lt;coolbox.core.track.pseudo.XAxis at 0x7f51e7c21f10&gt;),
+OrderedDict([(&#39;XAxis.21&#39;, &lt;coolbox.core.track.pseudo.XAxis at 0x7fb0e547c710&gt;),
              (&#39;Cool.6&#39;,
-              &lt;coolbox.core.track.hicmat.cool.Cool at 0x7f51deae7390&gt;),
+              &lt;coolbox.core.track.hicmat.cool.Cool at 0x7fb0e0352310&gt;),
              (&#39;Spacer.6&#39;,
-              &lt;coolbox.core.track.pseudo.Spacer at 0x7f51deb645d0&gt;),
+              &lt;coolbox.core.track.pseudo.Spacer at 0x7fb0e547cc10&gt;),
              (&#39;Virtual4C.2&#39;,
-              &lt;coolbox.core.track.v4c.Virtual4C at 0x7f51deb992d0&gt;),
+              &lt;coolbox.core.track.v4c.Virtual4C at 0x7fb0e0352490&gt;),
              (&#39;Spacer.7&#39;,
-              &lt;coolbox.core.track.pseudo.Spacer at 0x7f51deae74d0&gt;),
-             (&#39;BAM.2&#39;, &lt;coolbox.core.track.bam.BAM at 0x7f51deae7610&gt;),
+              &lt;coolbox.core.track.pseudo.Spacer at 0x7fb0e03524d0&gt;),
+             (&#39;BAM.2&#39;, &lt;coolbox.core.track.bam.BAM at 0x7fb0e03a7290&gt;),
              (&#39;Spacer.8&#39;,
-              &lt;coolbox.core.track.pseudo.Spacer at 0x7f51deae7650&gt;),
-             (&#39;BEDPE.3&#39;, &lt;coolbox.core.track.arcs.BEDPE at 0x7f51deae7350&gt;),
+              &lt;coolbox.core.track.pseudo.Spacer at 0x7fb0e0352590&gt;),
+             (&#39;BEDPE.3&#39;, &lt;coolbox.core.track.arcs.BEDPE at 0x7fb0e0352410&gt;),
              (&#39;Spacer.9&#39;,
-              &lt;coolbox.core.track.pseudo.Spacer at 0x7f51deae7710&gt;),
-             (&#39;Pairs.3&#39;, &lt;coolbox.core.track.arcs.Pairs at 0x7f51dec30c10&gt;),
-             (&#39;GTF.3&#39;, &lt;coolbox.core.track.gtf.GTF at 0x7f51deae7790&gt;),
+              &lt;coolbox.core.track.pseudo.Spacer at 0x7fb0e0352710&gt;),
+             (&#39;Pairs.3&#39;, &lt;coolbox.core.track.arcs.Pairs at 0x7fb0e043f350&gt;),
+             (&#39;GTF.3&#39;, &lt;coolbox.core.track.gtf.GTF at 0x7fb0e0352790&gt;),
              (&#39;Spacer.10&#39;,
-              &lt;coolbox.core.track.pseudo.Spacer at 0x7f51e4517610&gt;),
+              &lt;coolbox.core.track.pseudo.Spacer at 0x7fb0e0352810&gt;),
              (&#39;BigWig.20&#39;,
-              &lt;coolbox.core.track.hist.bigwig.BigWig at 0x7f51deae7810&gt;)])
+              &lt;coolbox.core.track.hist.bigwig.BigWig at 0x7fb0e1de3810&gt;)])
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">

@@ -66,7 +66,7 @@ class HighLightsFromFile(Coverage, _Highlights):
         use 'bed_rgb' for specify color from the file, default 'bed_rgb'.
 
     alpha : float, optional
-        High light region alpha value, default 0.5.
+        High light region alpha value, default 0.1.
 
     border_line : bool, optional
         Plot border line or not, default True.
@@ -91,7 +91,7 @@ class HighLightsFromFile(Coverage, _Highlights):
         properties_dict = {
             "file": file_,
             "color": "bed_rgb",
-            "alpha": 0.25,
+            "alpha": 0.1,
             "border_line": True,
             "border_line_style": "dashed",
             "border_line_width": 0,
