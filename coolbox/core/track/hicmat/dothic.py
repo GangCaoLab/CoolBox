@@ -14,7 +14,7 @@ class DotHiC(Track, PlotHiCMatrix, FetchHiC):
         Path to bed file.
 
     cmap : str, optional
-        Color map of hic matrix, default "JuiceBoxLike".
+        Color map of hic matrix, default "JuiceBoxLike2".
 
     style : {'triangular', 'window', 'matrix'}, optional
         Matrix style,
@@ -53,7 +53,7 @@ class DotHiC(Track, PlotHiCMatrix, FetchHiC):
 
         properties_dict = {
             "file": file_,
-            "cmap": "JuiceBoxLike",
+            "cmap": "JuiceBoxLike2",
             "style": 'window',
             "balance": True,
             "depth_ratio": "full",

@@ -45,17 +45,14 @@ class TADCoverage(Coverage, FetchBed):
     alpha : float, optional
         Peak alpha value, default 0.3.
 
-    line_color : str, optional
+    border_color : str, optional
         Border line color, default '#000000'.
 
-    line_width : float, optional
+    border_width : float, optional
         Border line width, default 1.0.
 
-    line_style : str, optional
+    border_style : str, optional
         Border line style, default 'solid'.
-
-    fill : bool, optional
-        Fill center or not, default True.
 
     """
     DEFAULT_COLOR = "#1f78b4"
@@ -73,7 +70,6 @@ class TADCoverage(Coverage, FetchBed):
             "border_color": "#000000",
             "border_width": 2.0,
             "border_style": "--",
-            "fill": True,
         }
         properties_dict.update(kwargs)
         super().__init__(properties_dict)
@@ -176,7 +172,7 @@ class TADCoverage(Coverage, FetchBed):
 
         rgb, edgecolor = self.__get_rgb_and_edge_color(region.data)
 
-        fill = True if self.properties['fill'] == 'yes' else False
+        fill = True if self.properties['border_only'] == 'no' else False
 
         rec = Rectangle((x, y), w, h,
                         fill=fill,
@@ -226,7 +222,7 @@ class TADCoverage(Coverage, FetchBed):
         rgb = self.properties['color']
         edgecolor = self.properties['border_color']
 
-        if self.properties['border_only']:
+        if self.properties['border_only'] == "yes":
             rgb = 'none'
         elif self.properties['color'] == 'bed_rgb':
             # if rgb is set in the bed line, this overrides the previously

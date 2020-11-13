@@ -27,10 +27,15 @@ JuiceBoxLikeColor = LinearSegmentedColormap.from_list(
     'interaction', ['#FFFFFF', '#FFDFDF', '#FF7575', '#FF2626', '#F70000'])
 JuiceBoxLikeColor.set_bad("white")
 JuiceBoxLikeColor.set_under("white")
+JuiceBoxLikeColor2 = LinearSegmentedColormap.from_list(
+    'interaction', ['#FFFFFF', '#FFDFAF', '#FF7555', '#FF2600', '#F70000'])
+JuiceBoxLikeColor2.set_bad("white")
+JuiceBoxLikeColor2.set_under("white")
 
 
 cmaps = {
-    "JuiceBoxLike": JuiceBoxLikeColor
+    "JuiceBoxLike": JuiceBoxLikeColor,
+    "JuiceBoxLike2": JuiceBoxLikeColor2,
 }
 
 

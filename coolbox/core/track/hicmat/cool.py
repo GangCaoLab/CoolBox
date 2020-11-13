@@ -13,7 +13,7 @@ class Cool(Track, PlotHiCMatrix, FetchHiC):
         Path to bed file.
 
     cmap : str, optional
-        Color map of hic matrix, default Cool.DEFAULT_COLOR.
+        Color map of hic matrix, default "JuiceBoxLike".
 
     style : {'triangular', 'window', 'matrix'}, optional
         Matrix style, default 'window'.
@@ -46,7 +46,7 @@ class Cool(Track, PlotHiCMatrix, FetchHiC):
         Track's name.
     """
 
-    DEFAULT_COLOR = 'YlOrRd'
+    DEFAULT_COLOR = 'JuiceBoxLike'
 
     def __init__(self, file_, **kwargs):
 
