@@ -7,7 +7,6 @@ from matplotlib import transforms
 from matplotlib.colors import LinearSegmentedColormap
 from mpl_toolkits.axes_grid1.axes_divider import make_axes_locatable
 import numpy as np
-from scipy import ndimage
 
 from coolbox.utilities import (
     GenomeRange,
@@ -44,7 +43,6 @@ class PlotHiCMatrix(abc.ABC):
         self.ax = None
         self.label_ax = None
         self.matrix = None
-        self._out_of_bound = False
 
     @property
     def is_inverted(self):
@@ -108,35 +106,6 @@ class PlotHiCMatrix(abc.ABC):
 
         return min_, max_
 
-    def __get_window_matrix(self, arr):
-        small = self.SMALL_VALUE
-        window_matrix = ndimage.rotate(arr, 45, prefilter=False, cval=small)
-        rows, cols = window_matrix.shape
-        if self._out_of_bound == 'left':
-            # left side out of bound
-            x = cols // 3
-            window_matrix = window_matrix[(rows//6):((rows//2) + 1), :(2*x+1)]
-        elif self._out_of_bound == 'right':
-            # right side out of bound
-            x = cols // 3
-            window_matrix = window_matrix[(rows//6):((rows//2) + 1), :(2*x+1)]
-        elif self._out_of_bound == 'both':
-            # double side out of bound
-            x = cols // 3
-            window_matrix = window_matrix[(rows//6):((rows//2) + 1), :]
-        else:
-            # normal
-            x = cols // 4
-            window_matrix = window_matrix[(rows//4):(rows//2 + 1), x:(3*x + 1)]
-
-        # cut depth
-        if self.properties['depth_ratio'] != 'auto' and self.properties['depth_ratio'] != DEPTH_FULL:
-            depth_ratio = float(self.properties['depth_ratio'])
-            depth = int(window_matrix.shape[0] * depth_ratio)
-            window_matrix = window_matrix[-depth:, :]
-
-        return window_matrix
-
     def __plot_matrix(self, genome_range):
         start, end = genome_range.start, genome_range.end
         ax = self.ax
@@ -158,6 +127,8 @@ class PlotHiCMatrix(abc.ABC):
             # triangular style
             scale_r = 1 / math.sqrt(2)
             r_len = end - start
+            # Rotate image using Affine2D, reference:
+            #     https://stackoverflow.com/a/50920567/8500469
             tr = transforms.Affine2D().translate(-start, -start)\
                 .rotate_deg_around(0, 0, 45)\
                 .scale(scale_r)\
@@ -168,16 +139,20 @@ class PlotHiCMatrix(abc.ABC):
                              aspect='auto')
         elif self.style == STYLE_WINDOW:
             # window style
-            scale_r = 2 / math.sqrt(2)
-            r_len = end - start
-            delta_left = start - self.fetch_region.start
-            tr = transforms.Affine2D().translate(-start-delta_left, -start) \
+            fgr = self.fetch_region
+            gr = genome_range
+            scale_factor = fgr.length / gr.length
+            scale_r = scale_factor / math.sqrt(2)
+            length_dialog = gr.length * scale_factor
+            delta_x = length_dialog * (gr.start - fgr.start) / fgr.length
+            delta_x = length_dialog / 2 - delta_x
+            tr = transforms.Affine2D().translate(-gr.start, -gr.start) \
                 .rotate_deg_around(0, 0, 45) \
                 .scale(scale_r) \
-                .translate(start+delta_left+r_len/2, -r_len/2)
+                .translate(gr.start+delta_x, -fgr.length/2)
             img = ax.matshow(arr, cmap=cmap,
                              transform=tr + ax.transData,
-                             extent=(start, end, start, end),
+                             extent=(gr.start, gr.end, gr.start, gr.end),
                              aspect='auto')
         else:
             # matrix style
@@ -248,39 +223,40 @@ class PlotHiCMatrix(abc.ABC):
             c_bar.ax.yaxis.set_ticks_position('left')
 
     def __fetch_window_matrix(self, genome_range):
+        gr = genome_range
         from copy import copy
-        fetch_range = copy(genome_range)
-        x = (genome_range.end - genome_range.start) // 2
-        fetch_range.start = genome_range.start - x
-        fetch_range.end = genome_range.end + x
+        fetch_gr = copy(gr)
+        dr = self.properties['depth_ratio']
+        dr = 1.0 if dr == "full" else dr
+        dr = min(1.0, dr+0.05)
+        x = int(gr.length * dr // 2)
+        fetch_gr.start = gr.start - x
+        fetch_gr.end = gr.end + x
 
-        if fetch_range.start < 0:
-            fetch_range.start = genome_range.start
-            self._out_of_bound = 'left'
+        out_of_bound = [False, False]
+
+        if fetch_gr.start < 0:
+            fetch_gr.start = 0
+            out_of_bound[0] = True
 
         try:
-            arr = self.fetch_matrix(fetch_range)
-        except ValueError as e:
-            if self._out_of_bound == 'left':
-                self._out_of_bound = 'both'
-                arr = self.fetch_matrix(genome_range)
-            else:
-                self._out_of_bound = 'right'
-                fetch_range.end = genome_range.end
-                arr = self.fetch_matrix(fetch_range)
-        return arr, fetch_range
+            arr = self.fetch_matrix(fetch_gr)
+        except ValueError:
+            out_of_bound[1] = True
+            fetch_gr.end = gr.end
+            arr = self.fetch_matrix(fetch_gr)
+
+        return arr, fetch_gr
 
     def plot(self, ax, chrom_region, start_region, end_region):
         self.ax = ax
-
-        self._out_of_bound = False
 
         genome_range = GenomeRange(chrom_region, start_region, end_region)
 
         # fetch matrix and perform transform process
         if self.style == STYLE_WINDOW:
-            arr, fetch_region = self.__fetch_window_matrix(genome_range)
-            self.fetch_region = fetch_region
+            arr, fetch_gr = self.__fetch_window_matrix(genome_range)
+            self.fetch_region = fetch_gr
         else:
             arr = self.fetch_matrix(genome_range)
 
