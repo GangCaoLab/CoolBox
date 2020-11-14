@@ -91,9 +91,12 @@
 <li class="toctree-l1"><a class="reference internal" href="gallery.html">CoolBox Gallery</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Customizing CoolBox</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#Custom-Track">Custom Track</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Chromosome-name-track">Chromosome name track</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Pokemon-track">Pokemon track</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#Custom-Coverage">Custom Coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Custom-Feature">Custom Feature</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
@@ -467,7 +470,7 @@ div.rendered_html tbody tr:hover {
 <ol class="arabic simple">
 <li><p>Import the base <code class="docutils literal notranslate"><span class="pre">Track</span></code> class from <code class="docutils literal notranslate"><span class="pre">coolbox.core.base</span></code> module.</p></li>
 <li><p>Create new track type, and inherit the <code class="docutils literal notranslate"><span class="pre">Track</span></code> as parent class.</p></li>
-<li><p>Implement the <code class="docutils literal notranslate"><span class="pre">plot</span></code> and <code class="docutils literal notranslate"><span class="pre">fetch_data</span></code> method.</p></li>
+<li><p>Implement the <code class="docutils literal notranslate"><span class="pre">plot</span></code> and <code class="docutils literal notranslate"><span class="pre">fetch_data</span></code> (optional) method.</p></li>
 </ol>
 <p>The code schema will look like this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">coolbox.core.Track.base</span> <span class="kn">import</span> <span class="n">Track</span>
@@ -490,9 +493,59 @@ div.rendered_html tbody tr:hover {
         <span class="k">pass</span>
 </pre></div>
 </div>
-<p>For better understand it, here we give an example of define a simple toy track:</p>
+<p>For better understand it, here we give an example of two simple toy tracks defination:</p>
+<div class="section" id="Chromosome-name-track">
+<h3>Chromosome name track<a class="headerlink" href="#Chromosome-name-track" title="Permalink to this headline">¶</a></h3>
+<p>We can define a simple track to show the chromesome name:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">coolbox.core.track.base</span> <span class="kn">import</span> <span class="n">Track</span>
+<span class="kn">from</span> <span class="nn">coolbox.utilities</span> <span class="kn">import</span> <span class="n">to_gr</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="k">class</span> <span class="nc">ChromName</span><span class="p">(</span><span class="n">Track</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mf">0.45</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">({</span>
+            <span class="s2">&quot;fontsize&quot;</span><span class="p">:</span> <span class="n">fontsize</span><span class="p">,</span>
+            <span class="s2">&quot;offset&quot;</span><span class="p">:</span> <span class="n">offset</span><span class="p">,</span>
+        <span class="p">})</span>  <span class="c1"># init Track class</span>
+
+    <span class="k">def</span> <span class="nf">fetch_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">genome_range</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">to_gr</span><span class="p">(</span><span class="n">genome_range</span><span class="p">)</span><span class="o">.</span><span class="n">chrom</span>  <span class="c1"># return chromosome name</span>
+
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;offset&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;fontsize&#39;</span><span class="p">])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">ChromName</span><span class="p">()</span> <span class="o">+</span> <span class="n">XAxis</span><span class="p">()</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4000000-6000000&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/custom_elements_6_0.png" src="_images/custom_elements_6_0.png" />
+</div>
+</div>
+<p>As shown above, we defined a chromesome name display track with just abouot 20 lines of Python code.</p>
+</div>
 <div class="section" id="Pokemon-track">
 <h3>Pokemon track<a class="headerlink" href="#Pokemon-track" title="Permalink to this headline">¶</a></h3>
+<p>Here we have a more interesting demo:</p>
 <p>For example we want to plot some <a class="reference external" href="https://en.wikipedia.org/wiki/Pok%C3%A9mon">pokemons</a> on some genome regions, and we have a BED like text file like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">chr1</span>    <span class="mi">1000</span>    <span class="mi">2000</span>    <span class="n">Bulbasaur</span>
 <span class="n">chr1</span>    <span class="mi">2000</span>    <span class="mi">3000</span>    <span class="n">Charmander</span>
@@ -500,13 +553,13 @@ div.rendered_html tbody tr:hover {
 <span class="n">chr1</span>    <span class="mi">4000</span>    <span class="mi">5000</span>    <span class="n">Pikachu</span>
 </pre></div>
 </div>
-<p>We stores it in <code class="docutils literal notranslate"><span class="pre">../_static/pokemons/list.txt</span></code>.</p>
+<p>We stores it in <code class="docutils literal notranslate"><span class="pre">./_static/pokemons/list.txt</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">!</span>ls ../_static/pokemons
+<span></span><span class="o">!</span>ls ./_static/pokemons
 </pre></div>
 </div>
 </div>
@@ -515,11 +568,12 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Bulbasaur.png  Charmander.png  list.txt  Pikachu.png  Squirtle.png
+Bulbasaur.png   list.txt     PokeBall.png
+Charmander.png  Pikachu.png  Squirtle.png
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -563,17 +617,17 @@ Bulbasaur.png  Charmander.png  list.txt  Pikachu.png  Squirtle.png
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">pkm</span> <span class="o">=</span> <span class="n">Pokemon</span><span class="p">(</span><span class="s2">&quot;../_static/pokemons/list.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;../_static/pokemons/&quot;</span><span class="p">)</span>
+<span></span><span class="n">pkm</span> <span class="o">=</span> <span class="n">Pokemon</span><span class="p">(</span><span class="s2">&quot;./_static/pokemons/list.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;./_static/pokemons/&quot;</span><span class="p">)</span>
 <span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">Spacer</span><span class="p">()</span> <span class="o">+</span> <span class="n">pkm</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -583,7 +637,7 @@ Bulbasaur.png  Charmander.png  list.txt  Pikachu.png  Squirtle.png
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -645,7 +699,7 @@ Bulbasaur.png  Charmander.png  list.txt  Pikachu.png  Squirtle.png
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -655,12 +709,234 @@ Bulbasaur.png  Charmander.png  list.txt  Pikachu.png  Squirtle.png
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/custom_elements_9_0.png" src="_images/custom_elements_9_0.png" />
+<img alt="_images/custom_elements_13_0.png" src="_images/custom_elements_13_0.png" />
 </div>
+</div>
+</div>
+</div>
+<div class="section" id="Custom-Coverage">
+<h2>Custom Coverage<a class="headerlink" href="#Custom-Coverage" title="Permalink to this headline">¶</a></h2>
+<p>Coverage is a layer draw upon the track. Custom Coverage defination is same to the Track, just define the <code class="docutils literal notranslate"><span class="pre">plot</span></code> and <code class="docutils literal notranslate"><span class="pre">fetch_data</span></code> (optional) method.</p>
+<p>For example we can define a Poke Ball Coverage to draw upon Pokemon Track:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">coolbox.core.coverage.base</span> <span class="kn">import</span> <span class="n">Coverage</span>
+
+<span class="n">pokeball_path</span> <span class="o">=</span> <span class="s2">&quot;./_static/pokemons/PokeBall.png&quot;</span>
+
+<span class="k">class</span> <span class="nc">PokeBall</span><span class="p">(</span><span class="n">Coverage</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">genome_range</span><span class="p">,</span> <span class="n">img_path</span><span class="o">=</span><span class="n">pokeball_path</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">({</span>
+            <span class="s2">&quot;genome_range&quot;</span><span class="p">:</span> <span class="n">to_gr</span><span class="p">(</span><span class="n">genome_range</span><span class="p">),</span>
+            <span class="s2">&quot;img_path&quot;</span><span class="p">:</span> <span class="n">img_path</span><span class="p">,</span>
+            <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="n">alpha</span><span class="p">,</span>
+        <span class="p">})</span>
+
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+        <span class="n">gr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;genome_range&#39;</span><span class="p">]</span>
+        <span class="n">img_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;img_path&#39;</span><span class="p">]</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">img_path</span><span class="p">)</span>
+        <span class="n">oi</span> <span class="o">=</span> <span class="n">OffsetImage</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">zoom</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+        <span class="n">px</span> <span class="o">=</span> <span class="p">(</span><span class="n">gr</span><span class="o">.</span><span class="n">start</span> <span class="o">+</span> <span class="n">gr</span><span class="o">.</span><span class="n">end</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># X position</span>
+        <span class="n">box</span> <span class="o">=</span> <span class="n">AnnotationBbox</span><span class="p">(</span><span class="n">oi</span><span class="p">,</span> <span class="p">(</span><span class="n">px</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">box</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">pkm</span> <span class="o">=</span> <span class="n">Pokemon</span><span class="p">(</span><span class="s2">&quot;./_static/pokemons/list.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;./_static/pokemons/&quot;</span><span class="p">)</span>
+<span class="n">ball</span> <span class="o">=</span> <span class="n">PokeBall</span><span class="p">(</span><span class="s2">&quot;chr1:1000-2000&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">Spacer</span><span class="p">()</span> <span class="o">+</span> <span class="n">pkm</span> <span class="o">+</span> <span class="n">ball</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr1:1000-5000&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/custom_elements_17_0.png" src="_images/custom_elements_17_0.png" />
+</div>
+</div>
+<p>Coverage’s related Track is stored at it’s <code class="docutils literal notranslate"><span class="pre">.track</span></code> attribute:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">ball</span><span class="o">.</span><span class="n">track</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;__main__.Pokemon at 0x7f8b485c0550&gt;
+</pre></div></div>
+</div>
+<p>Maybe you found that track defination is almost same to Track. Actually you can create a Coverage directly from Track class, by using <code class="docutils literal notranslate"><span class="pre">track_to_coverage</span></code> function, for example, we convert our <code class="docutils literal notranslate"><span class="pre">ChromName</span></code> Track to Coverage:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">coolbox.core.coverage.base</span> <span class="kn">import</span> <span class="n">track_to_coverage</span>
+
+<span class="n">ChromNameCov</span> <span class="o">=</span> <span class="n">track_to_coverage</span><span class="p">(</span><span class="n">ChromName</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s plot a chromosome name upon pokemon track:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">pkm</span> <span class="o">=</span> <span class="n">Pokemon</span><span class="p">(</span><span class="s2">&quot;./_static/pokemons/list.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;./_static/pokemons/&quot;</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">Spacer</span><span class="p">()</span> <span class="o">+</span> <span class="n">pkm</span> <span class="o">+</span> <span class="n">ChromNameCov</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="mf">0.44</span><span class="p">)</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr1:1000-5000&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/custom_elements_23_0.png" src="_images/custom_elements_23_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Custom-Feature">
+<h2>Custom Feature<a class="headerlink" href="#Custom-Feature" title="Permalink to this headline">¶</a></h2>
+<p>Feature object is used for modify Track or Coverage’s properties (like color, track height, …), for example modify track’s color:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">bigwig_path</span> <span class="o">=</span> <span class="s2">&quot;../../tests/test_data/bigwig_chr9_4000000_6000000.bw&quot;</span>
+
+<span class="n">bw</span> <span class="o">=</span> <span class="n">BigWig</span><span class="p">(</span><span class="n">bigwig_path</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">bw</span> <span class="o">+</span> <span class="n">Color</span><span class="p">(</span><span class="s2">&quot;#ff0c0c&quot;</span><span class="p">)</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4000000-6000000&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/custom_elements_25_0.png" src="_images/custom_elements_25_0.png" />
+</div>
+</div>
+<p>We can define our own color Feature:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">coolbox.core.feature</span> <span class="kn">import</span> <span class="n">Feature</span>
+
+<span class="k">class</span> <span class="nc">MyColor</span><span class="p">(</span><span class="n">Feature</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">bw</span> <span class="o">=</span> <span class="n">BigWig</span><span class="p">(</span><span class="n">bigwig_path</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">bw</span> <span class="o">+</span> <span class="n">MyColor</span><span class="p">(</span><span class="s2">&quot;#0c0cff&quot;</span><span class="p">)</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4000000-6000000&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/custom_elements_28_0.png" src="_images/custom_elements_28_0.png" />
+</div>
+</div>
+<p>Actually, all properties of CoolBox builtin tracks and coverages is stored in the <code class="docutils literal notranslate"><span class="pre">.properties</span></code> attribute, it’s a dict object. Add Feature is equivalent to modify this dict:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">bw</span><span class="o">.</span><span class="n">properties</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;file&#39;: &#39;../../tests/test_data/bigwig_chr9_4000000_6000000.bw&#39;,
+ &#39;height&#39;: 3,
+ &#39;color&#39;: &#39;#0c0cff&#39;,
+ &#39;alpha&#39;: 1.0,
+ &#39;number_of_bins&#39;: 700,
+ &#39;style&#39;: &#39;fill&#39;,
+ &#39;show_data_range&#39;: &#39;yes&#39;,
+ &#39;data_range_style&#39;: &#39;y-axis&#39;,
+ &#39;title&#39;: &#39;&#39;,
+ &#39;max_value&#39;: &#39;auto&#39;,
+ &#39;min_value&#39;: &#39;auto&#39;,
+ &#39;type&#39;: &#39;fill&#39;,
+ &#39;name&#39;: &#39;BigWig.2&#39;}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">bw</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;#9c5f2c&quot;</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">bw</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4000000-6000000&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/custom_elements_31_0.png" src="_images/custom_elements_31_0.png" />
 </div>
 </div>
 </div>

@@ -1,4 +1,5 @@
 from .base import Track
+from coolbox.utilities import to_gr
 
 
 class Spacer(Track):
@@ -148,3 +149,31 @@ class XAxis(Track):
 
         if 'where' in self.properties and self.properties['where'] == 'top':
             ax.axis["x"].set_axis_direction("top")
+
+
+class ChromName(Track):
+    """
+    Track for show chromosome name.
+
+    Parameters
+    ----------
+    fontsize : float
+        Font name to show.
+
+    offset : float
+        Offset ratio to the start position.
+    """
+    def __init__(self, fontsize=50, offset=0.45):
+        super().__init__({
+            "fontsize": fontsize,
+            "offset": offset,
+        })
+
+    def fetch_data(self, genome_range):
+        return to_gr(genome_range).chrom  # return chromosome name
+
+    def plot(self, ax, chrom, start, end):
+        x = start + self.properties['offset'] * (end - start)
+        ax.text(x, 0, chrom, fontsize=self.properties['fontsize'])
+        ax.set_xlim(start, end)
+

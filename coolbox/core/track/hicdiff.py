@@ -79,7 +79,7 @@ class HiCDiff(Track, PlotHiCMatrix):
             "style": "triangular",
             "depth_ratio": "full",
             "cmap": HiCDiff.DEFAULT_COLOR,
-            "color_bar": True,
+            "color_bar": "vertical",
             "max_value": "auto",
             "min_value": "auto",
             "title": '',

@@ -71,7 +71,6 @@ class HiCPeaks(Coverage):
         }
         properties_dict.update(kwargs)
         super().__init__(properties_dict)
-        self.track = None
         self.LoopInverval = collections.namedtuple("LoopInterval",
                                                    ("chr1", "x1", "x2", "chr2", "y1", "y2", "color"))
         self.interval_tree = self.__process_loop_file()

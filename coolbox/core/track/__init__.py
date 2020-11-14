@@ -1,4 +1,4 @@
-from .pseudo import Spacer, HLine, XAxis
+from .pseudo import Spacer, HLine, XAxis, ChromName
 from .hist import Hist, BigWig, ABCompartment, BedGraph
 from .bed import BED
 from .hicmat import HiCMat, Cool, DotHiC

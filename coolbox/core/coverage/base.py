@@ -43,11 +43,11 @@ class Coverage(object):
             name = self.__class__.__name__ + ".{}".format(self.__class__._counts)
         self.properties['name'] = name
 
-        super().__init__()
-
         stack = get_feature_stack()
         for feature in stack:
             self.properties[feature.key] = feature.value
+
+        self.track = None
 
     def __bool2str(self):
         """
