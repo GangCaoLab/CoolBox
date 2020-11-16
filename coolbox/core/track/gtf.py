@@ -27,7 +27,7 @@ class GTF(Track):
         Path to .gtf(or .gtf.bgz) file.
 
     row_filter : str, optional
-        Filter rows, only keep the rows for draw. (Default 'feature == "gene";source == "protein_coding"')
+        Filter rows, only keep the rows for draw. (Default 'feature == "gene"')
 
     length_ratio_thresh : float
         Length ratio threshold of features, (Default 0.01)
@@ -58,7 +58,7 @@ class GTF(Track):
     def __init__(self, file_, **kwargs):
         properties_dict = {
             "file": file_,
-            "row_filter": 'feature == "gene";source == "protein_coding"',
+            "row_filter": 'feature == "gene"',
             "length_ratio_thresh": 0.005,
             "height": GTF.DEFAULT_HEIGHT,
             "title": '',

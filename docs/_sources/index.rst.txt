@@ -14,7 +14,7 @@ Table of contents
 =================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    installation
    quick_start_API.ipynb

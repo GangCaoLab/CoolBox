@@ -116,7 +116,9 @@ class Virtual4C(Track, CoveragePlot):
         bin_width = self.bin_width
         position = self.position
         binsize = self.hic.fetched_binsize
-        assert binsize is not None, "Related HiC track should plot firstly"
+        if binsize is None:
+            self.hic.fetch_matrix(genome_range)
+            binsize = self.hic.fetched_binsize
         window_range = copy(position)
         offset_ = (bin_width - 1) // 2
         assert offset_ >= 0, "bin width must >= 1"

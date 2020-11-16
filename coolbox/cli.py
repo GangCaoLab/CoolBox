@@ -66,6 +66,20 @@ class CLI(object):
         self.frame.goto(genome_range)
         return self
 
+    def get_element_type_by_str(self, elem_str):
+        try:
+            elem_tp = eval("coolbox.api." + elem_str)
+        except NameError:
+            log.error(
+                f"No element type name as {elem_tp}, all elements type see: " +
+                "https://gangcaolab.github.io/CoolBox/api.html"
+            )
+        return elem_tp
+
+    def show_doc(self, elem_str):
+        elem_tp = self.get_element_type_by_str(elem_str)
+        print(elem_tp.__doc__)
+
     @property
     def current_range(self):
         return self.frame.current_range
@@ -79,7 +93,7 @@ class CLI(object):
         :param args: Positional args for create elements.
         :param kwargs: Keyword args for create elements.
         """
-        elem_tp = eval("coolbox.api." + elem_str)
+        elem_tp = self.get_element_type_by_str(elem_str)
         elem = elem_tp(*args, **kwargs)
         self.frame = self.frame + elem
         compose_code = elem_str + "("

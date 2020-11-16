@@ -21,6 +21,12 @@ $ conda activate coolbox
 $ python -m pip install . --no-deps -vv
 ```
 
+Enable `ipywidgets` to use the browser in Jupyter notebook:
+
+```bash
+$ jupyter nbextension enable --py widgetsnbextension
+``` 
+
 ## Usage
 
 There are two kinds of way to use CoolBox. 

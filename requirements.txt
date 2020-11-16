@@ -1,3 +1,4 @@
+requests
 jupyter>=1.0.0
 ipywidgets>=7.5.1
 intervaltree
