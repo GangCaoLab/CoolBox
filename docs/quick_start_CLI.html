@@ -90,7 +90,10 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart (CLI)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#Check-the-basic-information">Check the basic information</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Example-Dataset">Example Dataset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Compose-Frame">Compose Frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Compose-Frame">Compose Frame</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#with-block">with block</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#Start-a-browser">Start a browser</a></li>
 </ul>
 </li>
@@ -481,7 +484,7 @@ coolbox
     coolbox - CoolBox Command Line Interface
 
 <span class="ansi-bold">SYNOPSIS</span>
-    coolbox - <span class="ansi-underline">GROUP</span> | <span class="ansi-underline">COMMAND</span> | <span class="ansi-underline">VALUE</span>
+    coolbox - <span class="ansi-underline">COMMAND</span> | <span class="ansi-underline">VALUE</span>
 
 <span class="ansi-bold">DESCRIPTION</span>
     You can use this cli to create coolbox browser instance,
@@ -501,20 +504,14 @@ coolbox
 
         $ coolbox add XAxis - add BigWig test.bw - goto &#34;chr1:5000000-6000000&#34; - run_webapp
 
-<span class="ansi-bold">GROUPS</span>
-    <span class="ansi-bold ansi-underline">GROUP</span> is one of the following:
-
-     frame
-       Frame for arrange and group plots.
-
 <span class="ansi-bold">COMMANDS</span>
     <span class="ansi-bold ansi-underline">COMMAND</span> is one of the following:
 
      add
-       Add a Element(Track, Coverage, Feature)
+       Add a Element(Track, Coverage, Feature), for example: coolbox add XAxis
 
-     end
-       Terminate the CLI pipeline
+     end_with
+       End the with block
 
      gen_notebook
        Generate The notebook contain codes for run coolbox browser.
@@ -536,6 +533,12 @@ coolbox
 
      set_genome
        Set reference genome for browser object.
+
+     show_doc
+       Print the document of specified Element type. For example: coolbox show_doc Cool
+
+     start_with
+       Start a &#39;with&#39; block, apply the element to all elements within the block.
 
      version
        print coolbox version
@@ -603,6 +606,7 @@ total 26M
 -rw-rw-r-- 1 nanguage nanguage 2.0K 10月 27 09:50 human.hg19.genome
 -rw-rw-r-- 1 nanguage nanguage 2.2K 10月 27 09:50 make_test_dataset.py
 -rw-rw-r-- 1 nanguage nanguage  777 10月 29 09:55 pairs_chr9_4000000_6000000.pairs
+-rw-rw-r-- 1 nanguage nanguage 765K 11月 10 21:17 snp_chr9_4000000_6000000.snp
 -rw-rw-r-- 1 nanguage nanguage  432 11月  4 15:09 tad_chr9_4000000_6000000.bed
 lrwxrwxrwx 1 nanguage nanguage   70 11月  4 14:33 test.hic -&gt; /home/nanguage/DATA1/LD/differentiation/HiC/Ra-MseI-4sample-combin.hic
 </pre></div></div>
@@ -628,13 +632,13 @@ coolbox add -- --help
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
 <span class="ansi-bold">NAME</span>
-    coolbox add - Add a Element(Track, Coverage, Feature)
+    coolbox add - Add a Element(Track, Coverage, Feature), for example: coolbox add XAxis
 
 <span class="ansi-bold">SYNOPSIS</span>
     coolbox add <span class="ansi-underline">ELEM_STR</span> &lt;flags&gt; [<span class="ansi-underline">ARGS</span>]...
 
 <span class="ansi-bold">DESCRIPTION</span>
-    Add a Element(Track, Coverage, Feature)
+    Add a Element(Track, Coverage, Feature), for example: coolbox add XAxis
 
 <span class="ansi-bold">POSITIONAL ARGUMENTS</span>
     <span class="ansi-bold ansi-underline">ELEM_STR</span>
@@ -693,6 +697,90 @@ plot /tmp/test_coolbox.jpg
 </div>
 <p>As we can see, we compose our data using the <code class="docutils literal notranslate"><span class="pre">add</span></code> command, then plot the figure.</p>
 <p>The first argument of <code class="docutils literal notranslate"><span class="pre">add</span></code> is the coolbox element type name. The most frequently used element is the <code class="docutils literal notranslate"><span class="pre">Track</span></code>, all <code class="docutils literal notranslate"><span class="pre">Track</span></code> type can be found <a class="reference external" href="https://gangcaolab.github.io/CoolBox/quick_start_API.html#Track-types">here</a></p>
+<div class="section" id="with-block">
+<h3>with block<a class="headerlink" href="#with-block" title="Permalink to this headline">¶</a></h3>
+<p>For modify features or add coverage to a group of tracks, you can use the <code class="docutils literal notranslate"><span class="pre">with</span></code> block, it’s the equivalent of the <code class="docutils literal notranslate"><span class="pre">`with</span> <span class="pre">statement</span></code> in API &lt;<a class="reference external" href="https://gangcaolab.github.io/CoolBox/quick_start_API.html#with-statement">https://gangcaolab.github.io/CoolBox/quick_start_API.html#with-statement</a>&gt;`__.</p>
+<p>For example modify track’s color:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>%%bash
+
+<span class="nv">DIR</span><span class="o">=</span>../../tests/test_data
+
+coolbox add XAxis - <span class="se">\</span>
+start_with Color <span class="s2">&quot;#ffcc66&quot;</span> - <span class="se">\</span>
+add BigWig <span class="nv">$DIR</span>/bigwig_chr9_4000000_6000000.bw - <span class="se">\</span>
+add BigWig <span class="nv">$DIR</span>/bigwig_chr9_4000000_6000000.bw - <span class="se">\</span>
+end_with - <span class="se">\</span>
+start_with Color <span class="s2">&quot;#cc66ff&quot;</span> - <span class="se">\</span>
+add BigWig <span class="nv">$DIR</span>/bigwig_chr9_4000000_6000000.bw - <span class="se">\</span>
+add BigWig <span class="nv">$DIR</span>/bigwig_chr9_4000000_6000000.bw - <span class="se">\</span>
+end_with - <span class="se">\</span>
+goto <span class="s2">&quot;chr9:4000000-6000000&quot;</span> - <span class="se">\</span>
+plot /tmp/test_coolbox.jpg
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;/tmp/test_coolbox.jpg&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/quick_start_CLI_17_0.jpg" src="_images/quick_start_CLI_17_0.jpg" />
+</div>
+</div>
+<p>Apply Vlines coverage:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>%%bash
+
+<span class="nv">DIR</span><span class="o">=</span>../../tests/test_data
+
+coolbox add XAxis - <span class="se">\</span>
+start_with Vlines <span class="s2">&quot;[&#39;chr9:4500000-4500000&#39;, &#39;chr9:5000000-5000000&#39;]&quot;</span> - <span class="se">\</span>
+add BigWig <span class="nv">$DIR</span>/bigwig_chr9_4000000_6000000.bw - <span class="se">\</span>
+add BigWig <span class="nv">$DIR</span>/bigwig_chr9_4000000_6000000.bw - <span class="se">\</span>
+end_with - <span class="se">\</span>
+goto <span class="s2">&quot;chr9:4000000-6000000&quot;</span> - <span class="se">\</span>
+plot /tmp/test_coolbox.jpg
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;/tmp/test_coolbox.jpg&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/quick_start_CLI_20_0.jpg" src="_images/quick_start_CLI_20_0.jpg" />
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="Start-a-browser">
 <h2>Start a browser<a class="headerlink" href="#Start-a-browser" title="Permalink to this headline">¶</a></h2>
@@ -717,7 +805,7 @@ run_webapp
 </div>
 <p>More detail usage see the help info:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
@@ -747,7 +835,7 @@ coolbox run_jupyter -- --help
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>

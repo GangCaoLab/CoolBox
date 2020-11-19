@@ -91,7 +91,10 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../gallery.html">CoolBox Gallery</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="hicmat_cmaps.html">Colormaps of Hi-C contact map</a></li>
 <li class="toctree-l2"><a class="reference internal" href="v4c.html">Virtual 4C</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">TADs</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">TADs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#CLI-code">CLI code</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="HiCDiff.html">Hi-C Diff</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bw_style.html">BigWig track styles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bw_cov.html">BigWig Coverage</a></li>
@@ -541,6 +544,61 @@ chr9    4920000 4980000 .       0       .
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/_gallery_TADs_6_0.png" src="../_images/_gallery_TADs_6_0.png" />
+</div>
+</div>
+<div class="section" id="CLI-code">
+<h2>CLI code<a class="headerlink" href="#CLI-code" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>%%bash
+
+<span class="nv">cool</span><span class="o">=</span><span class="s2">&quot;../../../tests/test_data/cool_chr9_4000000_6000000.mcool&quot;</span>
+<span class="nv">tads</span><span class="o">=</span><span class="s2">&quot;../../../tests/test_data/tad_chr9_4000000_6000000.bed&quot;</span>
+
+coolbox add XAxis - <span class="se">\</span>
+add Cool <span class="nv">$cool</span> - <span class="se">\</span>
+add TADCoverage <span class="nv">$tads</span> --border_only True --alpha <span class="m">1</span>.0 - <span class="se">\</span>
+goto <span class="s2">&quot;chr9:4000000-6000000&quot;</span> - <span class="se">\</span>
+plot /tmp/test_coolbox.png
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+[W::hts_idx_load3] The index file is older than the data file: ../../../tests/test_data/tad_chr9_4000000_6000000.bed.bgz.tbi
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>%%bash
+
+<span class="nv">cool</span><span class="o">=</span><span class="s2">&quot;../../../tests/test_data/cool_chr9_4000000_6000000.mcool&quot;</span>
+<span class="nv">tads</span><span class="o">=</span><span class="s2">&quot;../../../tests/test_data/tad_chr9_4000000_6000000.bed&quot;</span>
+
+coolbox add XAxis - <span class="se">\</span>
+add Cool <span class="nv">$cool</span> --style matrix - <span class="se">\</span>
+add TADCoverage <span class="nv">$tads</span> --color blue --border_width <span class="m">0</span> --alpha <span class="m">0</span>.2 - <span class="se">\</span>
+goto <span class="s2">&quot;chr9:4000000-6000000&quot;</span> - <span class="se">\</span>
+plot /tmp/test_coolbox.png
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+[W::hts_idx_load3] The index file is older than the data file: ../../../tests/test_data/tad_chr9_4000000_6000000.bed.bgz.tbi
+</pre></div></div>
 </div>
 </div>
 </div>

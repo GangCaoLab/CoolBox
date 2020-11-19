@@ -96,7 +96,10 @@
 <li class="toctree-l2"><a class="reference internal" href="bw_style.html">BigWig track styles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bw_cov.html">BigWig Coverage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="arcs_cov.html">Arcs coverage</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">SNP Manhattan plot</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">SNP Manhattan plot</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#CLI-code">CLI code</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../custom_elements.html">Customizing CoolBox</a></li>
@@ -543,6 +546,28 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/_gallery_snp_9_0.png" src="../_images/_gallery_snp_9_0.png" />
+</div>
+</div>
+<div class="section" id="CLI-code">
+<h2>CLI code<a class="headerlink" href="#CLI-code" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>%%bash
+
+<span class="nv">snp_file</span><span class="o">=</span><span class="s2">&quot;../../../tests/test_data/snp_chr9_4000000_6000000.snp&quot;</span>
+<span class="nv">gtf_file</span><span class="o">=</span><span class="s2">&quot;../../../tests/test_data/gtf_chr9_4000000_6000000.gtf&quot;</span>
+
+coolbox add XAxis - <span class="se">\</span>
+add SNP <span class="nv">$snp_file</span> --col_chrom <span class="m">0</span> --col_pos <span class="m">2</span> --col_pval <span class="m">9</span> - <span class="se">\</span>
+add TrackHeight <span class="m">10</span> - <span class="se">\</span>
+add GTF <span class="nv">$gtf_file</span> - <span class="se">\</span>
+goto <span class="s2">&quot;chr9:4000000-6000000&quot;</span> - <span class="se">\</span>
+plot /tmp/test_coolbox.png
+</pre></div>
+</div>
 </div>
 </div>
 </div>

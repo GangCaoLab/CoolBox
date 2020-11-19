@@ -90,7 +90,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../quick_start_CLI.html">Quickstart (CLI)</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../gallery.html">CoolBox Gallery</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="hicmat_cmaps.html">Colormaps of Hi-C contact map</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Virtual 4C</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Virtual 4C</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#CLI-code">CLI code</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="TADs.html">TADs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="HiCDiff.html">Hi-C Diff</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bw_style.html">BigWig track styles</a></li>
@@ -498,6 +501,34 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/_gallery_v4c_3_0.png" src="../_images/_gallery_v4c_3_0.png" />
+</div>
+</div>
+<div class="section" id="CLI-code">
+<h2>CLI code<a class="headerlink" href="#CLI-code" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>%%bash
+
+<span class="nv">cool_file</span><span class="o">=</span>../../../tests/test_data/cool_chr9_4000000_6000000.mcool
+<span class="nv">loci1</span><span class="o">=</span><span class="s2">&quot;chr9:4380000-4380000&quot;</span>
+<span class="nv">loci2</span><span class="o">=</span><span class="s2">&quot;chr9:4760000-4760000&quot;</span>
+<span class="nv">loci3</span><span class="o">=</span><span class="s2">&quot;chr9:5445000-5445000&quot;</span>
+
+coolbox add XAxis - <span class="se">\</span>
+    start_with Vlines <span class="s2">&quot;[&#39;</span><span class="si">${</span><span class="nv">loci1</span><span class="si">}</span><span class="s2">&#39;, &#39;</span><span class="si">${</span><span class="nv">loci2</span><span class="si">}</span><span class="s2">&#39;, &#39;</span><span class="si">${</span><span class="nv">loci3</span><span class="si">}</span><span class="s2">&#39;]&quot;</span> - <span class="se">\</span>
+    add Cool <span class="si">${</span><span class="nv">cool_file</span><span class="si">}</span> --style <span class="s2">&quot;matrix&quot;</span> - <span class="se">\</span>
+    start_with MaxValue <span class="s2">&quot;0.015&quot;</span> - <span class="se">\</span>
+    start_with MinValue <span class="s2">&quot;0&quot;</span> - <span class="se">\</span>
+    add Virtual4C <span class="si">${</span><span class="nv">cool_file</span><span class="si">}</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">loci1</span><span class="si">}</span><span class="s2">&quot;</span> --bin_width <span class="m">5</span> - <span class="se">\</span>
+    add Virtual4C <span class="si">${</span><span class="nv">cool_file</span><span class="si">}</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">loci2</span><span class="si">}</span><span class="s2">&quot;</span> --bin_width <span class="m">5</span> - <span class="se">\</span>
+    add Virtual4C <span class="si">${</span><span class="nv">cool_file</span><span class="si">}</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">loci3</span><span class="si">}</span><span class="s2">&quot;</span> --bin_width <span class="m">5</span> - <span class="se">\</span>
+    goto <span class="s2">&quot;chr9:4000000-6000000&quot;</span> - <span class="se">\</span>
+    plot /tmp/test_cli_v4c.png
+</pre></div>
+</div>
 </div>
 </div>
 </div>

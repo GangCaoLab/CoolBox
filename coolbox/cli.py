@@ -24,6 +24,16 @@ def get_element_type_by_str(elem_str):
     return elem_tp
 
 
+def get_compose_code(elem_str, args, kwargs):
+    compose_code = elem_str + "("
+    compose_code += ", ".join(
+        [repr(arg) for arg in args] +
+        [f"{k} = {repr(v)}" for k, v in kwargs.items()]
+    )
+    compose_code += ")"
+    return compose_code
+
+
 class CLI(object):
     """
     CoolBox Command Line Interface
@@ -98,14 +108,30 @@ class CLI(object):
         if ("help" in args) or ("help" in kwargs):
             self.show_doc(elem_str)
             return
-        compose_code = elem_str + "("
-        compose_code += ", ".join(
-            [repr(arg) for arg in args] +
-            [f"{k} = {repr(v)}" for k, v in kwargs.items()]
-        )
-        compose_code += ")"
+        compose_code = get_compose_code(elem_str, args, kwargs)
         log.info(f"Create element, compose code: {compose_code}")
-        self.source += "frame += " + compose_code + "\n"
+        self.source += "\t"*self._indent + "frame += " + compose_code + "\n"
+        return self
+
+    def start_with(self, elem_str, *args, **kwargs):
+        """Start a 'with' block, apply the element to all elements within the block.
+
+        :param elem_str: Element type string. Like VLines, Color, MinValue ...
+        :param args: Positional args for create elements.
+        :param kwargs: Keyword args for create elements.
+        """
+        if ("help" in args) or ("help" in kwargs):
+            self.show_doc(elem_str)
+            return
+        compose_code = get_compose_code(elem_str, args, kwargs)
+        log.info(f"Create a with block, compose code: {compose_code}")
+        self.source += "\t"*self._indent + f"with {compose_code}:\n"
+        self._indent += 1
+        return self
+
+    def end_with(self):
+        """End the with block"""
+        self._indent -= 1
         return self
 
     def print_source(self):
@@ -185,7 +211,7 @@ class CLI(object):
             log.error(
                 "Error when execute the generated source code:\n\n" +
                 "------------------------\n" +
-                self.source + "\n" +
+                source + "\n" +
                 "------------------------\n\n"
             )
             if type(e) == NameError:
@@ -208,10 +234,6 @@ class CLI(object):
         tmp = tmp_notebook()
         self.gen_notebook(tmp, notes=False, figsave=False)
         subp.check_call(f"voila {tmp} " + voila_args, shell=True)
-
-    def end(self):
-        """Terminate the CLI pipeline"""
-        pass
 
 
 if __name__ == "__main__":
