@@ -9,6 +9,7 @@ from mpl_toolkits.axes_grid1.axes_divider import make_axes_locatable
 import numpy as np
 
 from coolbox.utilities import (
+    to_gr,
     GenomeRange,
     get_logger
 )
@@ -111,10 +112,7 @@ class PlotHiCMatrix(abc.ABC):
 
         return min_, max_
 
-    def __plot_matrix(self, genome_range):
-        start, end = genome_range.start, genome_range.end
-        ax = self.ax
-        arr = self.matrix
+    def __get_cmap(self):
         cm = self.properties['color']
         if isinstance(cm, str):
             if cm in cmaps:
@@ -126,6 +124,13 @@ class PlotHiCMatrix(abc.ABC):
                 cmap.set_under(lowest)
         else:
             cmap = cm
+        return cmap
+
+    def __plot_matrix(self, genome_range):
+        start, end = genome_range.start, genome_range.end
+        ax = self.ax
+        arr = self.matrix
+        cmap = self.__get_cmap()
         c_min, c_max = self.matrix_val_range
 
         if self.style == STYLE_TRIANGULAR:
@@ -172,23 +177,28 @@ class PlotHiCMatrix(abc.ABC):
 
         return img
 
-    def __adjust_figure(self, genome_range):
+    def __adjust_figure(self, genome_range, genome_range2=None):
         ax = self.ax
         gr = genome_range
-        if self.style == STYLE_TRIANGULAR or self.style == STYLE_WINDOW:
+        gr2 = genome_range2
+        if gr2 is None:
+            if self.style == STYLE_TRIANGULAR or self.style == STYLE_WINDOW:
 
-            if self.properties['depth_ratio'] == DEPTH_FULL:
-                depth = gr.length / 2
-            else:
-                depth = (gr.length / 2) * self.properties['depth_ratio']
+                if self.properties['depth_ratio'] == DEPTH_FULL:
+                    depth = gr.length / 2
+                else:
+                    depth = (gr.length / 2) * self.properties['depth_ratio']
 
-            if self.is_inverted:
-                ax.set_ylim(depth, 0)
+                if self.is_inverted:
+                    ax.set_ylim(depth, 0)
+                else:
+                    ax.set_ylim(0, depth)
             else:
-                ax.set_ylim(0, depth)
+                ax.set_ylim(gr.end, gr.start)
+            ax.set_xlim(gr.start, gr.end)
         else:
-            ax.set_ylim(gr.end, gr.start)
-        ax.set_xlim(gr.start, gr.end)
+            ax.set_xlim(gr.start, gr.end)
+            ax.set_ylim(gr2.end, gr2.start)
 
     def __plot_colorbar(self, img, orientation='vertical'):
         if orientation == 'horizontal':
@@ -253,6 +263,16 @@ class PlotHiCMatrix(abc.ABC):
 
         return arr, fetch_gr
 
+    def __draw_cbar(self, img):
+        # plot colorbar
+        if self.properties['color_bar'] == 'no':
+            pass
+        else:
+            if hasattr(self, 'y_ax') and self.properties['color_bar'] == 'vertical':
+                self.__plot_colorbar(img, orientation='vertical')
+            else:
+                self.__plot_colorbar(img, orientation='horizontal')
+
     def plot(self, ax, chrom_region, start_region, end_region):
         self.ax = ax
 
@@ -270,17 +290,26 @@ class PlotHiCMatrix(abc.ABC):
         # plot matrix
         img = self.__plot_matrix(genome_range)
         self.__adjust_figure(genome_range)
+        self.__draw_cbar(img)
+        self.plot_label()
 
-        # plot colorbar
-        if self.properties['color_bar'] == 'no':
-            pass
+    def plot_joint(self, ax, genome_range1, genome_range2):
+        self.ax = ax
+        gr1 = to_gr(genome_range1)
+        gr2 = to_gr(genome_range2)
+        arr = self.fetch_matrix(gr1, gr2)
+        self.matrix = arr
+        cmap = self.__get_cmap()
+        img = ax.matshow(arr, cmap=cmap,
+                         extent=(gr1.start, gr1.end, gr2.end, gr2.start),
+                         aspect='auto')
+        c_min, c_max = self.matrix_val_range
+        if self.properties['norm'] == 'log':
+            img.set_norm(colors.LogNorm(vmin=c_min, vmax=c_max))
         else:
-            if hasattr(self, 'y_ax') and self.properties['color_bar'] == 'vertical':
-                self.__plot_colorbar(img, orientation='vertical')
-            else:
-                self.__plot_colorbar(img, orientation='horizontal')
-
-        # plot label
+            img.set_norm(colors.Normalize(vmin=c_min, vmax=c_max))
+        self.__adjust_figure(gr1, gr2)
+        self.__draw_cbar(img)
         self.plot_label()
 
     def get_track_height(self, frame_width):

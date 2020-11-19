@@ -30,7 +30,7 @@ class FetchHiC(abc.ABC):
     def fetch_pixels(self, genome_range, genome_range2=None, balance=None, resolution='auto'):
         pass
 
-    def fetch_matrix(self, genome_range, resolution='auto'):
+    def fetch_matrix(self, genome_range, genome_range2=None, resolution='auto'):
         """
         Fetch the matrix for plot.
 
@@ -38,6 +38,9 @@ class FetchHiC(abc.ABC):
         ----------
         genome_range : coolbox.utilities.GenomeRange
             The genome range to fetch.
+
+        genome_range : coolbox.utilities.GenomeRange, optional
+            Second genome range to fetch.
 
         resolution : {'auto', int}
             The matrix resolution, for multi-resolution(.hic or multi-cool) file.
@@ -54,7 +57,7 @@ class FetchHiC(abc.ABC):
         else:
             wrap = CoolerWrap(path, balance=self.balance, binsize=resolution)
 
-        arr = wrap.fetch(genome_range)
+        arr = wrap.fetch(genome_range, genome_range2)
 
         self.fetched_binsize = wrap.fetched_binsize  # expose fetched binsize
 
