@@ -85,9 +85,10 @@ class BedGraph(Track, CoveragePlot):
 
         itv_df['pos'] = itv_df['start'] + (itv_df['end'] - itv_df['start'])/2
 
-        self.plot_coverage(ax, genome_range,
-                           np.array(itv_df['score']),
-                           np.array(itv_df['pos']))
+        if itv_df.shape[0] > 0:
+            self.plot_coverage(ax, genome_range,
+                               np.array(itv_df['score']),
+                               np.array(itv_df['pos']))
         self.plot_label()
         return ax
 

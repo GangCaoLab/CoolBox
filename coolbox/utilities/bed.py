@@ -491,9 +491,10 @@ def build_gtf_index(file):
             log.info(f"Process the gtf and do bgzip, save to {bgz_file}.")
             process_gtf(file, bgz_file)
     elif file.endswith(".gtf.gz"):
-        bgz_file = file[-7:] + ".bgz"
+        bgz_file = file.rstrip(".gz") + ".bgz"
         log.info(f"Convert .gtf.gz to .gtf.bgz, save to {bgz_file}.")
-        gtf_gz_to_bgz(file, bgz_file)
+        if not osp.exists(bgz_file):
+            gtf_gz_to_bgz(file, bgz_file)
     elif file.endswith(".gtf.bgz"):
         bgz_file = file
     else:

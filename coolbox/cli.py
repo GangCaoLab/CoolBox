@@ -6,11 +6,22 @@ import fire
 import nbformat as nbf
 
 import coolbox
-import coolbox.api
 from coolbox.utilities import get_logger
 
 
 log = get_logger("CoolBox CLI")
+
+
+def get_element_type_by_str(elem_str):
+    import coolbox.api
+    try:
+        elem_tp = eval("coolbox.api." + elem_str)
+    except NameError:
+        log.error(
+            f"No element type name as {elem_tp}, all elements type see: " +
+            "https://gangcaolab.github.io/CoolBox/api.html"
+        )
+    return elem_tp
 
 
 class CLI(object):
@@ -37,14 +48,16 @@ class CLI(object):
     """
 
     def __init__(self, genome="hg19", genome_range=None):
-        self.source = "Frame()"
+        self._indent = 0
+        self.current_range = None
         self.genome = genome
         if genome_range and isinstance(genome_range, str):
-            self.frame = coolbox.api.Frame(genome_range=genome_range)
+            self.source = f"frame = Frame(genome_range={genome_range})\n"
         else:
-            self.frame = coolbox.api.Frame()
+            self.source = f"frame = Frame()\n"
 
-    def version(self):
+    @staticmethod
+    def version():
         """print coolbox version"""
         print(coolbox.__version__)
 
@@ -63,29 +76,18 @@ class CLI(object):
         :param genome_range: Genome range string, like "chr9:4000000-6000000".
         """
         log.info(f"Goto genome range '{genome_range}'")
-        self.frame.goto(genome_range)
+        self.current_range = genome_range
+        self.source += f"frame.goto('{genome_range}')\n"
         return self
 
-    def get_element_type_by_str(self, elem_str):
-        try:
-            elem_tp = eval("coolbox.api." + elem_str)
-        except NameError:
-            log.error(
-                f"No element type name as {elem_tp}, all elements type see: " +
-                "https://gangcaolab.github.io/CoolBox/api.html"
-            )
-        return elem_tp
-
-    def show_doc(self, elem_str):
-        elem_tp = self.get_element_type_by_str(elem_str)
+    @staticmethod
+    def show_doc(elem_str):
+        """Print the document of specified Element type. For example: coolbox show_doc Cool"""
+        elem_tp = get_element_type_by_str(elem_str)
         print(elem_tp.__doc__)
 
-    @property
-    def current_range(self):
-        return self.frame.current_range
-
     def add(self, elem_str, *args, **kwargs):
-        """Add a Element(Track, Coverage, Feature)
+        """Add a Element(Track, Coverage, Feature), for example: coolbox add XAxis
 
         :param elem_str: Element type string. Like BAM, BigWig, Cool ...
         Full list of Track types
@@ -93,9 +95,9 @@ class CLI(object):
         :param args: Positional args for create elements.
         :param kwargs: Keyword args for create elements.
         """
-        elem_tp = self.get_element_type_by_str(elem_str)
-        elem = elem_tp(*args, **kwargs)
-        self.frame = self.frame + elem
+        if ("help" in args) or ("help" in kwargs):
+            self.show_doc(elem_str)
+            return
         compose_code = elem_str + "("
         compose_code += ", ".join(
             [repr(arg) for arg in args] +
@@ -103,7 +105,7 @@ class CLI(object):
         )
         compose_code += ")"
         log.info(f"Create element, compose code: {compose_code}")
-        self.source += " + " + compose_code
+        self.source += "frame += " + compose_code + "\n"
         return self
 
     def print_source(self):
@@ -129,8 +131,9 @@ class CLI(object):
         cells.append(
             code(
                 f"import os; os.chdir('{os.getcwd()}')\n"
+                "import coolbox.api\n" +
                 "from coolbox.api import *\n" +
-                "frame = " + self.source + "\n" +
+                self.source +
                 f"bsr = Browser(frame, reference_genome='{self.genome}')\n" +
                 (f"bsr.goto('{str(self.current_range)}')\n" if self.current_range else "") +
                 "bsr.show()"
@@ -172,10 +175,27 @@ class CLI(object):
                 raise ValueError("Should specify the genome_range")
         else:
             self.goto(genome_range)
-        fig = self.frame.plot(str(self.current_range))
-        fig.savefig(fig_path)
+        source = "from coolbox.api import *\n" + self.source + "\n"
+        source += f"fig = frame.plot('{str(self.current_range)}')\n"
+        source += f"fig.savefig('{fig_path}')"
+        try:
+            code = compile(source, "coolbox_cli_source", "exec")
+            eval(code)
+        except Exception as e:
+            log.error(
+                "Error when execute the generated source code:\n\n" +
+                "------------------------\n" +
+                self.source + "\n" +
+                "------------------------\n\n"
+            )
+            if type(e) == NameError:
+                log.error(
+                    f"All elements type see: " +
+                    "https://gangcaolab.github.io/CoolBox/api.html"
+                )
+            raise e
 
-    def run_webapp(self, voila_args=""):
+    def run_webapp(self, voila_args="--Voila.ip=0.0.0.0"):
         """Run a independent coolbox browser web app.
         (Create notebook and run voila)
 

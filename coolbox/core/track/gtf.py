@@ -125,14 +125,18 @@ class GTF(Track):
         features = []
         for _, row in df.iterrows():
             gf = GraphicFeature(
-                start=row['start']-start_region,
-                end=row['end']-start_region,
+                start=row['start'],
+                end=row['end'],
                 strand=(1 if row['strand'] == '+' else -1),
                 label=row['gene_name'],
                 color=random.choice(self.colors),
             )
             features.append(gf)
-        record = GraphicRecord(sequence_length=end_region-start_region, features=features)
+        record = GraphicRecord(
+            sequence_length=end_region-start_region,
+            features=features,
+            first_index=start_region
+        )
         record.plot(
             ax=ax,
             with_ruler=False,
