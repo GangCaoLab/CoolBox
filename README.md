@@ -46,8 +46,6 @@ TODO List:
 + Better documents.
 	+ More Gallery
 	+ Advance usage
-+ Support more data type
-    + Image type
 
 
 Thanks

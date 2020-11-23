@@ -133,7 +133,9 @@ class Frame(object):
         ----------
         track : Track
             The track need to be added to self.tracks
-            pos (`str`, 'tail' or 'head'): add track to tail or head. ['tail']
+
+        pos : {'tail', 'head'}
+            Add track to tail or head. default 'tail'
 
         Examples
         --------

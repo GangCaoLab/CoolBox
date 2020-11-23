@@ -1,6 +1,7 @@
 import abc
 
 import numpy as np
+from scipy.linalg import toeplitz
 
 
 class FetchHiC(abc.ABC):
@@ -20,11 +21,7 @@ class FetchHiC(abc.ABC):
             Hi-C pixels table.
             The pixel table contains the non-zero upper triangle entries of the contact map.
         """
-        return self.fetch_array(genome_range1, genome_range2)
-
-    @abc.abstractmethod
-    def fetch_array(self, genome_range, genome_range2=None, balance=None, resolution='auto'):
-        pass
+        return self.fetch_matrix(genome_range1, genome_range2)
 
     @abc.abstractmethod
     def fetch_pixels(self, genome_range, genome_range2=None, balance=None, resolution='auto'):
@@ -39,7 +36,7 @@ class FetchHiC(abc.ABC):
         genome_range : coolbox.utilities.GenomeRange
             The genome range to fetch.
 
-        genome_range : coolbox.utilities.GenomeRange, optional
+        genome_range2 : coolbox.utilities.GenomeRange, optional
             Second genome range to fetch.
 
         resolution : {'auto', int}
@@ -68,8 +65,35 @@ class FetchHiC(abc.ABC):
 
         if 'transform' in self.properties and self.properties['transform'] != 'no':
             arr = self.__transform_matrix(arr)
+        if 'normalize' in self.properties and self.properties['normalize'] != 'no':
+            arr = self.__normalize_data(arr)
 
         return arr
+
+    def __normalize_data(self, mat):
+        norm_mth = self.properties['normalize']
+        res = mat
+        if norm_mth == 'total':
+            total = np.sum(mat)
+            if total != 0:
+                res = mat / total
+        elif norm_mth == 'expect':
+            means = [np.diagonal(mat, i).mean() for i in range(mat.shape[0])]
+            expect = toeplitz(means)
+            res = mat / expect
+        elif norm_mth == 'zscore':
+            means = []
+            stds = []
+            for i in range(mat.shape[0]):
+                diagonal = np.diagonal(mat, i)
+                means.append(diagonal.mean())
+                stds.append(diagonal.std())
+            stds = np.array(stds)
+            stds[stds == 0] = stds[stds > 0].min()
+            mat_mean = toeplitz(means)
+            mat_std = toeplitz(stds)
+            res = (mat - mat_mean) / mat_std
+        return res
 
     def __transform_matrix(self, arr):
         if self.properties['transform'] == 'log10':

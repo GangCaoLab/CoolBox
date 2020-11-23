@@ -104,6 +104,8 @@ class Vlines(Coverage, _Vlines):
     """
 
     def __init__(self, vlines, **kwargs):
+        if not isinstance(vlines, list):
+            vlines = [vlines]
         properties_dict = {
             "vlines_list": vlines,
             "color": "#1e1e1e",

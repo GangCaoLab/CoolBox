@@ -124,6 +124,6 @@ class Virtual4C(Track, CoveragePlot):
         assert offset_ >= 0, "bin width must >= 1"
         window_range.start = window_range.start - offset_ * binsize
         window_range.end = window_range.end + offset_ * binsize
-        arr = self.hic.fetch_array(window_range, genome_range)
+        arr = self.hic.fetch_matrix(window_range, genome_range)
         mean_arr = np.nanmean(arr, axis=0)
         return mean_arr

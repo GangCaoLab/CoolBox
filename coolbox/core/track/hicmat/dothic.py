@@ -24,6 +24,12 @@ class DotHiC(Track, PlotHiCMatrix, FetchHiC):
         Matrix balance method,
         default True('KR' balance)
 
+    resolution : {int, 'auto'}, optional
+        Matrix resolution, default 'auto'.
+
+    normalize : {'zscore', 'expect', 'total', False}
+        Normalization method, default False.
+
     depth_ratio : float, optional
         Depth ratio of triangular matrix, use 'full' for full depth. default 'full'.
 
@@ -56,6 +62,8 @@ class DotHiC(Track, PlotHiCMatrix, FetchHiC):
             "cmap": "JuiceBoxLike2",
             "style": 'window',
             "balance": True,
+            "resolution": "auto",
+            "normalize": False,
             "depth_ratio": "full",
             "color_bar": "vertical",
             "transform": False,
@@ -69,36 +77,6 @@ class DotHiC(Track, PlotHiCMatrix, FetchHiC):
 
         super().__init__(properties_dict)
         self.fetched_binsize = None
-
-    def fetch_array(self, genome_range, genome_range2=None, balance=None, resolution='auto'):
-        """
-        Parameters
-        ----------
-        genome_range : {str, GenomeRange}
-            Intervals within input chromosome range.
-
-        balance : {bool, 'KR', 'VC', 'VC_SQRT'}, optional
-            matrix balance method,
-            default `self.balance`.
-
-        resolution : {'auto', int}
-            resolution of the data. for example 5000.
-            'auto' for calculate resolution automatically.
-            default 'auto'
-
-        Return
-        ------
-        arr : numpy.ndarray
-        """
-        from coolbox.utilities.hic.wrap import StrawWrap
-
-        path = self.properties['file']
-        if balance is None:
-            balance = self.balance
-        wrap = StrawWrap(path, normalization=balance, binsize=resolution)
-
-        arr = wrap.fetch(genome_range, genome_range2)
-        return arr
 
     def fetch_pixels(self, genome_range, genome_range2=None, balance=None, resolution='auto'):
         """

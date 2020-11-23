@@ -21,6 +21,12 @@ class Cool(Track, PlotHiCMatrix, FetchHiC):
     balance : bool, optional
         Show balanced matrix or not, default True
 
+    resolution : {int, 'auto'}, optional
+        Matrix resolution, default 'auto'.
+
+    normalize : {'zscore', 'expect', 'total', False}
+        Normalization method, default False.
+
     depth_ratio : float, optional
         Depth ratio of triangular matrix, use 'full' for full depth. default 'full'.
 
@@ -55,6 +61,8 @@ class Cool(Track, PlotHiCMatrix, FetchHiC):
             "cmap": Cool.DEFAULT_COLOR,
             "style": 'window',
             "balance": True,
+            "resolution": "auto",
+            "normalize": False,
             "depth_ratio": "full",
             "color_bar": 'vertical',
             "transform": False,
@@ -68,38 +76,6 @@ class Cool(Track, PlotHiCMatrix, FetchHiC):
 
         super().__init__(properties_dict)
         self.fetched_binsize = None
-
-    def fetch_array(self, genome_range, genome_range2=None, balance=None, resolution='auto'):
-        """
-        Parameters
-        ----------
-        genome_range : {str, GenomeRange}
-            Intervals within input chromosome range.
-
-        genome_range2 : {str, GenomeRange}, optional.
-
-        balance : bool, optional
-            balance matrix or not,
-            default `self.is_balance`.
-
-        resolution : {'auto', int}
-            resolution of the data. for example 5000.
-            'auto' for calculate resolution automatically.
-            default 'auto'
-
-        Return
-        ------
-        arr : numpy.ndarray
-        """
-        from coolbox.utilities.hic.wrap import CoolerWrap
-
-        path = self.properties['file']
-        if balance is None:
-            balance = self.is_balance
-        wrap = CoolerWrap(path, balance=balance, binsize=resolution)
-
-        arr = wrap.fetch(genome_range, genome_range2)
-        return arr
 
     def fetch_pixels(self, genome_range, genome_range2=None, balance=None, resolution='auto', join=True):
         """

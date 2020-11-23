@@ -168,6 +168,8 @@ class HighLights(Coverage, _Highlights):
     DEFAULT_COLOR = "#ff9c9c"
 
     def __init__(self, highlight_regions, **kwargs):
+        if not isinstance(highlight_regions, list):
+            highlight_regions = [highlight_regions]
         properties_dict = {
             "highlight_regions": highlight_regions,
             "color": HighLights.DEFAULT_COLOR,

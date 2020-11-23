@@ -112,6 +112,19 @@ class PlotHiCMatrix(abc.ABC):
 
         return min_, max_
 
+    @property
+    def resolution(self):
+        return self.properties['resolution']
+
+    @property
+    def norm(self):
+        normalize = self.properties['normalize']
+        norm = self.properties['norm']
+        if (norm == 'log') and (normalize not in ['zscore', 'expect']):
+            return 'log'
+        else:
+            return 'no'
+
     def __get_cmap(self):
         cm = self.properties['color']
         if isinstance(cm, str):
@@ -170,7 +183,7 @@ class PlotHiCMatrix(abc.ABC):
                              extent=(start, end, end, start),
                              aspect='auto')
 
-        if self.properties['norm'] == 'log':
+        if self.norm == 'log':
             img.set_norm(colors.LogNorm(vmin=c_min, vmax=c_max))
         else:
             img.set_norm(colors.Normalize(vmin=c_min, vmax=c_max))
@@ -211,7 +224,7 @@ class PlotHiCMatrix(abc.ABC):
         else:  # vertical
             y_ax = self.y_ax
 
-            if self.properties['norm'] == 'log':
+            if self.norm == 'log':
                 from matplotlib.ticker import LogFormatter
                 formatter = LogFormatter(10, labelOnlyBase=False)
                 aa = np.array([1, 2, 5])
@@ -255,11 +268,11 @@ class PlotHiCMatrix(abc.ABC):
             out_of_bound[0] = True
 
         try:
-            arr = self.fetch_matrix(fetch_gr)
+            arr = self.fetch_matrix(fetch_gr, resolution=self.resolution)
         except ValueError:
             out_of_bound[1] = True
             fetch_gr.end = gr.end
-            arr = self.fetch_matrix(fetch_gr)
+            arr = self.fetch_matrix(fetch_gr, resolution=self.resolution)
 
         return arr, fetch_gr
 
@@ -283,7 +296,7 @@ class PlotHiCMatrix(abc.ABC):
             arr, fetch_gr = self.__fetch_window_matrix(genome_range)
             self.fetch_region = fetch_gr
         else:
-            arr = self.fetch_matrix(genome_range)
+            arr = self.fetch_matrix(genome_range, resolution=self.resolution)
 
         self.matrix = arr
 
@@ -297,14 +310,14 @@ class PlotHiCMatrix(abc.ABC):
         self.ax = ax
         gr1 = to_gr(genome_range1)
         gr2 = to_gr(genome_range2)
-        arr = self.fetch_matrix(gr1, gr2)
+        arr = self.fetch_matrix(gr1, gr2, resolution=self.resolution)
         self.matrix = arr
         cmap = self.__get_cmap()
         img = ax.matshow(arr, cmap=cmap,
                          extent=(gr1.start, gr1.end, gr2.end, gr2.start),
                          aspect='auto')
         c_min, c_max = self.matrix_val_range
-        if self.properties['norm'] == 'log':
+        if self.norm == 'log':
             img.set_norm(colors.LogNorm(vmin=c_min, vmax=c_max))
         else:
             img.set_norm(colors.Normalize(vmin=c_min, vmax=c_max))
