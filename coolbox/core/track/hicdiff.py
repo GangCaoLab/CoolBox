@@ -109,8 +109,8 @@ class HiCDiff(Track, PlotHiCMatrix):
             reso = self.properties['resolution']
         hic1 = self.properties['hic1']
         hic2 = self.properties['hic2']
-        mat1 = hic1.fetch_matrix(genome_range, reso)
-        mat2 = hic2.fetch_matrix(genome_range, reso)
+        mat1 = hic1.fetch_matrix(genome_range, resolution=reso)
+        mat2 = hic2.fetch_matrix(genome_range, resolution=reso)
         return mat1, mat2
 
     def __diff_data(self, mat1, mat2):
@@ -122,6 +122,5 @@ class HiCDiff(Track, PlotHiCMatrix):
 
     def fetch_data(self, genome_range, resolution=None):
         mat1, mat2 = self.fetch_related_tracks(genome_range, resolution)
-        mat1, mat2 = self.__normalize_data(mat1), self.__normalize_data(mat2)
         diff = self.__diff_data(mat1, mat2)
         return diff

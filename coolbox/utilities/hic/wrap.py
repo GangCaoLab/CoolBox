@@ -26,6 +26,10 @@ class StrawWrap(object):
     """
     def __init__(self, path, normalization='KR', binsize='auto'):
         self.hic_file = path
+        if normalization == 'no' or normalization is False:
+            normalization = 'NONE'
+        elif normalization is True:
+            normalization = 'KR'
         self.normalization = normalization
         self.binsize = binsize
         self.chromosomes, self.resolutions, self.masterindex, self.genome, self.metadata = self.__info()

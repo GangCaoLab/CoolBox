@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Hi-C Diff &mdash; CoolBox  documentation</title>
+  <title>Resolution, Balance and Normalize &mdash; CoolBox  documentation</title>
   
 
   
@@ -38,8 +38,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="BigWig track styles" href="bw_style.html" />
-    <link rel="prev" title="TADs" href="TADs.html" /> 
+    <link rel="next" title="Virtual 4C" href="v4c.html" />
+    <link rel="prev" title="Colormaps of Hi-C contact map" href="hicmat_cmaps.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -90,13 +90,15 @@
 <li class="toctree-l1"><a class="reference internal" href="../quick_start_CLI.html">Quickstart (CLI)</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../gallery.html">CoolBox Gallery</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="hicmat_cmaps.html">Colormaps of Hi-C contact map</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reso_normalize.html">Resolution, Balance and Normalize</a></li>
-<li class="toctree-l2"><a class="reference internal" href="v4c.html">Virtual 4C</a></li>
-<li class="toctree-l2"><a class="reference internal" href="TADs.html">TADs</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Hi-C Diff</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#CLI-code">CLI code</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Resolution, Balance and Normalize</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Resolution">Resolution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Balance">Balance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Normalize">Normalize</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="v4c.html">Virtual 4C</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TADs.html">TADs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HiCDiff.html">Hi-C Diff</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bw_style.html">BigWig track styles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bw_cov.html">BigWig Coverage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="arcs_cov.html">Arcs coverage</a></li>
@@ -153,13 +155,13 @@
         
           <li><a href="../gallery.html">CoolBox Gallery</a> &raquo;</li>
         
-      <li>Hi-C Diff</li>
+      <li>Resolution, Balance and Normalize</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/_gallery/HiCDiff.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/_gallery/reso_normalize.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -442,9 +444,8 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Hi-C-Diff">
-<h1>Hi-C Diff<a class="headerlink" href="#Hi-C-Diff" title="Permalink to this headline">¶</a></h1>
-<p>Draw the difference between two Hi-C contact matrices.</p>
+<div class="section" id="Resolution,-Balance-and-Normalize">
+<h1>Resolution, Balance and Normalize<a class="headerlink" href="#Resolution,-Balance-and-Normalize" title="Permalink to this headline">¶</a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -473,33 +474,27 @@ div.rendered_html tbody tr:hover {
 &#39;0.2.5&#39;
 </pre></div></div>
 </div>
+<div class="section" id="Resolution">
+<h2>Resolution<a class="headerlink" href="#Resolution" title="Permalink to this headline">¶</a></h2>
+<p>In normal, CoolBox will select proper resolution automatically from your multi-resolution <code class="docutils literal notranslate"><span class="pre">.hic</span></code> or <code class="docutils literal notranslate"><span class="pre">.mcool</span></code> file, but you can also specify it by your self.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">data_dir</span> <span class="o">=</span> <span class="s2">&quot;/home/nanguage/Dropbox/workspace/THP_paper/data/cool&quot;</span>
-<span class="n">cl1</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data_dir</span><span class="si">}</span><span class="s2">/THPP.cool&quot;</span>
-<span class="n">cl2</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data_dir</span><span class="si">}</span><span class="s2">/Ra.cool&quot;</span>
-
-<span class="n">region</span> <span class="o">=</span> <span class="s2">&quot;chr1:89237500-90307500&quot;</span>
+<span></span><span class="n">test_hic</span> <span class="o">=</span> <span class="s2">&quot;../../../tests/test_data/test.hic&quot;</span>
 </pre></div>
 </div>
 </div>
-<p>Normalize with <code class="docutils literal notranslate"><span class="pre">expect</span></code> matrix (decay along diagonal), difference with <code class="docutils literal notranslate"><span class="pre">diff</span></code> (matrix_A - matrix_B):</p>
+<p>10Kb resolution:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> \
-    <span class="n">Cool</span><span class="p">(</span><span class="n">cl1</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;window&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mf">5e-4</span><span class="p">)</span> <span class="o">+</span> <span class="n">MaxValue</span><span class="p">(</span><span class="mf">1e-1</span><span class="p">)</span> <span class="o">+</span> \
-    <span class="n">Cool</span><span class="p">(</span><span class="n">cl2</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;window&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mf">5e-4</span><span class="p">)</span> <span class="o">+</span> <span class="n">MaxValue</span><span class="p">(</span><span class="mf">1e-1</span><span class="p">)</span> <span class="o">+</span> \
-    <span class="n">HiCDiff</span><span class="p">(</span><span class="n">cl1</span><span class="p">,</span> <span class="n">cl2</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;expect&#39;</span><span class="p">,</span> <span class="n">diff_method</span><span class="o">=</span><span class="s1">&#39;diff&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;bwr_r&quot;</span><span class="p">)</span> <span class="o">+</span> \
-    <span class="n">MinValue</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="n">MaxValue</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">+</span> \
-    <span class="n">XAxis</span><span class="p">()</span>
-<span class="n">frame</span> <span class="o">*=</span> <span class="n">Feature</span><span class="p">(</span><span class="s1">&#39;depth_ratio&#39;</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">)</span>
-<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">region</span><span class="p">)</span>
+<span></span><span class="n">dhic</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdYlBu_r&quot;</span><span class="p">,</span> <span class="n">depth_ratio</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">dhic</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4000000-6000000&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -508,38 +503,114 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_gallery_HiCDiff_5_0.png" src="../_images/_gallery_HiCDiff_5_0.png" />
+<img alt="../_images/_gallery_reso_normalize_6_0.png" src="../_images/_gallery_reso_normalize_6_0.png" />
 </div>
 </div>
-<div class="section" id="CLI-code">
-<h2>CLI code<a class="headerlink" href="#CLI-code" title="Permalink to this headline">¶</a></h2>
-<div class="nbinput nblast docutils container">
+<p>25Kb resolution:</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>%%bash
-
-<span class="nv">data_dir</span><span class="o">=</span><span class="s2">&quot;/home/nanguage/Dropbox/workspace/THP_paper/data/cool&quot;</span>
-<span class="nv">cl1</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">data_dir</span><span class="si">}</span><span class="s2">/THPP.cool&quot;</span>
-<span class="nv">cl2</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">data_dir</span><span class="si">}</span><span class="s2">/Ra.cool&quot;</span>
-
-coolbox add XAxis - <span class="se">\</span>
-start_with Feature <span class="s2">&quot;depth_ratio&quot;</span> <span class="s2">&quot;0.35&quot;</span> - <span class="se">\</span>
-    start_with MinValue <span class="s2">&quot;5e-4&quot;</span> - <span class="se">\</span>
-    start_with MaxValue <span class="s2">&quot;1e-1&quot;</span> - <span class="se">\</span>
-        add Cool <span class="nv">$cl1</span> --style <span class="s1">&#39;window&#39;</span> - <span class="se">\</span>
-        add Cool <span class="nv">$cl2</span> --style <span class="s1">&#39;window&#39;</span> - <span class="se">\</span>
-    end_with - <span class="se">\</span>
-    end_with - <span class="se">\</span>
-    add HiCDiff <span class="nv">$cl1</span> <span class="nv">$cl2</span> --style <span class="s1">&#39;window&#39;</span> --normalize <span class="s1">&#39;expect&#39;</span> --diff_method <span class="s1">&#39;diff&#39;</span> - <span class="se">\</span>
-    add MinValue <span class="s2">&quot;-5&quot;</span> - <span class="se">\</span>
-    add MaxValue <span class="s2">&quot;5&quot;</span> - <span class="se">\</span>
-end_with - <span class="se">\</span>
-add XAxis - <span class="se">\</span>
-goto <span class="s2">&quot;chr1:89237500-90307500&quot;</span> - <span class="se">\</span>
-plot /tmp/test_coolbox.png
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">dhic</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdYlBu_r&quot;</span><span class="p">,</span> <span class="n">depth_ratio</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">25000</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">dhic</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4000000-6000000&quot;</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_gallery_reso_normalize_8_0.png" src="../_images/_gallery_reso_normalize_8_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Balance">
+<h2>Balance<a class="headerlink" href="#Balance" title="Permalink to this headline">¶</a></h2>
+<p>You can use <code class="docutils literal notranslate"><span class="pre">balance</span></code> to control do matrix balance or not. The default behavior do balance, we can turn off it:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">dhic</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdYlBu_r&quot;</span><span class="p">,</span> <span class="n">depth_ratio</span><span class="o">=.</span><span class="mi">5</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">dhic</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4000000-6000000&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_gallery_reso_normalize_10_0.png" src="../_images/_gallery_reso_normalize_10_0.png" />
+</div>
+</div>
+<p>In addition, <code class="docutils literal notranslate"><span class="pre">.hic</span></code> file support three kinds of matrix balance method: + VC + VC_SQRT + KR (default)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">with</span> <span class="n">Feature</span><span class="p">(</span><span class="s2">&quot;resolution&quot;</span><span class="p">,</span> <span class="mi">10000</span><span class="p">),</span> <span class="n">Feature</span><span class="p">(</span><span class="s2">&quot;depth_ratio&quot;</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">),</span> <span class="n">Color</span><span class="p">(</span><span class="s2">&quot;RdYlBu_r&quot;</span><span class="p">):</span>
+    <span class="n">dhic_vc</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="s2">&quot;VC&quot;</span><span class="p">)</span>
+    <span class="n">dhic_vcs</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="s2">&quot;VC_SQRT&quot;</span><span class="p">)</span>
+    <span class="n">dhic_kr</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="s2">&quot;KR&quot;</span><span class="p">)</span>
+
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> \
+    <span class="n">dhic_vc</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;VC&quot;</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">dhic_vcs</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;VC_SQRT&quot;</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">dhic_kr</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;KR&quot;</span><span class="p">)</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4000000-6000000&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_gallery_reso_normalize_12_0.png" src="../_images/_gallery_reso_normalize_12_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Normalize">
+<h2>Normalize<a class="headerlink" href="#Normalize" title="Permalink to this headline">¶</a></h2>
+<p>CoolBox can perform three kinds of normazation on the matrix(balanced or non-balanced):</p>
+<ul class="simple">
+<li><p>total: Divide the total value of the local region.</p></li>
+<li><p>expect: Divide the mean value alone the specifed distance dialog.</p></li>
+<li><p>zscore: (matrix - mean) / std</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">with</span> <span class="n">Feature</span><span class="p">(</span><span class="s2">&quot;resolution&quot;</span><span class="p">,</span> <span class="mi">10000</span><span class="p">),</span> <span class="n">Feature</span><span class="p">(</span><span class="s2">&quot;depth_ratio&quot;</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">),</span> <span class="n">Color</span><span class="p">(</span><span class="s2">&quot;RdYlBu_r&quot;</span><span class="p">):</span>
+    <span class="n">dhic_b</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="s2">&quot;KR&quot;</span><span class="p">)</span>
+    <span class="n">dhic_ub</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">dhic_exp</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;expect&#39;</span><span class="p">)</span>
+    <span class="n">dhic_z</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;zscore&#39;</span><span class="p">)</span>
+
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> \
+    <span class="n">dhic_ub</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Original</span><span class="se">\n</span><span class="s2">(Unbalanced)&quot;</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">dhic_b</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;balanced&quot;</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">dhic_exp</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Expect&quot;</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">dhic_z</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Z-score&quot;</span><span class="p">)</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4000000-6000000&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_gallery_reso_normalize_14_0.png" src="../_images/_gallery_reso_normalize_14_0.png" />
 </div>
 </div>
 </div>
@@ -553,10 +624,10 @@ plot /tmp/test_coolbox.png
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="bw_style.html" class="btn btn-neutral float-right" title="BigWig track styles" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="v4c.html" class="btn btn-neutral float-right" title="Virtual 4C" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="TADs.html" class="btn btn-neutral float-left" title="TADs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="hicmat_cmaps.html" class="btn btn-neutral float-left" title="Colormaps of Hi-C contact map" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
