@@ -155,9 +155,9 @@
    "metadata": {},
    "source": [
     "In addition, `.hic` file support three kinds of matrix balance method:\n",
-    "+ VC\n",
-    "+ VC_SQRT\n",
-    "+ KR (default)"
+    "* VC\n",
+    "* VC_SQRT\n",
+    "* KR (default)"
    ]
   },
   {

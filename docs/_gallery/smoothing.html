@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Colormaps of Hi-C contact map &mdash; CoolBox  documentation</title>
+  <title>Smoothing matrix with gaussian filter &mdash; CoolBox  documentation</title>
   
 
   
@@ -38,8 +38,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Resolution, Balance and Normalize" href="reso_normalize.html" />
-    <link rel="prev" title="CoolBox Gallery" href="../gallery.html" /> 
+    <link rel="next" title="Virtual 4C" href="v4c.html" />
+    <link rel="prev" title="Resolution, Balance and Normalize" href="reso_normalize.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -89,14 +89,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../quick_start_API.html">Quickstart (API)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../quick_start_CLI.html">Quickstart (CLI)</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../gallery.html">CoolBox Gallery</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Colormaps of Hi-C contact map</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Matplotlib-builtin-colormaps">Matplotlib builtin colormaps</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Color-maps-defined-in-coolbox">Color maps defined in coolbox</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Define-new-colormap-with-matplotlib">Define new colormap with matplotlib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hicmat_cmaps.html">Colormaps of Hi-C contact map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reso_normalize.html">Resolution, Balance and Normalize</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Smoothing matrix with gaussian filter</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#CLI-code">CLI code</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="reso_normalize.html">Resolution, Balance and Normalize</a></li>
-<li class="toctree-l2"><a class="reference internal" href="smoothing.html">Smoothing matrix with gaussian filter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="v4c.html">Virtual 4C</a></li>
 <li class="toctree-l2"><a class="reference internal" href="TADs.html">TADs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="HiCDiff.html">Hi-C Diff</a></li>
@@ -156,13 +154,13 @@
         
           <li><a href="../gallery.html">CoolBox Gallery</a> &raquo;</li>
         
-      <li>Colormaps of Hi-C contact map</li>
+      <li>Smoothing matrix with gaussian filter</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/_gallery/hicmat_cmaps.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/_gallery/smoothing.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -445,8 +443,9 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Colormaps-of-Hi-C-contact-map">
-<h1>Colormaps of Hi-C contact map<a class="headerlink" href="#Colormaps-of-Hi-C-contact-map" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Smoothing-matrix-with-gaussian-filter">
+<h1>Smoothing matrix with gaussian filter<a class="headerlink" href="#Smoothing-matrix-with-gaussian-filter" title="Permalink to this headline">¶</a></h1>
+<p>CoolBox support smoothing the Hi-C contact matrix with gaussian filter.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -480,27 +479,23 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">cool_path</span> <span class="o">=</span> <span class="s2">&quot;../../../tests/test_data/cool_chr9_4000000_6000000.mcool&quot;</span>
-<span class="n">test_region</span> <span class="o">=</span> <span class="s2">&quot;chr9:4300000-5700000&quot;</span>
+<span></span><span class="n">test_hic</span> <span class="o">=</span> <span class="s2">&quot;../../../tests/test_data/test.hic&quot;</span>
+<span class="n">test_interval</span> <span class="o">=</span> <span class="s2">&quot;chr9:4000000-6000000&quot;</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="Matplotlib-builtin-colormaps">
-<h2>Matplotlib builtin colormaps<a class="headerlink" href="#Matplotlib-builtin-colormaps" title="Permalink to this headline">¶</a></h2>
-<p>Full colormap list can reference this <a class="reference external" href="https://matplotlib.org/3.1.0/tutorials/colors/colormaps.html">page</a>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">with</span> <span class="n">Feature</span><span class="p">(</span><span class="s2">&quot;depth_ratio&quot;</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">):</span>
-    <span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> \
-        <span class="n">Cool</span><span class="p">(</span><span class="n">cool_path</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;YlOrRd&quot;</span><span class="p">)</span> <span class="o">+</span> \
-        <span class="n">Cool</span><span class="p">(</span><span class="n">cool_path</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">)</span> <span class="o">+</span> \
-        <span class="n">Cool</span><span class="p">(</span><span class="n">cool_path</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdPu&quot;</span><span class="p">)</span> <span class="o">+</span> \
-        <span class="n">Cool</span><span class="p">(</span><span class="n">cool_path</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdYlBu_r&quot;</span><span class="p">)</span>
+<span></span><span class="k">with</span> <span class="n">Color</span><span class="p">(</span><span class="s2">&quot;RdYlBu_r&quot;</span><span class="p">),</span> <span class="n">Feature</span><span class="p">(</span><span class="s2">&quot;depth_ratio&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">):</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Not smooth&quot;</span><span class="p">)</span>
+    <span class="n">smo0</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">gaussian_sigma</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mf">1e-1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Smooth</span><span class="se">\n</span><span class="s2">sigma=0.5&quot;</span><span class="p">)</span>
+    <span class="n">smo1</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">gaussian_sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mf">1e-1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Smooth</span><span class="se">\n</span><span class="s2">sigma=1.0&quot;</span><span class="p">)</span>
 
-<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_region</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">raw</span> <span class="o">+</span> <span class="n">smo0</span> <span class="o">+</span> <span class="n">smo1</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_interval</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -509,98 +504,33 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_gallery_hicmat_cmaps_5_0.png" src="../_images/_gallery_hicmat_cmaps_5_0.png" />
+<img alt="../_images/_gallery_smoothing_5_0.png" src="../_images/_gallery_smoothing_5_0.png" />
 </div>
 </div>
-</div>
-<div class="section" id="Color-maps-defined-in-coolbox">
-<h2>Color maps defined in coolbox<a class="headerlink" href="#Color-maps-defined-in-coolbox" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="CLI-code">
+<h2>CLI code<a class="headerlink" href="#CLI-code" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">coolbox.core.track.hicmat.plot</span> <span class="kn">import</span> <span class="n">cmaps</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">cmaps</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-{&#39;JuiceBoxLike&#39;: &lt;matplotlib.colors.LinearSegmentedColormap at 0x7f861692d250&gt;,
- &#39;JuiceBoxLike2&#39;: &lt;matplotlib.colors.LinearSegmentedColormap at 0x7f861692d850&gt;}
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> \
-    <span class="n">Cool</span><span class="p">(</span><span class="n">cool_path</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;JuiceBoxLike&quot;</span><span class="p">)</span>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>%%bash
 
-<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4000000-6000000&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/_gallery_hicmat_cmaps_9_0.png" src="../_images/_gallery_hicmat_cmaps_9_0.png" />
-</div>
-</div>
-</div>
-<div class="section" id="Define-new-colormap-with-matplotlib">
-<h2>Define new colormap with matplotlib<a class="headerlink" href="#Define-new-colormap-with-matplotlib" title="Permalink to this headline">¶</a></h2>
-<p>Here, give an example of create cmap using <a class="reference external" href="https://matplotlib.org/3.3.2/api/_as_gen/matplotlib.colors.LinearSegmentedColormap.html">LinearSegementedColormap</a>:</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">LinearSegmentedColormap</span>
+<span class="nv">test_hic</span><span class="o">=</span><span class="s2">&quot;../../../tests/test_data/test.hic&quot;</span>
 
-<span class="c1"># give a list of color (color gradient)</span>
-<span class="n">gradient</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;#FFFFFF&#39;</span><span class="p">,</span><span class="s1">&#39;#FFDFAF&#39;</span><span class="p">,</span><span class="s1">&#39;#FF7555&#39;</span><span class="p">,</span><span class="s1">&#39;#FF2600&#39;</span><span class="p">,</span><span class="s1">&#39;#F70000&#39;</span><span class="p">]</span>
-
-<span class="n">my_cmap</span> <span class="o">=</span> <span class="n">LinearSegmentedColormap</span><span class="o">.</span><span class="n">from_list</span><span class="p">(</span><span class="s1">&#39;interaction&#39;</span><span class="p">,</span> <span class="n">gradient</span><span class="p">)</span>
-<span class="n">my_cmap</span><span class="o">.</span><span class="n">set_bad</span><span class="p">(</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
-<span class="n">my_cmap</span><span class="o">.</span><span class="n">set_under</span><span class="p">(</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+coolbox add XAxis - <span class="se">\</span>
+    start_with Color <span class="s2">&quot;RdYlBu_r&quot;</span> - <span class="se">\</span>
+    start_with Feature <span class="s2">&quot;depth_ratio&quot;</span> <span class="s2">&quot;0.5&quot;</span> - <span class="se">\</span>
+    add DotHiC <span class="nv">$test_hic</span> - add Title <span class="s2">&quot;Not smooth&quot;</span> - <span class="se">\</span>
+    add DotHiC <span class="nv">$test_hic</span> --gaussian_sigma <span class="s2">&quot;0.5&quot;</span> --min_value <span class="s2">&quot;1e-1&quot;</span> - <span class="se">\</span>
+    add Title <span class="s1">&#39;Smooth sigma=0.5&#39;</span> - <span class="se">\</span>
+    add DotHiC <span class="nv">$test_hic</span> --gaussian_sigma <span class="s2">&quot;1.0&quot;</span> --min_value <span class="s2">&quot;1e-1&quot;</span> - <span class="se">\</span>
+    add Title <span class="s1">&#39;Smooth sigma=1.0&#39;</span> - <span class="se">\</span>
+    end_with - <span class="se">\</span>
+    end_with - <span class="se">\</span>
+    goto <span class="s2">&quot;chr9:4000000-6000000&quot;</span> - <span class="se">\</span>
+    plot /tmp/test_coolbox_smooth.png
 </pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> \
-    <span class="n">Cool</span><span class="p">(</span><span class="n">cool_path</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">my_cmap</span><span class="p">)</span>
-
-<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4000000-6000000&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/_gallery_hicmat_cmaps_13_0.png" src="../_images/_gallery_hicmat_cmaps_13_0.png" />
 </div>
 </div>
 </div>
@@ -614,10 +544,10 @@ div.rendered_html tbody tr:hover {
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="reso_normalize.html" class="btn btn-neutral float-right" title="Resolution, Balance and Normalize" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="v4c.html" class="btn btn-neutral float-right" title="Virtual 4C" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../gallery.html" class="btn btn-neutral float-left" title="CoolBox Gallery" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="reso_normalize.html" class="btn btn-neutral float-left" title="Resolution, Balance and Normalize" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
