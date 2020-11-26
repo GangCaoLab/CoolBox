@@ -2,6 +2,11 @@ import abc
 
 import numpy as np
 from scipy.linalg import toeplitz
+from scipy.ndimage import gaussian_filter
+
+from coolbox.utilities.logtools import get_logger
+
+log = get_logger(__name__)
 
 
 class FetchHiC(abc.ABC):
@@ -63,14 +68,32 @@ class FetchHiC(abc.ABC):
         arr[arr == 0] = small
         arr[np.isnan(arr)] = small
 
+        # process the matrix
         if 'transform' in self.properties and self.properties['transform'] != 'no':
             arr = self.__transform_matrix(arr)
         if 'normalize' in self.properties and self.properties['normalize'] != 'no':
-            arr = self.__normalize_data(arr)
-
+            arr = self.__normalize_matrix(arr)
+        if 'gaussian_sigma' in self.properties and self.properties['gaussian_sigma'] != 'no':
+            arr = self.__gaussian_matrix(arr)
+        if 'process_func' in self.properties and self.properties['process_func'] != 'no':
+            # user-defined process function
+            func = self.properties['process_func']
+            try:
+                if callable(func):
+                    arr = func(arr)
+                elif isinstance(func, str):
+                    func = eval(func)
+                    arr = func(arr)
+                else:
+                    raise ValueError("process_func")
+            except Exception as e:
+                log.error(str(e))
+                raise ValueError(
+                    "process_func should a one argument function "
+                    "receive a matrix return a processed matrix.")
         return arr
 
-    def __normalize_data(self, mat):
+    def __normalize_matrix(self, mat):
         norm_mth = self.properties['normalize']
         res = mat
         if norm_mth == 'total':
@@ -104,3 +127,7 @@ class FetchHiC(abc.ABC):
             arr = np.log(arr)
         return arr
 
+    def __gaussian_matrix(self, arr):
+        sigma = self.properties['gaussian_sigma']
+        arr = gaussian_filter(arr, sigma)
+        return arr
