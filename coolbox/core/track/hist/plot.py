@@ -39,7 +39,7 @@ class CoveragePlot(abc.ABC):
             except AttributeError as e:
                 log.exception(e)
                 msg = "If use y-axis style data range must, must set the .y_ax attribute, switch to text style."
-                log.warn(msg)
+                log.warning(msg)
                 self.plot_data_range(ax, ymin, ymax, data_range_style='text')
 
     def __plot_range_text(self, ax, ymin, ymax):

@@ -107,11 +107,11 @@ class StrawWrap(object):
         binlen1 = (genome_range1.length // binsize) + 1
         binlen2 = (genome_range2.length // binsize) + 1
         mat = np.zeros((binlen1, binlen2), dtype=np.float64)
-        is_square = mat.shape[0] == mat.shape[1]
+        is_cis = (genome_range1 == genome_range2)
         for loc1, loc2, c in zip(*straw_list):
             bin1id = (loc1 - genome_range1.start) // binsize
             bin2id = (loc2 - genome_range2.start) // binsize
-            if is_square:
+            if is_cis:
                 mat[bin1id, bin2id] = c
                 mat[bin2id, bin1id] = c
             else:

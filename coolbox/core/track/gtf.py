@@ -100,7 +100,7 @@ class GTF(Track):
         df['start'] = df['start'].astype(int)
         df['end'] = df['end'].astype(int)
         df['gene_name'] = df['attribute'].str.extract(".*gene_name (.*?) ").iloc[:, 0].str.strip('\";')
-        df['gene_name'][df['gene_name'].isna()] = ""
+        df['gene_name'].fillna("", inplace=True)
         return df
 
     def plot(self, ax, chrom_region, start_region, end_region):

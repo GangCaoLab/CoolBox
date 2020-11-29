@@ -1,8 +1,8 @@
 import numpy as np
 
-from .base import Track
-from .hicmat import HiCMat
-from .hicmat.plot import PlotHiCMatrix
+from ..base import Track
+from ..hicmat import HiCMat
+from ..hicmat.plot import PlotHiCMatrix
 
 
 class HiCDiff(Track, PlotHiCMatrix):

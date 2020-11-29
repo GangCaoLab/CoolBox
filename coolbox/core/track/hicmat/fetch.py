@@ -12,7 +12,7 @@ log = get_logger(__name__)
 class FetchHiC(abc.ABC):
     SMALL_VALUE = 1e-12
 
-    def fetch_data(self, genome_range1, genome_range2=None):
+    def fetch_data(self, genome_range1, genome_range2=None, resolution='auto'):
         """
         Parameters
         ----------
@@ -20,13 +20,14 @@ class FetchHiC(abc.ABC):
 
         genome_range2 : {str, GenomeRange}, optional.
 
+        resolution : {int, 'auto'}, optional
+
         Return
         ------
-        pixels : pandas.core.frame.DataFrame
-            Hi-C pixels table.
-            The pixel table contains the non-zero upper triangle entries of the contact map.
+        matrix : np.array
+            Hi-C contact matrix.
         """
-        return self.fetch_matrix(genome_range1, genome_range2)
+        return self.fetch_matrix(genome_range1, genome_range2, resolution=resolution)
 
     @abc.abstractmethod
     def fetch_pixels(self, genome_range, genome_range2=None, balance=None, resolution='auto'):

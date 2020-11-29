@@ -142,6 +142,16 @@ def test_tads():
     tad.fetch_data(empty_interval)
 
 
+def test_hicdiff():
+    cl1 = Cool(f"{DATA_DIR}/cool_{test_itv}.mcool")
+    cl2 = Cool(f"{DATA_DIR}/cool_{test_itv}.mcool")
+    diff = HiCDiff(cl1, cl2)
+    assert diff.fetch_data(test_interval) is not None
+    fig, ax = plt.subplots()
+    diff.plot_genome_range(ax, test_interval)
+    diff.fetch_data(empty_interval)
+
+
 if __name__ == "__main__":
     #test_xaxis()
     #test_gtf()

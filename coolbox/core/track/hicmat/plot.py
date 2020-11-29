@@ -1,5 +1,6 @@
 import abc
 import math
+import copy
 
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
@@ -132,6 +133,7 @@ class PlotHiCMatrix(abc.ABC):
                 cmap = cmaps[cm]
             else:
                 cmap = plt.get_cmap(self.properties['color'])
+                cmap = copy.copy(cmap)
                 lowest = cmap(0)
                 cmap.set_bad(lowest)
                 cmap.set_under(lowest)
