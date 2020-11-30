@@ -71,7 +71,7 @@ class Selfish(Track, PlotHiCMatrix):
 
     """
 
-    DEFAULT_COLOR = "RdYlBu"
+    DEFAULT_COLOR = "RdPu_r"
 
     def __init__(self, hic1, hic2, args_hic=None, **kwargs):
         args_hic_ = {
@@ -91,7 +91,7 @@ class Selfish(Track, PlotHiCMatrix):
             "resolution": "auto",
             "sigma0": 1.6,
             "s": 10,
-            "style": "triangular",
+            "style": "window",
             "depth_ratio": "full",
             "cmap": Selfish.DEFAULT_COLOR,
             "color_bar": "vertical",
@@ -153,13 +153,10 @@ class Selfish(Track, PlotHiCMatrix):
             lt_idx = pvals < final_p
             final_p[lt_idx] = pvals[lt_idx]
             d_pre = d_post.copy()
-        del d_diff
         _, out_p = smm.multipletests(final_p.ravel(), method='fdr_bh')[:2]
         out_p = out_p.reshape(*diff.shape)
         thr = 12
         out_p[out_p == 0] = 10**-1*thr
-        if self.zero_indices is not None:
-            out_p[self.zero_indices] = 1
         return out_p
 
     def fetch_data(self, genome_range, resolution=None):

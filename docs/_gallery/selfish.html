@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>BigWig track styles &mdash; CoolBox  documentation</title>
+  <title>Differential Chromatin Interaction &mdash; CoolBox  documentation</title>
   
 
   
@@ -38,8 +38,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="BigWig Coverage" href="bw_cov.html" />
-    <link rel="prev" title="Differential Chromatin Interaction" href="selfish.html" /> 
+    <link rel="next" title="BigWig track styles" href="bw_style.html" />
+    <link rel="prev" title="Hi-C Diff" href="HiCDiff.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -95,8 +95,11 @@
 <li class="toctree-l2"><a class="reference internal" href="v4c.html">Virtual 4C</a></li>
 <li class="toctree-l2"><a class="reference internal" href="TADs.html">TADs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="HiCDiff.html">Hi-C Diff</a></li>
-<li class="toctree-l2"><a class="reference internal" href="selfish.html">Differential Chromatin Interaction</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">BigWig track styles</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Differential Chromatin Interaction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#CLI-code">CLI code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="bw_style.html">BigWig track styles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bw_cov.html">BigWig Coverage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="arcs_cov.html">Arcs coverage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="snp.html">SNP Manhattan plot</a></li>
@@ -152,13 +155,13 @@
         
           <li><a href="../gallery.html">CoolBox Gallery</a> &raquo;</li>
         
-      <li>BigWig track styles</li>
+      <li>Differential Chromatin Interaction</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/_gallery/bw_style.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/_gallery/selfish.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -441,8 +444,13 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="BigWig-track-styles">
-<h1>BigWig track styles<a class="headerlink" href="#BigWig-track-styles" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Differential-Chromatin-Interaction">
+<h1>Differential Chromatin Interaction<a class="headerlink" href="#Differential-Chromatin-Interaction" title="Permalink to this headline">¶</a></h1>
+<p>Do the DCI(differential chromatin interaction) analysis between two Hi-C matrics. The Selfish method used here is described in the paper:</p>
+<blockquote>
+<div><p>Abbas Roayaei Ardakany, Ferhat Ay, Stefano Lonardi, Selfish: discovery of differential chromatin interactions via a self-similarity measure, Bioinformatics, Volume 35, Issue 14, July 2019, Pages i145–i153, <a class="reference external" href="https://doi.org/10.1093/bioinformatics/btz362">https://doi.org/10.1093/bioinformatics/btz362</a></p>
+</div></blockquote>
+<p><img alt="image1" src="https://github.com/ay-lab/selfish/raw/master/demo.png" /></p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -468,32 +476,70 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;0.2.5&#39;
+&#39;0.2.6&#39;
 </pre></div></div>
 </div>
-<p>BigWig hist styles: + fill + line + points</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">bw</span> <span class="o">=</span> <span class="s2">&quot;../../../tests/test_data/bigwig_chr9_4000000_6000000.bw&quot;</span>
+<span></span><span class="n">data_dir</span> <span class="o">=</span> <span class="s2">&quot;/home/nanguage/Dropbox/workspace/THP_paper/data/cool&quot;</span>
+<span class="n">cl1</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data_dir</span><span class="si">}</span><span class="s2">/THPP.cool&quot;</span>
+<span class="n">cl2</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data_dir</span><span class="si">}</span><span class="s2">/Ra.cool&quot;</span>
 
-<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> \
-    <span class="n">BigWig</span><span class="p">(</span><span class="n">bw</span><span class="p">)</span> <span class="o">+</span> \
-    <span class="n">BigWig</span><span class="p">(</span><span class="n">bw</span><span class="p">)</span> <span class="o">+</span> <span class="n">Color</span><span class="p">(</span><span class="s2">&quot;#fcbe07&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">HistStyle</span><span class="p">(</span><span class="s2">&quot;line&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> \
-    <span class="n">BigWig</span><span class="p">(</span><span class="n">bw</span><span class="p">)</span> <span class="o">+</span> <span class="n">Color</span><span class="p">(</span><span class="s2">&quot;#000000&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">HistStyle</span><span class="p">(</span><span class="s2">&quot;points&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-
-<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4700000-4950000&quot;</span><span class="p">)</span>
+<span class="n">region</span> <span class="o">=</span> <span class="s2">&quot;chr1:89237500-90307500&quot;</span>
+</pre></div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">Selfish</span></code> track input two hic track(<code class="docutils literal notranslate"><span class="pre">Cool</span></code> or <code class="docutils literal notranslate"><span class="pre">DotHiC</span></code>), it perform the <code class="docutils literal notranslate"><span class="pre">selfish</span></code> algorithm on the local fetched matrics. Output the q-value(p-value after <code class="docutils literal notranslate"><span class="pre">fdr_bh</span></code> correction) of differential interaction analysis:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> \
+    <span class="n">Cool</span><span class="p">(</span><span class="n">cl1</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mf">5e-4</span><span class="p">)</span> <span class="o">+</span> <span class="n">MaxValue</span><span class="p">(</span><span class="mf">1e-1</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">Cool</span><span class="p">(</span><span class="n">cl2</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mf">5e-4</span><span class="p">)</span> <span class="o">+</span> <span class="n">MaxValue</span><span class="p">(</span><span class="mf">1e-1</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">Selfish</span><span class="p">(</span><span class="n">cl1</span><span class="p">,</span> <span class="n">cl2</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">XAxis</span><span class="p">()</span>
+<span class="n">frame</span> <span class="o">*=</span> <span class="n">Feature</span><span class="p">(</span><span class="s1">&#39;depth_ratio&#39;</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">)</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">region</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_gallery_bw_style_4_0.png" src="../_images/_gallery_bw_style_4_0.png" />
+<img alt="../_images/_gallery_selfish_5_0.png" src="../_images/_gallery_selfish_5_0.png" />
+</div>
+</div>
+<div class="section" id="CLI-code">
+<h2>CLI code<a class="headerlink" href="#CLI-code" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>%%bash
+
+<span class="nv">data_dir</span><span class="o">=</span><span class="s2">&quot;/home/nanguage/Dropbox/workspace/THP_paper/data/cool&quot;</span>
+<span class="nv">cl1</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">data_dir</span><span class="si">}</span><span class="s2">/THPP.cool&quot;</span>
+<span class="nv">cl2</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">data_dir</span><span class="si">}</span><span class="s2">/Ra.cool&quot;</span>
+
+coolbox add XAxis - <span class="se">\</span>
+start_with Feature <span class="s2">&quot;depth_ratio&quot;</span> <span class="s2">&quot;0.35&quot;</span> - <span class="se">\</span>
+    add Cool <span class="nv">$cl1</span> - <span class="se">\</span>
+    add Cool <span class="nv">$cl2</span> - <span class="se">\</span>
+    add Selfish <span class="nv">$cl1</span> <span class="nv">$cl2</span> - <span class="se">\</span>
+end_with - <span class="se">\</span>
+add XAxis - <span class="se">\</span>
+goto <span class="s2">&quot;chr1:89237500-90307500&quot;</span> - <span class="se">\</span>
+plot /tmp/test_coolbox_selfish.png
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -506,10 +552,10 @@ div.rendered_html tbody tr:hover {
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="bw_cov.html" class="btn btn-neutral float-right" title="BigWig Coverage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="bw_style.html" class="btn btn-neutral float-right" title="BigWig track styles" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="selfish.html" class="btn btn-neutral float-left" title="Differential Chromatin Interaction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="HiCDiff.html" class="btn btn-neutral float-left" title="Hi-C Diff" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

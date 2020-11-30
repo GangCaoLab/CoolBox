@@ -38,7 +38,7 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="BigWig track styles" href="bw_style.html" />
+    <link rel="next" title="Differential Chromatin Interaction" href="selfish.html" />
     <link rel="prev" title="TADs" href="TADs.html" /> 
 </head>
 
@@ -98,6 +98,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#CLI-code">CLI code</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="selfish.html">Differential Chromatin Interaction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bw_style.html">BigWig track styles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bw_cov.html">BigWig Coverage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="arcs_cov.html">Arcs coverage</a></li>
@@ -471,7 +472,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;0.2.5&#39;
+&#39;0.2.6&#39;
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -494,9 +495,9 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> \
-    <span class="n">Cool</span><span class="p">(</span><span class="n">cl1</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;window&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mf">5e-4</span><span class="p">)</span> <span class="o">+</span> <span class="n">MaxValue</span><span class="p">(</span><span class="mf">1e-1</span><span class="p">)</span> <span class="o">+</span> \
-    <span class="n">Cool</span><span class="p">(</span><span class="n">cl2</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;window&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mf">5e-4</span><span class="p">)</span> <span class="o">+</span> <span class="n">MaxValue</span><span class="p">(</span><span class="mf">1e-1</span><span class="p">)</span> <span class="o">+</span> \
-    <span class="n">HiCDiff</span><span class="p">(</span><span class="n">cl1</span><span class="p">,</span> <span class="n">cl2</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;expect&#39;</span><span class="p">,</span> <span class="n">diff_method</span><span class="o">=</span><span class="s1">&#39;diff&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;bwr_r&quot;</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">Cool</span><span class="p">(</span><span class="n">cl1</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mf">5e-4</span><span class="p">)</span> <span class="o">+</span> <span class="n">MaxValue</span><span class="p">(</span><span class="mf">1e-1</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">Cool</span><span class="p">(</span><span class="n">cl2</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mf">5e-4</span><span class="p">)</span> <span class="o">+</span> <span class="n">MaxValue</span><span class="p">(</span><span class="mf">1e-1</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">HiCDiff</span><span class="p">(</span><span class="n">cl1</span><span class="p">,</span> <span class="n">cl2</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;expect&#39;</span><span class="p">,</span> <span class="n">diff_method</span><span class="o">=</span><span class="s1">&#39;diff&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;bwr_r&quot;</span><span class="p">)</span> <span class="o">+</span> \
     <span class="n">MinValue</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="n">MaxValue</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">+</span> \
     <span class="n">XAxis</span><span class="p">()</span>
 <span class="n">frame</span> <span class="o">*=</span> <span class="n">Feature</span><span class="p">(</span><span class="s1">&#39;depth_ratio&#39;</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">)</span>
@@ -529,11 +530,11 @@ coolbox add XAxis - <span class="se">\</span>
 start_with Feature <span class="s2">&quot;depth_ratio&quot;</span> <span class="s2">&quot;0.35&quot;</span> - <span class="se">\</span>
     start_with MinValue <span class="s2">&quot;5e-4&quot;</span> - <span class="se">\</span>
     start_with MaxValue <span class="s2">&quot;1e-1&quot;</span> - <span class="se">\</span>
-        add Cool <span class="nv">$cl1</span> --style <span class="s1">&#39;window&#39;</span> - <span class="se">\</span>
-        add Cool <span class="nv">$cl2</span> --style <span class="s1">&#39;window&#39;</span> - <span class="se">\</span>
+        add Cool <span class="nv">$cl1</span> - <span class="se">\</span>
+        add Cool <span class="nv">$cl2</span> - <span class="se">\</span>
     end_with - <span class="se">\</span>
     end_with - <span class="se">\</span>
-    add HiCDiff <span class="nv">$cl1</span> <span class="nv">$cl2</span> --style <span class="s1">&#39;window&#39;</span> --normalize <span class="s1">&#39;expect&#39;</span> --diff_method <span class="s1">&#39;diff&#39;</span> - <span class="se">\</span>
+    add HiCDiff <span class="nv">$cl1</span> <span class="nv">$cl2</span> --normalize <span class="s1">&#39;expect&#39;</span> --diff_method <span class="s1">&#39;diff&#39;</span> - <span class="se">\</span>
     add MinValue <span class="s2">&quot;-5&quot;</span> - <span class="se">\</span>
     add MaxValue <span class="s2">&quot;5&quot;</span> - <span class="se">\</span>
 end_with - <span class="se">\</span>
@@ -554,7 +555,7 @@ plot /tmp/test_coolbox.png
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="bw_style.html" class="btn btn-neutral float-right" title="BigWig track styles" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="selfish.html" class="btn btn-neutral float-right" title="Differential Chromatin Interaction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="TADs.html" class="btn btn-neutral float-left" title="TADs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

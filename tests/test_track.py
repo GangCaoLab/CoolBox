@@ -152,6 +152,16 @@ def test_hicdiff():
     diff.fetch_data(empty_interval)
 
 
+def test_selfish():
+    cl1 = Cool(f"{DATA_DIR}/cool_{test_itv}.mcool")
+    cl2 = Cool(f"{DATA_DIR}/cool_{test_itv}.mcool")
+    sel = Selfish(cl1, cl2)
+    assert sel.fetch_data(test_interval) is not None
+    fig, ax = plt.subplots()
+    sel.plot_genome_range(ax, test_interval)
+    sel.fetch_data(empty_interval)
+
+
 if __name__ == "__main__":
     #test_xaxis()
     #test_gtf()

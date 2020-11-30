@@ -74,7 +74,7 @@ class HiCDiff(Track, PlotHiCMatrix):
             "resolution": "auto",
             "normalize": "expect",
             "diff_method": "diff",
-            "style": "triangular",
+            "style": "window",
             "depth_ratio": "full",
             "cmap": HiCDiff.DEFAULT_COLOR,
             "color_bar": "vertical",

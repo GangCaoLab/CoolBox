@@ -12,6 +12,7 @@ CoolBox Gallery
 	_gallery/v4c.ipynb
 	_gallery/TADs.ipynb
 	_gallery/HiCDiff.ipynb
+	_gallery/selfish.ipynb
 
 .. nbgallery::
 	:caption: Others
