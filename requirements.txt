@@ -6,3 +6,4 @@ dna_features_viewer
 fire
 nbformat
 voila
+statsmodels

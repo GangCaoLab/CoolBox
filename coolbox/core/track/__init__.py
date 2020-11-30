@@ -8,5 +8,5 @@ from .arcs import Arcs, BEDPE, Pairs
 from .ideogram import Ideogram
 from .gtf import GTF
 from .bam import BAM
-from .hicdiff import HiCDiff
+from .hicdiff import HiCDiff, Selfish
 from .snp import SNP

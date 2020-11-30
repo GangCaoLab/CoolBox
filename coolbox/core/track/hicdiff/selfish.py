@@ -1,4 +1,7 @@
 import numpy as np
+from scipy.ndimage import gaussian_filter
+from scipy.stats import norm
+import statsmodels.stats.multitest as smm
 
 from ..base import Track
 from ..hicmat import HiCMat
@@ -21,6 +24,12 @@ class Selfish(Track, PlotHiCMatrix):
         Argument to create Hi-C instance, only in use
         when first or second argument is a path.
 
+    sigma0 : float, optional
+        Initial sigma, parameter of SELFISH method. Default: 1.6
+
+    s : int, optional
+        Iteration count parameter of SELFISH method. Default: 10
+
     style : {'triangular', 'window', 'matrix'}, optional
         Matrix style, default 'triangular'.
 
@@ -29,12 +38,6 @@ class Selfish(Track, PlotHiCMatrix):
 
     orientation : str, optional
         Track orientation, use 'inverted' for inverted track plot.
-
-    normalize : str
-        Normalization method ('none', 'zscore', 'total', 'expect'), default 'expect'
-
-    diff_method : str
-        Difference method ('diff', 'log2fc'), default 'diff'
 
     resolution : int, str
         Resolution of sub two sample. default 'auto'
@@ -68,20 +71,26 @@ class Selfish(Track, PlotHiCMatrix):
 
     """
 
-    DEFAULT_COLOR = "RdYlBu_r"
+    DEFAULT_COLOR = "RdYlBu"
 
     def __init__(self, hic1, hic2, args_hic=None, **kwargs):
-        args_hic = args_hic or {}
+        args_hic_ = {
+            "normalize": "zscore",
+        }
+        if args_hic:
+            args_hic_.update(args_hic)
+
         if isinstance(hic1, str):
-            hic1 = HiCMat(hic1, **args_hic)
+            hic1 = HiCMat(hic1, **args_hic_)
         if isinstance(hic2, str):
-            hic2 = HiCMat(hic2, **args_hic)
+            hic2 = HiCMat(hic2, **args_hic_)
+
         properties_dict = {
             "hic1": hic1,
             "hic2": hic2,
             "resolution": "auto",
-            "normalize": "expect",
-            "diff_method": "diff",
+            "sigma0": 1.6,
+            "s": 10,
             "style": "triangular",
             "depth_ratio": "full",
             "cmap": Selfish.DEFAULT_COLOR,
@@ -93,22 +102,20 @@ class Selfish(Track, PlotHiCMatrix):
         properties_dict.update(kwargs)
         for hic in hic1, hic2:  # update related hic track
             hic.properties.update({
-                "normalize": properties_dict["normalize"],
+                "resolution": properties_dict["resolution"],
             })
         properties_dict['color'] = properties_dict['cmap']  # change key word
 
         super().__init__(properties_dict)
 
         self.properties['transform'] = 'no'
-        self.properties['norm'] = 'no'
+        self.properties['norm'] = 'log'
 
-    def fetch_matrix(self, genome_range, resolution='auto'):
-        diff = self.fetch_data(genome_range, None)
-        try:
-            self.small_value = diff[diff > 0].min()
-        except:
-            self.small_value = 1e-12
-        return diff
+        self.zero_indices = None
+
+    def fetch_matrix(self, genome_range, resolution=None):
+        pval = self.fetch_data(genome_range, resolution)
+        return pval
 
     def fetch_related_tracks(self, genome_range, resolution=None):
         if resolution:
@@ -119,16 +126,43 @@ class Selfish(Track, PlotHiCMatrix):
         hic2 = self.properties['hic2']
         mat1 = hic1.fetch_matrix(genome_range, resolution=reso)
         mat2 = hic2.fetch_matrix(genome_range, resolution=reso)
+        zero_indices1 = hic1.zero_indices | hic1.nan_indices
+        zero_indices2 = hic2.zero_indices | hic2.nan_indices
+        self.zero_indices = zero_indices1 | zero_indices2
         return mat1, mat2
 
-    def __diff_data(self, mat1, mat2):
-        diff_mth = self.properties['diff_method']
-        if diff_mth == 'log2fc':
-            return np.log2((mat1 + 1)/(mat2 + 1))
-        else:
-            return mat1 - mat2
+    def __get_scales(self):
+        sigma0 = self.properties['sigma0']
+        s = self.properties['s']
+        return [(sigma0 * (2**(i / s))) for i in range(1, s+3)]
+
+    def __selfish(self, a, b):
+        diff = b - a
+        scales = self.__get_scales()
+        np.nan_to_num(diff, copy=False, posinf=0, neginf=0, nan=0)
+        d_pre = gaussian_filter(diff, scales[0])
+        final_p = np.ones(a.shape, dtype=a.dtype)
+        for scale in scales[1:]:
+            d_post = gaussian_filter(diff, scale)
+            d_diff = d_post - d_pre
+            params = norm.fit(d_diff)
+            pvals = norm.cdf(d_diff, loc=params[0], scale=params[1])
+            np.nan_to_num(pvals, copy=False, posinf=1, neginf=1, nan=1)
+            pvals[pvals > 0.5] = 1 - pvals[pvals > 0.5]
+            pvals *= 2
+            lt_idx = pvals < final_p
+            final_p[lt_idx] = pvals[lt_idx]
+            d_pre = d_post.copy()
+        del d_diff
+        _, out_p = smm.multipletests(final_p.ravel(), method='fdr_bh')[:2]
+        out_p = out_p.reshape(*diff.shape)
+        thr = 12
+        out_p[out_p == 0] = 10**-1*thr
+        if self.zero_indices is not None:
+            out_p[self.zero_indices] = 1
+        return out_p
 
     def fetch_data(self, genome_range, resolution=None):
         mat1, mat2 = self.fetch_related_tracks(genome_range, resolution)
-        diff = self.__diff_data(mat1, mat2)
-        return diff
+        p_val = self.__selfish(mat1, mat2)
+        return p_val

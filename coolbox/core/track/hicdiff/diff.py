@@ -85,7 +85,8 @@ class HiCDiff(Track, PlotHiCMatrix):
         properties_dict.update(kwargs)
         for hic in hic1, hic2:  # update related hic track
             hic.properties.update({
-                "normalize": properties_dict["normalize"],
+                "normalize":  properties_dict["normalize"],
+                "resolution": properties_dict['resolution'],
             })
         properties_dict['color'] = properties_dict['cmap']  # change key word
 
@@ -94,8 +95,8 @@ class HiCDiff(Track, PlotHiCMatrix):
         self.properties['transform'] = 'no'
         self.properties['norm'] = 'no'
 
-    def fetch_matrix(self, genome_range, resolution='auto'):
-        diff = self.fetch_data(genome_range, None)
+    def fetch_matrix(self, genome_range, resolution=None):
+        diff = self.fetch_data(genome_range, resolution)
         try:
             self.small_value = diff[diff > 0].min()
         except:

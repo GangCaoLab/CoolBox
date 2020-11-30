@@ -12,7 +12,7 @@ log = get_logger(__name__)
 class FetchHiC(abc.ABC):
     SMALL_VALUE = 1e-12
 
-    def fetch_data(self, genome_range1, genome_range2=None, resolution='auto'):
+    def fetch_data(self, genome_range1, genome_range2=None, resolution=None):
         """
         Parameters
         ----------
@@ -27,6 +27,8 @@ class FetchHiC(abc.ABC):
         matrix : np.array
             Hi-C contact matrix.
         """
+        if resolution is None:
+            resolution = self.properties['resolution']
         return self.fetch_matrix(genome_range1, genome_range2, resolution=resolution)
 
     @abc.abstractmethod
@@ -66,8 +68,12 @@ class FetchHiC(abc.ABC):
 
         # fill zero and nan with small value
         small = self.SMALL_VALUE
-        arr[arr == 0] = small
-        arr[np.isnan(arr)] = small
+        zero_indices = arr == 0
+        nan_indices = np.isnan(arr)
+        self.zero_indices = zero_indices
+        self.nan_indices = nan_indices
+        arr[zero_indices] = small
+        arr[nan_indices] = small
 
         # process the matrix
         if 'transform' in self.properties and self.properties['transform'] != 'no':

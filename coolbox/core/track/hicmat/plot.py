@@ -119,12 +119,15 @@ class PlotHiCMatrix(abc.ABC):
 
     @property
     def norm(self):
-        normalize = self.properties['normalize']
-        norm = self.properties['norm']
-        if (norm == 'log') and (normalize not in ['zscore', 'expect']):
-            return 'log'
+        if 'normalize' in self.properties:
+            normalize = self.properties['normalize']
+            norm = self.properties['norm']
+            if (norm == 'log') and (normalize not in ['zscore', 'expect']):
+                return 'log'
+            else:
+                return 'no'
         else:
-            return 'no'
+            return self.properties['norm']
 
     def __get_cmap(self):
         cm = self.properties['color']
