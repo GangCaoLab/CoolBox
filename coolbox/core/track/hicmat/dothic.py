@@ -3,6 +3,7 @@ from .plot import PlotHiCMatrix
 from .fetch import FetchHiC
 
 from coolbox.utilities.doctool import paste_doc
+from coolbox.utilities import to_gr
 from .base import hic_doc
 
 
@@ -63,8 +64,14 @@ ${doc2}
         Return
         ------
         pixels : pandas.core.frame.DataFrame
+            Hi-C pixels table.
+            The pixel table contains the non-zero upper triangle entries of the contact map.
         """
         from coolbox.utilities.hic.wrap import StrawWrap
+
+        genome_range = to_gr(genome_range)
+        if genome_range2 is not None:
+            genome_range2 = to_gr(genome_range2)
 
         path = self.properties['file']
         if balance is None:

@@ -1,7 +1,9 @@
 import numpy as np
+import pandas as pd
 from scipy.ndimage import gaussian_filter
 from scipy.stats import norm
 import statsmodels.stats.multitest as smm
+from coolbox.utilities import to_gr
 
 from ..base import Track
 from ..hicmat import HiCMat
@@ -112,6 +114,8 @@ class Selfish(Track, PlotHiCMatrix):
         self.properties['norm'] = 'log'
 
         self.zero_indices = None
+        self.mat1 = None
+        self.mat2 = None
 
     def fetch_matrix(self, genome_range, resolution=None):
         pval = self.fetch_data(genome_range, resolution)
@@ -126,10 +130,38 @@ class Selfish(Track, PlotHiCMatrix):
         hic2 = self.properties['hic2']
         mat1 = hic1.fetch_matrix(genome_range, resolution=reso)
         mat2 = hic2.fetch_matrix(genome_range, resolution=reso)
+        self.mat1 = mat1
+        self.mat2 = mat2
         zero_indices1 = hic1.zero_indices | hic1.nan_indices
         zero_indices2 = hic2.zero_indices | hic2.nan_indices
         self.zero_indices = zero_indices1 | zero_indices2
         return mat1, mat2
+
+    def fetch_pixels(self, genome_range, threshold=1e-4, resolution=None):
+        gr = to_gr(genome_range)
+        pvals = self.fetch_matrix(genome_range, resolution)
+        mat1 = self.mat1
+        mat2 = self.mat2
+        binsize = self.properties['hic1'].fetched_binsize
+        idx_y, idx_x = np.where(pvals <= threshold)
+        ix_up = idx_y <= idx_x
+        idx_y, idx_x = idx_y[ix_up], idx_x[ix_up]
+        start = (gr.start // binsize) * binsize
+        start1 = start + idx_y * binsize
+        end1 = start1 + binsize
+        start2 = start + idx_x * binsize
+        end2 = start2 + binsize
+        df = pd.DataFrame({
+            'chrom': gr.chrom,
+            'start1': start1,
+            'end1': end1,
+            'start2': start2,
+            'end2': end2,
+            'value1': mat1[idx_y, idx_x],
+            'value2': mat2[idx_y, idx_x],
+            'qvalue': pvals[idx_y, idx_x],
+        })
+        return df
 
     def __get_scales(self):
         sigma0 = self.properties['sigma0']
