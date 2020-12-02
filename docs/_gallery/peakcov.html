@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Virtual 4C &mdash; CoolBox  documentation</title>
+  <title>Peak Coverage &mdash; CoolBox  documentation</title>
   
 
   
@@ -38,8 +38,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="TADs" href="TADs.html" />
-    <link rel="prev" title="Smoothing matrix with gaussian filter" href="smoothing.html" /> 
+    <link rel="next" title="Hi-C Diff" href="HiCDiff.html" />
+    <link rel="prev" title="TADs" href="TADs.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -92,12 +92,12 @@
 <li class="toctree-l2"><a class="reference internal" href="hicmat_cmaps.html">Colormaps of Hi-C contact map</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reso_normalize.html">Resolution, Balance and Normalize</a></li>
 <li class="toctree-l2"><a class="reference internal" href="smoothing.html">Smoothing matrix with gaussian filter</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Virtual 4C</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="v4c.html">Virtual 4C</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TADs.html">TADs</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Peak Coverage</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#CLI-code">CLI code</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="TADs.html">TADs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="peakcov.html">Peak Coverage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="HiCDiff.html">Hi-C Diff</a></li>
 <li class="toctree-l2"><a class="reference internal" href="selfish.html">Differential Chromatin Interaction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bw_style.html">BigWig track styles</a></li>
@@ -156,13 +156,13 @@
         
           <li><a href="../gallery.html">CoolBox Gallery</a> &raquo;</li>
         
-      <li>Virtual 4C</li>
+      <li>Peak Coverage</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/_gallery/v4c.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/_gallery/peakcov.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -445,9 +445,9 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Virtual-4C">
-<h1>Virtual 4C<a class="headerlink" href="#Virtual-4C" title="Permalink to this headline">¶</a></h1>
-<p>Virual4C track is for mimic 4C data track from Hi-C contact matrix.</p>
+<div class="section" id="Peak-Coverage">
+<h1>Peak Coverage<a class="headerlink" href="#Peak-Coverage" title="Permalink to this headline">¶</a></h1>
+<p>Draw peak on Hi-C contact matrix.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -473,64 +473,130 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;0.2.5&#39;
+&#39;0.2.6&#39;
 </pre></div></div>
 </div>
-<div class="nbinput docutils container">
+<p>HiCPeaks Coverage accept bedpe format:</p>
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">example_cool</span> <span class="o">=</span> <span class="s2">&quot;../../../tests/test_data/cool_chr9_4000000_6000000.mcool&quot;</span>
-<span class="n">test_region</span> <span class="o">=</span> <span class="s2">&quot;chr9:4000000-6000000&quot;</span>
-
-<span class="n">cool_track</span> <span class="o">=</span> <span class="n">Cool</span><span class="p">(</span><span class="n">example_cool</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;matrix&quot;</span><span class="p">)</span>
-
-<span class="n">loci</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;chr9:4380000-4380000&quot;</span><span class="p">,</span> <span class="s2">&quot;chr9:4760000-4760000&quot;</span><span class="p">,</span> <span class="s2">&quot;chr9:5445000-5445000&quot;</span><span class="p">]</span>
-
-<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">cool_track</span> <span class="o">+</span> <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">loci</span><span class="p">:</span>
-    <span class="n">track</span> <span class="o">=</span> <span class="n">Virtual4C</span><span class="p">(</span><span class="n">cool_track</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">bin_width</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Virtual 4C&quot;</span><span class="p">)</span>
-    <span class="n">track</span> <span class="o">+=</span>  <span class="n">MaxValue</span><span class="p">(</span><span class="mf">0.015</span><span class="p">)</span>
-    <span class="n">frame</span> <span class="o">+=</span> <span class="n">track</span>
-<span class="n">frame</span> <span class="o">*=</span> <span class="n">Vlines</span><span class="p">(</span><span class="n">loci</span><span class="p">)</span>
-
-<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_region</span><span class="p">)</span>
+<span></span><span class="n">test_cool</span> <span class="o">=</span> <span class="s2">&quot;../../../tests/test_data/cool_chr9_4000000_6000000.mcool&quot;</span>
+<span class="n">test_peak</span> <span class="o">=</span> <span class="s2">&quot;../../../tests/test_data/peak_chr9_4000000_6000000.bedpe&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> \
+    <span class="n">Cool</span><span class="p">(</span><span class="n">test_cool</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">HiCPeaks</span><span class="p">(</span><span class="n">test_peak</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#2255ff&quot;</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4000000-6000000&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_gallery_v4c_3_0.png" src="../_images/_gallery_v4c_3_0.png" />
+<img alt="../_images/_gallery_peakcov_6_0.png" src="../_images/_gallery_peakcov_6_0.png" />
 </div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4700000-5600000&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_gallery_peakcov_7_0.png" src="../_images/_gallery_peakcov_7_0.png" />
+</div>
+</div>
+<p>Parameters:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">HiCPeaks</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+    Hi-C Peaks(Loops) Coverge is a special kind of Coverage.
+    Used to show the peaks on the Hi-C interaction map.
+
+    Parameters
+    ----------
+    file_ : str
+        Path to the loop file, loop file is a tab splited text file, fields:
+        chr1, x1, x2, chr2, y1, y2, [color], ... (other optional fields)
+
+    color : str, optional
+        Peak color, use &#39;bed_rgb&#39; for specify color in file,
+        default &#39;bed_rgb&#39;.
+
+    alpha : float, optional
+        Peak alpha value, default 0.6.
+
+    line_width : float, optional
+        Peak border line width, default 1.0
+
+    line_style : str, optional
+        Border line style, default &#39;solid&#39;
+
+    fill : bool, optional
+        Fill center or not, default False.
+
+    fill_color : str, optional
+        Fill color, use &#39;bed_rgb&#39; for specify color in file,
+        default &#39;bed_rgb&#39;.
+
+    side : {&#39;upper&#39;, &#39;lower&#39;, &#39;both&#39;}
+        Plot peak in which side of the matrix.
+        NOTE: This parameters is useful only if the Cool track in matrix format.
+
+</pre></div></div>
 </div>
 <div class="section" id="CLI-code">
 <h2>CLI code<a class="headerlink" href="#CLI-code" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
 <span></span>%%bash
 
-<span class="nv">cool_file</span><span class="o">=</span>../../../tests/test_data/cool_chr9_4000000_6000000.mcool
-<span class="nv">loci1</span><span class="o">=</span><span class="s2">&quot;chr9:4380000-4380000&quot;</span>
-<span class="nv">loci2</span><span class="o">=</span><span class="s2">&quot;chr9:4760000-4760000&quot;</span>
-<span class="nv">loci3</span><span class="o">=</span><span class="s2">&quot;chr9:5445000-5445000&quot;</span>
-
 coolbox add XAxis - <span class="se">\</span>
-    start_with Vlines <span class="s2">&quot;[&#39;</span><span class="si">${</span><span class="nv">loci1</span><span class="si">}</span><span class="s2">&#39;, &#39;</span><span class="si">${</span><span class="nv">loci2</span><span class="si">}</span><span class="s2">&#39;, &#39;</span><span class="si">${</span><span class="nv">loci3</span><span class="si">}</span><span class="s2">&#39;]&quot;</span> - <span class="se">\</span>
-    add Cool <span class="si">${</span><span class="nv">cool_file</span><span class="si">}</span> --style <span class="s2">&quot;matrix&quot;</span> - <span class="se">\</span>
-    start_with MaxValue <span class="s2">&quot;0.015&quot;</span> - <span class="se">\</span>
-    start_with MinValue <span class="s2">&quot;0&quot;</span> - <span class="se">\</span>
-    add Virtual4C <span class="si">${</span><span class="nv">cool_file</span><span class="si">}</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">loci1</span><span class="si">}</span><span class="s2">&quot;</span> --bin_width <span class="m">5</span> - <span class="se">\</span>
-    add Virtual4C <span class="si">${</span><span class="nv">cool_file</span><span class="si">}</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">loci2</span><span class="si">}</span><span class="s2">&quot;</span> --bin_width <span class="m">5</span> - <span class="se">\</span>
-    add Virtual4C <span class="si">${</span><span class="nv">cool_file</span><span class="si">}</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">loci3</span><span class="si">}</span><span class="s2">&quot;</span> --bin_width <span class="m">5</span> - <span class="se">\</span>
-    goto <span class="s2">&quot;chr9:4000000-6000000&quot;</span> - <span class="se">\</span>
-    plot /tmp/test_cli_v4c.png
+add Cool ../../../tests/test_data/cool_chr9_4000000_6000000.mcool - <span class="se">\</span>
+add HiCPeaks ../../../tests/test_data/peak_chr9_4000000_6000000.bedpe - <span class="se">\</span>
+goto <span class="s2">&quot;chr9:4700000-5600000&quot;</span> - <span class="se">\</span>
+plot /tmp/test_coolbox_hicpeak.png
 </pre></div>
 </div>
 </div>
@@ -545,10 +611,10 @@ coolbox add XAxis - <span class="se">\</span>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="TADs.html" class="btn btn-neutral float-right" title="TADs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="HiCDiff.html" class="btn btn-neutral float-right" title="Hi-C Diff" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="smoothing.html" class="btn btn-neutral float-left" title="Smoothing matrix with gaussian filter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="TADs.html" class="btn btn-neutral float-left" title="TADs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

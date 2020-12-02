@@ -56,14 +56,14 @@ class HiCPeaks(Coverage):
         NOTE: This parameters is useful only if the Cool track in matrix format.
     """
 
-    DEFAULT_COLOR = "#ff0f39"
+    DEFAULT_COLOR = "#2255ff"
 
     def __init__(self, file_, **kwargs):
         properties_dict = {
             "file": file_,
             "color": "bed_rgb",
             "alpha": 0.6,
-            "line_width": 1.5,
+            "line_width": 5,
             "line_style": "solid",
             "fill": False,
             "fill_color": "bed_rgb",
