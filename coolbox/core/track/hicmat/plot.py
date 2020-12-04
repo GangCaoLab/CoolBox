@@ -122,7 +122,7 @@ class PlotHiCMatrix(abc.ABC):
         if 'normalize' in self.properties:
             normalize = self.properties['normalize']
             norm = self.properties['norm']
-            if (norm == 'log') and (normalize not in ['zscore', 'expect']):
+            if (norm == 'log') and (normalize in ['no', 'total']):
                 return 'log'
             else:
                 return 'no'

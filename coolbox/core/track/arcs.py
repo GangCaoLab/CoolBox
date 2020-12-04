@@ -189,7 +189,6 @@ class BEDPE(_Arcs):
     fields = ["chrom1", "start1", "end1", "chrom2", "start2", "end2",
               "name", "score", "strand1", "strand2"]
 
-
     def __init__(self, file_, **kwargs):
         super().__init__(file_, **kwargs)
         self.bgz_file = process_bedpe(file_)

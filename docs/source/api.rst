@@ -1,5 +1,6 @@
+=============
 API Reference
--------------
+=============
 
 Track
 =====
@@ -7,6 +8,7 @@ Track
 .. automodule:: coolbox.core.track
 	:autosummary:
 	:members:
+	:imported-members:
 
 Coverage
 ========
@@ -14,6 +16,7 @@ Coverage
 .. automodule:: coolbox.core.coverage
 	:autosummary:
 	:members:
+	:imported-members:
 
 Feature
 =======
@@ -35,3 +38,9 @@ Browser
 	:autosummary:
 	:members:
 
+Utilities
+=========
+.. automodule:: coolbox.utilities
+	:autosummary:
+	:members:
+	:imported-members:

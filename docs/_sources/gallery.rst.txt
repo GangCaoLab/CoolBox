@@ -11,6 +11,7 @@ CoolBox Gallery
 	_gallery/smoothing.ipynb
 	_gallery/v4c.ipynb
 	_gallery/TADs.ipynb
+	_gallery/peakcov.ipynb
 	_gallery/HiCDiff.ipynb
 	_gallery/selfish.ipynb
 
