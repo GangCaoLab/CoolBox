@@ -1,13 +1,11 @@
-import abc
-
 import numpy as np
 
-from coolbox.utilities import get_logger
+from coolbox.utilities import GenomeRange, get_logger
 
 log = get_logger(__name__)
 
 
-class CoveragePlot(abc.ABC):
+class CoveragePlot(object):
     """Mixin for plot Coverage plot(BigWig, BedGraph, BAM(coverage))."""
 
     def plot_coverage(self, ax, genome_range, scores_per_bin, x_values=None):

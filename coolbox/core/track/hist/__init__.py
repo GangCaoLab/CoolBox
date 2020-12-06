@@ -1,5 +1,6 @@
 from .bedgraph import BedGraph
 from .bigwig import BigWig, ABCompartment
+from .hicfeatures import DiScore, InsuScore
 
 
 def Hist(file, **kwargs):
