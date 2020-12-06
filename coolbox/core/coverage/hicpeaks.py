@@ -1,17 +1,14 @@
-
-import math
 import collections
+import math
 
-from matplotlib.patches import Rectangle
 from intervaltree import Interval, IntervalTree
+from matplotlib.patches import Rectangle
 
 from coolbox.utilities import (change_chrom_names, get_logger,
                                opener, rgb2hex, to_string)
 from .base import Coverage
 
-
 log = get_logger(__name__)
-
 
 STYLE_TRIANGULAR = 'triangular'
 STYLE_MATRIX = 'matrix'
@@ -166,8 +163,8 @@ class HiCPeaks(Coverage):
             m2 = (start2 + end2) / 2
             x = (m1 + m2) / 2
             y = x - m1
-            w = ( (end2 - start2) / 2 ) / math.cos(math.pi/4)
-            h = ( (end1 - start1) / 2 ) / math.cos(math.pi/4)
+            w = ((end2 - start2) / 2) / math.cos(math.pi / 4)
+            h = ((end1 - start1) / 2) / math.cos(math.pi / 4)
         elif style == STYLE_MATRIX:
             if side == "upper":
                 x = (start2 + end2) / 2

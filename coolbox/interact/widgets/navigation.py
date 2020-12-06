@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 from ipywidgets import (
     HBox, VBox, Dropdown, Button, Label,
     Checkbox, FloatText,
@@ -7,9 +9,6 @@ from ipywidgets import (
 from coolbox.utilities import (
     GenomeRange
 )
-
-from collections import OrderedDict
-
 
 ALL_BW_MARK = "ALL(BW/BG)"
 
@@ -63,6 +62,7 @@ class NavigationBar(object):
         browser : `BrowserBase`
             Browser object.
         """
+
         # chromosomes_list value change
         def chrom_dropdown_val_change(change):
             new_chrom = change['new']
@@ -72,12 +72,14 @@ class NavigationBar(object):
             range_ = browser.chrom_lengthes.bound_range(range_)
             browser.goto(range_, who='chromosomes_list')
             browser.refresh()
+
         self.widgets['chromosomes_list'].observe(chrom_dropdown_val_change, names="value")
 
         # left_button click
         def left_button_click(b):
             browser.go_left()
             browser.refresh()
+
         #            browser.preload_imgs('left')
         self.widgets['left_button'].on_click(left_button_click)
 
@@ -85,6 +87,7 @@ class NavigationBar(object):
         def right_button_click(b):
             browser.go_right()
             browser.refresh()
+
         #            browser.preload_imgs('right')
         self.widgets['right_button'].on_click(right_button_click)
 
@@ -92,6 +95,7 @@ class NavigationBar(object):
         def zoom_in_button_click(b):
             browser.zoom_in()
             browser.refresh()
+
         #            browser.preload_imgs('zoom-in')
         self.widgets['zoom_in_button'].on_click(zoom_in_button_click)
 
@@ -99,6 +103,7 @@ class NavigationBar(object):
         def zoom_out_button_click(b):
             browser.zoom_out()
             browser.refresh()
+
         #            browser.preload_imgs('zoom-out')
         self.widgets['zoom_out_button'].on_click(zoom_out_button_click)
 
@@ -108,6 +113,7 @@ class NavigationBar(object):
             range_ = GenomeRange(range_str)
             browser.goto(range_, who='go_button')
             browser.refresh()
+
         self.widgets['go_button'].on_click(go_button_click)
 
         # range_slider value change
@@ -123,6 +129,7 @@ class NavigationBar(object):
             new_range = browser.chrom_lengthes.bound_range(new_range)
             browser.goto(new_range, who='range_slider')
             browser.refresh()
+
         self.widgets['range_slider'].observe(range_slider_val_change, names="value")
 
         # auto_check_box value change
@@ -141,6 +148,7 @@ class NavigationBar(object):
                 browser.frame.set_tracks_min_max(min_, max_)
             browser.clear_fig_cache()
             browser.refresh()
+
         self.widgets['auto_check_box'].observe(auto_check_box_val_change, names="value")
 
         # track_max_value_float_text value change and
@@ -155,6 +163,7 @@ class NavigationBar(object):
                     browser.frame.set_tracks_min_max(min_, max_, tname)
             browser.clear_fig_cache()
             browser.refresh()
+
         self.widgets['track_min_val_float_text'].observe(track_float_text_val_change, names="value")
         self.widgets['track_max_val_float_text'].observe(track_float_text_val_change, names="value")
 
@@ -163,6 +172,7 @@ class NavigationBar(object):
                 self.selected_tracks = self.__get_tracks_name(browser)
             else:
                 self.selected_tracks = [change['new']]
+
         self.widgets['track_dropdown'].observe(track_dropdown_change, names="value")
 
     def __get_widgets(self, chromosomes, browser, frame=None):
@@ -170,33 +180,34 @@ class NavigationBar(object):
             frame = HTML()
         tracks = self.__get_tracks_name(browser)
         widgets = OrderedDict([
-            ("chromosomes_list",          Dropdown(options=chromosomes)),
-            ("left_button",               Button(icon="arrow-left")),
-            ("right_button",              Button(icon="arrow-right")),
-            ("zoom_out_button",           Button(icon="search-minus")),
-            ("zoom_in_button",            Button(icon="search-plus")),
-            ("range_textbox",             Text(placeholder="genome range like: 'chr1:10000-20000'")),
-            ("go_button",                 Button(description="Go")),
+            ("chromosomes_list", Dropdown(options=chromosomes)),
+            ("left_button", Button(icon="arrow-left")),
+            ("right_button", Button(icon="arrow-right")),
+            ("zoom_out_button", Button(icon="search-minus")),
+            ("zoom_in_button", Button(icon="search-plus")),
+            ("range_textbox", Text(placeholder="genome range like: 'chr1:10000-20000'")),
+            ("go_button", Button(description="Go")),
 
-            ("range_slider",              IntRangeSlider(continuous_update=False, readout=False, layout=Layout(width='90%'))),
-            ("range_min_label",           Label("", layout=Layout(width='2%'))),
-            ("range_max_label",           Label("", layout=Layout(width='20%'))),
+            ("range_slider", IntRangeSlider(continuous_update=False, readout=False, layout=Layout(width='90%'))),
+            ("range_min_label", Label("", layout=Layout(width='2%'))),
+            ("range_max_label", Label("", layout=Layout(width='20%'))),
 
-            ("auto_check_box",            Checkbox(value=True, description="Auto Range",
-                                                   layout=Layout(width='120px'),
+            ("auto_check_box", Checkbox(value=True, description="Auto Range",
+                                        layout=Layout(width='120px'),
+                                        style={'description_width': 'initial'})),
+            ("track_min_val_float_text",
+             FloatText(value=0.0001, description="Track's min value:", step=0.5, disabled=True,
+                       layout=Layout(width='30%'),
+                       style={'description_width': 'initial'})),
+            ("track_max_val_float_text", FloatText(value=10, description="Track's max value:", step=0.5, disabled=True,
+                                                   layout=Layout(width='30%'),
                                                    style={'description_width': 'initial'})),
-            ("track_min_val_float_text",  FloatText(value=0.0001,  description="Track's min value:", step=0.5, disabled=True,
-                                                    layout=Layout(width='30%'),
-                                                    style={'description_width': 'initial'})),
-            ("track_max_val_float_text",  FloatText(value=10, description="Track's max value:", step=0.5, disabled=True,
-                                                    layout=Layout(width='30%'),
-                                                    style={'description_width': 'initial'})),
-            ("track_dropdown",  Dropdown(options=[ALL_BW_MARK] + tracks,
-                                         value=ALL_BW_MARK,
-                                         description="Select track",
-                                         disabled=True,
-                                         )),
-            ("frame",                     frame)
+            ("track_dropdown", Dropdown(options=[ALL_BW_MARK] + tracks,
+                                        value=ALL_BW_MARK,
+                                        description="Select track",
+                                        disabled=True,
+                                        )),
+            ("frame", frame)
         ])
         return widgets
 

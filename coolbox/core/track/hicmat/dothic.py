@@ -1,14 +1,12 @@
-from ..base import Track
-from .plot import PlotHiCMatrix
-from .fetch import FetchHiC
+import numpy as np
 
-from coolbox.utilities.doctool import paste_doc
 from coolbox.utilities import to_gr
-from .base import hic_doc
+from coolbox.utilities.doctool import paste_doc
+from .base import hic_doc, HicMatBase
 
 
 @paste_doc(hic_doc)
-class DotHiC(Track, PlotHiCMatrix, FetchHiC):
+class DotHiC(HicMatBase):
     """
     .hic Hi-C matrix (or triangular matrix) track.
 
@@ -20,30 +18,15 @@ ${doc1}
 
 ${doc2}
     """
-    def __init__(self, file_, **kwargs):
+    DEFAULT_COLOR = "JuiceBoxLike2"
 
+    def __init__(self, file_, **kwargs):
         properties_dict = {
-            "file": file_,
-            "cmap": "JuiceBoxLike2",
-            "style": 'window',
-            "balance": True,
-            "resolution": "auto",
-            "normalize": False,
-            "gaussian_sigma": False,
-            "process_func": False,
-            "depth_ratio": "full",
-            "color_bar": "vertical",
-            "transform": False,
-            "norm": 'log',
-            "max_value": "auto",
-            "min_value": "auto",
-            "title": '',
+            "cmap": self.DEFAULT_COLOR,
         }
         properties_dict.update(kwargs)
-        properties_dict['color'] = properties_dict['cmap']
 
-        super().__init__(properties_dict)
-        self.fetched_binsize = None
+        super().__init__(file_, **properties_dict)
 
     def fetch_pixels(self, genome_range, genome_range2=None, balance=None, resolution='auto'):
         """
@@ -81,4 +64,18 @@ ${doc2}
         pixels = wrap.fetch_pixels(genome_range, genome_range2)
         return pixels
 
+    @paste_doc(hic_doc)
+    def fetch_matrix(self, genome_range, genome_range2=None, resolution='auto') -> np.ndarray:
+        """
+        ${fetch_matrix}
+        """
+        from coolbox.utilities.hic.wrap import StrawWrap
 
+        path = self.properties['file']
+        wrap = StrawWrap(path, normalization=self.balance, binsize=resolution)
+
+        arr = wrap.fetch(genome_range, genome_range2)
+
+        self.fetched_binsize = wrap.fetched_binsize  # expose fetched binsize
+
+        return self.fill_zero_nan(arr)

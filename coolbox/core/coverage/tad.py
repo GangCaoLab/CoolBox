@@ -1,10 +1,10 @@
 import numpy as np
 
+from coolbox.mixin.bed import FetchBed
 from coolbox.utilities import (change_chrom_names, get_logger,
                                GenomeRange)
-from .base import Coverage
-from coolbox.mixin.bed import FetchBed
 from coolbox.utilities.bed import build_bed_index
+from .base import Coverage
 
 log = get_logger(__name__)
 
@@ -209,7 +209,8 @@ class TADCoverage(Coverage, FetchBed):
         ratio = self.properties['score_height_ratio']
         color = self.properties['score_font_color']
         if style == 'box':
-            x1 = region.begin; x2 = region.end
+            x1 = region.begin;
+            x2 = region.end
             w = x2 - x1
             x = x2 - w * ratio
             y = x1 + w * ratio

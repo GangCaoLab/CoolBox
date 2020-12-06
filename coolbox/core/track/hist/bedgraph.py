@@ -1,3 +1,5 @@
+from typing import Union
+
 import numpy as np
 import pandas as pd
 
@@ -6,11 +8,8 @@ from coolbox.utilities import (
     GenomeRange, get_logger,
 )
 from coolbox.utilities.bed import tabix_query, build_bedgraph_bgz
-
-
-from ..base import Track
 from .plot import CoveragePlot
-
+from ..base import Track
 
 log = get_logger(__name__)
 
@@ -72,6 +71,7 @@ class BedGraph(Track, CoveragePlot):
         }
         properties_dict.update(kwargs)
         self.bgz_file = build_bedgraph_bgz(file_)
+        self.genome_range = None
         properties_dict['type'] = properties_dict['style']  # change key word
 
         super().__init__(properties_dict)
@@ -83,7 +83,7 @@ class BedGraph(Track, CoveragePlot):
 
         itv_df = self.fetch_intervals(genome_range)
 
-        itv_df['pos'] = itv_df['start'] + (itv_df['end'] - itv_df['start'])/2
+        itv_df['pos'] = itv_df['start'] + (itv_df['end'] - itv_df['start']) / 2
 
         if itv_df.shape[0] > 0:
             self.plot_coverage(ax, genome_range,
@@ -92,7 +92,7 @@ class BedGraph(Track, CoveragePlot):
         self.plot_label()
         return ax
 
-    def fetch_data(self, genome_range):
+    def fetch_data(self, genome_range: Union[str, GenomeRange]):
         """
         Parameters
         ----------
@@ -105,7 +105,7 @@ class BedGraph(Track, CoveragePlot):
         """
         return self.fetch_intervals(genome_range)
 
-    def fetch_intervals(self, genome_range):
+    def fetch_intervals(self, genome_range: Union[str, GenomeRange]):
         """
         Fetch intervals within input chromosome range.
         """

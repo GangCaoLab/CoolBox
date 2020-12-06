@@ -4,20 +4,18 @@ import re
 import pandas as pd
 from dna_features_viewer import GraphicFeature, GraphicRecord
 
-from .base import Track
-from coolbox.utilities.bed import (
-    build_gtf_index, tabix_query
-)
 from coolbox.utilities import (
     split_genome_range, get_logger, GenomeRange
 )
-
+from coolbox.utilities.bed import (
+    build_gtf_index, tabix_query
+)
+from .base import Track
 
 log = get_logger(__name__)
 
 
 class GTF(Track):
-
     """
     GTF gene annotation track.
 
@@ -121,7 +119,7 @@ class GTF(Track):
         region_length = end_region - start_region
         if self.has_prop("length_ratio_thresh"):
             len_ratio_th = self.properties["length_ratio_thresh"]
-            df = df[(df["end"] - df["start"]) > region_length*len_ratio_th]
+            df = df[(df["end"] - df["start"]) > region_length * len_ratio_th]
         features = []
         for _, row in df.iterrows():
             gf = GraphicFeature(
@@ -133,7 +131,7 @@ class GTF(Track):
             )
             features.append(gf)
         record = GraphicRecord(
-            sequence_length=end_region-start_region,
+            sequence_length=end_region - start_region,
             features=features,
             first_index=start_region
         )
@@ -143,4 +141,3 @@ class GTF(Track):
             draw_line=False
         )
         self.plot_label()
-

@@ -4,11 +4,11 @@ import subprocess as subp
 import numpy as np
 import pandas as pd
 
-from .base import Track
-from coolbox.utilities.bed import tabix_query
 from coolbox.utilities import (
     to_gr, GenomeRange
 )
+from coolbox.utilities.bed import tabix_query
+from .base import Track
 
 
 def build_indexed_snp(file, col_chrom, col_pos):
@@ -16,8 +16,8 @@ def build_indexed_snp(file, col_chrom, col_pos):
     p = col_pos + 1
     if file.endswith(".bgz"):
         bgz_file = file
-    elif osp.exists(file+'.bgz'):
-        bgz_file = file+'.bgz'
+    elif osp.exists(file + '.bgz'):
+        bgz_file = file + '.bgz'
     else:
         bgz_file = file + '.bgz'
         if file.endswith('.gz'):

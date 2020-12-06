@@ -101,3 +101,8 @@ venv.bak/
 
 # IDEA
 .idea/
+
+
+# macos stuff
+*.DS_Store
+*.icloud

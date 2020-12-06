@@ -5,7 +5,6 @@ format convert
 import collections
 from .filetool import opener, to_string
 
-
 _fields_rg = ("bin", "name", "chrom", "strand", "txStart", "txEnd",
               "cdsStart", "cdsEnd", "exonCount", "exonStart", "exonEnds",
               "score", "name2", "cdsStartStat", "cdsEndStat", "exonFrames")
@@ -68,5 +67,3 @@ def refgene_txt_to_bed12(txt_file, bed_file):
             refg_rec = refGeneRec._make(items)
             out_line = refg_rec.to_bed12_line() + "\n"
             f_out.write(out_line)
-
-

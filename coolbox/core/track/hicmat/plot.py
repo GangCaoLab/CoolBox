@@ -1,13 +1,13 @@
 import abc
-import math
 import copy
+import math
 
-import matplotlib.pyplot as plt
 import matplotlib.colors as colors
+import matplotlib.pyplot as plt
+import numpy as np
 from matplotlib import transforms
 from matplotlib.colors import LinearSegmentedColormap
 from mpl_toolkits.axes_grid1.axes_divider import make_axes_locatable
-import numpy as np
 
 from coolbox.utilities import (
     to_gr,
@@ -17,13 +17,11 @@ from coolbox.utilities import (
 
 log = get_logger(__name__)
 
-
 STYLE_TRIANGULAR = 'triangular'
 STYLE_MATRIX = 'matrix'
 STYLE_WINDOW = 'window'
 
 DEPTH_FULL = 'full'
-
 
 JuiceBoxLikeColor = LinearSegmentedColormap.from_list(
     'interaction', ['#FFFFFF', '#FFDFDF', '#FF7575', '#FF2626', '#F70000'])
@@ -34,7 +32,6 @@ JuiceBoxLikeColor2 = LinearSegmentedColormap.from_list(
 JuiceBoxLikeColor2.set_bad("white")
 JuiceBoxLikeColor2.set_under("white")
 
-
 cmaps = {
     "JuiceBoxLike": JuiceBoxLikeColor,
     "JuiceBoxLike2": JuiceBoxLikeColor2,
@@ -42,7 +39,6 @@ cmaps = {
 
 
 class PlotHiCMatrix(abc.ABC):
-
     DEFAULT_COLOR = 'YlOrRd'
     SMALL_VALUE = 1e-12
 
@@ -73,8 +69,8 @@ class PlotHiCMatrix(abc.ABC):
             return False
         else:
             file = self.properties['file']
-            from coolbox.utilities.hic.tools import file_type
-            if file_type(file) == '.hic':
+            from coolbox.utilities.hic.tools import hicmat_filetype
+            if hicmat_filetype(file) == '.hic':
                 if self.properties['balance'] == 'yes':
                     return 'KR'  # default use KR balance
                 else:
@@ -157,12 +153,12 @@ class PlotHiCMatrix(abc.ABC):
             r_len = end - start
             # Rotate image using Affine2D, reference:
             #     https://stackoverflow.com/a/50920567/8500469
-            tr = transforms.Affine2D().translate(-start, -start)\
-                .rotate_deg_around(0, 0, 45)\
-                .scale(scale_r)\
-                .translate(start+r_len/2, -r_len/2)
+            tr = transforms.Affine2D().translate(-start, -start) \
+                .rotate_deg_around(0, 0, 45) \
+                .scale(scale_r) \
+                .translate(start + r_len / 2, -r_len / 2)
             img = ax.matshow(arr, cmap=cmap,
-                             transform=tr+ax.transData,
+                             transform=tr + ax.transData,
                              extent=(start, end, start, end),
                              aspect='auto')
         elif self.style == STYLE_WINDOW:
@@ -177,7 +173,7 @@ class PlotHiCMatrix(abc.ABC):
             tr = transforms.Affine2D().translate(-gr.start, -gr.start) \
                 .rotate_deg_around(0, 0, 45) \
                 .scale(scale_r) \
-                .translate(gr.start+delta_x, -fgr.length/2)
+                .translate(gr.start + delta_x, -fgr.length / 2)
             img = ax.matshow(arr, cmap=cmap,
                              transform=tr + ax.transData,
                              extent=(gr.start, gr.end, gr.start, gr.end),
@@ -261,7 +257,7 @@ class PlotHiCMatrix(abc.ABC):
         fetch_gr = copy(gr)
         dr = self.properties['depth_ratio']
         dr = 1.0 if dr == "full" else dr
-        dr = min(1.0, dr+0.05)
+        dr = min(1.0, dr + 0.05)
         x = int(gr.length * dr // 2)
         fetch_gr.start = gr.start - x
         fetch_gr.end = gr.end + x

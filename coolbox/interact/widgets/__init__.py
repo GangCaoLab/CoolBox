@@ -1,2 +1,2 @@
-from . simple import SimpleWidgets
 from .full import FullWidgets
+from .simple import SimpleWidgets

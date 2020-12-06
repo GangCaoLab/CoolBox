@@ -4,13 +4,13 @@ import numpy as np
 import pandas as pd
 from matplotlib.patches import Arc
 
-from .base import Track
 from coolbox.utilities import (
     to_gr, GenomeRange
 )
 from coolbox.utilities.bed import (
     pairix_query, process_bedpe, process_pairs
 )
+from .base import Track
 
 
 class _Arcs(Track, abc.ABC):
@@ -135,7 +135,7 @@ class _Arcs(Track, abc.ABC):
         if len(intervals) == 0:
             return
 
-        max_itv = max(intervals, key=lambda t: t[1]-t[0])
+        max_itv = max(intervals, key=lambda t: t[1] - t[0])
         max_diameter = max_itv[1] - max_itv[0]
 
         for itv in intervals:

@@ -1,7 +1,6 @@
 from .logtools import get_logger
 from .filetool import opener, to_string
 
-
 log = get_logger(__name__)
 
 
@@ -193,7 +192,7 @@ class GenomeLength(dict):
                     length = int(length)
                 except ValueError as detail:
                     log.warning("Error reading line #{}. The field {} is not a integer.\n"
-                                "Error message: {}\n".format(idx+1, length, detail))
+                                "Error message: {}\n".format(idx + 1, length, detail))
                 self.__setitem__(chrom, length)
 
     def check_range(self, genome_range):

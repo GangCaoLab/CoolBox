@@ -1,5 +1,5 @@
-import re
 import abc
+import re
 
 import numpy as np
 from scipy.linalg import toeplitz
@@ -31,44 +31,10 @@ class FetchHiC(abc.ABC):
         """
         if resolution is None:
             resolution = self.properties['resolution']
-        return self.fetch_matrix(genome_range1, genome_range2, resolution=resolution)
+        arr = self.fetch_matrix(genome_range1, genome_range2, resolution=resolution)
+        return self.normalize_matrix(arr)
 
-    @abc.abstractmethod
-    def fetch_pixels(self, genome_range, genome_range2=None, balance=None, resolution='auto'):
-        pass
-
-    def fetch_matrix(self, genome_range, genome_range2=None, resolution='auto'):
-        """
-        Fetch the matrix for plot.
-
-        Parameters
-        ----------
-        genome_range : coolbox.utilities.GenomeRange
-            The genome range to fetch.
-
-        genome_range2 : coolbox.utilities.GenomeRange, optional
-            Second genome range to fetch.
-
-        resolution : {'auto', int}
-            The matrix resolution, for multi-resolution(.hic or multi-cool) file.
-            Use 'auto' to infer the resolution automatically.
-            default 'auto'
-        """
-        from coolbox.utilities.hic.wrap import StrawWrap, CoolerWrap
-
-        path = self.properties['file']
-
-        from coolbox.utilities.hic.tools import file_type
-        if file_type(self.properties['file']) == '.hic':
-            wrap = StrawWrap(path, normalization=self.balance, binsize=resolution)
-        else:
-            wrap = CoolerWrap(path, balance=self.balance, binsize=resolution)
-
-        arr = wrap.fetch(genome_range, genome_range2)
-
-        self.fetched_binsize = wrap.fetched_binsize  # expose fetched binsize
-
-        arr = self.fill_zero_nan(arr)
+    def normalize_matrix(self, arr: np.ndarray) -> np.ndarray:
 
         # process the matrix
         if 'transform' in self.properties and self.properties['transform'] != 'no':
@@ -93,8 +59,15 @@ class FetchHiC(abc.ABC):
                 raise ValueError(
                     "process_func should a one argument function "
                     "receive a matrix return a processed matrix.")
-
         return arr
+
+    @abc.abstractmethod
+    def fetch_pixels(self, genome_range, genome_range2=None, balance=None, resolution='auto'):
+        pass
+
+    @abc.abstractmethod
+    def fetch_matrix(self, genome_range, genome_range2=None, resolution='auto') -> np.ndarray:
+        pass
 
     def fill_zero_nan(self, arr):
         # fill zero and nan with small value
@@ -159,7 +132,7 @@ class FetchHiC(abc.ABC):
 
             def apply_donut(m):
                 m_ext = np.zeros((m.shape[0] + 2 * (w - 1), m.shape[0] + 2 * (w - 1)))
-                idx_center = slice(w, w+m.shape[0]), slice(w, w+m.shape[1])
+                idx_center = slice(w, w + m.shape[0]), slice(w, w + m.shape[1])
                 m_ext[idx_center] = m
                 m_f = convolve2d(m_ext, kernel, mode='same')
                 m_f = m_f[idx_center]

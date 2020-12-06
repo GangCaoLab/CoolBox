@@ -1,17 +1,16 @@
-import numpy as np
 import matplotlib
 import matplotlib.colors as colors
+import numpy as np
 from matplotlib.patches import Rectangle
 
-from .base import Track
+from coolbox.mixin.bed import FetchBed
 from coolbox.utilities import (
     get_logger
 )
 from coolbox.utilities.bed import (
     build_bed_index
 )
-from coolbox.mixin.bed import FetchBed
-
+from .base import Track
 
 log = get_logger(__name__)
 
@@ -360,7 +359,8 @@ class BED(Track, FetchBed):
         if self.counter == 0:
             log.warning("*Warning* No intervals were found for file {} "
                         "in Track '{}' for the interval plotted ({}:{}-{}).\n".
-                        format(self.properties['file'], self.properties['name'], chrom_region, start_region, end_region))
+                        format(self.properties['file'], self.properties['name'], chrom_region, start_region,
+                               end_region))
 
         ymax = 0
 
@@ -592,4 +592,3 @@ class BED(Track, FetchBed):
                     intron_center = x1 + int(intron_length) / 2
                     ax.plot([intron_center], [ypos + half_height], '.', marker=5,
                             fillstyle='none', color='blue', markersize=3)
-

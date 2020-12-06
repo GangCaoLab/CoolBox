@@ -1,9 +1,9 @@
 from collections import OrderedDict
 
+from ipywidgets import (Tab, VBox, HTML)
+
 from .base import WidgetsBox
 from .navigation import NavigationBar
-
-from ipywidgets import (Tab, Image, VBox, HTML)
 
 
 def compose_track_config_panel(widgets_panel):
@@ -24,8 +24,8 @@ class FullWidgets(WidgetsBox):
 
         ])
         widgets_dict = OrderedDict([
-            ("navigation_bar",  navigation_bar),
-            ("track_config",  track_config),
+            ("navigation_bar", navigation_bar),
+            ("track_config", track_config),
         ])
         return widgets_dict
 

@@ -17,7 +17,6 @@ def op_err_msg(a, b, op='+'):
     return msg
 
 
-
 #
 # read genome length file #
 
@@ -25,16 +24,15 @@ here = dirname(abspath(__file__))
 
 HG19 = GenomeLength(join(here, "../genome/hg19.txt"), genome_name="hg19")
 HG38 = GenomeLength(join(here, "../genome/hg38.txt"), genome_name="hg38")
-MM9  = GenomeLength(join(here, "../genome/mm9.txt"),  genome_name="mm9")
+MM9 = GenomeLength(join(here, "../genome/mm9.txt"), genome_name="mm9")
 MM10 = GenomeLength(join(here, "../genome/mm10.txt"), genome_name="mm10")
 
 BUILT_IN_GENOMES = {
     'hg19': HG19,
     'hg38': HG38,
-    'mm9':  MM9,
+    'mm9': MM9,
     'mm10': MM10,
 }
-
 
 FEATURES_STACK_NAME = "__COOLBOX_FEATURE_STACK__"
 COVERAGE_STACK_NAME = "__COOLBOX_COVERAGE_STACK__"
@@ -52,7 +50,7 @@ def get_coverage_stack():
     return global_scope[COVERAGE_STACK_NAME]
 
 
-
 if __name__ == "__main__":
     import doctest
+
     doctest.testmod()

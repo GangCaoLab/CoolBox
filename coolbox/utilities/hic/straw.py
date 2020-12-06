@@ -42,7 +42,8 @@ import io
 
 blockMap = dict()
 # global version
-version=0
+version = 0
+
 
 def __readcstr(f):
     """ Helper function for reading in C-style string from file
@@ -82,45 +83,46 @@ def readHeader(req, chr1, chr2, posilist):
         print('This does not appear to be a HiC file magic string is incorrect')
         return -1
     global version
-    version = struct.unpack('<i',req.read(4))[0]
+    version = struct.unpack('<i', req.read(4))[0]
     if (version < 6):
         print("Version {0} no longer supported".format(str(version)))
         return -1
-#    print('HiC version:' + '  {0}'.format(str(version)))
-    master = struct.unpack('<q',req.read(8))[0]
+    #    print('HiC version:' + '  {0}'.format(str(version)))
+    master = struct.unpack('<q', req.read(8))[0]
     genome = b""
-    c=req.read(1)
+    c = req.read(1)
     while (c != b'\0'):
         genome += c
-        c=req.read(1)
+        c = req.read(1)
 
     # read and throw away attribute dictionary (stats+graphs)
-    nattributes = struct.unpack('<i',req.read(4))[0]
+    nattributes = struct.unpack('<i', req.read(4))[0]
     for x in range(nattributes):
         key = __readcstr(req)
         value = __readcstr(req)
-    nChrs = struct.unpack('<i',req.read(4))[0]
+    nChrs = struct.unpack('<i', req.read(4))[0]
     found1 = False
     found2 = False
     for i in range(0, nChrs):
-      name = __readcstr(req)
-      length = struct.unpack('<i',req.read(4))[0]
-      if (name==chr1):
-          found1=True
-          chr1ind=i
-          if (posilist[0]==-100):
-              posilist[0]=0
-              posilist[1]=length
-      if (name==chr2):
-          found2=True
-          chr2ind=i
-          if (posilist[2]==-100):
-              posilist[2]=0
-              posilist[3]=length
+        name = __readcstr(req)
+        length = struct.unpack('<i', req.read(4))[0]
+        if (name == chr1):
+            found1 = True
+            chr1ind = i
+            if (posilist[0] == -100):
+                posilist[0] = 0
+                posilist[1] = length
+        if (name == chr2):
+            found2 = True
+            chr2ind = i
+            if (posilist[2] == -100):
+                posilist[2] = 0
+                posilist[3] = length
     if ((not found1) or (not found2)):
-      print("One of the chromosomes wasn't found in the file. Check that the chromosome name matches the genome.\n")
-      return -1
+        print("One of the chromosomes wasn't found in the file. Check that the chromosome name matches the genome.\n")
+        return -1
     return [master, chr1ind, chr2ind, posilist[0], posilist[1], posilist[2], posilist[3]]
+
 
 def readFooter(req, c1, c2, norm, unit, resolution):
     """Reads the footer, which contains all the expected and normalization
@@ -138,8 +140,8 @@ def readFooter(req, c1, c2, norm, unit, resolution):
        list: File position of matrix, position+size chr1 normalization vector,
              position+size chr2 normalization vector
     """
-    c1NormEntry=dict()
-    c2NormEntry=dict()
+    c1NormEntry = dict()
+    c2NormEntry = dict()
     nBytes = struct.unpack('<i', req.read(4))[0]
     key = str(c1) + "_" + str(c2)
     nEntries = struct.unpack('<i', req.read(4))[0]
@@ -148,56 +150,58 @@ def readFooter(req, c1, c2, norm, unit, resolution):
         stri = __readcstr(req)
         fpos = struct.unpack('<q', req.read(8))[0]
         sizeinbytes = struct.unpack('<i', req.read(4))[0]
-        if (stri==key):
+        if (stri == key):
             myFilePos = fpos
-            found=True
+            found = True
     if (not found):
         print("File doesn't have the given chr_chr map\n")
-    if (norm=="NONE"):
+    if (norm == "NONE"):
         return [myFilePos, 0, 0]
-    nExpectedValues = struct.unpack('<i',req.read(4))[0]
+    nExpectedValues = struct.unpack('<i', req.read(4))[0]
     for i in range(nExpectedValues):
         str_ = __readcstr(req)
-        binSize = struct.unpack('<i',req.read(4))[0]
-        nValues = struct.unpack('<i',req.read(4))[0]
+        binSize = struct.unpack('<i', req.read(4))[0]
+        nValues = struct.unpack('<i', req.read(4))[0]
         for j in range(nValues):
-            v = struct.unpack('<d',req.read(8))[0]
-        nNormalizationFactors = struct.unpack('<i',req.read(4))[0]
+            v = struct.unpack('<d', req.read(8))[0]
+        nNormalizationFactors = struct.unpack('<i', req.read(4))[0]
         for j in range(nNormalizationFactors):
-            chrIdx = struct.unpack('<i',req.read(4))[0]
-            v = struct.unpack('<d',req.read(8))[0]
-    nExpectedValues = struct.unpack('<i',req.read(4))[0]
+            chrIdx = struct.unpack('<i', req.read(4))[0]
+            v = struct.unpack('<d', req.read(8))[0]
+    nExpectedValues = struct.unpack('<i', req.read(4))[0]
     for i in range(nExpectedValues):
         str_ = __readcstr(req)
         str_ = __readcstr(req)
-        binSize = struct.unpack('<i',req.read(4))[0]
-        nValues = struct.unpack('<i',req.read(4))[0]
+        binSize = struct.unpack('<i', req.read(4))[0]
+        nValues = struct.unpack('<i', req.read(4))[0]
         for j in range(nValues):
-            v = struct.unpack('<d',req.read(8))[0]
-        nNormalizationFactors = struct.unpack('<i',req.read(4))[0]
+            v = struct.unpack('<d', req.read(8))[0]
+        nNormalizationFactors = struct.unpack('<i', req.read(4))[0]
         for j in range(nNormalizationFactors):
-            chrIdx = struct.unpack('<i',req.read(4))[0]
-            v = struct.unpack('<d',req.read(8))[0]
-    nEntries = struct.unpack('<i',req.read(4))[0]
-    found1=False
-    found2=False
+            chrIdx = struct.unpack('<i', req.read(4))[0]
+            v = struct.unpack('<d', req.read(8))[0]
+    nEntries = struct.unpack('<i', req.read(4))[0]
+    found1 = False
+    found2 = False
     for i in range(nEntries):
         normtype = __readcstr(req)
-        chrIdx = struct.unpack('<i',req.read(4))[0]
+        chrIdx = struct.unpack('<i', req.read(4))[0]
         unit1 = __readcstr(req)
-        resolution1 = struct.unpack('<i',req.read(4))[0]
-        filePosition = struct.unpack('<q',req.read(8))[0]
-        sizeInBytes = struct.unpack('<i',req.read(4))[0]
-        if (chrIdx==c1 and normtype==norm and unit1==unit and resolution1==resolution):
-            c1NormEntry['position']=filePosition
-            c1NormEntry['size']=sizeInBytes
-            found1=True
-        if (chrIdx==c2 and normtype==norm and unit1==unit and resolution1==resolution):
-            c2NormEntry['position']=filePosition
-            c2NormEntry['size']=sizeInBytes
-            found2=True
+        resolution1 = struct.unpack('<i', req.read(4))[0]
+        filePosition = struct.unpack('<q', req.read(8))[0]
+        sizeInBytes = struct.unpack('<i', req.read(4))[0]
+        if (chrIdx == c1 and normtype == norm and unit1 == unit and resolution1 == resolution):
+            c1NormEntry['position'] = filePosition
+            c1NormEntry['size'] = sizeInBytes
+            found1 = True
+        if (chrIdx == c2 and normtype == norm and unit1 == unit and resolution1 == resolution):
+            c2NormEntry['position'] = filePosition
+            c2NormEntry['size'] = sizeInBytes
+            found2 = True
     if ((not found1) or (not found2)):
-        print("File did not contain {0} normalization vectors for one or both chromosomes at {1} {2}\n".format(norm, resolution, unit))
+        print("File did not contain {0} normalization vectors for one or both chromosomes at {1} {2}\n".format(norm,
+                                                                                                               resolution,
+                                                                                                               unit))
         return -1
     return [myFilePos, c1NormEntry, c2NormEntry]
 
@@ -217,33 +221,34 @@ def readMatrixZoomData(req, myunit, mybinsize):
        and if so, the counts for the bins and columns
     """
     unit = __readcstr(req)
-    temp = struct.unpack('<i',req.read(4))[0]
-    temp2 = struct.unpack('<f',req.read(4))[0]
-    temp2 = struct.unpack('<f',req.read(4))[0]
-    temp2 = struct.unpack('<f',req.read(4))[0]
-    temp2 = struct.unpack('<f',req.read(4))[0]
-    binSize = struct.unpack('<i',req.read(4))[0]
-    blockBinCount = struct.unpack('<i',req.read(4))[0]
-    blockColumnCount = struct.unpack('<i',req.read(4))[0]
+    temp = struct.unpack('<i', req.read(4))[0]
+    temp2 = struct.unpack('<f', req.read(4))[0]
+    temp2 = struct.unpack('<f', req.read(4))[0]
+    temp2 = struct.unpack('<f', req.read(4))[0]
+    temp2 = struct.unpack('<f', req.read(4))[0]
+    binSize = struct.unpack('<i', req.read(4))[0]
+    blockBinCount = struct.unpack('<i', req.read(4))[0]
+    blockColumnCount = struct.unpack('<i', req.read(4))[0]
     storeBlockData = False
-    #for the initial
+    # for the initial
     myBlockBinCount = -1
     myBlockColumnCount = -1
-    if (myunit==unit and mybinsize==binSize):
-        myBlockBinCount=blockBinCount
-        myBlockColumnCount=blockColumnCount
-        storeBlockData=True
-    nBlocks = struct.unpack('<i',req.read(4))[0]
+    if (myunit == unit and mybinsize == binSize):
+        myBlockBinCount = blockBinCount
+        myBlockColumnCount = blockColumnCount
+        storeBlockData = True
+    nBlocks = struct.unpack('<i', req.read(4))[0]
     for b in range(nBlocks):
-        blockNumber = struct.unpack('<i',req.read(4))[0]
-        filePosition = struct.unpack('<q',req.read(8))[0]
-        blockSizeInBytes = struct.unpack('<i',req.read(4))[0]
-        entry=dict()
+        blockNumber = struct.unpack('<i', req.read(4))[0]
+        filePosition = struct.unpack('<q', req.read(8))[0]
+        blockSizeInBytes = struct.unpack('<i', req.read(4))[0]
+        entry = dict()
         entry['size'] = blockSizeInBytes
         entry['position'] = filePosition
         if (storeBlockData):
             blockMap[blockNumber] = entry
     return [storeBlockData, myBlockBinCount, myBlockColumnCount]
+
 
 def readMatrix(req, unit, binsize):
     """ Reads the matrix - that is, finds the appropriate pointers to block
@@ -259,24 +264,25 @@ def readMatrix(req, unit, binsize):
     Returns:
        list containing block bin count and block column count of matrix
     """
-    c1 = struct.unpack('<i',req.read(4))[0]
-    c2 = struct.unpack('<i',req.read(4))[0]
-    nRes = struct.unpack('<i',req.read(4))[0]
+    c1 = struct.unpack('<i', req.read(4))[0]
+    c2 = struct.unpack('<i', req.read(4))[0]
+    nRes = struct.unpack('<i', req.read(4))[0]
     i = 0
     found = False
     blockBinCount = -1
     blockColumnCount = -1
-    while (i<nRes and (not found)):
+    while (i < nRes and (not found)):
         list1 = readMatrixZoomData(req, unit, binsize)
         found = list1[0]
-        if(list1[1]!=-1 and list1[2]!=-1):
+        if (list1[1] != -1 and list1[2] != -1):
             blockBinCount = list1[1]
             blockColumnCount = list1[2]
-        i=i+1
+        i = i + 1
     if (not found):
         print("Error finding block data\n")
         return -1
     return [blockBinCount, blockColumnCount]
+
 
 def getBlockNumbersForRegionFromBinPosition(regionIndices, blockBinCount, blockColumnCount, intra):
     """ Gets the block numbers we will need for a specific region; used when
@@ -291,23 +297,24 @@ def getBlockNumbersForRegionFromBinPosition(regionIndices, blockBinCount, blockC
     Returns:
        blockSet (set): A set of blocks to print
     """
-    col1=int(regionIndices[0]/blockBinCount)
-    col2=int((regionIndices[1]+1)/blockBinCount)
-    row1=int(regionIndices[2]/blockBinCount)
-    row2=int((regionIndices[3]+1)/blockBinCount)
-    blocksSet=set()
+    col1 = int(regionIndices[0] / blockBinCount)
+    col2 = int((regionIndices[1] + 1) / blockBinCount)
+    row1 = int(regionIndices[2] / blockBinCount)
+    row2 = int((regionIndices[3] + 1) / blockBinCount)
+    blocksSet = set()
     # print(str(col1)+"\t"+str(col2)+"\t"+str(row1)+"\t"+str(row2))
-    for r in range(row1, row2+1):
-        for c in range(col1, col2+1):
-            blockNumber=r*blockColumnCount+c
+    for r in range(row1, row2 + 1):
+        for c in range(col1, col2 + 1):
+            blockNumber = r * blockColumnCount + c
             blocksSet.add(blockNumber)
     if (intra):
-        for r in range(col1, col2+1):
-            for c in range(row1, row2+1):
-                blockNumber=r*blockColumnCount+c
+        for r in range(col1, col2 + 1):
+            for c in range(row1, row2 + 1):
+                blockNumber = r * blockColumnCount + c
                 blocksSet.add(blockNumber)
     # print(str(blocksSet))
     return blocksSet
+
 
 def readBlock(req, size):
     """ Reads the block - reads the compressed bytes, decompresses, and stores
@@ -323,65 +330,65 @@ def readBlock(req, size):
     """
     compressedBytes = req.read(size)
     uncompressedBytes = zlib.decompress(compressedBytes)
-    nRecords = struct.unpack('<i',uncompressedBytes[0:4])[0]
-    v=[]
+    nRecords = struct.unpack('<i', uncompressedBytes[0:4])[0]
+    v = []
     global version
     if (version < 7):
         for i in range(nRecords):
-            binX = struct.unpack('<i',uncompressedBytes[(12*i+4):(12*i+8)])[0]
-            binY = struct.unpack('<i',uncompressedBytes[(12*i+8):(12*i+12)])[0]
-            counts = struct.unpack('<f',uncompressedBytes[(12*i+12):(12*i+16)])[0]
+            binX = struct.unpack('<i', uncompressedBytes[(12 * i + 4):(12 * i + 8)])[0]
+            binY = struct.unpack('<i', uncompressedBytes[(12 * i + 8):(12 * i + 12)])[0]
+            counts = struct.unpack('<f', uncompressedBytes[(12 * i + 12):(12 * i + 16)])[0]
             record = dict()
             record['binX'] = binX
             record['binY'] = binY
             record['counts'] = counts
             v.append(record)
     else:
-        binXOffset = struct.unpack('<i',uncompressedBytes[4:8])[0]
-        binYOffset = struct.unpack('<i',uncompressedBytes[8:12])[0]
-        useShort = struct.unpack('<b',uncompressedBytes[12:13])[0]
-        type_ = struct.unpack('<b',uncompressedBytes[13:14])[0]
-        index=0
-        if (type_==1):
-            rowCount = struct.unpack('<h',uncompressedBytes[14:16])[0]
+        binXOffset = struct.unpack('<i', uncompressedBytes[4:8])[0]
+        binYOffset = struct.unpack('<i', uncompressedBytes[8:12])[0]
+        useShort = struct.unpack('<b', uncompressedBytes[12:13])[0]
+        type_ = struct.unpack('<b', uncompressedBytes[13:14])[0]
+        index = 0
+        if (type_ == 1):
+            rowCount = struct.unpack('<h', uncompressedBytes[14:16])[0]
             temp = 16
             for i in range(rowCount):
-                y = struct.unpack('<h',uncompressedBytes[temp:(temp+2)])[0]
-                temp=temp+2
+                y = struct.unpack('<h', uncompressedBytes[temp:(temp + 2)])[0]
+                temp = temp + 2
                 binY = y + binYOffset
-                colCount = struct.unpack('<h',uncompressedBytes[temp:(temp+2)])[0]
-                temp=temp+2
+                colCount = struct.unpack('<h', uncompressedBytes[temp:(temp + 2)])[0]
+                temp = temp + 2
                 for j in range(colCount):
-                    x = struct.unpack('<h',uncompressedBytes[temp:(temp+2)])[0]
-                    temp=temp+2
+                    x = struct.unpack('<h', uncompressedBytes[temp:(temp + 2)])[0]
+                    temp = temp + 2
                     binX = binXOffset + x
-                    if (useShort==0):
-                        c = struct.unpack('<h',uncompressedBytes[temp:(temp+2)])[0]
-                        temp=temp+2
+                    if (useShort == 0):
+                        c = struct.unpack('<h', uncompressedBytes[temp:(temp + 2)])[0]
+                        temp = temp + 2
                         counts = c
                     else:
-                        counts = struct.unpack('<f',uncompressedBytes[temp:(temp+4)])[0]
-                        temp=temp+4
+                        counts = struct.unpack('<f', uncompressedBytes[temp:(temp + 4)])[0]
+                        temp = temp + 4
                     record = dict()
                     record['binX'] = binX
                     record['binY'] = binY
                     record['counts'] = counts
                     v.append(record)
                     index = index + 1
-        elif (type_== 2):
-            temp=14
-            nPts = struct.unpack('<i',uncompressedBytes[temp:(temp+4)])[0]
-            temp=temp+4
-            w = struct.unpack('<h',uncompressedBytes[temp:(temp+2)])[0]
-            temp=temp+2
+        elif (type_ == 2):
+            temp = 14
+            nPts = struct.unpack('<i', uncompressedBytes[temp:(temp + 4)])[0]
+            temp = temp + 4
+            w = struct.unpack('<h', uncompressedBytes[temp:(temp + 2)])[0]
+            temp = temp + 2
             for i in range(nPts):
-                row=int(i/w)
-                col=i-row*w
-                bin1=int(binXOffset+col)
-                bin2=int(binYOffset+row)
-                if (useShort==0):
-                    c = struct.unpack('<h',uncompressedBytes[temp:(temp+2)])[0]
-                    temp=temp+2
+                row = int(i / w)
+                col = i - row * w
+                bin1 = int(binXOffset + col)
+                bin2 = int(binYOffset + row)
+                if (useShort == 0):
+                    c = struct.unpack('<h', uncompressedBytes[temp:(temp + 2)])[0]
+                    temp = temp + 2
                     if (c != -32768):
                         record = dict()
                         record['binX'] = bin1
@@ -390,8 +397,8 @@ def readBlock(req, size):
                         v.append(record)
                         index = index + 1
                 else:
-                    counts = struct.unpack('<f',uncompressedBytes[temp:(temp+4)])[0]
-                    temp=temp+4
+                    counts = struct.unpack('<f', uncompressedBytes[temp:(temp + 4)])[0]
+                    temp = temp + 4
                     if (countsnot != 0x7fc00000):
                         record = dict()
                         record['binX'] = bin1
@@ -400,6 +407,7 @@ def readBlock(req, size):
                         v.append(record)
                         index = index + 1
     return v
+
 
 def readNormalizationVector(req):
     """ Reads the normalization vector from the file; presumes file pointer is
@@ -414,11 +422,12 @@ def readNormalizationVector(req):
 
     """
     value = []
-    nValues = struct.unpack('<i',req.read(4))[0]
+    nValues = struct.unpack('<i', req.read(4))[0]
     for i in range(nValues):
-        d = struct.unpack('<d',req.read(8))[0]
+        d = struct.unpack('<d', req.read(8))[0]
         value.append(d)
     return value
+
 
 def straw(norm, infile, chr1loc, chr2loc, unit, binsize):
     """ This is the main workhorse method of the module. Reads a .hic file and
@@ -440,99 +449,101 @@ def straw(norm, infile, chr1loc, chr2loc, unit, binsize):
     magic_string = ""
     if (infile.startswith("http")):
         # try URL first. 100K should be sufficient for header
-        headers={'range' : 'bytes=0-100000', 'x-amz-meta-requester' : 'straw'}
+        headers = {'range': 'bytes=0-100000', 'x-amz-meta-requester': 'straw'}
         s = requests.Session()
-        r=s.get(infile, headers=headers)
-        if (r.status_code >=400):
+        r = s.get(infile, headers=headers)
+        if (r.status_code >= 400):
             print("Error accessing " + infile)
             print("HTTP status code " + str(r.status_code))
             return -1
-        req=io.BytesIO(r.content)
-        myrange=r.headers['content-range'].split('/')
-        totalbytes=myrange[1]
+        req = io.BytesIO(r.content)
+        myrange = r.headers['content-range'].split('/')
+        totalbytes = myrange[1]
     else:
-        req=open(infile, 'rb')
+        req = open(infile, 'rb')
 
-    if (not (norm=="NONE" or norm=="VC" or norm=="VC_SQRT" or norm=="KR")):
-        print("Norm specified incorrectly, must be one of <NONE/VC/VC_SQRT/KR>\nUsage: straw <NONE/VC/VC_SQRT/KR> <hicFile(s)> <chr1>[:x1:x2] <chr2>[:y1:y2] <BP/FRAG> <binsize>\n")
+    if (not (norm == "NONE" or norm == "VC" or norm == "VC_SQRT" or norm == "KR")):
+        print(
+            "Norm specified incorrectly, must be one of <NONE/VC/VC_SQRT/KR>\nUsage: straw <NONE/VC/VC_SQRT/KR> <hicFile(s)> <chr1>[:x1:x2] <chr2>[:y1:y2] <BP/FRAG> <binsize>\n")
         return -1
-    if (not (unit=="BP" or unit=="FRAG")):
-        print("Unit specified incorrectly, must be one of <BP/FRAG>\nUsage: straw <NONE/VC/VC_SQRT/KR> <hicFile(s)> <chr1>[:x1:x2] <chr2>[:y1:y2] <BP/FRAG> <binsize>\n")
+    if (not (unit == "BP" or unit == "FRAG")):
+        print(
+            "Unit specified incorrectly, must be one of <BP/FRAG>\nUsage: straw <NONE/VC/VC_SQRT/KR> <hicFile(s)> <chr1>[:x1:x2] <chr2>[:y1:y2] <BP/FRAG> <binsize>\n")
         return -1
-    c1pos1=-100
-    c1pos2=-100
-    c2pos1=-100
-    c2pos2=-100
+    c1pos1 = -100
+    c1pos2 = -100
+    c2pos1 = -100
+    c2pos2 = -100
     chr1_arra = chr1loc.split(":")
     chr2_arra = chr2loc.split(":")
-    chr1=chr1_arra[0]
-    chr2=chr2_arra[0]
-    if(len(chr1_arra)==3):
-        c1pos1=chr1_arra[1]
-        c1pos2=chr1_arra[2]
-    if(len(chr2_arra)==3):
-        c2pos1=chr2_arra[1]
-        c2pos2=chr2_arra[2]
+    chr1 = chr1_arra[0]
+    chr2 = chr2_arra[0]
+    if (len(chr1_arra) == 3):
+        c1pos1 = chr1_arra[1]
+        c1pos2 = chr1_arra[2]
+    if (len(chr2_arra) == 3):
+        c2pos1 = chr2_arra[1]
+        c2pos2 = chr2_arra[2]
 
     list1 = readHeader(req, chr1, chr2, [c1pos1, c1pos2, c2pos1, c2pos2])
 
-    master=list1[0]
-    chr1ind=list1[1]
-    chr2ind=list1[2]
-    c1pos1=int(list1[3])
-    c1pos2=int(list1[4])
-    c2pos1=int(list1[5])
-    c2pos2=int(list1[6])
-    c1=min(chr1ind,chr2ind)
-    c2=max(chr1ind,chr2ind)
-    origRegionIndices=[]
-    regionIndices=[]
+    master = list1[0]
+    chr1ind = list1[1]
+    chr2ind = list1[2]
+    c1pos1 = int(list1[3])
+    c1pos2 = int(list1[4])
+    c2pos1 = int(list1[5])
+    c2pos2 = int(list1[6])
+    c1 = min(chr1ind, chr2ind)
+    c2 = max(chr1ind, chr2ind)
+    origRegionIndices = []
+    regionIndices = []
     if (chr1ind > chr2ind):
         origRegionIndices.append(c2pos1)
         origRegionIndices.append(c2pos2)
         origRegionIndices.append(c1pos1)
         origRegionIndices.append(c1pos2)
-        regionIndices.append(int(c2pos1/binsize))
-        regionIndices.append(int(c2pos2/binsize))
-        regionIndices.append(int(c1pos1/binsize))
-        regionIndices.append(int(c1pos2/binsize))
+        regionIndices.append(int(c2pos1 / binsize))
+        regionIndices.append(int(c2pos2 / binsize))
+        regionIndices.append(int(c1pos1 / binsize))
+        regionIndices.append(int(c1pos2 / binsize))
     else:
         origRegionIndices.append(c1pos1)
         origRegionIndices.append(c1pos2)
         origRegionIndices.append(c2pos1)
         origRegionIndices.append(c2pos2)
-        regionIndices.append(int(c1pos1/binsize))
-        regionIndices.append(int(c1pos2/binsize))
-        regionIndices.append(int(c2pos1/binsize))
-        regionIndices.append(int(c2pos2/binsize))
+        regionIndices.append(int(c1pos1 / binsize))
+        regionIndices.append(int(c1pos2 / binsize))
+        regionIndices.append(int(c2pos1 / binsize))
+        regionIndices.append(int(c2pos2 / binsize))
 
     # Get footer: from master to end of file
     if (infile.startswith("http")):
-        headers={'range' : 'bytes={0}-{1}'.format(master, totalbytes) , 'x-amz-meta-requester' : 'straw'}
-        #print("Requesting {} bytes".format(int(totalbytes)-master))
-        r=s.get(infile, headers=headers);
-        #print("Received {} bytes".format(r.headers['Content-Length']))
-        req=io.BytesIO(r.content)
+        headers = {'range': 'bytes={0}-{1}'.format(master, totalbytes), 'x-amz-meta-requester': 'straw'}
+        # print("Requesting {} bytes".format(int(totalbytes)-master))
+        r = s.get(infile, headers=headers);
+        # print("Received {} bytes".format(r.headers['Content-Length']))
+        req = io.BytesIO(r.content)
     else:
         req.seek(master)
 
     list1 = readFooter(req, c1, c2, norm, unit, binsize)
-    myFilePos=list1[0]
-    c1NormEntry=list1[1]
-    c2NormEntry=list1[2]
+    myFilePos = list1[0]
+    c1NormEntry = list1[1]
+    c2NormEntry = list1[2]
 
     if (norm != "NONE"):
         if (infile.startswith("http")):
-            endrange='bytes={0}-{1}'.format(c1NormEntry['position'],c1NormEntry['position']+c1NormEntry['size'])
-            headers={'range' : endrange, 'x-amz-meta-requester' : 'straw'}
-            r=s.get(infile, headers=headers);
-            req=io.BytesIO(r.content);
+            endrange = 'bytes={0}-{1}'.format(c1NormEntry['position'], c1NormEntry['position'] + c1NormEntry['size'])
+            headers = {'range': endrange, 'x-amz-meta-requester': 'straw'}
+            r = s.get(infile, headers=headers);
+            req = io.BytesIO(r.content);
             c1Norm = readNormalizationVector(req)
 
-            endrange='bytes={0}-{1}'.format(c2NormEntry['position'],c2NormEntry['position']+c2NormEntry['size'])
-            headers={'range' : endrange, 'x-amz-meta-requester' : 'straw'}
-            r=s.get(infile, headers=headers)
-            req=io.BytesIO(r.content)
+            endrange = 'bytes={0}-{1}'.format(c2NormEntry['position'], c2NormEntry['position'] + c2NormEntry['size'])
+            headers = {'range': endrange, 'x-amz-meta-requester': 'straw'}
+            r = s.get(infile, headers=headers)
+            req = io.BytesIO(r.content)
             c2Norm = readNormalizationVector(req)
         else:
             req.seek(c1NormEntry['position'])
@@ -541,57 +552,61 @@ def straw(norm, infile, chr1loc, chr2loc, unit, binsize):
             c2Norm = readNormalizationVector(req)
 
     if (infile.startswith("http")):
-        headers={'range' : 'bytes={0}-'.format(myFilePos), 'x-amz-meta-requester' : 'straw'}
-        r=s.get(infile, headers=headers, stream=True)
+        headers = {'range': 'bytes={0}-'.format(myFilePos), 'x-amz-meta-requester': 'straw'}
+        r = s.get(infile, headers=headers, stream=True)
         list1 = readMatrix(r.raw, unit, binsize)
     else:
         req.seek(myFilePos)
         list1 = readMatrix(req, unit, binsize)
 
-    blockBinCount=list1[0]
-    blockColumnCount=list1[1]
-    blockNumbers = getBlockNumbersForRegionFromBinPosition(regionIndices, blockBinCount, blockColumnCount, c1==c2)
-    yActual=[]
-    xActual=[]
-    counts=[]
+    blockBinCount = list1[0]
+    blockColumnCount = list1[1]
+    blockNumbers = getBlockNumbersForRegionFromBinPosition(regionIndices, blockBinCount, blockColumnCount, c1 == c2)
+    yActual = []
+    xActual = []
+    counts = []
 
     for i_set in (blockNumbers):
-        idx=dict()
-        if(i_set in blockMap):
-            idx=blockMap[i_set]
+        idx = dict()
+        if (i_set in blockMap):
+            idx = blockMap[i_set]
         else:
-            idx['size']=0
-            idx['position']=0
-        if (idx['size']==0):
-            records=[]
+            idx['size'] = 0
+            idx['position'] = 0
+        if (idx['size'] == 0):
+            records = []
         else:
             if (infile.startswith("http")):
-                endrange='bytes={0}-{1}'.format(idx['position'], idx['position']+idx['size'])
-                headers={'range' : endrange, 'x-amz-meta-requester' : 'straw'}
-                r=s.get(infile, headers=headers);
-                req=io.BytesIO(r.content);
+                endrange = 'bytes={0}-{1}'.format(idx['position'], idx['position'] + idx['size'])
+                headers = {'range': endrange, 'x-amz-meta-requester': 'straw'}
+                r = s.get(infile, headers=headers);
+                req = io.BytesIO(r.content);
             else:
                 req.seek(idx['position'])
-            records=readBlock(req, idx['size'])
+            records = readBlock(req, idx['size'])
 
         for j in range(len(records)):
-            rec=records[j]
-            x=rec['binX']*binsize
-            y=rec['binY']*binsize
-            c=rec['counts']
+            rec = records[j]
+            x = rec['binX'] * binsize
+            y = rec['binY'] * binsize
+            c = rec['counts']
             if (norm != "NONE"):
-                a=c1Norm[rec['binX']]*c2Norm[rec['binY']]
-                if (a!=0.0):
-                    c=(c/(c1Norm[rec['binX']]*c2Norm[rec['binY']]))
+                a = c1Norm[rec['binX']] * c2Norm[rec['binY']]
+                if (a != 0.0):
+                    c = (c / (c1Norm[rec['binX']] * c2Norm[rec['binY']]))
                 else:
-                    c="inf"
-            if ((x>=origRegionIndices[0] and x<=origRegionIndices[1] and y>=origRegionIndices[2] and y<=origRegionIndices[3]) or ((c1==c2) and y>=origRegionIndices[0] and y<=origRegionIndices[1] and x>= origRegionIndices[2] and x<=origRegionIndices[3])):
-	            xActual.append(x)
-	            yActual.append(y)
-	            counts.append(c)
+                    c = "inf"
+            if ((x >= origRegionIndices[0] and x <= origRegionIndices[1] and y >= origRegionIndices[2] and y <=
+                 origRegionIndices[3]) or (
+                    (c1 == c2) and y >= origRegionIndices[0] and y <= origRegionIndices[1] and x >= origRegionIndices[
+                2] and x <= origRegionIndices[3])):
+                xActual.append(x)
+                yActual.append(y)
+                counts.append(c)
     return [xActual, yActual, counts]
 
-def printme(norm, infile, chr1loc, chr2loc, unit, binsize,outfile):
+
+def printme(norm, infile, chr1loc, chr2loc, unit, binsize, outfile):
     """ Reads a .hic file and extracts and prints the given contact matrix
     to a text file
 
@@ -608,5 +623,5 @@ def printme(norm, infile, chr1loc, chr2loc, unit, binsize,outfile):
     result = straw(norm, infile, chr1loc, chr2loc, unit, binsize)
     for i in range(len(result[0])):
         f.write("{0}\t{1}\t{2}\n".format(result[0][i], result[1][i], result[2][i]))
-        #print("{0}\t{1}\t{2}".format(result[0][i], result[1][i], result[2][i]))
+        # print("{0}\t{1}\t{2}".format(result[0][i], result[1][i], result[2][i]))
     f.close()
