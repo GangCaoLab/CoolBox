@@ -206,6 +206,8 @@
     "| Cool | [.cool, .mcool](https://github.com/mirnylab/cooler) | Same to HiCMat, specific to cooler's `.cool` or `.mcool` format. |\n",
     "| DotHiC | [.hic](https://github.com/aidenlab/juicer/wiki/Data#hic-files) | Same to HiCMat, specific to juicer `.hic` file format. |\n",
     "| Virtual4C | .cool, .mcool, .hic | Virtual 4C track, using Hi-C data to mimic 4C. |\n",
+    "| DiScore | .cool, .mcool, .hic | Directionality index of Hi-C matrix for detecting TAD. |\n",
+    "| InsuScore | .cool, .mcool, .hic | Insulation score of Hi-C matrix for inferring TAD borders. |\n",
     "| HiCDiff | .cool, .mcool, .hic | Show the difference between two contact matrix. |\n",
     "| SNP | .tsv | Track for show SNPs Manhattan plot. Input file is a tab-split file, contain SNP's chrom, position, pvalue information. |\n"
    ]

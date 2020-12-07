@@ -9,7 +9,7 @@ CoolBox Gallery
 	_gallery/hicmat_cmaps.ipynb
 	_gallery/reso_normalize.ipynb
 	_gallery/smoothing.ipynb
-	_gallery/v4c.ipynb
+	_gallery/hicfeature.ipynb
 	_gallery/TADs.ipynb
 	_gallery/peakcov.ipynb
 	_gallery/HiCDiff.ipynb

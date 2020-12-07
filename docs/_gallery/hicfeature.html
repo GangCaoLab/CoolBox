@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Virtual 4C &mdash; CoolBox  documentation</title>
+  <title>Hi-C features like Virtual4C, DiScore, InsuScore &mdash; CoolBox  documentation</title>
   
 
   
@@ -92,7 +92,7 @@
 <li class="toctree-l2"><a class="reference internal" href="hicmat_cmaps.html">Colormaps of Hi-C contact map</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reso_normalize.html">Resolution, Balance and Normalize</a></li>
 <li class="toctree-l2"><a class="reference internal" href="smoothing.html">Smoothing matrix with gaussian filter</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Virtual 4C</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Hi-C features like Virtual4C, DiScore, InsuScore</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#CLI-code">CLI code</a></li>
 </ul>
 </li>
@@ -156,13 +156,13 @@
         
           <li><a href="../gallery.html">CoolBox Gallery</a> &raquo;</li>
         
-      <li>Virtual 4C</li>
+      <li>Hi-C features like Virtual4C, DiScore, InsuScore</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/_gallery/v4c.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/_gallery/hicfeature.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -445,11 +445,12 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Virtual-4C">
-<h1>Virtual 4C<a class="headerlink" href="#Virtual-4C" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Hi-C-features-like-Virtual4C,-DiScore,-InsuScore">
+<h1>Hi-C features like Virtual4C, DiScore, InsuScore<a class="headerlink" href="#Hi-C-features-like-Virtual4C,-DiScore,-InsuScore" title="Permalink to this headline">¶</a></h1>
 <p>Virual4C track is for mimic 4C data track from Hi-C contact matrix.</p>
+<p>DiScore and InsuScore represents the interaction bias between TAD and non-TAD regions.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -459,7 +460,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -468,16 +469,16 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;0.2.5&#39;
+&#39;0.2.6&#39;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -488,11 +489,14 @@ div.rendered_html tbody tr:hover {
 
 <span class="n">loci</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;chr9:4380000-4380000&quot;</span><span class="p">,</span> <span class="s2">&quot;chr9:4760000-4760000&quot;</span><span class="p">,</span> <span class="s2">&quot;chr9:5445000-5445000&quot;</span><span class="p">]</span>
 
-<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">cool_track</span> <span class="o">+</span> <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> \
+        <span class="o">+</span> <span class="n">DiScore</span><span class="p">(</span><span class="n">cool_track</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Di score&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span> \
+        <span class="o">+</span> <span class="n">InsuScore</span><span class="p">(</span><span class="n">cool_track</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Insulation score&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span> \
+        <span class="o">+</span> <span class="n">cool_track</span> <span class="o">+</span> <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">loci</span><span class="p">:</span>
     <span class="n">track</span> <span class="o">=</span> <span class="n">Virtual4C</span><span class="p">(</span><span class="n">cool_track</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">bin_width</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Virtual 4C&quot;</span><span class="p">)</span>
     <span class="n">track</span> <span class="o">+=</span>  <span class="n">MaxValue</span><span class="p">(</span><span class="mf">0.015</span><span class="p">)</span>
-    <span class="n">frame</span> <span class="o">+=</span> <span class="n">track</span>
+    <span class="n">frame</span> <span class="o">+=</span> <span class="n">track</span> <span class="o">+</span> <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="n">frame</span> <span class="o">*=</span> <span class="n">Vlines</span><span class="p">(</span><span class="n">loci</span><span class="p">)</span>
 
 <span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_region</span><span class="p">)</span>
@@ -500,17 +504,17 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_gallery_v4c_3_0.png" src="../_images/_gallery_v4c_3_0.png" />
+<img alt="../_images/_gallery_hicfeature_3_0.png" src="../_images/_gallery_hicfeature_3_0.png" />
 </div>
 </div>
 <div class="section" id="CLI-code">
 <h2>CLI code<a class="headerlink" href="#CLI-code" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
@@ -522,6 +526,8 @@ div.rendered_html tbody tr:hover {
 <span class="nv">loci3</span><span class="o">=</span><span class="s2">&quot;chr9:5445000-5445000&quot;</span>
 
 coolbox add XAxis - <span class="se">\</span>
+    add DiScore <span class="si">${</span><span class="nv">cool_file</span><span class="si">}</span> - <span class="se">\</span>
+    add InsuScore <span class="si">${</span><span class="nv">cool_file</span><span class="si">}</span> - <span class="se">\</span>
     start_with Vlines <span class="s2">&quot;[&#39;</span><span class="si">${</span><span class="nv">loci1</span><span class="si">}</span><span class="s2">&#39;, &#39;</span><span class="si">${</span><span class="nv">loci2</span><span class="si">}</span><span class="s2">&#39;, &#39;</span><span class="si">${</span><span class="nv">loci3</span><span class="si">}</span><span class="s2">&#39;]&quot;</span> - <span class="se">\</span>
     add Cool <span class="si">${</span><span class="nv">cool_file</span><span class="si">}</span> --style <span class="s2">&quot;matrix&quot;</span> - <span class="se">\</span>
     start_with MaxValue <span class="s2">&quot;0.015&quot;</span> - <span class="se">\</span>
@@ -530,7 +536,7 @@ coolbox add XAxis - <span class="se">\</span>
     add Virtual4C <span class="si">${</span><span class="nv">cool_file</span><span class="si">}</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">loci2</span><span class="si">}</span><span class="s2">&quot;</span> --bin_width <span class="m">5</span> - <span class="se">\</span>
     add Virtual4C <span class="si">${</span><span class="nv">cool_file</span><span class="si">}</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">loci3</span><span class="si">}</span><span class="s2">&quot;</span> --bin_width <span class="m">5</span> - <span class="se">\</span>
     goto <span class="s2">&quot;chr9:4000000-6000000&quot;</span> - <span class="se">\</span>
-    plot /tmp/test_cli_v4c.png
+    plot /tmp/test_cli_hicfeature.png
 </pre></div>
 </div>
 </div>
