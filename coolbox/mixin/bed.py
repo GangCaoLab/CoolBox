@@ -8,7 +8,6 @@ from coolbox.utilities.bed import (
     ReadBed, query_bed
 )
 
-
 log = get_logger(__name__)
 
 

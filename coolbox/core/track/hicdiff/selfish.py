@@ -1,10 +1,10 @@
 import numpy as np
 import pandas as pd
+import statsmodels.stats.multitest as smm
 from scipy.ndimage import gaussian_filter
 from scipy.stats import norm
-import statsmodels.stats.multitest as smm
-from coolbox.utilities import to_gr
 
+from coolbox.utilities import to_gr
 from ..base import Track
 from ..hicmat import HiCMat
 from ..hicmat.plot import PlotHiCMatrix
@@ -166,7 +166,7 @@ class Selfish(Track, PlotHiCMatrix):
     def __get_scales(self):
         sigma0 = self.properties['sigma0']
         s = self.properties['s']
-        return [(sigma0 * (2**(i / s))) for i in range(1, s+3)]
+        return [(sigma0 * (2 ** (i / s))) for i in range(1, s + 3)]
 
     def __selfish(self, a, b):
         diff = b - a
@@ -188,7 +188,7 @@ class Selfish(Track, PlotHiCMatrix):
         _, out_p = smm.multipletests(final_p.ravel(), method='fdr_bh')[:2]
         out_p = out_p.reshape(*diff.shape)
         thr = 12
-        out_p[out_p == 0] = 10**-1*thr
+        out_p[out_p == 0] = 10 ** -1 * thr
         return out_p
 
     def fetch_data(self, genome_range, resolution=None):

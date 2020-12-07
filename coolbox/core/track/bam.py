@@ -1,20 +1,17 @@
 import pandas as pd
-import numpy as np
 from dna_features_viewer import GraphicFeature, GraphicRecord
 
-from .base import Track
-from .hist.plot import CoveragePlot
 from coolbox.utilities import (
     get_logger, GenomeRange, split_genome_range
 )
 from coolbox.utilities.bam import *
-
+from .base import Track
+from .hist.plot import CoveragePlot
 
 log = get_logger(__name__)
 
 
 class BAM(Track, CoveragePlot):
-
     """
     BAM alignment track.
 

@@ -16,4 +16,3 @@ def get_logger(name, file_=sys.stderr, level=LOG_LEVEL):
     log.addHandler(handler)
     log.setLevel(level)
     return log
-

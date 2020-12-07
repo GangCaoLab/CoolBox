@@ -13,7 +13,7 @@ class _Vlines(object):
         if gr.chrom not in list(self.vlines_intval_tree):
             gr.change_chrom_names()
 
-        for region in sorted(self.vlines_intval_tree[gr.chrom][gr.start-1:gr.end+1]):
+        for region in sorted(self.vlines_intval_tree[gr.chrom][gr.start - 1:gr.end + 1]):
             vlines_list.append(region.begin)
 
         return vlines_list
@@ -75,7 +75,6 @@ class VlinesFromFile(Coverage, _Vlines):
 
 
 class Vlines(Coverage, _Vlines):
-
     """
     Vertical lines.
 
@@ -131,5 +130,5 @@ class Vlines(Coverage, _Vlines):
                 raise ValueError("position must be a tuple or string.")
             chr_ = grange.chrom
             itree.setdefault(chr_, IntervalTree())
-            itree[chr_][grange.start:grange.end+1] = grange
+            itree[chr_][grange.start:grange.end + 1] = grange
         return itree

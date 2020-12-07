@@ -2,7 +2,6 @@ from copy import copy
 
 from coolbox.utilities import op_err_msg, get_feature_stack
 
-
 __all__ = [
     "Feature", "Color", "ColorMap",
     "TrackHeight", "Inverted", "Title",
@@ -74,6 +73,7 @@ class Color(Feature):
     """
     Track color.
     """
+
     def __init__(self, value):
         super().__init__('color', value)
 
@@ -82,6 +82,7 @@ class ColorMap(Feature):
     """
     Track color map.
     """
+
     def __init__(self, value):
         super().__init__('color', value)
 
@@ -90,6 +91,7 @@ class TrackHeight(Feature):
     """
     Track height.
     """
+
     def __init__(self, value):
         super().__init__('height', value)
 
@@ -98,6 +100,7 @@ class Inverted(Feature):
     """
     Invert the orientation of track.
     """
+
     def __init__(self):
         super().__init__('orientation', 'inverted')
 
@@ -106,6 +109,7 @@ class Title(Feature):
     """
     Track title.
     """
+
     def __init__(self, value):
         super().__init__('title', value)
 
@@ -114,6 +118,7 @@ class MaxValue(Feature):
     """
     Max value of track.
     """
+
     def __init__(self, value):
         super().__init__('max_value', value)
 
@@ -122,6 +127,7 @@ class MinValue(Feature):
     """
     Min value of track.
     """
+
     def __init__(self, value):
         super().__init__('min_value', value)
 
@@ -130,6 +136,7 @@ class HistStyle(Feature):
     """
     Style of BigWig or BedGraph.
     """
+
     def __init__(self, type='fill', size=0.5):
         if type != 'fill':
             value = type + ":" + str(size)
@@ -142,6 +149,7 @@ class ShowDataRange(Feature):
     """
     Show data range or not.
     """
+
     def __init__(self, show=True):
         if show:
             super().__init__('show_data_range', 'yes')
@@ -153,6 +161,7 @@ class ShowColorBar(Feature):
     """
     Show color bar or not.
     """
+
     def __init__(self, show=True):
         if show:
             super().__init__('color_bar', 'yes')
@@ -164,6 +173,7 @@ class DepthRatio(Feature):
     """
     Control Cool track's depth ratio.
     """
+
     def __init__(self, depth_ratio):
         super().__init__('depth_ratio', depth_ratio)
 
@@ -172,6 +182,7 @@ class CoolStyle(Feature):
     """
     Control Cool track's style.
     """
+
     def __init__(self, style='triangular'):
         super().__init__('style', style)
 
@@ -196,10 +207,12 @@ class FrameTitle(FrameFeature):
     """
     Frame title.
     """
+
     def __init__(self, value):
         super().__init__('title', value)
 
 
 if __name__ == "__main__":
     import doctest
+
     doctest.testmod()

@@ -1,13 +1,13 @@
-import abc
 import numpy as np
 
-from coolbox.utilities import get_logger
+from coolbox.utilities import GenomeRange, get_logger
 
 log = get_logger(__name__)
 
 
-class CoveragePlot(abc.ABC):
+class CoveragePlot(object):
     """Mixin for plot Coverage plot(BigWig, BedGraph, BAM(coverage))."""
+
     def plot_coverage(self, ax, genome_range, scores_per_bin, x_values=None):
 
         num_bins = scores_per_bin.shape[0]
@@ -47,7 +47,7 @@ class CoveragePlot(abc.ABC):
         ydelta = ymax - ymin
 
         # set min max
-        format_lim = lambda lim: int(lim) if float(lim) %1 == 0 else "{:.2f}".format(lim)
+        format_lim = lambda lim: int(lim) if float(lim) % 1 == 0 else "{:.2f}".format(lim)
         ymax_print = format_lim(ymax)
         ymin_print = format_lim(ymin)
         small_x = 0.01 * genome_range.length
@@ -118,5 +118,3 @@ class CoveragePlot(abc.ABC):
         else:
             ax.set_ylim(ymin, ymax)
         return ymin, ymax
-
-

@@ -1,4 +1,4 @@
-def file_type(path):
+def hicmat_filetype(path):
     if path.endswith(".hic"):
         return '.hic'
     else:
@@ -6,7 +6,7 @@ def file_type(path):
         if p.endswith(".cool") or p.endswith(".mcool"):
             return '.cool'
         else:
-            raise NotImplementedError("file type of {} not supported yet".format(path))
+            raise NotImplementedError("File type of {} not supported for HicMat".format(path))
 
 
 def infer_resolution(genome_range, resolutions, bin_thresh=1000):

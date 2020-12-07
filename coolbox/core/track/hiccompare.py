@@ -1,17 +1,14 @@
-import matplotlib.pyplot as plt
 import matplotlib.colors as colors
-from mpl_toolkits.axes_grid1.axes_divider import make_axes_locatable
-
+import matplotlib.pyplot as plt
 import numpy as np
+from mpl_toolkits.axes_grid1.axes_divider import make_axes_locatable
 
 from coolbox.utilities import (
     GenomeRange,
     get_logger
 )
-
 from coolbox.utilities import shiftedColorMap
 from .base import Track
-
 
 log = get_logger(__name__)
 
@@ -54,7 +51,7 @@ class HicCompare(Track):
             "title": '',
         }
         properties_dict.update(kwargs)
-        properties_dict['color'] = properties_dict['cmap'] # change key word
+        properties_dict['color'] = properties_dict['cmap']  # change key word
         super().__init__(properties_dict)
         self.hic1 = self.properties['hic1']
         self.hic2 = self.properties['hic2']
@@ -107,7 +104,7 @@ class HicCompare(Track):
         c_min_1, c_max_1 = self.hic1.matrix_val_range
         c_min_2, c_max_2 = self.hic2.matrix_val_range
 
-        self.small_value = ( abs(c_min_1) + abs(c_min_2) ) / 2
+        self.small_value = (abs(c_min_1) + abs(c_min_2)) / 2
 
         if self.properties['norm'] == 'log':
             a_ = np.log10(c_max_1)

@@ -1,6 +1,5 @@
-from coolbox.utilities import op_err_msg
 from coolbox.interact import BrowserBase
-
+from coolbox.utilities import op_err_msg
 
 __all__ = ["WidgetsPanel", "Browser"]
 
@@ -60,5 +59,5 @@ class Browser(BrowserBase):
 
 if __name__ == "__main__":
     import doctest
-    doctest.testmod()
 
+    doctest.testmod()

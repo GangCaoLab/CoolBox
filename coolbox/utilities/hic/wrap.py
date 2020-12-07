@@ -1,7 +1,6 @@
 from coolbox.utilities.logtools import get_logger
 from coolbox.utilities.genome import to_gr
 
-
 log = get_logger(__name__)
 
 
@@ -24,6 +23,7 @@ class StrawWrap(object):
         default 'auto'
 
     """
+
     def __init__(self, path, normalization='KR', binsize='auto'):
         self.hic_file = path
         if normalization == 'no' or normalization is False:
@@ -193,6 +193,7 @@ class CoolerWrap(object):
         Balance the matrix or not.
         default True
     """
+
     def __init__(self, path, binsize='auto', balance=True):
         import cooler
         from .tools import is_multi_cool, get_cooler_resolutions

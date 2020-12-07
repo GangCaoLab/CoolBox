@@ -1,12 +1,11 @@
 import pandas as pd
+from matplotlib.collections import BrokenBarHCollection
 
-from .base import Track
 from coolbox.utilities import (
     get_logger, GenomeRange, file_to_intervaltree, hex2rgb,
     to_gr,
 )
-from matplotlib.collections import BrokenBarHCollection
-
+from .base import Track
 
 log = get_logger(__name__)
 
@@ -49,14 +48,14 @@ class Ideogram(Track):
 
     DEFAULT_HEIGHT = 1.2
     DEFAULT_COLOR_SCHEME = {
-        'gneg':    '#ffffff',
-        'gpos25':  '#999999',
-        'gpos50':  '#666666',
-        'gpos75':  '#333333',
+        'gneg': '#ffffff',
+        'gpos25': '#999999',
+        'gpos50': '#666666',
+        'gpos75': '#333333',
         'gpos100': '#000000',
-        'acen':    '#cc6666',
-        'gvar':    '#cccccc',
-        'stalk':   '#e5e5e5',
+        'acen': '#cc6666',
+        'gvar': '#cccccc',
+        'stalk': '#e5e5e5',
     }
     DEFAULT_FONT_SIZE = 12
     DEFAULT_BORDER_WIDTH = 1.2
@@ -117,7 +116,7 @@ class Ideogram(Track):
                                     linewidths=self.properties['border_width'],
                                     edgecolors=self.properties['border_color'])
         ax.add_collection(coll)
-        ax.set_ylim(-0.1, band_height+0.1)
+        ax.set_ylim(-0.1, band_height + 0.1)
         ax.set_xlim(region_start, region_end)
         self.plot_label()
 

@@ -1,12 +1,11 @@
 import numpy as np
 
-from .hist.plot import CoveragePlot
 from coolbox.utilities import (
     get_logger, GenomeRange
 )
 from .base import Track
 from .hicmat import HiCMat
-
+from .hist.plot import CoveragePlot
 
 log = get_logger(__name__)
 

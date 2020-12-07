@@ -177,11 +177,10 @@ class CoverageStack(object):
 
 
 def track_to_coverage(track_class):
-
     def init(self, *args, **kwargs):
         from coolbox.core.track import BigWig, BedGraph
         if (track_class is BigWig) or \
-           (track_class is BedGraph):
+                (track_class is BedGraph):
             kwargs.update({
                 "show_data_range": False,
             })
@@ -192,14 +191,14 @@ def track_to_coverage(track_class):
         from coolbox.core.track import BigWig, BedGraph, Arcs
         if hasattr(self, 'track'):
             if (track_class is Arcs) or \
-               (track_class is BigWig) or \
-               (track_class is BedGraph):
+                    (track_class is BigWig) or \
+                    (track_class is BedGraph):
                 # update height when plot
                 self.track_instance.properties['height'] = self.track.properties['height']
         self.track_instance.plot(ax, chrom_region, start_region, end_region)
 
     cov_class = type(
-        track_class.__name__+"Coverage",
+        track_class.__name__ + "Coverage",
         (Coverage,),
         {
             "__init__": init,

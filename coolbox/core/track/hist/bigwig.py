@@ -1,13 +1,12 @@
 import numpy as np
 import pandas as pd
 
-from ..base import Track
-from .plot import CoveragePlot
 from coolbox.utilities import (
     split_genome_range, change_chrom_names,
     GenomeRange, get_logger, to_gr
 )
-
+from .plot import CoveragePlot
+from ..base import Track
 
 log = get_logger(__name__)
 

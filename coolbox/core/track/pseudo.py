@@ -1,5 +1,5 @@
-from .base import Track
 from coolbox.utilities import to_gr
+from .base import Track
 
 
 class Spacer(Track):
@@ -163,6 +163,7 @@ class ChromName(Track):
     offset : float
         Offset ratio to the start position.
     """
+
     def __init__(self, fontsize=50, offset=0.45):
         super().__init__({
             "fontsize": fontsize,
@@ -176,4 +177,3 @@ class ChromName(Track):
         x = start + self.properties['offset'] * (end - start)
         ax.text(x, 0, chrom, fontsize=self.properties['fontsize'])
         ax.set_xlim(start, end)
-
