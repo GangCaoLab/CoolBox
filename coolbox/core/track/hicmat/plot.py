@@ -11,8 +11,8 @@ from mpl_toolkits.axes_grid1.axes_divider import make_axes_locatable
 
 from coolbox.utilities import (
     to_gr,
-    GenomeRange,
-    get_logger
+    get_logger,
+    GenomeRange
 )
 
 log = get_logger(__name__)
@@ -125,7 +125,7 @@ class PlotHiCMatrix(abc.ABC):
         else:
             return self.properties['norm']
 
-    def __get_cmap(self):
+    def _get_cmap(self):
         cm = self.properties['color']
         if isinstance(cm, str):
             if cm in cmaps:
@@ -140,11 +140,59 @@ class PlotHiCMatrix(abc.ABC):
             cmap = cm
         return cmap
 
-    def __plot_matrix(self, genome_range):
+    def fetch_window_matrix(self, genome_range):
+        # TODO should be moved to fetch, however, hicdiff and selfix also relies on this function
+        gr = genome_range
+        from copy import copy
+        fetch_gr = copy(gr)
+        dr = self.properties['depth_ratio']
+        dr = 1.0 if dr == "full" else dr
+        dr = min(1.0, dr + 0.05)
+        x = int(gr.length * dr // 2)
+        fetch_gr.start = gr.start - x
+        fetch_gr.end = gr.end + x
+
+        out_of_bound = [False, False]
+
+        if fetch_gr.start < 0:
+            fetch_gr.start = 0
+            out_of_bound[0] = True
+
+        try:
+            arr = self.fetch_matrix(fetch_gr, resolution=self.resolution)
+        except ValueError:
+            out_of_bound[1] = True
+            fetch_gr.end = gr.end
+            arr = self.fetch_matrix(fetch_gr, resolution=self.resolution)
+
+        return arr, fetch_gr
+
+    def plot(self, ax, chrom_region, start_region, end_region):
+        # TODO should be moved to base, however, hicdiff and selfix also relies on this function
+        self.ax = ax
+
+        genome_range = GenomeRange(chrom_region, start_region, end_region)
+
+        # fetch matrix and perform transform process
+        if self.style == STYLE_WINDOW:
+            arr, fetch_gr = self.fetch_window_matrix(genome_range)
+            self.fetch_region = fetch_gr
+        else:
+            arr = self.fetch_matrix(genome_range, resolution=self.resolution)
+
+        self.matrix = arr
+
+        # plot matrix
+        img = self._plot_matrix(genome_range)
+        self._adjust_figure(genome_range)
+        self._draw_cbar(img)
+        self.plot_label()
+
+    def _plot_matrix(self, genome_range):
         start, end = genome_range.start, genome_range.end
         ax = self.ax
         arr = self.matrix
-        cmap = self.__get_cmap()
+        cmap = self._get_cmap()
         c_min, c_max = self.matrix_val_range
 
         if self.style == STYLE_TRIANGULAR:
@@ -191,7 +239,7 @@ class PlotHiCMatrix(abc.ABC):
 
         return img
 
-    def __adjust_figure(self, genome_range, genome_range2=None):
+    def _adjust_figure(self, genome_range, genome_range2=None):
         ax = self.ax
         gr = genome_range
         gr2 = genome_range2
@@ -214,7 +262,7 @@ class PlotHiCMatrix(abc.ABC):
             ax.set_xlim(gr.start, gr.end)
             ax.set_ylim(gr2.end, gr2.start)
 
-    def __plot_colorbar(self, img, orientation='vertical'):
+    def _plot_colorbar(self, img, orientation='vertical'):
         if orientation == 'horizontal':
             ax_divider = make_axes_locatable(self.ax)
             if self.is_inverted:
@@ -251,61 +299,15 @@ class PlotHiCMatrix(abc.ABC):
 
             c_bar.ax.yaxis.set_ticks_position('left')
 
-    def __fetch_window_matrix(self, genome_range):
-        gr = genome_range
-        from copy import copy
-        fetch_gr = copy(gr)
-        dr = self.properties['depth_ratio']
-        dr = 1.0 if dr == "full" else dr
-        dr = min(1.0, dr + 0.05)
-        x = int(gr.length * dr // 2)
-        fetch_gr.start = gr.start - x
-        fetch_gr.end = gr.end + x
-
-        out_of_bound = [False, False]
-
-        if fetch_gr.start < 0:
-            fetch_gr.start = 0
-            out_of_bound[0] = True
-
-        try:
-            arr = self.fetch_matrix(fetch_gr, resolution=self.resolution)
-        except ValueError:
-            out_of_bound[1] = True
-            fetch_gr.end = gr.end
-            arr = self.fetch_matrix(fetch_gr, resolution=self.resolution)
-
-        return arr, fetch_gr
-
-    def __draw_cbar(self, img):
+    def _draw_cbar(self, img):
         # plot colorbar
         if self.properties['color_bar'] == 'no':
             pass
         else:
             if hasattr(self, 'y_ax') and self.properties['color_bar'] == 'vertical':
-                self.__plot_colorbar(img, orientation='vertical')
+                self._plot_colorbar(img, orientation='vertical')
             else:
-                self.__plot_colorbar(img, orientation='horizontal')
-
-    def plot(self, ax, chrom_region, start_region, end_region):
-        self.ax = ax
-
-        genome_range = GenomeRange(chrom_region, start_region, end_region)
-
-        # fetch matrix and perform transform process
-        if self.style == STYLE_WINDOW:
-            arr, fetch_gr = self.__fetch_window_matrix(genome_range)
-            self.fetch_region = fetch_gr
-        else:
-            arr = self.fetch_matrix(genome_range, resolution=self.resolution)
-
-        self.matrix = arr
-
-        # plot matrix
-        img = self.__plot_matrix(genome_range)
-        self.__adjust_figure(genome_range)
-        self.__draw_cbar(img)
-        self.plot_label()
+                self._plot_colorbar(img, orientation='horizontal')
 
     def plot_joint(self, ax, genome_range1, genome_range2):
         self.ax = ax
@@ -313,7 +315,7 @@ class PlotHiCMatrix(abc.ABC):
         gr2 = to_gr(genome_range2)
         arr = self.fetch_matrix(gr1, gr2, resolution=self.resolution)
         self.matrix = arr
-        cmap = self.__get_cmap()
+        cmap = self._get_cmap()
         img = ax.matshow(arr, cmap=cmap,
                          extent=(gr1.start, gr1.end, gr2.end, gr2.start),
                          aspect='auto')
@@ -322,8 +324,8 @@ class PlotHiCMatrix(abc.ABC):
             img.set_norm(colors.LogNorm(vmin=c_min, vmax=c_max))
         else:
             img.set_norm(colors.Normalize(vmin=c_min, vmax=c_max))
-        self.__adjust_figure(gr1, gr2)
-        self.__draw_cbar(img)
+        self._adjust_figure(gr1, gr2)
+        self._draw_cbar(img)
         self.plot_label()
 
     def get_track_height(self, frame_width):

@@ -1,7 +1,7 @@
 from abc import ABC
 
 from .fetch import FetchHiC
-from .plot import PlotHiCMatrix
+from .plot import PlotHiCMatrix, STYLE_WINDOW
 from ..base import Track
 
 common_doc1 = """    Parameters
@@ -83,7 +83,7 @@ class HicMatBase(Track, PlotHiCMatrix, FetchHiC, ABC):
     def __init__(self, file_, **kwargs):
         properties_dict = {
             "file": file_,
-            "style": 'window',
+            "style": STYLE_WINDOW,
             "balance": True,
             "resolution": "auto",
             "normalize": False,
@@ -102,3 +102,4 @@ class HicMatBase(Track, PlotHiCMatrix, FetchHiC, ABC):
             properties_dict['color'] = properties_dict['cmap']
         super().__init__(properties_dict)
         self.fetched_binsize = None
+
