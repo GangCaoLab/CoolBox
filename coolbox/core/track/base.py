@@ -1,4 +1,5 @@
 from copy import copy
+
 from coolbox.utilities import (
     op_err_msg, get_feature_stack, get_coverage_stack,
     split_genome_range
@@ -216,7 +217,8 @@ class Track(object):
         x_pos = [0, 0.5, 0.5, 0]
         y_pos = [0.01, 0.01, 0.99, 0.99]
         y_ax.plot(x_pos, y_pos, color='black', linewidth=1, transform=y_ax.transAxes)
-        y_ax.text(-0.2, -0.01, ymin_str, verticalalignment='bottom', horizontalalignment='right', transform=y_ax.transAxes)
+        y_ax.text(-0.2, -0.01, ymin_str, verticalalignment='bottom', horizontalalignment='right',
+                  transform=y_ax.transAxes)
         y_ax.text(-0.2, 1, ymax_str, verticalalignment='top', horizontalalignment='right', transform=y_ax.transAxes)
         y_ax.patch.set_visible(False)
 

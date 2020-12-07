@@ -8,7 +8,6 @@ import nbformat as nbf
 import coolbox
 from coolbox.utilities import get_logger
 
-
 log = get_logger("CoolBox CLI")
 
 
@@ -110,7 +109,7 @@ class CLI(object):
             return
         compose_code = get_compose_code(elem_str, args, kwargs)
         log.info(f"Create element, compose code: {compose_code}")
-        self.source += "\t"*self._indent + "frame += " + compose_code + "\n"
+        self.source += "\t" * self._indent + "frame += " + compose_code + "\n"
         return self
 
     def start_with(self, elem_str, *args, **kwargs):
@@ -125,7 +124,7 @@ class CLI(object):
             return
         compose_code = get_compose_code(elem_str, args, kwargs)
         log.info(f"Create a with block, compose code: {compose_code}")
-        self.source += "\t"*self._indent + f"with {compose_code}:\n"
+        self.source += "\t" * self._indent + f"with {compose_code}:\n"
         self._indent += 1
         return self
 
@@ -188,7 +187,7 @@ class CLI(object):
             i += 1
         tmp = tmp_notebook()
         self.gen_notebook(tmp)
-        subp.check_call(f"jupyter notebook {tmp} "+jupyter_args, shell=True)
+        subp.check_call(f"jupyter notebook {tmp} " + jupyter_args, shell=True)
 
     def plot(self, fig_path, genome_range=None):
         """Draw a figure within a genome range and save to file
@@ -238,4 +237,3 @@ class CLI(object):
 
 if __name__ == "__main__":
     fire.Fire(CLI)
-

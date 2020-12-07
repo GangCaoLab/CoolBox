@@ -1,9 +1,10 @@
-from .base import WidgetsBox
-from .navigation import NavigationBar
+import logging
 
 from ipywidgets import HTML
 
-import logging
+from .base import WidgetsBox
+from .navigation import NavigationBar
+
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
 
@@ -34,4 +35,3 @@ class SimpleWidgets(WidgetsBox):
 
     def register_events_handler(self):
         self.navigation_bar.register_events_handler(self.browser)
-

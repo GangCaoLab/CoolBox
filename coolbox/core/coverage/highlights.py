@@ -1,5 +1,3 @@
-
-from .base import Coverage
 from coolbox.utilities import (
     opener, ReadBed,
     Interval, IntervalTree,
@@ -7,13 +5,12 @@ from coolbox.utilities import (
     get_logger, GenomeRange,
     to_gr
 )
-
+from .base import Coverage
 
 log = get_logger(__name__)
 
 
 class _Highlights(object):
-
     DEFAULT_COLOR = '#ff5d0f'
 
     def fetch_data(self, genome_range):
@@ -23,7 +20,7 @@ class _Highlights(object):
         if gr.chrom not in list(self.interval_tree):
             gr.change_chrom_names()
 
-        for region in sorted(self.interval_tree[gr.chrom][gr.start-10000:gr.end+10000]):
+        for region in sorted(self.interval_tree[gr.chrom][gr.start - 10000:gr.end + 10000]):
             regions.append((region.begin, region.end, region.data))
 
         return regions
@@ -52,7 +49,6 @@ class _Highlights(object):
 
 
 class HighLightsFromFile(Coverage, _Highlights):
-
     """
     High light regions coverage, read the regions from the file.
 
@@ -127,7 +123,6 @@ class HighLightsFromFile(Coverage, _Highlights):
 
 
 class HighLights(Coverage, _Highlights):
-
     """
     High light region.
 
@@ -197,6 +192,5 @@ class HighLights(Coverage, _Highlights):
                 raise ValueError("position must be a tuple or string.")
             chr_ = grange.chrom
             itree.setdefault(chr_, IntervalTree())
-            itree[chr_][grange.start:grange.end+1] = grange
+            itree[chr_][grange.start:grange.end + 1] = grange
         return itree
-

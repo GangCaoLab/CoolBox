@@ -1,9 +1,9 @@
 import numpy as np
 
-from .bed import BED
 from coolbox.utilities import (
     change_chrom_names, get_logger,
 )
+from .bed import BED
 
 log = get_logger(__name__)
 
@@ -100,4 +100,3 @@ class TADs(BED):
             ax.set_ylim(0, ymax)
 
         self.plot_label()
-

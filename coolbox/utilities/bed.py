@@ -9,7 +9,6 @@ import types
 from .filetool import opener, to_string
 from .logtools import get_logger
 
-
 log = get_logger(__name__)
 
 
@@ -423,7 +422,7 @@ def index_bedpe(bgz_path):
 
 def pairix_query(bgz_file, query, second=None, split=True):
     if second:
-        query = query+"-"+second
+        query = query + "-" + second
     cmd = ['pairix', bgz_file, query]
     p = subp.Popen(cmd, stdout=subp.PIPE)
     for line in p.stdout:

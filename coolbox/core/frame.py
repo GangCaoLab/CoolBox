@@ -1,8 +1,10 @@
-from copy import copy
 from collections import OrderedDict
+from copy import copy
+
 import matplotlib
 import matplotlib.pyplot as plt
 import mpl_toolkits.axisartist as axisartist
+
 plt.rcParams['svg.fonttype'] = 'none'
 
 from coolbox.utilities import (
@@ -11,7 +13,6 @@ from coolbox.utilities import (
     op_err_msg,
     get_logger,
 )
-
 
 log = get_logger(__name__)
 
@@ -191,7 +192,7 @@ class Frame(object):
         if name is None:  # set all setable tracks
             for track in self.tracks.values():
                 if isinstance(track, BedGraph) or \
-                   isinstance(track, BigWig):
+                        isinstance(track, BigWig):
                     track.properties['min_value'] = min_
                     track.properties['max_value'] = max_
         else:  # set specified track
@@ -410,10 +411,12 @@ class Frame(object):
         """
         if len(args) >= 3:
             chrom, start, end = args[:3]
-        else:
+        elif len(args) >= 1:
             region_str = args[0]
             gr = GenomeRange(region_str)
             chrom, start, end = (gr.chrom, gr.start, gr.end)
+        else:
+            raise ValueError("Please specify a genomic range in uscs format. For example: 'chr1:100000-200000'")
 
         tracks_height = self.get_tracks_height()
         self.properties['height'] = sum(tracks_height)
@@ -489,5 +492,5 @@ class Frame(object):
 
 if __name__ == "__main__":
     import doctest
-    doctest.testmod()
 
+    doctest.testmod()

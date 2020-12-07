@@ -1,4 +1,3 @@
-
 def opener(filename):
     """
     Determines if a file is compressed or not

@@ -1,12 +1,13 @@
+from coolbox.utilities.hic.tools import hicmat_filetype
+from .base import HicMatBase
 from .cool import Cool
 from .dothic import DotHiC
 
 
-def HiCMat(file_, *args, **kwargs):
+def HiCMat(file_, *args, **kwargs) -> HicMatBase:
     """Compose Hi-C track(.cool, .mcool, .hic), determine type by file extension."""
-    if file_.endswith(".hic"):
+    ftype = hicmat_filetype(file_)
+    if ftype == ".hic":
         return DotHiC(file_, *args, **kwargs)
-    elif file_.endswith(".cool") or file_.endswith(".mcool"):
-        return Cool(file_, *args, **kwargs)
     else:
-        raise NotImplementedError("Hi-C Matrix only support .hic or .cool input format.")
+        return Cool(file_, *args, **kwargs)

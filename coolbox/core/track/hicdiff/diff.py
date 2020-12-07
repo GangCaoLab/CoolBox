@@ -85,7 +85,7 @@ class HiCDiff(Track, PlotHiCMatrix):
         properties_dict.update(kwargs)
         for hic in hic1, hic2:  # update related hic track
             hic.properties.update({
-                "normalize":  properties_dict["normalize"],
+                "normalize": properties_dict["normalize"],
                 "resolution": properties_dict['resolution'],
             })
         properties_dict['color'] = properties_dict['cmap']  # change key word
@@ -117,7 +117,7 @@ class HiCDiff(Track, PlotHiCMatrix):
     def __diff_data(self, mat1, mat2):
         diff_mth = self.properties['diff_method']
         if diff_mth == 'log2fc':
-            return np.log2((mat1 + 1)/(mat2 + 1))
+            return np.log2((mat1 + 1) / (mat2 + 1))
         else:
             return mat1 - mat2
 

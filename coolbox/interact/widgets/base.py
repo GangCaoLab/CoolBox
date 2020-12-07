@@ -5,6 +5,7 @@ class WidgetsBox(abc.ABC):
     """
     Widgets panel base class.
     """
+
     def __init__(self, *args, **kwargs):
         """
         Parameters
@@ -34,4 +35,3 @@ class WidgetsBox(abc.ABC):
 
     def register_events_handler(self):
         pass
-

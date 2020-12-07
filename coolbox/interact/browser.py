@@ -1,12 +1,12 @@
+import logging
+
 from IPython.display import display
 
 from coolbox.utilities import (
     GenomeRange, GenomeLength, BUILT_IN_GENOMES, get_size, fig2bytes
 )
-
 from .widgets import SimpleWidgets, FullWidgets
 
-import logging
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
 
@@ -120,7 +120,7 @@ class BrowserBase(object):
             return
         self.current_range = genome_range
         frame_range = GenomeRange(genome_range.chrom,
-                                  genome_range.start - 1, # NOTE: frame's start is zero based
+                                  genome_range.start - 1,  # NOTE: frame's start is zero based
                                   genome_range.end)
         self.frame.goto(frame_range)
 
@@ -212,6 +212,7 @@ class BrowserBase(object):
             left, right, zoom-in, zoom-out
         or load all directions.
         """
+
         def preload(g_range):
             if g_range not in self.fig_cache:
                 fig = self.frame.plot(g_range.chrom, g_range.start, g_range.end)

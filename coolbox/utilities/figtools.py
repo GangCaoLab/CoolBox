@@ -1,5 +1,3 @@
-
-
 def cm2inch(*tupl):
     """
     convert length unit from cm to inch.
@@ -34,7 +32,7 @@ def rgb2hex(r, g, b):
     """
     assert (0, 0, 0) <= (r, g, b) <= (255, 255, 255), \
         "(r, g, b) value must within range 0 ~ 255."
-    hex = "#{:02x}{:02x}{:02x}".format(r,g,b)
+    hex = "#{:02x}{:02x}{:02x}".format(r, g, b)
     return hex
 
 
@@ -111,7 +109,6 @@ def shiftedColorMap(cmap, start=0, midpoint=0.5, stop=1.0, name='shiftedcmap'):
     return newcmap
 
 
-
 def get_size(obj, seen=None):
     """
     Recursively finds size of objects
@@ -150,4 +147,3 @@ def fig2bytes(fig, encode='svg', dpi=None):
     img_bytes = buf.read()
     buf.close()
     return img_bytes
-
