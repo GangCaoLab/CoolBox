@@ -90,25 +90,6 @@ def test_bedgraph():
     fig.savefig("/tmp/test_coolbox_bg.pdf")
 
 
-def test_v4c():
-    # plot related hic firstly
-    cl = Cool(f"{DATA_DIR}/cool_{test_itv}.mcool")
-    fig, ax = plt.subplots()
-    cl.plot_genome_range(ax, test_interval)
-    chr_, _other = test_interval.split(":")
-    s, e = _other.split("-")
-    s, e = int(s), int(e)
-    mid = (s + e) // 2
-    mid_point = f"{chr_}:{mid}-{mid}"
-    v4c = Virtual4C(cl, mid_point)
-    assert v4c.fetch_data(test_interval) is not None
-    fig, ax = plt.subplots()
-    v4c.plot_genome_range(ax, test_interval)
-    v4c.fetch_data(empty_interval)
-    # compose from path
-    Virtual4C(f"{DATA_DIR}/cool_{test_itv}.mcool", mid_point)
-
-
 def test_tads():
     tad = TADs(f"{DATA_DIR}/tad_{test_itv}.bed")
     assert tad.fetch_data(test_interval) is not None
@@ -162,10 +143,36 @@ def test_dothic():
 
 
 def test_hicfeatures():
-    cl = Cool(f"{DATA_DIR}/cool_{test_itv}.mcool")
+    cool_path = f"{DATA_DIR}/cool_{test_itv}.mcool"
+    cl = Cool(cool_path)
+
+    # test fot di_score and insu_score
+    # compose from cool
     insu = InsuScore(cl)
     di = DiScore(cl)
     assert di.fetch_data(test_interval).shape == insu.fetch_data(test_interval).shape
+    # compose from path
+    insu = InsuScore(cool_path)
+    di = DiScore(cool_path)
+    assert di.fetch_data(test_interval).shape == insu.fetch_data(test_interval).shape
+
+    # teset for virtual4c
+    fig, ax = plt.subplots()
+    cl.plot_genome_range(ax, test_interval)
+    chr_, _other = test_interval.split(":")
+    s, e = _other.split("-")
+    s, e = int(s), int(e)
+    mid = (s + e) // 2
+    mid_point = f"{chr_}:{mid}-{mid}"
+    # compose from cool
+    v4c = Virtual4C(cl, mid_point)
+    assert v4c.fetch_data(test_interval) is not None
+    fig, ax = plt.subplots()
+    v4c.plot_genome_range(ax, test_interval)
+    v4c.fetch_data(empty_interval)
+    # compose from path
+    v4c = Virtual4C(cool_path, mid_point)
+    assert v4c.fetch_data(test_interval) is not None
 
 
 if __name__ == "__main__":

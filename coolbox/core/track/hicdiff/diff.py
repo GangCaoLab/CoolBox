@@ -1,3 +1,5 @@
+from abc import ABC
+
 import numpy as np
 
 from ..base import Track

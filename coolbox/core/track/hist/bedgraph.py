@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, Tuple
 
 import numpy as np
 import pandas as pd
@@ -8,13 +8,12 @@ from coolbox.utilities import (
     GenomeRange, get_logger,
 )
 from coolbox.utilities.bed import tabix_query, build_bedgraph_bgz
-from .plot import CoveragePlot
-from ..base import Track
+from .base import HistBase
 
 log = get_logger(__name__)
 
 
-class BedGraph(Track, CoveragePlot):
+class BedGraph(HistBase):
     """
     BedGraph track.
 
@@ -24,10 +23,10 @@ class BedGraph(Track, CoveragePlot):
         Path to bedgraph file.
 
     height : float, optional
-        Height of track, default BigWig.DEFAULT_HEIGHT
+        Height of track, default BedGraph.DEFAULT_HEIGHT
 
     color : str, optional
-        Track color, default BigWig.DEFAULT_COLOR
+        Track color, default BedGraph.DEFAULT_COLOR
 
     style : str, optional
         Track graph type, format {'fill', 'line:`size`', 'points:`size`'},
@@ -57,72 +56,32 @@ class BedGraph(Track, CoveragePlot):
     DEFAULT_COLOR = '#a6cee3'
 
     def __init__(self, file_, **kwargs):
-
         properties_dict = {
             'file': file_,
-            'height': BedGraph.DEFAULT_HEIGHT,
             'color': BedGraph.DEFAULT_COLOR,
             'style': 'fill',
-            'show_data_range': True,
-            'data_range_style': 'y-axis',
-            'title': '',
-            'max_value': 'auto',
-            'min_value': 'auto',
         }
-        properties_dict.update(kwargs)
         self.bgz_file = build_bedgraph_bgz(file_)
         self.genome_range = None
-        properties_dict['type'] = properties_dict['style']  # change key word
+        properties_dict.update(kwargs)
+        super().__init__(**properties_dict)
 
-        super().__init__(properties_dict)
-
-    def plot(self, ax, chrom_region, start_region, end_region):
-        self.ax = ax
-        genome_range = GenomeRange(chrom_region, start_region, end_region)
-        self.genome_range = genome_range
-
-        itv_df = self.fetch_intervals(genome_range)
-
-        itv_df['pos'] = itv_df['start'] + (itv_df['end'] - itv_df['start']) / 2
-
-        if itv_df.shape[0] > 0:
-            self.plot_coverage(ax, genome_range,
-                               np.array(itv_df['score']),
-                               np.array(itv_df['pos']))
-        self.plot_label()
-        return ax
-
-    def fetch_data(self, genome_range: Union[str, GenomeRange]):
-        """
-        Parameters
-        ----------
-        genome_range : {str, GenomeRange}
-
-        Return
-        ------
-        intervals : pandas.core.frame.DataFrame
-            BED graph interval table.
-        """
-        return self.fetch_intervals(genome_range)
-
-    def fetch_intervals(self, genome_range: Union[str, GenomeRange]):
-        """
-        Fetch intervals within input chromosome range.
-        """
+    def fetch_data(self, genome_range: Union[str, GenomeRange]) -> pd.DataFrame:
         chrom, start, end = split_genome_range(genome_range)
         gr = GenomeRange(chrom, start, end)
-
         rows = self.__load(gr)
         if len(rows) == 0:
             chrom = change_chrom_names(chrom)
             rows = self.__load(GenomeRange(chrom, start, end))
 
-        intval_table = pd.DataFrame(
-            rows,
-            columns=['chromsome', 'start', 'end', 'score']
-        )
+        intval_table = pd.DataFrame(rows, columns=['chromsome', 'start', 'end', 'score'])
 
         return intval_table
+
+    def fetch_plot_data(self, genome_range: GenomeRange) -> Tuple[np.ndarray, np.ndarray]:
+        itv_df = self.fetch_data(genome_range)
+        itv_df['pos'] = itv_df['start'] + (itv_df['end'] - itv_df['start']) / 2
+        return np.array(itv_df['score']), np.array(itv_df['pos'])
 
     def __load(self, genome_range):
         rows = []

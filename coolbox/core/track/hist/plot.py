@@ -1,6 +1,6 @@
 import numpy as np
 
-from coolbox.utilities import GenomeRange, get_logger
+from coolbox.utilities import get_logger
 
 log = get_logger(__name__)
 
