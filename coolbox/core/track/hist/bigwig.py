@@ -5,13 +5,12 @@ from coolbox.utilities import (
     split_genome_range, change_chrom_names,
     GenomeRange, get_logger, to_gr
 )
-from .plot import CoveragePlot
-from ..base import Track
+from .base import HistBase
 
 log = get_logger(__name__)
 
 
-class BigWig(Track, CoveragePlot):
+class BigWig(HistBase):
     """
     BigWig track.
 
@@ -69,20 +68,13 @@ class BigWig(Track, CoveragePlot):
     def __init__(self, file_, **kwargs):
         properties_dict = {
             'file': file_,
-            'height': BigWig.DEFAULT_HEIGHT,
-            'color': BigWig.DEFAULT_COLOR,
+            'color': self.DEFAULT_COLOR,
             'alpha': 1.0,
             'number_of_bins': 700,
             'style': 'fill',
-            'show_data_range': True,
-            'data_range_style': 'y-axis',
-            'title': '',
-            'max_value': 'auto',
-            'min_value': 'auto',
         }
         properties_dict.update(kwargs)
-        properties_dict['type'] = properties_dict['style']  # change key word
-        super().__init__(properties_dict)
+        super().__init__(**properties_dict)
         import pyBigWig
         self.bw = pyBigWig.open(self.properties['file'])
 
@@ -96,13 +88,6 @@ class BigWig(Track, CoveragePlot):
         ------
         intervals : pandas.core.frame.DataFrame
             BigWig interval table.
-        """
-        scores = self.fetch_intervals(genome_range)
-        return scores
-
-    def fetch_intervals(self, genome_range):
-        """
-        Fetch BigWig intervals within input chromosome range.
         """
         chrom, start, end = split_genome_range(genome_range)
         if chrom not in self.bw.chroms():
@@ -128,24 +113,16 @@ class BigWig(Track, CoveragePlot):
                 "end": col_end,
                 "score": col_score,
             },
-            columns=['chromsome', 'start', 'end', 'score'])
+            columns=['chromsome', 'start', 'end', 'score']
+        )
 
         return intval_table
 
-    def plot(self, ax, chrom_region, start_region, end_region):
-        self.ax = ax
-
-        genome_range = GenomeRange(chrom_region, start_region, end_region)
-        log.debug("plotting {}".format(self.properties['file']))
-
+    def fetch_plot_data(self, genome_range: GenomeRange):
         num_bins = self.__get_bins_num()
         self.__check_chrom_name(genome_range)
         scores_per_bin = self.fetch_scores(genome_range, num_bins)
-
-        self.plot_coverage(ax, genome_range, scores_per_bin)
-        self.plot_label()
-
-        return ax
+        return scores_per_bin
 
     def __get_bins_num(self, default_num=700):
         num_bins = default_num
