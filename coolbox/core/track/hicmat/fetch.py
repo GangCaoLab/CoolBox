@@ -32,10 +32,9 @@ class FetchHiC(abc.ABC):
         if resolution is None:
             resolution = self.properties['resolution']
         arr = self.fetch_matrix(genome_range1, genome_range2, resolution=resolution)
-        return self.normalize_matrix(arr)
+        return self.process_matrix(arr)
 
-    def normalize_matrix(self, arr: np.ndarray) -> np.ndarray:
-
+    def process_matrix(self, arr: np.ndarray) -> np.ndarray:
         # process the matrix
         if 'transform' in self.properties and self.properties['transform'] != 'no':
             arr = self.__transform_matrix(arr)
@@ -109,26 +108,34 @@ class FetchHiC(abc.ABC):
         k = k1 - k2 - k3
         return k
 
-    def __normalize_matrix(self, mat):
+    def __normalize_matrix(self, mat, cis=True):
         norm_mth = self.properties['normalize']
+        if cis:
+            res = self.__normalize_cis(mat, norm_mth)
+        else:
+            res = self.__normalize_trans(mat, norm_mth)
+        return res
+
+    @classmethod
+    def __normalize_cis(cls, mat, norm_mth):
         res = mat
         if norm_mth == 'total':
             total = np.sum(mat)
             if total != 0:
                 res = mat / total
         elif norm_mth == 'expect':
-            means = self.diagonal_mean(mat)
+            means = cls.diagonal_mean(mat)
             expect = toeplitz(means)
             res = mat / expect
         elif norm_mth == 'zscore':
-            means, stds = self.diagonal_mean_std(mat)
+            means, stds = cls.diagonal_mean_std(mat)
             mat_mean = toeplitz(means)
             mat_std = toeplitz(stds)
             res = (mat - mat_mean) / mat_std
         elif re.match("hiccups:.:.", norm_mth):
             p, w = norm_mth.strip("hiccups:").split(":")
             p, w = int(w), int(p)
-            kernel = self.__donut_kernel(p, w)
+            kernel = cls.__donut_kernel(p, w)
 
             def apply_donut(m):
                 m_ext = np.zeros((m.shape[0] + 2 * (w - 1), m.shape[0] + 2 * (w - 1)))
@@ -138,13 +145,29 @@ class FetchHiC(abc.ABC):
                 m_f = m_f[idx_center]
                 return m_f
 
-            means = self.diagonal_mean(mat)
+            means = cls.diagonal_mean(mat)
             exp_decay = toeplitz(means)
             m_donut = apply_donut(mat)
             exp_donut = apply_donut(exp_decay)
             exp = (m_donut / exp_donut) * exp_decay
             res = mat / exp
+        else:
+            log.warning(f"Cis-matrix does not support the {norm_mth} normalize.")
+        return res
 
+    @classmethod
+    def __normalize_trans(cls, mat, norm_mth):
+        res = mat
+        if norm_mth == 'total':
+            total = np.sum(mat)
+            if total != 0:
+                res = mat / total
+        elif norm_mth == 'zscore':
+            mean = np.mean(mat)
+            std = np.std(mat)
+            res = (mat - mean) / std
+        else:
+            log.warning(f"Trans-matrix doest not support the {norm_mth} normalize.")
         return res
 
     def __transform_matrix(self, arr):
