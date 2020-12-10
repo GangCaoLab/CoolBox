@@ -32,10 +32,9 @@ class FetchHiC(abc.ABC):
         if resolution is None:
             resolution = self.properties['resolution']
         arr = self.fetch_matrix(genome_range1, genome_range2, resolution=resolution)
-        return self.normalize_matrix(arr)
+        return self.process_matrix(arr)
 
-    def normalize_matrix(self, arr: np.ndarray) -> np.ndarray:
-
+    def process_matrix(self, arr: np.ndarray) -> np.ndarray:
         # process the matrix
         if 'transform' in self.properties and self.properties['transform'] != 'no':
             arr = self.__transform_matrix(arr)

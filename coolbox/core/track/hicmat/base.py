@@ -51,7 +51,7 @@ common_doc2 = """    resolution : {int, 'auto'}, optional
     name : str, optional
         Track's name."""
 
-fetch_matrix = """Fetch the matrix for plot.
+fetch_matrix = """Fetch the original matrix(not processed).
 
     Parameters
     ----------

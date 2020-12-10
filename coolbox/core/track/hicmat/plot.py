@@ -159,11 +159,11 @@ class PlotHiCMatrix(abc.ABC):
             out_of_bound[0] = True
 
         try:
-            arr = self.fetch_matrix(fetch_gr, resolution=self.resolution)
+            arr = self.fetch_data(fetch_gr, resolution=self.resolution)
         except ValueError:
             out_of_bound[1] = True
             fetch_gr.end = gr.end
-            arr = self.fetch_matrix(fetch_gr, resolution=self.resolution)
+            arr = self.fetch_data(fetch_gr, resolution=self.resolution)
 
         return arr, fetch_gr
 
@@ -178,7 +178,7 @@ class PlotHiCMatrix(abc.ABC):
             arr, fetch_gr = self.fetch_window_matrix(genome_range)
             self.fetch_region = fetch_gr
         else:
-            arr = self.fetch_matrix(genome_range, resolution=self.resolution)
+            arr = self.fetch_data(genome_range, resolution=self.resolution)
 
         self.matrix = arr
 

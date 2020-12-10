@@ -129,8 +129,8 @@ class Selfish(Track, PlotHiCMatrix):
             reso = self.properties['resolution']
         hic1 = self.properties['hic1']
         hic2 = self.properties['hic2']
-        mat1 = hic1.fetch_matrix(genome_range, resolution=reso)
-        mat2 = hic2.fetch_matrix(genome_range, resolution=reso)
+        mat1 = hic1.fetch_data(genome_range, resolution=reso)
+        mat2 = hic2.fetch_data(genome_range, resolution=reso)
         self.mat1 = mat1
         self.mat2 = mat2
         zero_indices1 = hic1.zero_indices | hic1.nan_indices
