@@ -115,7 +115,7 @@ class StrawWrap(object):
                 mat[bin1id, bin2id] = c
                 mat[bin2id, bin1id] = c
             else:
-                if (0 <= bin1id <= mat.shape[0]) and (0 <= bin2id <= mat.shape[1]):
+                if (0 <= bin1id < mat.shape[0]) and (0 <= bin2id < mat.shape[1]):
                     mat[bin1id, bin2id] = c
         return mat
 

@@ -313,7 +313,7 @@ class PlotHiCMatrix(abc.ABC):
         self.ax = ax
         gr1 = to_gr(genome_range1)
         gr2 = to_gr(genome_range2)
-        arr = self.fetch_matrix(gr1, gr2, resolution=self.resolution)
+        arr = self.fetch_data(gr1, gr2, resolution=self.resolution)
         self.matrix = arr
         cmap = self._get_cmap()
         img = ax.matshow(arr, cmap=cmap,
