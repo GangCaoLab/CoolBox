@@ -4,7 +4,7 @@ from typing import Union, Callable
 from scipy import sparse
 import numpy as np
 
-from coolbox.utilities import GenomeRange, get_logger
+from coolbox.utilities import GenomeRange, to_gr, get_logger
 
 from ..hicmat import HicMatBase, HiCMat
 from .base import HistBase
@@ -192,7 +192,7 @@ class InsuScore(HicFeature):
         Track color, default DiScore.DEFAULT_COLOR
 
     style : str, optional
-        Track graph type, format {'fill', 'line:`size`', 'points:`size`'},
+        Track graph type, format {'fill', 'line:`size`', 'points:`size`', 'heatmap'},
         example: 'line:2', 'points:0.5'. default: 'line'
 
     extra : optional
@@ -218,38 +218,55 @@ class InsuScore(HicFeature):
 
     def __init__(self,
                  hicmat: Union[str, HicMatBase],
-                 window_size: int = 20,
+                 window_size: Union[int, str] = 20,
                  normalize: bool = True,
                  args_hic: dict = None,
                  **kwargs):
         properties_dict = {
-            "style": "line"
+            "style": "line",
+            "cmap": "coolwarm_r"
         }
         properties_dict.update(kwargs)
         super().__init__(hicmat, args_hic, **properties_dict)
         self.window_size = window_size
         self.normalize = normalize
 
-    def fetch_plot_data(self, genome_range: Union[str, GenomeRange]) -> np.ndarray:
+    def fetch_plot_data(self, genome_range: GenomeRange) -> np.ndarray:
         return self.fetch_data(genome_range)
 
     def fetch_data(self, genome_range: Union[str, GenomeRange]) -> np.ndarray:
-        mat: np.ndarray = self.hicmat.fetch_data(genome_range)
-        mlen = mat.shape[0]
-        if mlen < self.window_size * 2:
-            return np.zeros(mlen)
         window_size = self.window_size
+        try:
+            if isinstance(window_size, int):
+                window_size = [window_size]
+            elif isinstance(window_size, str):
+                st, ed = window_size.split("-")
+                window_size = list(range(int(st), int(ed)))
+            else:
+                raise ValueError
+        except Exception:
+            raise ValueError("window_size should be like int: 12 or str: '10-50'.")
 
-        insu = np.full(mlen, np.nan, dtype=mat.dtype)
-        for row in range(window_size, mlen - window_size):
-            sub_mat = mat[row - window_size: row, row + 1: row + window_size + 1]
-            insu[row] = np.nanmean(sub_mat)
+        genome_range = to_gr(genome_range)
+        insus = []
+        # for multiple window sizes
+        for ws in window_size:
+            mat: np.ndarray = self.hicmat.fetch_data(genome_range)
+            mlen = mat.shape[0]
+            if mlen < ws * 2:
+                insus.append(np.zeros(mlen))
+            else:
+                insu = np.full(mlen, np.nan, dtype=mat.dtype)
+                for row in range(ws, mlen - ws):
+                    sub_mat = mat[row - ws: row, row + 1: row + ws + 1]
+                    insu[row] = np.nanmean(sub_mat)
 
-        if self.normalize:
-            insu = np.log2(insu / np.nanmean(insu))
-            insu[~np.isfinite(insu)] = 0
+                if self.normalize:
+                    insu = np.log2(insu / np.nanmean(insu))
+                    insu[~np.isfinite(insu)] = 0
+                insus.append(insu)
 
-        return insu
+        return insus[0] if len(insus) == 1 else np.array(insus)[::-1]
 
 
 class Virtual4C(HicFeature):
@@ -326,7 +343,7 @@ class Virtual4C(HicFeature):
     def fetch_data(self, genome_range: Union[str, GenomeRange]) -> np.ndarray:
         return self.fetch_plot_data(genome_range)
 
-    def fetch_plot_data(self, genome_range: Union[str, GenomeRange]) -> np.ndarray:
+    def fetch_plot_data(self, genome_range: GenomeRange) -> np.ndarray:
         # fetch mean array
         from copy import copy
         bin_width = self.bin_width

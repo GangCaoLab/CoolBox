@@ -1080,32 +1080,27 @@ processors. Reloading the file solves the problem.</p>
 <td><p>Append coverage to this track.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code>(genome_range1[, genome_range2, …])</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p>Fetch 2d contact matrix, the matrix may be processed in case         ‘transform’, ‘normalize’, ‘gaussian_sigma’, ‘process_func’ exits in properties.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Cool.fetch_matrix" title="coolbox.core.track.Cool.fetch_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_matrix</span></code></a>(genome_range[, genome_range2, …])</p></td>
-<td><p>Fetch the matrix for plot.</p></td>
+<td><p>Fetch the original matrix(not processed).</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.Cool.fetch_pixels" title="coolbox.core.track.Cool.fetch_pixels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_pixels</span></code></a>(genome_range[, genome_range2, …])</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p>Fetch the pixels table of upper triangle of the original contact matrix(not processed).</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width)</p></td>
 <td><p>calculate track height dynamically.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">infer_binsize</span></code>(genome_range1[, …])</p></td>
+<td><p>This function can be used to infer the expected binsize of fetched matrix by calling fetch_data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
 <td><p>Pile a stack of coverages with self’s coverages</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
 <td><p>Plot the track within a genome range.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(plot_axis, y_ax)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(plot_axis, y_ax)</p></td>
 <td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
 </tr>
 </tbody>
@@ -1131,16 +1126,16 @@ processors. Reloading the file solves the problem.</p>
 <tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>normalize_matrix</strong></p></td>
+<tr class="row-even"><td><p><strong>plot</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_joint</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_joint</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-odd"><td><p><strong>process_matrix</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -1153,14 +1148,10 @@ processors. Reloading the file solves the problem.</p>
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Cool.fetch_matrix" title="coolbox.core.track.Cool.fetch_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_matrix</span></code></a>(genome_range[, genome_range2, …])</p></td>
-<td><p>Fetch the matrix for plot.</p></td>
+<td><p>Fetch the original matrix(not processed).</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.Cool.fetch_pixels" title="coolbox.core.track.Cool.fetch_pixels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_pixels</span></code></a>(genome_range[, genome_range2, …])</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p>Fetch the pixels table of upper triangle of the original contact matrix(not processed).</p></td>
 </tr>
 </tbody>
 </table>
@@ -1168,7 +1159,7 @@ processors. Reloading the file solves the problem.</p>
 <dt id="coolbox.core.track.Cool.fetch_matrix">
 <code class="sig-name descname">fetch_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">genome_range</span></em>, <em class="sig-param"><span class="n">genome_range2</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">resolution</span><span class="o">=</span><span class="default_value">'auto'</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#coolbox.core.track.Cool.fetch_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
-<div><p>Fetch the matrix for plot.</p>
+<div><p>Fetch the original matrix(not processed).</p>
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1189,23 +1180,24 @@ processors. Reloading the file solves the problem.</p>
 <dl class="py method">
 <dt id="coolbox.core.track.Cool.fetch_pixels">
 <code class="sig-name descname">fetch_pixels</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">genome_range</span></em>, <em class="sig-param"><span class="n">genome_range2</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">balance</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">resolution</span><span class="o">=</span><span class="default_value">'auto'</span></em>, <em class="sig-param"><span class="n">join</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.Cool.fetch_pixels" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Fetch the pixels table of upper triangle of the original contact matrix(not processed).</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>genome_range</strong><span class="classifier">{str, GenomeRange}</span></dt><dd><p>Intervals within input chromosome range.</p>
-</dd>
+<dt><strong>genome_range</strong><span class="classifier">{str, GenomeRange}</span></dt><dd></dd>
+<dt><strong>Intervals within input chromosome range.</strong></dt><dd></dd>
 <dt><strong>genome_range2</strong><span class="classifier">{str, GenomeRange}, optional.</span></dt><dd></dd>
-<dt><strong>balance</strong><span class="classifier">bool, optional</span></dt><dd><p>balance matrix or not,
-default <cite>self.is_balance</cite>.</p>
+<dt><strong>balance</strong><span class="classifier">bool, optional</span></dt><dd></dd>
+<dt><strong>balance matrix or not,</strong></dt><dd></dd>
+<dt><strong>default `self.is_balance`.</strong></dt><dd></dd>
+<dt><strong>resolution</strong><span class="classifier">{‘auto’, int}</span></dt><dd></dd>
+<dt><strong>resolution of the data. for example 5000.</strong></dt><dd><p>‘auto’ for calculate resolution automatically.</p>
 </dd>
-<dt><strong>resolution</strong><span class="classifier">{‘auto’, int}</span></dt><dd><p>resolution of the data. for example 5000.
-‘auto’ for calculate resolution automatically.
-default ‘auto’</p>
-</dd>
-<dt><strong>join</strong><span class="classifier">bool</span></dt><dd><p>whether to expand the bin ID columns
-into (chrom, start, end).
-default True</p>
-</dd>
+<dt><strong>default ‘auto’</strong></dt><dd></dd>
+<dt><strong>join</strong><span class="classifier">bool</span></dt><dd></dd>
+<dt><strong>whether to expand the bin ID columns</strong></dt><dd></dd>
+<dt><strong>into (chrom, start, end).</strong></dt><dd></dd>
+<dt><strong>default True</strong></dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -1222,7 +1214,7 @@ default True</p>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>hicmat: {str, Cool, DotHic}</strong></dt><dd><p>The input hicmat file or HicMatBase object used to calculate di.</p>
 </dd>
-<dt><strong>window_size: int, optional</strong></dt><dd><p>Width of the diamond region along the matrix used to calculate di. default: 20</p>
+<dt><strong>window_size: int, optional</strong></dt><dd><p>Width of the diamond region along the matrix used to calculate di. default: 40</p>
 </dd>
 <dt><strong>method: {‘standard’, ‘adaptive’}, optional</strong></dt><dd><p>Method used for calculating di. default: ‘adaptive’</p>
 </dd>
@@ -1377,14 +1369,10 @@ default True(‘KR’ balance)</p>
 <td><p>Append coverage to this track.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code>(genome_range1[, genome_range2, …])</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p>Fetch 2d contact matrix, the matrix may be processed in case         ‘transform’, ‘normalize’, ‘gaussian_sigma’, ‘process_func’ exits in properties.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.DotHiC.fetch_matrix" title="coolbox.core.track.DotHiC.fetch_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_matrix</span></code></a>(genome_range[, genome_range2, …])</p></td>
-<td><p>Fetch the matrix for plot.</p></td>
+<td><p>Fetch the original matrix(not processed).</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.DotHiC.fetch_pixels" title="coolbox.core.track.DotHiC.fetch_pixels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_pixels</span></code></a>(genome_range[, genome_range2, …])</p></td>
 <td><p><dl class="field-list simple">
@@ -1396,13 +1384,16 @@ default True(‘KR’ balance)</p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width)</p></td>
 <td><p>calculate track height dynamically.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">infer_binsize</span></code>(genome_range1[, …])</p></td>
+<td><p>This function can be used to infer the expected binsize of fetched matrix by calling fetch_data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
 <td><p>Pile a stack of coverages with self’s coverages</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
 <td><p>Plot the track within a genome range.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(plot_axis, y_ax)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(plot_axis, y_ax)</p></td>
 <td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
 </tr>
 </tbody>
@@ -1428,16 +1419,16 @@ default True(‘KR’ balance)</p>
 <tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>normalize_matrix</strong></p></td>
+<tr class="row-even"><td><p><strong>plot</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_joint</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_joint</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-odd"><td><p><strong>process_matrix</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -1450,7 +1441,7 @@ default True(‘KR’ balance)</p>
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.DotHiC.fetch_matrix" title="coolbox.core.track.DotHiC.fetch_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_matrix</span></code></a>(genome_range[, genome_range2, …])</p></td>
-<td><p>Fetch the matrix for plot.</p></td>
+<td><p>Fetch the original matrix(not processed).</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.DotHiC.fetch_pixels" title="coolbox.core.track.DotHiC.fetch_pixels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_pixels</span></code></a>(genome_range[, genome_range2, …])</p></td>
 <td><p><dl class="field-list simple">
@@ -1465,7 +1456,7 @@ default True(‘KR’ balance)</p>
 <dt id="coolbox.core.track.DotHiC.fetch_matrix">
 <code class="sig-name descname">fetch_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">genome_range</span></em>, <em class="sig-param"><span class="n">genome_range2</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">resolution</span><span class="o">=</span><span class="default_value">'auto'</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#coolbox.core.track.DotHiC.fetch_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
-<div><p>Fetch the matrix for plot.</p>
+<div><p>Fetch the original matrix(not processed).</p>
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1490,6 +1481,8 @@ default True(‘KR’ balance)</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>genome_range</strong><span class="classifier">{str, GenomeRange}</span></dt><dd><p>Intervals within input chromosome range.</p>
+</dd>
+<dt><strong>genome_range2</strong><span class="classifier">{str, GenomeRange}</span></dt><dd><p>Intervals within input chromsome range2.</p>
 </dd>
 <dt><strong>balance</strong><span class="classifier">{bool, ‘KR’, ‘VC’, ‘VC_SQRT’}, optional</span></dt><dd><p>matrix balance method,
 default <cite>self.balance</cite>.</p>
@@ -1897,7 +1890,8 @@ see: <a class="reference external" href="http://genome.ucsc.edu/cgi-bin/hgTables
 <dd class="field-odd"><dl class="simple">
 <dt><strong>hicmat: {str, Cool, DotHic}</strong></dt><dd><p>The input hicmat file or HicMatBase object used to calculate insulation score.</p>
 </dd>
-<dt><strong>window_size: int, optional</strong></dt><dd><p>Width of the diamond region along the matrix used to calculate di. default: 20</p>
+<dt><strong>window_size: {int, str}, optional</strong></dt><dd><p>Width of the diamond region along the matrix used to calculate di. default: 20
+window_size can also be a str with format like “20-40” representing a range of window_sizes.</p>
 </dd>
 <dt><strong>normalize: bool, optional</strong></dt><dd><p>Weather to log-nomalize the insulation score array. default: true</p>
 </dd>
@@ -1907,7 +1901,7 @@ see: <a class="reference external" href="http://genome.ucsc.edu/cgi-bin/hgTables
 </dd>
 <dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Track color, default DiScore.DEFAULT_COLOR</p>
 </dd>
-<dt><strong>style</strong><span class="classifier">str, optional</span></dt><dd><p>Track graph type, format {‘fill’, ‘line:<cite>size</cite>’, ‘points:<cite>size</cite>’},
+<dt><strong>style</strong><span class="classifier">str, optional</span></dt><dd><p>Track graph type, format {‘fill’, ‘line:<cite>size</cite>’, ‘points:<cite>size</cite>’, ‘heatmap’},
 example: ‘line:2’, ‘points:0.5’. default: ‘line’</p>
 </dd>
 <dt><strong>extra</strong><span class="classifier">optional</span></dt><dd></dd>
@@ -2669,28 +2663,31 @@ example: ‘line:2’, ‘points:0.5’. default: ‘line:2’</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.coverage.BigWigCoverage" title="coolbox.core.coverage.BigWigCoverage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BigWigCoverage</span></code></a>(*args, **kwargs)</p></td>
 <td><p>BigWig track.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.coverage.HiCPeaks" title="coolbox.core.coverage.HiCPeaks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HiCPeaks</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.coverage.HLinesCov" title="coolbox.core.coverage.HLinesCov"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HLinesCov</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Horizontal line coverage, for show threshold.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.coverage.HiCPeaks" title="coolbox.core.coverage.HiCPeaks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HiCPeaks</span></code></a>(*args, **kwargs)</p></td>
 <td><p>Hi-C Peaks(Loops) Coverge is a special kind of Coverage.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.coverage.HighLights" title="coolbox.core.coverage.HighLights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HighLights</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.coverage.HighLights" title="coolbox.core.coverage.HighLights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HighLights</span></code></a>(*args, **kwargs)</p></td>
 <td><p>High light region.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.coverage.HighLightsFromFile" title="coolbox.core.coverage.HighLightsFromFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HighLightsFromFile</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.coverage.HighLightsFromFile" title="coolbox.core.coverage.HighLightsFromFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HighLightsFromFile</span></code></a>(*args, **kwargs)</p></td>
 <td><p>High light regions coverage, read the regions from the file.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.coverage.HistCoverage" title="coolbox.core.coverage.HistCoverage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HistCoverage</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.coverage.HistCoverage" title="coolbox.core.coverage.HistCoverage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HistCoverage</span></code></a>(*args, **kwargs)</p></td>
 <td><p>Hist track(bigwig, bedgraph), determine track type by file extension.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.coverage.PairsCoverage" title="coolbox.core.coverage.PairsCoverage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PairsCoverage</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.coverage.PairsCoverage" title="coolbox.core.coverage.PairsCoverage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PairsCoverage</span></code></a>(*args, **kwargs)</p></td>
 <td><p>Arcs(link) track.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.coverage.TADCoverage" title="coolbox.core.coverage.TADCoverage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TADCoverage</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.coverage.TADCoverage" title="coolbox.core.coverage.TADCoverage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TADCoverage</span></code></a>(*args, **kwargs)</p></td>
 <td><p>TAD Coverage is used for plot TAD on upper layer of a track.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.coverage.Vlines" title="coolbox.core.coverage.Vlines"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vlines</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.coverage.Vlines" title="coolbox.core.coverage.Vlines"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Vlines</span></code></a>(*args, **kwargs)</p></td>
 <td><p>Vertical lines.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.coverage.VlinesFromFile" title="coolbox.core.coverage.VlinesFromFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VlinesFromFile</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.coverage.VlinesFromFile" title="coolbox.core.coverage.VlinesFromFile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VlinesFromFile</span></code></a>(*args, **kwargs)</p></td>
 <td><p>Vertical lines from the file.</p></td>
 </tr>
 </tbody>
@@ -2870,6 +2867,52 @@ example: ‘line:2’, ‘points:0.5’. default: ‘fill’</p>
 <dt><strong>min_value</strong><span class="classifier">{float, ‘auto’}, optional</span></dt><dd><p>Min value of track. ‘auto’ for specify max value automatically, default ‘auto’.</p>
 </dd>
 <dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Track’s name.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 67%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>check_track_type</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>plot</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="coolbox.core.coverage.HLinesCov">
+<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.coverage.</code><code class="sig-name descname">HLinesCov</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.coverage.HLinesCov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Horizontal line coverage, for show threshold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>values</strong><span class="classifier">float</span></dt><dd><p>Y position. A list of y value or a single value.</p>
+</dd>
+<dt><strong>percent_mode</strong><span class="classifier">bool</span></dt><dd><p>If in percent mode, y position will equal to ymin + (ymax - ymin) * val.</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Line color, default ‘#1e1e1e’.</p>
+</dd>
+<dt><strong>alpha</strong><span class="classifier">float, optional</span></dt><dd><p>Line alpha value, default 0.8.</p>
+</dd>
+<dt><strong>line_style</strong><span class="classifier">str, optional</span></dt><dd><p>Line style, default ‘dashed’.</p>
+</dd>
+<dt><strong>line_width</strong><span class="classifier">float, optional</span></dt><dd><p>Line width, default 0.5.</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>The name of thr Coverage.</p>
 </dd>
 </dl>
 </dd>

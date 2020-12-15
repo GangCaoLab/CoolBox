@@ -1,5 +1,6 @@
 import abc
 import re
+from typing import Union
 
 import numpy as np
 from scipy.linalg import toeplitz
@@ -7,6 +8,7 @@ from scipy.ndimage import gaussian_filter
 from scipy.signal import convolve2d
 
 from coolbox.utilities.logtools import get_logger
+from coolbox.utilities.genome import GenomeRange
 
 log = get_logger(__name__)
 
@@ -14,7 +16,10 @@ log = get_logger(__name__)
 class FetchHiC(abc.ABC):
     SMALL_VALUE = 1e-12
 
-    def fetch_data(self, genome_range1, genome_range2=None, resolution=None):
+    def fetch_data(self,
+                   genome_range1: Union[str, GenomeRange],
+                   genome_range2: Union[str, GenomeRange] = None,
+                   resolution=None):
         """ Fetch 2d contact matrix, the matrix may be processed in case \
         'transform', 'normalize', 'gaussian_sigma', 'process_func' exits in properties.
 

@@ -10,17 +10,18 @@ class CoveragePlot(object):
 
     def plot_coverage(self, ax, genome_range, scores_per_bin, x_values=None):
 
-        num_bins = scores_per_bin.shape[0]
+        shape = scores_per_bin.shape
+        num_bins = shape[0] if len(shape) == 1 else shape[1]
         if x_values is None:
             x_values = np.linspace(genome_range.start, genome_range.end, num_bins)
-
-        if 'style' in self.properties and self.properties['style'] != 'fill':
-            self.__plot_line_or_points(ax, scores_per_bin, x_values)
-        else:
+        if 'style' in self.properties and 'heatmap' in self.properties['style']:
+            self.__plot_heatmap(ax, scores_per_bin, genome_range)
+        elif 'style' in self.properties and 'fill' in self.properties['style']:
             self.__plot_fill(ax, scores_per_bin, x_values)
+        else:
+            self.__plot_line_or_points(ax, scores_per_bin, x_values)
 
         ymin, ymax = self.__adjust_plot(ax, genome_range)
-
         if "show_data_range" in self.properties and self.properties["show_data_range"] == 'no':
             pass
         else:
@@ -73,6 +74,9 @@ class CoveragePlot(object):
             size = None
 
         alpha = self.properties.get("alpha", 1.0)
+        # if the data is 2d matrix, transpose to comply wtih matplotlib
+        if len(scores_per_bin.shape) == 2:
+            scores_per_bin = scores_per_bin.T
         if plot_type == 'line':
             ax.plot(x_values, scores_per_bin, '-',
                     linewidth=size, color=self.properties['color'],
@@ -83,7 +87,6 @@ class CoveragePlot(object):
                     '.', markersize=size,
                     color=self.properties['color'],
                     alpha=alpha)
-
         else:
             raise ValueError("Invalid: 'type = {}' in Track: {}\n".format(
                 self.properties['style'], self.properties['name']))
@@ -104,6 +107,11 @@ class CoveragePlot(object):
                             linewidth=0.1, color=self.properties['negative_color'],
                             facecolor=self.properties['negative_color'],
                             alpha=alpha)
+
+    def __plot_heatmap(self, ax, mat, genome_range):
+        cmap = self.properties.get('cmap', None)
+        ax.matshow(mat, cmap=cmap, aspect="auto",
+                   extent=(genome_range.start, genome_range.end, 0, mat.shape[0]))
 
     def __adjust_plot(self, ax, genome_range):
         ax.set_xlim(genome_range.start, genome_range.end)

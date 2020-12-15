@@ -159,6 +159,10 @@ def test_hicfeatures():
     insu = InsuScore(cool_path)
     di = DiScore(cool_path)
     assert di.fetch_data(test_interval).shape == insu.fetch_data(test_interval).shape
+    # test for insu_score with mutlple window_size
+    insu = InsuScore(cl, window_size="20-40")
+    insus = insu.fetch_data(test_interval)
+    assert len(insus.shape) == 2 and insus.shape[0] == 40 - 20
 
     # teset for virtual4c
     fig, ax = plt.subplots()
