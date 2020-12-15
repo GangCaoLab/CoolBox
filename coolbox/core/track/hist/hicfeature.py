@@ -175,8 +175,9 @@ class InsuScore(HicFeature):
     hicmat: {str, Cool, DotHic}
         The input hicmat file or HicMatBase object used to calculate insulation score.
 
-    window_size: int, optional
+    window_size: {int, str}, optional
         Width of the diamond region along the matrix used to calculate di. default: 20
+        window_size can also be a str with format like "20-40" representing a range of window_sizes.
 
     normalize: bool, optional
         Weather to log-nomalize the insulation score array. default: true
@@ -330,10 +331,7 @@ class Virtual4C(HicFeature):
         from copy import copy
         bin_width = self.bin_width
         position = self.position
-        binsize = self.hicmat.fetched_binsize
-        if binsize is None:
-            self.hicmat.fetch_data(genome_range)
-            binsize = self.hicmat.fetched_binsize
+        binsize = self.hicmat.infer_binsize(genome_range)
         window_range = copy(position)
         offset_ = (bin_width - 1) // 2
         assert offset_ >= 0, "bin width must >= 1"

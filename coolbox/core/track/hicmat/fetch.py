@@ -15,7 +15,9 @@ class FetchHiC(abc.ABC):
     SMALL_VALUE = 1e-12
 
     def fetch_data(self, genome_range1, genome_range2=None, resolution=None):
-        """
+        """ Fetch 2d contact matrix, the matrix may be processed in case \
+        'transform', 'normalize', 'gaussian_sigma', 'process_func' exits in properties.
+
         Parameters
         ----------
         genome_range1 : {str, GenomeRange}
@@ -60,12 +62,36 @@ class FetchHiC(abc.ABC):
                     "receive a matrix return a processed matrix.")
         return arr
 
+    def infer_binsize(self, genome_range1, genome_range2=None, resolution=None):
+        """ This function can be used to infer the expected binsize of fetched matrix by calling fetch_data.
+
+        Parameters
+        ----------
+        genome_range1 : {str, GenomeRange}
+
+        genome_range2 : {str, GenomeRange}, optional.
+
+        resolution : {int, 'auto'}, optional
+
+        Return
+        ------
+        binsize: int
+            The expected binsize when call fetch_data
+        """
+        if resolution is None:
+            resolution = self.properties['resolution']
+        return self._infer_binsize(genome_range1, genome_range2, resolution)
+
     @abc.abstractmethod
-    def fetch_pixels(self, genome_range, genome_range2=None, balance=None, resolution='auto'):
+    def fetch_pixels(self, genome_range1, genome_range2=None, balance=None, resolution='auto'):
         pass
 
     @abc.abstractmethod
-    def fetch_matrix(self, genome_range, genome_range2=None, resolution='auto') -> np.ndarray:
+    def fetch_matrix(self, genome_range1, genome_range2=None, resolution='auto') -> np.ndarray:
+        pass
+
+    @abc.abstractmethod
+    def _infer_binsize(self, genome_range1, genome_range2=None, resolution=None) -> int:
         pass
 
     def fill_zero_nan(self, arr):
