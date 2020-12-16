@@ -29,33 +29,34 @@ ${doc2}
         super().__init__(file_, **properties_dict)
 
     def fetch_pixels(self, genome_range, genome_range2=None, balance=None, resolution='auto', join=True):
-        """
+        """Fetch the pixels table of upper triangle of the original contact matrix(not processed).
+
         Parameters
         ----------
         genome_range : {str, GenomeRange}
-            Intervals within input chromosome range.
+        Intervals within input chromosome range.
 
         genome_range2 : {str, GenomeRange}, optional.
 
         balance : bool, optional
-            balance matrix or not,
-            default `self.is_balance`.
+        balance matrix or not,
+        default `self.is_balance`.
 
         resolution : {'auto', int}
-            resolution of the data. for example 5000.
+        resolution of the data. for example 5000.
             'auto' for calculate resolution automatically.
-            default 'auto'
+        default 'auto'
 
         join : bool
-            whether to expand the bin ID columns
-            into (chrom, start, end).
-            default True
+        whether to expand the bin ID columns
+        into (chrom, start, end).
+        default True
 
         Return
         ------
         pixels : pandas.core.frame.DataFrame
-            Hi-C pixels table.
-            The pixel table contains the non-zero upper triangle entries of the contact map.
+        Hi-C pixels table.
+        The pixel table contains the non-zero upper triangle entries of the contact map.
         """
         from coolbox.utilities.hic.wrap import CoolerWrap
 
@@ -86,3 +87,10 @@ ${doc2}
         self.fetched_binsize = wrap.fetched_binsize  # expose fetched binsize
 
         return self.fill_zero_nan(arr)
+
+    def _infer_binsize(self, genome_range1, genome_range2=None, resolution=None) -> int:
+        from coolbox.utilities.hic.wrap import CoolerWrap
+
+        path = self.properties['file']
+        wrap = CoolerWrap(path, balance=self.balance, binsize=resolution)
+        return wrap.infer_binsize(genome_range1)

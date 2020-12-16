@@ -365,6 +365,8 @@ class Frame(object):
     def fetch_data(self, genome_range=None):
         if genome_range is None:
             genome_range = self.current_range
+        if genome_range is None:
+            raise RuntimeError("Please specify a genome range like: chr1:1000-2000")
 
         if isinstance(genome_range, str):
             genome_range = GenomeRange(genome_range)
@@ -411,12 +413,15 @@ class Frame(object):
         """
         if len(args) >= 3:
             chrom, start, end = args[:3]
+            gr = GenomeRange(chrom, start, end)
         elif len(args) >= 1:
             region_str = args[0]
             gr = GenomeRange(region_str)
             chrom, start, end = (gr.chrom, gr.start, gr.end)
         else:
             raise ValueError("Please specify a genomic range in uscs format. For example: 'chr1:100000-200000'")
+        # cache for the previous GenomeRange
+        self.current_range = gr
 
         tracks_height = self.get_tracks_height()
         self.properties['height'] = sum(tracks_height)

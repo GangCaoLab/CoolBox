@@ -58,14 +58,14 @@ class StrawWrap(object):
         if genome_range2.chrom.startswith("chr"):
             genome_range2.change_chrom_names()
 
-        binsize = self.__infer_binsize(genome_range1)
+        binsize = self.infer_binsize(genome_range1)
         self.fetched_binsize = binsize  # expose fetched binsize
 
         straw_list = self.__fetch_straw_list(genome_range1, genome_range2, binsize)
         matrix = self.__list_to_matrix(straw_list, genome_range1, genome_range2, binsize)
         return matrix
 
-    def __infer_binsize(self, genome_range):
+    def infer_binsize(self, genome_range):
         from .tools import infer_resolution
         if self.binsize == 'auto':
             binsize = infer_resolution(genome_range, self.resolutions)
@@ -88,7 +88,7 @@ class StrawWrap(object):
             genome_range1.change_chrom_names()
         if genome_range2.chrom.startswith("chr"):
             genome_range2.change_chrom_names()
-        binsize = self.__infer_binsize(genome_range1)
+        binsize = self.infer_binsize(genome_range1)
         slist = self.__fetch_straw_list(genome_range1, genome_range2, binsize)
         pixels = DataFrame(slist)
         pixels = pixels.T
@@ -230,7 +230,17 @@ class CoolerWrap(object):
         return coolers
 
     def get_cool(self, genome_range):
+        binsize = self.infer_binsize(genome_range)
+        if self.is_multi:
+            cool = self.coolers[binsize]
+        else:
+            cool = self.cool
+        self.fetched_binsize = binsize  # expose fetched binsize
+        return cool
+
+    def infer_binsize(self, genome_range):
         from .tools import infer_resolution
+        genome_range = to_gr(genome_range)
         if self.is_multi:
             resolutions = [k for k in self.coolers.keys()]
             if self.binsize == 'auto':
@@ -239,14 +249,12 @@ class CoolerWrap(object):
                 assert self.binsize in resolutions, \
                     "Multi-Cooler file not contain the resolution {}.".format(self.binsize)
                 binsize = int(self.binsize)
-            self.fetched_binsize = binsize
-            cool = self.coolers[binsize]
         else:
-            cool = self.cool
-            self.fetched_binsize = cool.binsize  # expose fetched binsize
-        return cool
+            binsize = self.cool.binsize
+        return binsize
 
     def fetch(self, genome_range1, genome_range2=None):
+        # TODO what if genoe_ranges are invalid
         if genome_range2 is None:
             genome_range2 = genome_range1
 
