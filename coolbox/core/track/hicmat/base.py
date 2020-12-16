@@ -102,4 +102,3 @@ class HicMatBase(Track, PlotHiCMatrix, FetchHiC, ABC):
             properties_dict['color'] = properties_dict['cmap']
         super().__init__(properties_dict)
         self.fetched_binsize = None
-

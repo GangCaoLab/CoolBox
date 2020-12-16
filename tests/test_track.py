@@ -120,8 +120,10 @@ def test_selfish():
 
 def test_cool():
     cl = Cool(f"{DATA_DIR}/cool_{test_itv}.mcool")
+    exp_binsize = cl.infer_binsize(test_interval)
     assert cl.fetch_data(test_interval) is not None
     assert cl.fetch_data(test_interval, test_interval) is not None
+    assert exp_binsize == cl.fetched_binsize
     fig, ax = plt.subplots()
     cl.plot_genome_range(ax, test_interval)
     cl.fetch_data(empty_interval)
@@ -135,8 +137,10 @@ def test_dothic():
     if not osp.exists(dothic_path):
         return
     dot = DotHiC(dothic_path)
+    exp_binsize = dot.infer_binsize(test_interval)
     assert dot.fetch_data(test_interval) is not None
     assert dot.fetch_data(test_interval, test_interval) is not None
+    assert exp_binsize == dot.fetched_binsize
     fig, ax = plt.subplots()
     dot.plot_genome_range(ax, test_interval)
     dot.fetch_data(empty_interval)
@@ -155,6 +159,10 @@ def test_hicfeatures():
     insu = InsuScore(cool_path)
     di = DiScore(cool_path)
     assert di.fetch_data(test_interval).shape == insu.fetch_data(test_interval).shape
+    # test for insu_score with mutlple window_size
+    insu = InsuScore(cl, window_size="20-40")
+    insus = insu.fetch_data(test_interval)
+    assert len(insus.shape) == 2 and insus.shape[0] == 40 - 20
 
     # teset for virtual4c
     fig, ax = plt.subplots()

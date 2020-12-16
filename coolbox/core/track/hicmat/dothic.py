@@ -35,6 +35,9 @@ ${doc2}
         genome_range : {str, GenomeRange}
             Intervals within input chromosome range.
 
+        genome_range2 : {str, GenomeRange}
+            Intervals within input chromsome range2.
+
         balance : {bool, 'KR', 'VC', 'VC_SQRT'}, optional
             matrix balance method,
             default `self.balance`.
@@ -79,3 +82,10 @@ ${doc2}
         self.fetched_binsize = wrap.fetched_binsize  # expose fetched binsize
 
         return self.fill_zero_nan(arr)
+
+    def _infer_binsize(self, genome_range1, genome_range2=None, resolution=None) -> int:
+        from coolbox.utilities.hic.wrap import StrawWrap
+
+        path = self.properties['file']
+        wrap = StrawWrap(path, normalization=self.balance, binsize=resolution)
+        return wrap.infer_binsize(genome_range1)

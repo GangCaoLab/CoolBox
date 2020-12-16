@@ -450,7 +450,7 @@ div.rendered_html tbody tr:hover {
 <p>Virual4C track is for mimic 4C data track from Hi-C contact matrix.</p>
 <p>DiScore and InsuScore represents the interaction bias between TAD and non-TAD regions.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -460,7 +460,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -469,7 +469,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -478,7 +478,7 @@ div.rendered_html tbody tr:hover {
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -491,7 +491,8 @@ div.rendered_html tbody tr:hover {
 
 <span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> \
         <span class="o">+</span> <span class="n">DiScore</span><span class="p">(</span><span class="n">cool_track</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Di score&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span> \
-        <span class="o">+</span> <span class="n">InsuScore</span><span class="p">(</span><span class="n">cool_track</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Insulation score&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span> \
+        <span class="o">+</span> <span class="n">InsuScore</span><span class="p">(</span><span class="n">cool_track</span><span class="p">,</span> <span class="n">window_size</span><span class="o">=</span><span class="s2">&quot;20-60&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;heatmap&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;IS window_size=20-60&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span> \
+        <span class="o">+</span> <span class="n">InsuScore</span><span class="p">(</span><span class="n">cool_track</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;IS window_size=20&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span> \
         <span class="o">+</span> <span class="n">cool_track</span> <span class="o">+</span> <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">loci</span><span class="p">:</span>
     <span class="n">track</span> <span class="o">=</span> <span class="n">Virtual4C</span><span class="p">(</span><span class="n">cool_track</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">bin_width</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Virtual 4C&quot;</span><span class="p">)</span>
@@ -504,7 +505,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -514,7 +515,7 @@ div.rendered_html tbody tr:hover {
 <div class="section" id="CLI-code">
 <h2>CLI code<a class="headerlink" href="#CLI-code" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
@@ -527,6 +528,7 @@ div.rendered_html tbody tr:hover {
 
 coolbox add XAxis - <span class="se">\</span>
     add DiScore <span class="si">${</span><span class="nv">cool_file</span><span class="si">}</span> - <span class="se">\</span>
+    add InsuScore <span class="si">${</span><span class="nv">cool_file</span><span class="si">}</span> --window_size <span class="m">20</span>-60 --style heatmap - <span class="se">\</span>
     add InsuScore <span class="si">${</span><span class="nv">cool_file</span><span class="si">}</span> - <span class="se">\</span>
     start_with Vlines <span class="s2">&quot;[&#39;</span><span class="si">${</span><span class="nv">loci1</span><span class="si">}</span><span class="s2">&#39;, &#39;</span><span class="si">${</span><span class="nv">loci2</span><span class="si">}</span><span class="s2">&#39;, &#39;</span><span class="si">${</span><span class="nv">loci3</span><span class="si">}</span><span class="s2">&#39;]&quot;</span> - <span class="se">\</span>
     add Cool <span class="si">${</span><span class="nv">cool_file</span><span class="si">}</span> --style <span class="s2">&quot;matrix&quot;</span> - <span class="se">\</span>

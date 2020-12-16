@@ -1,3 +1,4 @@
+from typing import Iterator, Union
 from .logtools import get_logger
 from .filetool import opener, to_string
 
@@ -44,13 +45,20 @@ class GenomeRange(object):
         >>> range2 = GenomeRange("chr2:2000-4000")
         >>> (range2.chrom, range2.start, range2.end)
         ('chr2', 2000, 4000)
-        >>> range3 = GenomeRange("chr1", 2000, 1000)
+        >>> range3 = GenomeRange(range2)
+        >>> tuple(range3)
+        >>> range4 = GenomeRange("chr1", 2000, 1000)
         Traceback (most recent call last):
         ...
         ValueError: Please check that the region end is larger than the region start. Values given: start: 2000, end: 1000
         """
         if len(args) == 1:
-            chrom, start, end = GenomeRange.parse_region_string(args[0])
+            if isinstance(args[0], GenomeRange):
+                chrom, start, end = tuple(args[0])
+            # str format
+            else:
+                chrom, start, end = GenomeRange.parse_region_string(args[0])
+
         elif len(args) == 3:
             chrom, start, end = args
         else:
@@ -65,6 +73,11 @@ class GenomeRange(object):
         self.chrom = chrom
         self.start = start
         self.end = end
+
+    def __iter__(self) -> Iterator[Union[str, int]]:
+        yield self.chrom
+        yield self.start
+        yield self.end
 
     @staticmethod
     def parse_region_string(region_string):
@@ -89,7 +102,7 @@ class GenomeRange(object):
          ...
         ValueError: Failure to parse region string, please check that region format should be like "chr:start-end".
         """
-        if region_string:
+        try:
             # separate the chromosome name and the location using the ':' character
             chrom, position = region_string.strip().split(":")
 
@@ -98,14 +111,13 @@ class GenomeRange(object):
                 position = position.replace(char, '')
 
             position_list = position.split("-")
-            try:
-                region_start = int(position_list[0])
-                region_end = int(position_list[1])
-            except:
-                raise ValueError("Failure to parse region string, please check that region format "
-                                 "should be like \"chr:start-end\".")
-
+            region_start = int(position_list[0])
+            region_end = int(position_list[1])
             return chrom, region_start, region_end
+
+        except Exception:
+            raise ValueError("Failure to parse region string, please check that region format "
+                             "should be like \"chr:start-end\".")
 
     def change_chrom_names(self):
         """

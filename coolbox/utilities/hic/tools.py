@@ -1,3 +1,5 @@
+from ..genome import GenomeRange
+
 def hicmat_filetype(path):
     if path.endswith(".hic"):
         return '.hic'
@@ -9,7 +11,7 @@ def hicmat_filetype(path):
             raise NotImplementedError("File type of {} not supported for HicMat".format(path))
 
 
-def infer_resolution(genome_range, resolutions, bin_thresh=1000):
+def infer_resolution(genome_range: GenomeRange, resolutions: object, bin_thresh: object = 1000) -> object:
     """
     Inference appropriate resolution.
     """
