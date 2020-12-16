@@ -24,3 +24,11 @@ CoolBox Gallery
 	_gallery/bw_cov.ipynb
 	_gallery/arcs_cov.ipynb
 	_gallery/snp.ipynb
+
+.. nbgallery::
+	:caption: Auxiliary functions
+	:name: functions-gallery
+	:glob:
+
+	_gallery/decay.ipynb
+

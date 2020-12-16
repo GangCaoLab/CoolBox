@@ -81,7 +81,7 @@ class FetchHiC(abc.ABC):
 
     @staticmethod
     def diagonal_mean(mat):
-        return [np.diagonal(mat, i).mean() for i in range(mat.shape[0])]
+        return np.array([np.diagonal(mat, i).mean() for i in range(mat.shape[0])])
 
     @staticmethod
     def diagonal_mean_std(mat):
@@ -93,7 +93,7 @@ class FetchHiC(abc.ABC):
             stds.append(diagonal.std())
         stds = np.array(stds)
         stds[stds == 0] = stds[stds > 0].min()
-        return means, stds
+        return np.array(means), stds
 
     @staticmethod
     def __donut_kernel(p, w):
