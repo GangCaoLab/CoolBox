@@ -2,7 +2,7 @@ from copy import copy
 
 from coolbox.utilities import (
     op_err_msg, get_feature_stack, get_coverage_stack,
-    split_genome_range
+    split_genome_range, bool2str
 )
 
 
@@ -44,7 +44,7 @@ class Track(object):
 
     def __init__(self, properties_dict):
         self.properties = properties_dict
-        self.__bool2str()
+        self.properties = bool2str(self.properties)
         name = self.properties.get('name')
         if name is not None:
             assert isinstance(name, str), "Track name must be a `str`."
@@ -65,17 +65,6 @@ class Track(object):
             self.coverages.append(coverage)
 
         self.ax = None
-
-    def __bool2str(self):
-        """
-        Conver bool value to 'yes' or 'no', for compatible with pyGenomeTracks
-        """
-        for key, value in self.properties.items():
-            if isinstance(value, bool):
-                if value:
-                    self.properties[key] = 'yes'
-                else:
-                    self.properties[key] = 'no'
 
     @property
     def name(self):

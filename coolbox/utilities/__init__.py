@@ -50,6 +50,19 @@ def get_coverage_stack():
     return global_scope[COVERAGE_STACK_NAME]
 
 
+def bool2str(properties):
+    """
+    Conver bool value to 'yes' or 'no', for compatible with pyGenomeTracks
+    """
+    for key, value in properties.items():
+        if isinstance(value, bool):
+            if value:
+                properties[key] = 'yes'
+            else:
+                properties[key] = 'no'
+    return properties
+
+
 if __name__ == "__main__":
     import doctest
 
