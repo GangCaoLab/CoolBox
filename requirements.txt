@@ -7,3 +7,4 @@ fire
 nbformat
 voila
 statsmodels
+svgutils

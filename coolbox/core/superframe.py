@@ -94,9 +94,8 @@ class JointView(SuperFrame):
         super().__init__(properties)
         self.__adjust_sub_frames_width()
 
-    @property
-    def cm2px(self):
-        return self.properties['cm2px']
+    def cm2px(self, vec):
+        return [i * self.properties['cm2px'] for i in vec]
 
     def __check_sub_frames(self, center, sub_frames):
         from .frame import Frame
@@ -159,11 +158,11 @@ class JointView(SuperFrame):
 
         center_offsets = self.__get_center_offsets(sub_frames)
 
-        center_svg.move(*[i*self.cm2px for i in center_offsets])
+        center_svg.move(*self.cm2px(center_offsets))
         self.__transform_sub_svgs(frame_svgs, sub_frames, center_offsets)
 
-        figsize = self.__get_figsize(sub_frames)
-        fig = sc.Figure(f"{figsize[0]*self.cm2px}px", f"{figsize[1]*self.cm2px}px",
+        figsize = self.cm2px(self.__get_figsize(sub_frames))
+        fig = sc.Figure(f"{figsize[0]}px", f"{figsize[1]}px",
                         sc.Panel(center_svg),
                         *[sc.Panel(svg) for svg in frame_svgs.values()])
         return fig
@@ -171,9 +170,13 @@ class JointView(SuperFrame):
     def __transform_sub_svgs(self, sub_svgs, sub_frames, center_offsets):
         c_width = self.properties['center_width']
         space = self.properties['space']
+        pd_left = self.properties['padding_left']
         if 'top' in sub_svgs:
             s = sub_svgs['top']
-            s.move(self.properties['padding_left']*self.cm2px, 0)
+            offsets = [pd_left, 0]
+            if 'left' in sub_svgs:
+                offsets[0] += sub_frames['left'].properties['height'] + space
+            s.move(*self.cm2px(offsets))
         if 'right' in sub_svgs:
             f = sub_frames['right']
             s = sub_svgs['right']
@@ -183,8 +186,26 @@ class JointView(SuperFrame):
                 center_offsets[0] + c_width + f.properties['height'] + space,
                 center_offsets[1] - f.properties['width']*wr[0]
             ]
-            right_offsets = [i*self.cm2px for i in right_offsets]
+            right_offsets = self.cm2px(right_offsets)
             s.move(*right_offsets)
+        if 'bottom' in sub_svgs:
+            s = sub_svgs['bottom']
+            offsets = [pd_left, c_width]
+            if 'left' in sub_svgs:
+                offsets[0] += sub_frames['left'].properties['height'] + space
+            if 'top' in sub_svgs:
+                offsets[1] += sub_frames['top'].properties['height']
+            offsets = self.cm2px(offsets)
+            s.move(*offsets)
+        if 'left' in sub_svgs:
+            s = sub_svgs['left']
+            f = sub_frames['left']
+            s.rotate(90)
+            offsets = [pd_left+f.properties['height'], 0]
+            if 'top' in sub_svgs:
+                offsets[1] += sub_frames['top'].properties['height']
+            offsets = self.cm2px(offsets)
+            s.move(*offsets)
 
     def __get_center_offsets(self, sub_frames):
         space = self.properties['space']
