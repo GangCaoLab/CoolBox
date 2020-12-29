@@ -88,4 +88,5 @@ ${doc2}
 
         path = self.properties['file']
         wrap = StrawWrap(path, normalization=self.balance, binsize=resolution)
-        return wrap.infer_binsize(genome_range1)
+        gr1 = to_gr(genome_range1)
+        return wrap.infer_binsize(gr1)

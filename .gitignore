@@ -1,5 +1,8 @@
+# coolbox tmp dir
+.coolbox/
+
 # manual_tests
-tests/manual_tests.ipynb
+tests/manual_test*
 
 # wiki dir
 CoolBox.wiki/

@@ -1,6 +1,9 @@
 from copy import copy
 
-from coolbox.utilities import op_err_msg, get_coverage_stack, get_feature_stack
+from coolbox.utilities import (
+    op_err_msg, get_coverage_stack, get_feature_stack,
+    bool2str
+)
 
 
 class Coverage(object):
@@ -34,8 +37,7 @@ class Coverage(object):
         return super().__new__(cls)
 
     def __init__(self, properties_dict):
-        self.properties = properties_dict
-        self.__bool2str()
+        self.properties = bool2str(properties_dict)
         name = self.properties.get("name")
         if name is not None:
             assert isinstance(name, str), "Coverage name must be a `str`."
@@ -48,17 +50,6 @@ class Coverage(object):
             self.properties[feature.key] = feature.value
 
         self.track = None
-
-    def __bool2str(self):
-        """
-        Conver bool value to 'yes' or 'no', for compatible with pyGenomeTracks
-        """
-        for key, value in self.properties.items():
-            if isinstance(value, bool):
-                if value:
-                    self.properties[key] = 'yes'
-                else:
-                    self.properties[key] = 'no'
 
     @property
     def name(self):

@@ -8,7 +8,7 @@ import mpl_toolkits.axisartist as axisartist
 plt.rcParams['svg.fonttype'] = 'none'
 
 from coolbox.utilities import (
-    cm2inch,
+    cm2inch, inch2cm,
     GenomeRange,
     op_err_msg,
     get_logger,
@@ -27,7 +27,8 @@ class Frame(object):
         The init genome range.
 
     width : {int, float}, optional
-        Width of frame, default Frame.DEFAULT_WIDTH.
+        Width of frame, the unit is in 'cm', 1cm = 2.54inch,
+        default Frame.DEFAULT_WIDTH.
 
     width_ratios : tuple, optional
         Width ratios of track and track title,

@@ -19,6 +19,21 @@ def cm2inch(*tupl):
             return tupl[0] / inch
 
 
+def inch2cm(*tupl):
+    """
+    convert length unit from inch to cm.
+
+    """
+    cm = 2.54
+    if isinstance(tupl[0], tuple):
+        return tuple(i * cm for i in tupl[0])
+    else:
+        if len(tupl) != 1:
+            return tuple(i * cm for i in tupl)
+        else:
+            return tupl[0] * cm
+
+
 def rgb2hex(r, g, b):
     """
     Convert rgb color to hex format.

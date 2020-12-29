@@ -1,3 +1,8 @@
+import os
+import os.path as osp
+import uuid
+
+
 def opener(filename):
     """
     Determines if a file is compressed or not
@@ -74,3 +79,25 @@ def to_bytes(s):
     if isinstance(s, list):
         return [to_bytes(x) for x in s]
     return s
+
+
+def get_tmp_dir(name=".coolbox"):
+    """Return the path to coolbox temporary directory.
+    If the file not exists, will make it.
+    """
+    path = osp.join(osp.realpath(os.curdir), name)
+    if not osp.exists(path):
+        os.mkdir(path)
+    return path
+
+
+def get_uniq_tmp_file(prefix="", suffix='.svg', dirname=".coolbox"):
+    """Return the path to a unique(not exists) temporary file."""
+    tmp_dir = get_tmp_dir(dirname)
+    while True:
+        short_uuid = str(uuid.uuid1()).split('-')[0]
+        file = prefix + short_uuid + suffix
+        path = osp.join(tmp_dir, file)
+        if not osp.exists(path):
+            break
+    return path
