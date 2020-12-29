@@ -97,6 +97,12 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#Custom-Coverage">Custom Coverage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Custom-Feature">Custom Feature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Peakachu">Peakachu</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Define-custom-track">Define custom track</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Visualize-Track">Visualize Track</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Call-loop">Call loop</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
@@ -461,7 +467,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;0.2.5&#39;
+&#39;0.2.6&#39;
 </pre></div></div>
 </div>
 <div class="section" id="Custom-Track">
@@ -568,8 +574,8 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Bulbasaur.png   list.txt     PokeBall.png
-Charmander.png  Pikachu.png  Squirtle.png
+Bulbasaur.png  Pikachu.png    Squirtle.png
+Charmander.png PokeBall.png   list.txt
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -796,7 +802,7 @@ Charmander.png  Pikachu.png  Squirtle.png
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;__main__.Pokemon at 0x7f8b485c0550&gt;
+&lt;__main__.Pokemon at 0x7ff3298de2e0&gt;
 </pre></div></div>
 </div>
 <p>Maybe you found that track defination is almost same to Track. Actually you can create a Coverage directly from Track class, by using <code class="docutils literal notranslate"><span class="pre">track_to_coverage</span></code> function, for example, we convert our <code class="docutils literal notranslate"><span class="pre">ChromName</span></code> Track to Coverage:</p>
@@ -905,17 +911,16 @@ Charmander.png  Pikachu.png  Squirtle.png
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;file&#39;: &#39;../../tests/test_data/bigwig_chr9_4000000_6000000.bw&#39;,
- &#39;height&#39;: 3,
+{&#39;max_value&#39;: &#39;auto&#39;,
+ &#39;min_value&#39;: &#39;auto&#39;,
+ &#39;show_data_range&#39;: &#39;yes&#39;,
+ &#39;data_range_style&#39;: &#39;y-axis&#39;,
+ &#39;style&#39;: &#39;fill&#39;,
+ &#39;title&#39;: &#39;&#39;,
+ &#39;file&#39;: &#39;../../tests/test_data/bigwig_chr9_4000000_6000000.bw&#39;,
  &#39;color&#39;: &#39;#0c0cff&#39;,
  &#39;alpha&#39;: 1.0,
  &#39;number_of_bins&#39;: 700,
- &#39;style&#39;: &#39;fill&#39;,
- &#39;show_data_range&#39;: &#39;yes&#39;,
- &#39;data_range_style&#39;: &#39;y-axis&#39;,
- &#39;title&#39;: &#39;&#39;,
- &#39;max_value&#39;: &#39;auto&#39;,
- &#39;min_value&#39;: &#39;auto&#39;,
  &#39;type&#39;: &#39;fill&#39;,
  &#39;name&#39;: &#39;BigWig.2&#39;}
 </pre></div></div>
@@ -937,6 +942,131 @@ Charmander.png  Pikachu.png  Squirtle.png
 </div>
 <div class="output_area docutils container">
 <img alt="_images/custom_elements_31_0.png" src="_images/custom_elements_31_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Peakachu">
+<h2>Peakachu<a class="headerlink" href="#Peakachu" title="Permalink to this headline">¶</a></h2>
+<p>This document shows the ability of cooperating with newly developed algorithms. <a class="reference external" href="https://github.com/tariks/peakachu">Peakachu</a> is an machine-learning algorithm used for detecting loops in hic contact matrix.</p>
+<p>With the user-friendly plotting and data-fetching api supplied by CoolBox, we can quickly visualize the outputs of <code class="docutils literal notranslate"><span class="pre">Peakachu</span></code> along with other builtin tracks in CoolBox.</p>
+<ul class="simple">
+<li><p>install peakachu</p></li>
+<li><p>download pretrained model listed in <a class="reference external" href="https://github.com/tariks/peakachu">Peakachu</a></p>
+<ul>
+<li><p><a class="reference external" href="https://dl.dropboxusercontent.com/s/enyg2m7ebj8mxsv/down100.ctcf.pkl?dl=0">https://dl.dropboxusercontent.com/s/enyg2m7ebj8mxsv/down100.ctcf.pkl?dl=0</a></p></li>
+</ul>
+</li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">!</span>pip install Scikit-learn<span class="o">==</span><span class="m">0</span>.22 <span class="nv">joblib</span><span class="o">==</span><span class="m">0</span>.14
+<span class="o">!</span>pip install peakachu
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Requirement already satisfied: Scikit-learn==0.22 in /Users/bakezq/opt/miniconda3/lib/python3.8/site-packages (0.22)
+Requirement already satisfied: joblib==0.14 in /Users/bakezq/opt/miniconda3/lib/python3.8/site-packages (0.14.0)
+Requirement already satisfied: scipy&gt;=0.17.0 in /Users/bakezq/opt/miniconda3/lib/python3.8/site-packages (from Scikit-learn==0.22) (1.5.4)
+Requirement already satisfied: numpy&gt;=1.11.0 in /Users/bakezq/opt/miniconda3/lib/python3.8/site-packages (from Scikit-learn==0.22) (1.19.4)
+<span class="ansi-yellow-fg">WARNING: You are using pip version 20.3.2; however, version 20.3.3 is available.
+You should consider upgrading via the &#39;/Users/bakezq/opt/miniconda3/bin/python -m pip install --upgrade pip&#39; command.</span>
+Requirement already satisfied: peakachu in /Users/bakezq/opt/miniconda3/lib/python3.8/site-packages (1.1.3)
+<span class="ansi-yellow-fg">WARNING: You are using pip version 20.3.2; however, version 20.3.3 is available.
+You should consider upgrading via the &#39;/Users/bakezq/opt/miniconda3/bin/python -m pip install --upgrade pip&#39; command.</span>
+</pre></div></div>
+</div>
+<div class="section" id="Define-custom-track">
+<h3>Define custom track<a class="headerlink" href="#Define-custom-track" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">joblib</span>
+<span class="kn">import</span> <span class="nn">coolbox</span>
+<span class="kn">from</span> <span class="nn">coolbox.api</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">coolbox.core.track.hicmat</span> <span class="kn">import</span> <span class="n">Cool</span>
+
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;../../tests/test_data/down100.ctcf.pkl&#39;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Peakachu</span><span class="p">(</span><span class="n">Cool</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">fetch_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">genome_range1</span><span class="p">,</span> <span class="n">genome_range2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">coo_matrix</span>
+        <span class="kn">from</span> <span class="nn">peakachu.scoreUtils</span> <span class="kn">import</span> <span class="n">Chromosome</span>
+        <span class="n">matrix</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fetch_data</span><span class="p">(</span><span class="n">genome_range1</span><span class="p">,</span> <span class="n">genome_range2</span><span class="p">,</span> <span class="n">resolution</span><span class="p">)</span>
+        <span class="n">ch</span> <span class="o">=</span> <span class="n">Chromosome</span><span class="p">(</span><span class="n">coo_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">),</span> <span class="n">model</span><span class="p">)</span>
+        <span class="n">pval_ma</span><span class="p">,</span> <span class="n">raw_ma</span> <span class="o">=</span> <span class="n">ch</span><span class="o">.</span><span class="n">score</span><span class="p">()</span>
+        <span class="n">pval_ma</span> <span class="o">+=</span> <span class="n">pval_ma</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">return</span> <span class="n">pval_ma</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Visualize-Track">
+<h3>Visualize Track<a class="headerlink" href="#Visualize-Track" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">DATA_DIR</span> <span class="o">=</span> <span class="s2">&quot;../../tests/test_data&quot;</span>
+<span class="n">TEST_RANGE</span> <span class="o">=</span> <span class="s2">&quot;chr9:4000000-6000000&quot;</span>
+<span class="n">RANGE_MARK</span> <span class="o">=</span> <span class="s2">&quot;chr9_4000000_6000000&quot;</span>
+
+<span class="n">peak</span> <span class="o">=</span> <span class="n">Peakachu</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/cool_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.mcool&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;matrix&quot;</span><span class="p">)</span>
+
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> \
+    <span class="n">peak</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Peak pvalues&quot;</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">GTF</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/gtf_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.gtf&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">TrackHeight</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">TEST_RANGE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+scoring matrix chrm
+num candidates 79800
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/custom_elements_38_1.png" src="_images/custom_elements_38_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Call-loop">
+<h3>Call loop<a class="headerlink" href="#Call-loop" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
