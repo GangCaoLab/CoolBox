@@ -1,4 +1,5 @@
 import abc
+from typing import Union, Mapping
 from collections import OrderedDict
 
 import svgutils.compose as sc
@@ -7,6 +8,10 @@ import matplotlib.pyplot as plt
 from coolbox.utilities import bool2str
 from coolbox.utilities.figtools import cm2inch
 from coolbox.utilities.filetool import get_uniq_tmp_file
+from coolbox.core.track.base import Track
+from coolbox.core.frame import Frame
+
+FrameTrack = Union[Frame, Track]
 
 
 class SuperFrame(abc.ABC):
@@ -14,6 +19,7 @@ class SuperFrame(abc.ABC):
     compose figure using svgutils,
     this allow compose big figures which the matplotlib can not do.
     """
+
     def __init__(self, properties_dict):
         self.properties = bool2str(properties_dict)
         assert "sub_frames" in self.properties
@@ -63,11 +69,12 @@ class JointView(SuperFrame):
         Space between frame and center, unit in cm. default 0.5
     """
 
-    def __init__(self, center,
-                 top=None,
-                 right=None,
-                 bottom=None,
-                 left=None,
+    def __init__(self,
+                 center: Track,
+                 top: FrameTrack = None,
+                 right: FrameTrack = None,
+                 bottom: FrameTrack = None,
+                 left: FrameTrack = None,
                  **kwargs,
                  ):
         sub_frames = OrderedDict({
@@ -93,11 +100,13 @@ class JointView(SuperFrame):
 
         super().__init__(properties)
         self.__adjust_sub_frames_width()
+        self.current_ranges = [None, None]
 
     def cm2px(self, vec):
         return [i * self.properties['cm2px'] for i in vec]
 
-    def __check_sub_frames(self, center, sub_frames):
+    @staticmethod
+    def __check_sub_frames(center, sub_frames):
         from .frame import Frame
         from .track.base import Track
         sub_f_names = ", ".join(sub_frames.keys())
@@ -131,6 +140,26 @@ class JointView(SuperFrame):
         plt.close()
         return sc.SVG(path)
 
+    def frame_granges(self, genome_range1=None, genome_range2=None):
+        if genome_range1 is None:
+            genome_range1 = self.current_ranges[0]
+        if genome_range2 is None:
+            genome_range2 = self.current_ranges[0] or genome_range1
+
+        if genome_range1 is None or genome_range2 is None:
+            raise ValueError("No history genome_ranges found.")
+        self.current_ranges = [genome_range1, genome_range2]
+
+        trbl = self.properties['trbl']
+
+        orientations = ['top', 'right', 'bottom', 'left']
+        frame2grange = {
+            k: (genome_range1 if (trbl[orientations.index(k)] == '1') else genome_range2)
+            for k in orientations
+        }
+
+        return frame2grange
+
     def plot(self, genome_range1, genome_range2=None):
         """
 
@@ -142,19 +171,12 @@ class JointView(SuperFrame):
         genome_range2 : {str, GenomeRange}, optional
             Second genome range
         """
-        if genome_range2 is None:
-            genome_range2 = genome_range1
-
+        frame2grange = self.frame_granges(genome_range1, genome_range2)
+        gr1, gr2 = self.current_ranges
         sub_frames = self.properties['sub_frames']
-        trbl = self.properties['trbl']
 
-        orientations = ['top', 'right', 'bottom', 'left']
-        frame2grange = {
-            k: (genome_range1 if (trbl[orientations.index(k)] == '1') else genome_range2)
-            for k in orientations
-        }
         frame_svgs = self.plot_frames(frame2grange)
-        center_svg = self.plot_center(genome_range1, genome_range2)
+        center_svg = self.plot_center(gr1, gr2)
 
         center_offsets = self.__get_center_offsets(sub_frames)
 
@@ -166,6 +188,29 @@ class JointView(SuperFrame):
                         sc.Panel(center_svg),
                         *[sc.Panel(svg) for svg in frame_svgs.values()])
         return fig
+
+    def fetch_data(self, genome_range1=None, genome_range2=None) -> dict:
+        """
+
+        Parameters
+        ----------
+        genome_range1 : {str, GenomeRange}, optional
+            First genome range
+
+        genome_range2 : {str, GenomeRange}, optional
+            Second genome range
+        """
+        tracks_data = {}
+        frame2grange = self.frame_granges(genome_range1, genome_range2)
+        gr1, gr2 = self.current_ranges
+        sub_frames = self.properties['sub_frames']
+
+        for pos, fr in sub_frames.items():
+            tracks_data[pos] = sub_frames[pos].fetch_data(frame2grange[pos])
+
+        tracks_data['center'] = self.properties['center_track'].fetch_data(gr1, gr2)
+
+        return tracks_data
 
     def __transform_sub_svgs(self, sub_svgs, sub_frames, center_offsets):
         c_width = self.properties['center_width']
@@ -184,7 +229,7 @@ class JointView(SuperFrame):
             wr = f.properties['width_ratios']
             right_offsets = [
                 center_offsets[0] + c_width + f.properties['height'] + space,
-                center_offsets[1] - f.properties['width']*wr[0]
+                center_offsets[1] - f.properties['width'] * wr[0]
             ]
             right_offsets = self.cm2px(right_offsets)
             s.move(*right_offsets)
@@ -201,7 +246,7 @@ class JointView(SuperFrame):
             s = sub_svgs['left']
             f = sub_frames['left']
             s.rotate(90)
-            offsets = [pd_left+f.properties['height'], 0]
+            offsets = [pd_left + f.properties['height'], 0]
             if 'top' in sub_svgs:
                 offsets[1] += sub_frames['top'].properties['height']
             offsets = self.cm2px(offsets)
@@ -243,4 +288,3 @@ class JointView(SuperFrame):
         self.properties['width'] = size[0]
         self.properties['height'] = size[1]
         return size
-

@@ -2,7 +2,6 @@ import os.path as osp
 
 from coolbox.api import *
 
-
 HERE = osp.dirname(osp.abspath(__file__))
 DATA_DIR = f"{HERE}/test_data"
 test_interval = "chr9:4000000-6000000"
@@ -18,6 +17,20 @@ def test_joint_view():
 
     cool1 = Cool(f"{DATA_DIR}/cool_{test_itv}.mcool", color_bar=False)
 
-    jv = JointView(cool1, top=frame1, right=frame2, bottom=frame1, left=frame2, space=0, padding_left=0)
-    fig = jv.plot("chr9:4750000-5100000", "chr9:5350000-5700000")
+    sub_frames = {
+        "top": frame1,
+        "right": frame2,
+        "bottom": frame1,
+        "left": frame2
+    }
+
+    jv = JointView(cool1, **sub_frames, space=0, padding_left=0)
+    fig = jv.plot("chr9:4500000-5000000", "chr9:5200000-5850000")
     fig.save("/tmp/test_coolbox_joint_view.svg")
+
+    tracks_data = jv.fetch_data()
+    for pos, fr in sub_frames.items():
+        assert len(tracks_data[pos]) == len(fr.fetch_data())
+
+    import numpy as np
+    assert np.all(cool1.fetch_data(*jv.current_ranges) == tracks_data['center'])

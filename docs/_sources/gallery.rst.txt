@@ -2,33 +2,34 @@ CoolBox Gallery
 ---------------
 
 .. nbgallery::
-	:caption: Hi-C
-	:name: hic-gallery
-	:glob:
+    :caption: Hi-C
+    :name: hic-gallery
+    :glob:
 
-	_gallery/hicmat_cmaps.ipynb
-	_gallery/reso_normalize.ipynb
-	_gallery/smoothing.ipynb
-	_gallery/hicfeature.ipynb
-	_gallery/TADs.ipynb
-	_gallery/peakcov.ipynb
-	_gallery/HiCDiff.ipynb
-	_gallery/selfish.ipynb
-
-.. nbgallery::
-	:caption: Others
-	:name: other-gallery
-	:glob:
-
-	_gallery/bw_style.ipynb
-	_gallery/bw_cov.ipynb
-	_gallery/arcs_cov.ipynb
-	_gallery/snp.ipynb
+    _gallery/hicmat_cmaps.ipynb
+    _gallery/reso_normalize.ipynb
+    _gallery/smoothing.ipynb
+    _gallery/hicfeature.ipynb
+    _gallery/TADs.ipynb
+    _gallery/peakcov.ipynb
+    _gallery/HiCDiff.ipynb
+    _gallery/selfish.ipynb
+    _gallery/joint_view.ipynb
 
 .. nbgallery::
-	:caption: Auxiliary functions
-	:name: functions-gallery
-	:glob:
+    :caption: Others
+    :name: other-gallery
+    :glob:
 
-	_gallery/decay.ipynb
+    _gallery/bw_style.ipynb
+    _gallery/bw_cov.ipynb
+    _gallery/arcs_cov.ipynb
+    _gallery/snp.ipynb
+
+.. nbgallery::
+    :caption: Auxiliary functions
+    :name: functions-gallery
+    :glob:
+
+    _gallery/decay.ipynb
 
