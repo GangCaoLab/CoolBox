@@ -22,7 +22,7 @@ class Feature(object):
 
     def __add__(self, other):
         from .track.base import Track
-        from .frame import Frame
+        from .frame.base import FrameBase
         from .coverage.base import Coverage
         from .coverage.base import CoverageStack
 
@@ -30,7 +30,7 @@ class Feature(object):
             result = copy(other)
             result.properties[self.key] = self.value
             return result
-        elif isinstance(other, Frame):
+        elif isinstance(other, FrameBase):
             result = copy(other)
             if len(result.tracks) != 0:
                 first = list(result.tracks.values())[0]
@@ -50,9 +50,9 @@ class Feature(object):
             raise TypeError(op_err_msg(self, other))
 
     def __mul__(self, other):
-        from .frame import Frame
+        from .frame.base import FrameBase
 
-        if isinstance(other, Frame):
+        if isinstance(other, FrameBase):
             result = copy(other)
             result.add_feature_to_tracks(self)
             return result
@@ -193,9 +193,9 @@ class FrameFeature(Feature):
     """
 
     def __add__(self, other):
-        from .frame import Frame
+        from .frame.base import FrameBase
 
-        if isinstance(other, Frame):
+        if isinstance(other, FrameBase):
             result = copy(other)
             result.properties[self.key] = self.value
             return result

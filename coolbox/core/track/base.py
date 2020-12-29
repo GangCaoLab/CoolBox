@@ -75,7 +75,8 @@ class Track(object):
         self.properties['name'] = value
 
     def __add__(self, other):
-        from ..frame import Frame
+        from ..frame.base import FrameBase
+        from ..frame.frame import Frame
         from ..coverage.base import Coverage
         from ..coverage.base import CoverageStack
         from ..feature import Feature
@@ -85,7 +86,7 @@ class Track(object):
             result.add_track(self)
             result.add_track(other)
             return result
-        elif isinstance(other, Frame):
+        elif isinstance(other, FrameBase):
             result = copy(other)
             result.add_track(self, pos='head')
             return result

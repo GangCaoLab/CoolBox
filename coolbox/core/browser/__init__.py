@@ -1,4 +1,4 @@
-from coolbox.interact import BrowserBase
+from .base import Browser
 from coolbox.utilities import op_err_msg
 
 __all__ = ["WidgetsPanel", "Browser"]
@@ -34,27 +34,11 @@ class WidgetsPanel(object):
         >>>
 
         """
-        from .frame import Frame
-        if isinstance(other, Frame):
+        from ..frame.base import FrameBase
+        if isinstance(other, FrameBase):
             return Browser(other, reference_genome=self.ref, widgets_box=self.type)
         else:
             raise TypeError(op_err_msg(self, other, op="+"))
-
-
-class Browser(BrowserBase):
-    """
-    Genoeme browser.
-    include:
-        * Frame: for show plots
-        * widgetsPanel: for control genome region showed in Frame.
-    """
-
-    @property
-    def tracks(self):
-        return self.frame.tracks
-
-    def fetch_data(self, genome_range=None):
-        return self.frame.fetch_data(genome_range)
 
 
 if __name__ == "__main__":

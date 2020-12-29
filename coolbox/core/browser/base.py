@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
 
 
-class BrowserBase(object):
+class Browser(object):
     """
     Browser base class.
     """
@@ -24,7 +24,7 @@ class BrowserBase(object):
         """
         Parameters
         ----------
-        frame : coolbox.core.Frame
+        frame : {coolbox.core.frame.Frame, coolbox.core.superframe.base.Superframe}
             Browser's main frame.
 
         reference_genome : str, optional
@@ -199,7 +199,7 @@ class BrowserBase(object):
 
         # auto clear fig cache for prevent memory leak
         if len(self.fig_cache) > 20 and \
-                get_size(self.fig_cache) >= BrowserBase.MAX_CACHE_SIZE:
+                get_size(self.fig_cache) >= Browser.MAX_CACHE_SIZE:
             self.clear_fig_cache()
 
         self.widgets.frame_widget.value = fig_bytes
@@ -259,3 +259,12 @@ class BrowserBase(object):
         c_fig = self.frame.show()
         dpi = dpi or self.dpi
         c_fig.savefig(path, dpi=dpi)
+
+    @property
+    def tracks(self):
+        return self.frame.tracks
+
+    def fetch_data(self, genome_range=None):
+        return self.frame.fetch_data(genome_range)
+
+

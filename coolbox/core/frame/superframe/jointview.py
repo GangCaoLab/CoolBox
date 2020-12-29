@@ -1,35 +1,11 @@
-import abc
 from collections import OrderedDict
 
 import svgutils.compose as sc
 import matplotlib.pyplot as plt
 
-from coolbox.utilities import bool2str
 from coolbox.utilities.figtools import cm2inch
 from coolbox.utilities.filetool import get_uniq_tmp_file
-
-
-class SuperFrame(abc.ABC):
-    """Bigger frame composed by normal frames,
-    compose figure using svgutils,
-    this allow compose big figures which the matplotlib can not do.
-    """
-    def __init__(self, properties_dict):
-        self.properties = bool2str(properties_dict)
-        assert "sub_frames" in self.properties
-
-    def plot_frames(self, frame2grange):
-        """Plot each frame by a given GenomeRange object."""
-        res = OrderedDict()
-        for k, f in self.properties['sub_frames'].items():
-            gr = frame2grange[k]
-            path = get_uniq_tmp_file(prefix="frame_", suffix=".svg")
-            fig = f.plot(gr)
-            fig.subplots_adjust(wspace=0, hspace=0.0, left=0, right=1, bottom=0, top=1)
-            fig.savefig(path)
-            svg = sc.SVG(path)
-            res[k] = svg
-        return res
+from .base import SuperFrame
 
 
 class JointView(SuperFrame):
@@ -98,8 +74,8 @@ class JointView(SuperFrame):
         return [i * self.properties['cm2px'] for i in vec]
 
     def __check_sub_frames(self, center, sub_frames):
-        from .frame import Frame
-        from .track.base import Track
+        from ..frame import Frame
+        from ...track.base import Track
         sub_f_names = ", ".join(sub_frames.keys())
         assert len(sub_frames) >= 2, f"At least one of {sub_f_names} should specified."
         if (not isinstance(center, Track)) and (not hasattr(center, "plot_joint")):
@@ -244,3 +220,9 @@ class JointView(SuperFrame):
         self.properties['height'] = size[1]
         return size
 
+    def add_track(self, track, pos=None):
+        sub_frames = self.properties['sub_frames']
+        if pos is None:
+            pos = list(sub_frames.keys())[-1]
+        frame = sub_frames[pos]
+        frame.add_track(track)

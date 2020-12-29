@@ -61,14 +61,14 @@ class Coverage(object):
 
     def __add__(self, other):
         from ..track.base import Track
-        from ..frame import Frame
+        from ..frame.base import FrameBase
         from ..feature import Feature
 
         if isinstance(other, Track):
             result = copy(other)
             result.append_coverage(self)
             return result
-        elif isinstance(other, Frame):
+        elif isinstance(other, FrameBase):
             result = copy(other)
             if len(result.tracks) > 1:
                 first = list(result.tracks.values())[0]
@@ -89,8 +89,8 @@ class Coverage(object):
             raise TypeError(op_err_msg(self, other))
 
     def __mul__(self, other):
-        from ..frame import Frame
-        if isinstance(other, Frame):
+        from ..frame.base import FrameBase
+        if isinstance(other, FrameBase):
             result = copy(other)
             result.add_cov_to_tracks(self)
             return result
@@ -140,7 +140,7 @@ class CoverageStack(object):
 
     def __add__(self, other):
         from ..track.base import Track
-        from ..frame import Frame
+        from ..frame.base import FrameBase
         from ..feature import Feature
 
         if isinstance(other, Coverage):
@@ -151,7 +151,7 @@ class CoverageStack(object):
             result = copy(other)
             result.pile_coverages(self.coverages, pos='bottom')
             return result
-        elif isinstance(other, Frame):
+        elif isinstance(other, FrameBase):
             result = copy(other)
             if len(result.tracks) != 0:
                 first = list(result.tracks.values())[0]
