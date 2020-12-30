@@ -153,12 +153,17 @@ def get_size(obj, seen=None):
 
 def fig2bytes(fig, encode='svg', dpi=None):
     """
-    Convert matplotlib.figure.Figure object to image bytes.
+    Convert matplotlib.figure.Figure/IPython.display.SVG
+    object to image bytes.
     """
-    import io
-    buf = io.BytesIO()
-    fig.savefig(buf, format=encode, dpi=None)
-    buf.seek(0)
-    img_bytes = buf.read()
-    buf.close()
+    from IPython.display import SVG
+    if isinstance(fig, SVG):
+        img_bytes = fig.data.encode('utf-8')
+    else:
+        import io
+        buf = io.BytesIO()
+        fig.savefig(buf, format=encode, dpi=None)
+        buf.seek(0)
+        img_bytes = buf.read()
+        buf.close()
     return img_bytes

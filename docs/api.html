@@ -94,6 +94,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-coolbox.core.coverage">Coverage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-coolbox.core.feature">Feature</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-coolbox.core.frame">Frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#jointview">JointView</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-coolbox.core.browser">Browser</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-coolbox.utilities">Utilities</a></li>
 </ul>
@@ -1080,32 +1081,27 @@ processors. Reloading the file solves the problem.</p>
 <td><p>Append coverage to this track.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code>(genome_range1[, genome_range2, …])</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p>Fetch 2d contact matrix, the matrix may be processed in case         ‘transform’, ‘normalize’, ‘gaussian_sigma’, ‘process_func’ exits in properties.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Cool.fetch_matrix" title="coolbox.core.track.Cool.fetch_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_matrix</span></code></a>(genome_range[, genome_range2, …])</p></td>
 <td><p>Fetch the original matrix(not processed).</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.Cool.fetch_pixels" title="coolbox.core.track.Cool.fetch_pixels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_pixels</span></code></a>(genome_range[, genome_range2, …])</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p>Fetch the pixels table of upper triangle of the original contact matrix(not processed).</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width)</p></td>
 <td><p>calculate track height dynamically.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">infer_binsize</span></code>(genome_range1[, …])</p></td>
+<td><p>This function can be used to infer the expected binsize of fetched matrix by calling fetch_data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
 <td><p>Pile a stack of coverages with self’s coverages</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
 <td><p>Plot the track within a genome range.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(plot_axis, y_ax)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(plot_axis, y_ax)</p></td>
 <td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
 </tr>
 </tbody>
@@ -1156,11 +1152,7 @@ processors. Reloading the file solves the problem.</p>
 <td><p>Fetch the original matrix(not processed).</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.Cool.fetch_pixels" title="coolbox.core.track.Cool.fetch_pixels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_pixels</span></code></a>(genome_range[, genome_range2, …])</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p>Fetch the pixels table of upper triangle of the original contact matrix(not processed).</p></td>
 </tr>
 </tbody>
 </table>
@@ -1189,23 +1181,24 @@ processors. Reloading the file solves the problem.</p>
 <dl class="py method">
 <dt id="coolbox.core.track.Cool.fetch_pixels">
 <code class="sig-name descname">fetch_pixels</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">genome_range</span></em>, <em class="sig-param"><span class="n">genome_range2</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">balance</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">resolution</span><span class="o">=</span><span class="default_value">'auto'</span></em>, <em class="sig-param"><span class="n">join</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.Cool.fetch_pixels" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Fetch the pixels table of upper triangle of the original contact matrix(not processed).</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>genome_range</strong><span class="classifier">{str, GenomeRange}</span></dt><dd><p>Intervals within input chromosome range.</p>
-</dd>
+<dt><strong>genome_range</strong><span class="classifier">{str, GenomeRange}</span></dt><dd></dd>
+<dt><strong>Intervals within input chromosome range.</strong></dt><dd></dd>
 <dt><strong>genome_range2</strong><span class="classifier">{str, GenomeRange}, optional.</span></dt><dd></dd>
-<dt><strong>balance</strong><span class="classifier">bool, optional</span></dt><dd><p>balance matrix or not,
-default <cite>self.is_balance</cite>.</p>
+<dt><strong>balance</strong><span class="classifier">bool, optional</span></dt><dd></dd>
+<dt><strong>balance matrix or not,</strong></dt><dd></dd>
+<dt><strong>default `self.is_balance`.</strong></dt><dd></dd>
+<dt><strong>resolution</strong><span class="classifier">{‘auto’, int}</span></dt><dd></dd>
+<dt><strong>resolution of the data. for example 5000.</strong></dt><dd><p>‘auto’ for calculate resolution automatically.</p>
 </dd>
-<dt><strong>resolution</strong><span class="classifier">{‘auto’, int}</span></dt><dd><p>resolution of the data. for example 5000.
-‘auto’ for calculate resolution automatically.
-default ‘auto’</p>
-</dd>
-<dt><strong>join</strong><span class="classifier">bool</span></dt><dd><p>whether to expand the bin ID columns
-into (chrom, start, end).
-default True</p>
-</dd>
+<dt><strong>default ‘auto’</strong></dt><dd></dd>
+<dt><strong>join</strong><span class="classifier">bool</span></dt><dd></dd>
+<dt><strong>whether to expand the bin ID columns</strong></dt><dd></dd>
+<dt><strong>into (chrom, start, end).</strong></dt><dd></dd>
+<dt><strong>default True</strong></dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -1377,11 +1370,7 @@ default True(‘KR’ balance)</p>
 <td><p>Append coverage to this track.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code>(genome_range1[, genome_range2, …])</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p>Fetch 2d contact matrix, the matrix may be processed in case         ‘transform’, ‘normalize’, ‘gaussian_sigma’, ‘process_func’ exits in properties.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.DotHiC.fetch_matrix" title="coolbox.core.track.DotHiC.fetch_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_matrix</span></code></a>(genome_range[, genome_range2, …])</p></td>
 <td><p>Fetch the original matrix(not processed).</p></td>
@@ -1396,13 +1385,16 @@ default True(‘KR’ balance)</p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width)</p></td>
 <td><p>calculate track height dynamically.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">infer_binsize</span></code>(genome_range1[, …])</p></td>
+<td><p>This function can be used to infer the expected binsize of fetched matrix by calling fetch_data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
 <td><p>Pile a stack of coverages with self’s coverages</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_genome_range</span></code>(ax, genome_range)</p></td>
 <td><p>Plot the track within a genome range.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(plot_axis, y_ax)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_y_axis</span></code>(plot_axis, y_ax)</p></td>
 <td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
 </tr>
 </tbody>
@@ -1490,6 +1482,8 @@ default True(‘KR’ balance)</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>genome_range</strong><span class="classifier">{str, GenomeRange}</span></dt><dd><p>Intervals within input chromosome range.</p>
+</dd>
+<dt><strong>genome_range2</strong><span class="classifier">{str, GenomeRange}</span></dt><dd><p>Intervals within input chromsome range2.</p>
 </dd>
 <dt><strong>balance</strong><span class="classifier">{bool, ‘KR’, ‘VC’, ‘VC_SQRT’}, optional</span></dt><dd><p>matrix balance method,
 default <cite>self.balance</cite>.</p>
@@ -1897,7 +1891,8 @@ see: <a class="reference external" href="http://genome.ucsc.edu/cgi-bin/hgTables
 <dd class="field-odd"><dl class="simple">
 <dt><strong>hicmat: {str, Cool, DotHic}</strong></dt><dd><p>The input hicmat file or HicMatBase object used to calculate insulation score.</p>
 </dd>
-<dt><strong>window_size: int, optional</strong></dt><dd><p>Width of the diamond region along the matrix used to calculate di. default: 20</p>
+<dt><strong>window_size: {int, str}, optional</strong></dt><dd><p>Width of the diamond region along the matrix used to calculate di. default: 20
+window_size can also be a str with format like “20-40” representing a range of window_sizes.</p>
 </dd>
 <dt><strong>normalize: bool, optional</strong></dt><dd><p>Weather to log-nomalize the insulation score array. default: true</p>
 </dd>
@@ -1907,7 +1902,7 @@ see: <a class="reference external" href="http://genome.ucsc.edu/cgi-bin/hgTables
 </dd>
 <dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Track color, default DiScore.DEFAULT_COLOR</p>
 </dd>
-<dt><strong>style</strong><span class="classifier">str, optional</span></dt><dd><p>Track graph type, format {‘fill’, ‘line:<cite>size</cite>’, ‘points:<cite>size</cite>’},
+<dt><strong>style</strong><span class="classifier">str, optional</span></dt><dd><p>Track graph type, format {‘fill’, ‘line:<cite>size</cite>’, ‘points:<cite>size</cite>’, ‘heatmap’},
 example: ‘line:2’, ‘points:0.5’. default: ‘line’</p>
 </dd>
 <dt><strong>extra</strong><span class="classifier">optional</span></dt><dd></dd>
@@ -3569,290 +3564,17 @@ or a genome range string like:
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame" title="coolbox.core.frame.Frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame</span></code>(*args, **kwargs)</p></td>
 <td><p>Frame for arrange and group plots.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">GenomeRange</span></code>(*args)</p></td>
-<td><p>Express a range on the genome.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">OrderedDict</span></code></p></td>
-<td><p>Dictionary that remembers insertion order</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">JointView</span></code>(center[, top, right, bottom, left])</p></td>
+<td><p>Compose two track and a center matrix.</p></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Functions:</strong></p>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">cm2inch</span></code>(*tupl)</p></td>
-<td><p>convert length unit from cm to inch.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code>(x)</p></td>
-<td><p>Shallow copy operation on arbitrary Python objects.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">op_err_msg</span></code>(a, b[, op])</p></td>
-<td><p>Generate the error message of error operand type.</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py class">
-<dt id="coolbox.core.frame.Frame">
-<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.frame.</code><code class="sig-name descname">Frame</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.frame.Frame" title="Permalink to this definition">¶</a></dt>
-<dd><p>Frame for arrange and group plots.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>genome_range</strong><span class="classifier">{GenomeRange, str}, optional</span></dt><dd><p>The init genome range.</p>
-</dd>
-<dt><strong>width</strong><span class="classifier">{int, float}, optional</span></dt><dd><p>Width of frame, default Frame.DEFAULT_WIDTH.</p>
-</dd>
-<dt><strong>width_ratios</strong><span class="classifier">tuple, optional</span></dt><dd><p>Width ratios of track and track title,
-like <cite>(0.9, 0.1)</cite>. default Frame.DEFAULT_WIDTH_RATIOS.</p>
-</dd>
-<dt><strong>margins</strong><span class="classifier">dict, optional</span></dt><dd><p>Margins of frame, default Frame.DEFAULT_MARGINS.</p>
-</dd>
-<dt><strong>title</strong><span class="classifier">str, optional</span></dt><dd><p>The title of this frame, default ‘’.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">frame_1</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame_2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">genome_range</span><span class="o">=</span><span class="s2">&quot;chr1:1000-2000&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">frame_2</span><span class="o">.</span><span class="n">current_range</span><span class="p">)</span>
-<span class="go">&#39;chr1:1000-2000&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame_3</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">genome_range</span><span class="o">=</span><span class="n">GenomeRange</span><span class="p">(</span><span class="s2">&quot;chr1&quot;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">frame_3</span><span class="o">.</span><span class="n">current_range</span><span class="p">)</span>
-<span class="go">&#39;chr1:1000-2000&#39;</span>
-</pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Attributes</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>properties</strong><span class="classifier">dict</span></dt><dd><p>Frame properties dict.</p>
-</dd>
-<dt><strong>tracks</strong><span class="classifier">OrderedDict</span></dt><dd><p>Container of all tracks.</p>
-</dd>
-<dt><strong>current_range</strong><span class="classifier">GenomeRange, optional</span></dt><dd><p>Current frame range.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<p class="rubric">Methods</p>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.add_cov_to_tracks" title="coolbox.core.frame.Frame.add_cov_to_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_cov_to_tracks</span></code></a>(cov)</p></td>
-<td><p>Add coverage to all tracks in this frame.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.add_feature_to_tracks" title="coolbox.core.frame.Frame.add_feature_to_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_feature_to_tracks</span></code></a>(feature)</p></td>
-<td><p>Add feature to all tracks in this frame.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.add_track" title="coolbox.core.frame.Frame.add_track"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_track</span></code></a>(track[, pos])</p></td>
-<td><p>Add <cite>Track</cite> object to self.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.get_tracks_height" title="coolbox.core.frame.Frame.get_tracks_height"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tracks_height</span></code></a>([default_height])</p></td>
-<td><p>Get heights of all tracks.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.goto" title="coolbox.core.frame.Frame.goto"><code class="xref py py-obj docutils literal notranslate"><span class="pre">goto</span></code></a>(genome_range)</p></td>
-<td><p>Go to the range on the genome.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.plot" title="coolbox.core.frame.Frame.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(*args)</p></td>
-<td><p>Plot all tracks.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.set_tracks_min_max" title="coolbox.core.frame.Frame.set_tracks_min_max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_tracks_min_max</span></code></a>(min_, max_[, name])</p></td>
-<td><p>set all bigwig and bedgraph tracks’s min and max value.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.show" title="coolbox.core.frame.Frame.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>()</p></td>
-<td><p>Display self’s elements on screen.</p></td>
-</tr>
-</tbody>
-</table>
-<table class="docutils align-default">
-<colgroup>
-<col style="width: 58%" />
-<col style="width: 42%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><strong>fetch_data</strong></p></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Methods:</strong></p>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.add_cov_to_tracks" title="coolbox.core.frame.Frame.add_cov_to_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_cov_to_tracks</span></code></a>(cov)</p></td>
-<td><p>Add coverage to all tracks in this frame.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.add_feature_to_tracks" title="coolbox.core.frame.Frame.add_feature_to_tracks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_feature_to_tracks</span></code></a>(feature)</p></td>
-<td><p>Add feature to all tracks in this frame.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.add_track" title="coolbox.core.frame.Frame.add_track"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_track</span></code></a>(track[, pos])</p></td>
-<td><p>Add <cite>Track</cite> object to self.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.get_tracks_height" title="coolbox.core.frame.Frame.get_tracks_height"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tracks_height</span></code></a>([default_height])</p></td>
-<td><p>Get heights of all tracks.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.goto" title="coolbox.core.frame.Frame.goto"><code class="xref py py-obj docutils literal notranslate"><span class="pre">goto</span></code></a>(genome_range)</p></td>
-<td><p>Go to the range on the genome.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.plot" title="coolbox.core.frame.Frame.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(*args)</p></td>
-<td><p>Plot all tracks.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.set_tracks_min_max" title="coolbox.core.frame.Frame.set_tracks_min_max"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_tracks_min_max</span></code></a>(min_, max_[, name])</p></td>
-<td><p>set all bigwig and bedgraph tracks’s min and max value.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.frame.Frame.show" title="coolbox.core.frame.Frame.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>()</p></td>
-<td><p>Display self’s elements on screen.</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py method">
-<dt id="coolbox.core.frame.Frame.add_cov_to_tracks">
-<code class="sig-name descname">add_cov_to_tracks</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cov</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.frame.Frame.add_cov_to_tracks" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add coverage to all tracks in this frame.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>cov</strong><span class="classifier">Coverage</span></dt><dd><p>Coverage object to be added to Frame’s tracks.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">coolbox.core.track</span> <span class="kn">import</span> <span class="n">XAxis</span><span class="p">,</span> <span class="n">BigWig</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">coolbox.core.coverage</span> <span class="kn">import</span> <span class="n">HighLights</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">add_track</span><span class="p">(</span><span class="n">XAxis</span><span class="p">())</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">add_track</span><span class="p">(</span><span class="n">BigWig</span><span class="p">(</span><span class="s2">&quot;tests/test_data/bigwig_chrx_2e6_5e6.bw&quot;</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">highlights</span> <span class="o">=</span> <span class="n">HighLights</span><span class="p">([(</span><span class="s2">&quot;chr1&quot;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;chr2&quot;</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">4000</span><span class="p">)])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">add_cov_to_tracks</span><span class="p">(</span><span class="n">highlights</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="p">[</span><span class="n">track</span><span class="o">.</span><span class="n">coverages</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="n">highlights</span> <span class="k">for</span> <span class="n">track</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt id="coolbox.core.frame.Frame.add_feature_to_tracks">
-<code class="sig-name descname">add_feature_to_tracks</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">feature</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.frame.Frame.add_feature_to_tracks" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add feature to all tracks in this frame.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>feature</strong><span class="classifier">Feature</span></dt><dd><p>Feature object to be added to Frame’s tracks.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">coolbox.core.feature</span> <span class="kn">import</span> <span class="n">Color</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">add_feature_to_tracks</span><span class="p">(</span><span class="n">Color</span><span class="p">(</span><span class="s1">&#39;#66ccff&#39;</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="nb">all</span><span class="p">([</span><span class="n">track</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;#66ccff&#39;</span> <span class="k">for</span> <span class="n">track</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt id="coolbox.core.frame.Frame.add_track">
-<code class="sig-name descname">add_track</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">track</span></em>, <em class="sig-param"><span class="n">pos</span><span class="o">=</span><span class="default_value">'tail'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.frame.Frame.add_track" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add <cite>Track</cite> object to self.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>track</strong><span class="classifier">Track</span></dt><dd><p>The track need to be added to self.tracks</p>
-</dd>
-<dt><strong>pos</strong><span class="classifier">{‘tail’, ‘head’}</span></dt><dd><p>Add track to tail or head. default ‘tail’</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">coolbox.core.track</span> <span class="kn">import</span> <span class="n">XAxis</span><span class="p">,</span> <span class="n">BigWig</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">add_track</span><span class="p">(</span><span class="n">XAxis</span><span class="p">())</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">add_track</span><span class="p">(</span><span class="n">BigWig</span><span class="p">(</span><span class="s2">&quot;tests/test_data/bigwig_chrx_2e6_5e6.bw&quot;</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">tracks</span><span class="p">)</span>
-<span class="go">2</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt id="coolbox.core.frame.Frame.get_tracks_height">
-<code class="sig-name descname">get_tracks_height</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">default_height</span><span class="o">=</span><span class="default_value">3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.frame.Frame.get_tracks_height" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get heights of all tracks.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="coolbox.core.frame.Frame.goto">
-<code class="sig-name descname">goto</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">genome_range</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.frame.Frame.goto" title="Permalink to this definition">¶</a></dt>
-<dd><p>Go to the range on the genome.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>genome_range</strong><span class="classifier">{str, GenomeRange}</span></dt><dd><p>The range string,
-like “chr1:1000000-2000000”, or GenomeRange object.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">goto</span><span class="p">(</span><span class="s2">&quot;chrX:3000000-5000000&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">current_range</span><span class="p">)</span>
-<span class="go">&#39;chrX:3000000-5000000&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">goto</span><span class="p">(</span><span class="n">GenomeRange</span><span class="p">(</span><span class="s2">&quot;chr1&quot;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">current_range</span><span class="p">)</span>
-<span class="go">&#39;chr1:1000-2000&#39;</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt id="coolbox.core.frame.Frame.plot">
-<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.frame.Frame.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot all tracks.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">coolbox.api</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">XAxis</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr1&quot;</span><span class="p">,</span> <span class="mi">100000</span><span class="p">,</span> <span class="mi">200000</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr1:100000-200000&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt id="coolbox.core.frame.Frame.set_tracks_min_max">
-<code class="sig-name descname">set_tracks_min_max</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">min_</span></em>, <em class="sig-param"><span class="n">max_</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.frame.Frame.set_tracks_min_max" title="Permalink to this definition">¶</a></dt>
-<dd><p>set all bigwig and bedgraph tracks’s min and max value.</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span><span class="o">.</span><span class="n">set_tracks_min_max</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="nb">all</span><span class="p">([</span><span class="n">track</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;min_value&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">10</span> <span class="k">for</span> <span class="n">track</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="nb">all</span><span class="p">([</span><span class="n">track</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;min_value&#39;</span><span class="p">]</span> <span class="o">==</span>  <span class="mi">10</span> <span class="k">for</span> <span class="n">track</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt id="coolbox.core.frame.Frame.show">
-<code class="sig-name descname">show</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.frame.Frame.show" title="Permalink to this definition">¶</a></dt>
-<dd><p>Display self’s elements on screen.</p>
-</dd></dl>
-
-</dd></dl>
-
+<div class="section" id="jointview">
+<h2>JointView<a class="headerlink" href="#jointview" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-coolbox.core.browser">
 <span id="browser"></span><h2>Browser<a class="headerlink" href="#module-coolbox.core.browser" title="Permalink to this headline">¶</a></h2>
@@ -3867,21 +3589,14 @@ like “chr1:1000000-2000000”, or GenomeRange object.</p>
 <td><p>Widgets container.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.browser.Browser" title="coolbox.core.browser.Browser"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Browser</span></code></a>(frame[, reference_genome, …])</p></td>
-<td><p>Genoeme browser. include:     * Frame: for show plots     * widgetsPanel: for control genome region showed in Frame.</p></td>
+<td><p>Browser base class.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt id="coolbox.core.browser.Browser">
 <em class="property">class </em><code class="sig-prename descclassname">coolbox.core.browser.</code><code class="sig-name descname">Browser</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">frame</span></em>, <em class="sig-param"><span class="n">reference_genome</span><span class="o">=</span><span class="default_value">'hg19'</span></em>, <em class="sig-param"><span class="n">init_range</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">widgets_box</span><span class="o">=</span><span class="default_value">'simple'</span></em>, <em class="sig-param"><span class="n">dpi</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">img_format</span><span class="o">=</span><span class="default_value">'svg'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.browser.Browser" title="Permalink to this definition">¶</a></dt>
-<dd><p>Genoeme browser.
-include:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>Frame: for show plots</p></li>
-<li><p>widgetsPanel: for control genome region showed in Frame.</p></li>
-</ul>
-</div></blockquote>
+<dd><p>Browser base class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Attributes</dt>
 <dd class="field-odd"><dl class="simple">
@@ -3898,22 +3613,22 @@ include:</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear_fig_cache</span></code>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.browser.Browser.clear_fig_cache" title="coolbox.core.browser.Browser.clear_fig_cache"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear_fig_cache</span></code></a>()</p></td>
 <td><p>Clear the fig cache.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_init_range</span></code>([chrom])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.browser.Browser.get_init_range" title="coolbox.core.browser.Browser.get_init_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_init_range</span></code></a>([chrom])</p></td>
 <td><p>Generate an initial range within a chromosome.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">preload_imgs</span></code>(directions)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.browser.Browser.preload_imgs" title="coolbox.core.browser.Browser.preload_imgs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">preload_imgs</span></code></a>(directions)</p></td>
 <td><p>Preloading images to self.fig_cache.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">refresh</span></code>([hard])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.browser.Browser.refresh" title="coolbox.core.browser.Browser.refresh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">refresh</span></code></a>([hard])</p></td>
 <td><p>Refresh the image display.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code>(path[, dpi])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.browser.Browser.save" title="coolbox.core.browser.Browser.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(path[, dpi])</p></td>
 <td><p>Save current frame’s image to file.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code>(*args, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.browser.Browser.show" title="coolbox.core.browser.Browser.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>(*args, **kwargs)</p></td>
 <td><p>Show widgets and frame.</p></td>
 </tr>
 </tbody>
@@ -3944,6 +3659,80 @@ include:</p>
 </tr>
 </tbody>
 </table>
+<p><strong>Methods:</strong></p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.browser.Browser.clear_fig_cache" title="coolbox.core.browser.Browser.clear_fig_cache"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear_fig_cache</span></code></a>()</p></td>
+<td><p>Clear the fig cache.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.browser.Browser.get_init_range" title="coolbox.core.browser.Browser.get_init_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_init_range</span></code></a>([chrom])</p></td>
+<td><p>Generate an initial range within a chromosome.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.browser.Browser.preload_imgs" title="coolbox.core.browser.Browser.preload_imgs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">preload_imgs</span></code></a>(directions)</p></td>
+<td><p>Preloading images to self.fig_cache.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.browser.Browser.refresh" title="coolbox.core.browser.Browser.refresh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">refresh</span></code></a>([hard])</p></td>
+<td><p>Refresh the image display.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.browser.Browser.save" title="coolbox.core.browser.Browser.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(path[, dpi])</p></td>
+<td><p>Save current frame’s image to file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.browser.Browser.show" title="coolbox.core.browser.Browser.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Show widgets and frame.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="coolbox.core.browser.Browser.clear_fig_cache">
+<code class="sig-name descname">clear_fig_cache</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.browser.Browser.clear_fig_cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear the fig cache.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coolbox.core.browser.Browser.get_init_range">
+<code class="sig-name descname">get_init_range</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">chrom</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.browser.Browser.get_init_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate an initial range within a chromosome.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>chrom (str, optional): initial choromosome.</p>
+</dd>
+<dt>Return:</dt><dd><p>(<code class="xref py py-obj docutils literal notranslate"><span class="pre">GenomeRange</span></code>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coolbox.core.browser.Browser.preload_imgs">
+<code class="sig-name descname">preload_imgs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">directions</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.browser.Browser.preload_imgs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Preloading images to self.fig_cache.</p>
+<dl class="simple">
+<dt>Can load image in one of 4 directions:</dt><dd><p>left, right, zoom-in, zoom-out</p>
+</dd>
+</dl>
+<p>or load all directions.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coolbox.core.browser.Browser.refresh">
+<code class="sig-name descname">refresh</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">hard</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.browser.Browser.refresh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Refresh the image display.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coolbox.core.browser.Browser.save">
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em>, <em class="sig-param"><span class="n">dpi</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.browser.Browser.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save current frame’s image to file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coolbox.core.browser.Browser.show">
+<code class="sig-name descname">show</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.browser.Browser.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show widgets and frame.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -4023,26 +3812,38 @@ default ‘hg19’</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.utilities.abspath" title="coolbox.utilities.abspath"><code class="xref py py-obj docutils literal notranslate"><span class="pre">abspath</span></code></a>(path)</p></td>
 <td><p>Return an absolute path.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.utilities.change_chrom_names" title="coolbox.utilities.change_chrom_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">change_chrom_names</span></code></a>(chrom)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.utilities.bool2str" title="coolbox.utilities.bool2str"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool2str</span></code></a>(properties)</p></td>
+<td><p>Conver bool value to ‘yes’ or ‘no’, for compatible with pyGenomeTracks</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.utilities.change_chrom_names" title="coolbox.utilities.change_chrom_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">change_chrom_names</span></code></a>(chrom)</p></td>
 <td><p>Changes UCSC chromosome names to ensembl chromosome names and vice versa.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.utilities.cm2inch" title="coolbox.utilities.cm2inch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cm2inch</span></code></a>(*tupl)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.utilities.cm2inch" title="coolbox.utilities.cm2inch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cm2inch</span></code></a>(*tupl)</p></td>
 <td><p>convert length unit from cm to inch.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.utilities.dirname" title="coolbox.utilities.dirname"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dirname</span></code></a>(p)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.utilities.dirname" title="coolbox.utilities.dirname"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dirname</span></code></a>(p)</p></td>
 <td><p>Returns the directory component of a pathname</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.utilities.fig2bytes" title="coolbox.utilities.fig2bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fig2bytes</span></code></a>(fig[, encode, dpi])</p></td>
-<td><p>Convert matplotlib.figure.Figure object to image bytes.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.utilities.fig2bytes" title="coolbox.utilities.fig2bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fig2bytes</span></code></a>(fig[, encode, dpi])</p></td>
+<td><p>Convert matplotlib.figure.Figure/IPython.display.SVG object to image bytes.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.utilities.file_to_intervaltree" title="coolbox.utilities.file_to_intervaltree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file_to_intervaltree</span></code></a>(file_name)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.utilities.file_to_intervaltree" title="coolbox.utilities.file_to_intervaltree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file_to_intervaltree</span></code></a>(file_name)</p></td>
 <td><p>converts a BED like file into a bx python interval tree</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.utilities.get_size" title="coolbox.utilities.get_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_size</span></code></a>(obj[, seen])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.utilities.get_size" title="coolbox.utilities.get_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_size</span></code></a>(obj[, seen])</p></td>
 <td><p>Recursively finds size of objects</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.utilities.hex2rgb" title="coolbox.utilities.hex2rgb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hex2rgb</span></code></a>(color_hex)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.utilities.get_tmp_dir" title="coolbox.utilities.get_tmp_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_tmp_dir</span></code></a>([name])</p></td>
+<td><p>Return the path to coolbox temporary directory.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.utilities.get_uniq_tmp_file" title="coolbox.utilities.get_uniq_tmp_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_uniq_tmp_file</span></code></a>([prefix, suffix, dirname])</p></td>
+<td><p>Return the path to a unique(not exists) temporary file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.utilities.hex2rgb" title="coolbox.utilities.hex2rgb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hex2rgb</span></code></a>(color_hex)</p></td>
 <td><p>Convert hex color code to rgb tuple.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.utilities.inch2cm" title="coolbox.utilities.inch2cm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inch2cm</span></code></a>(*tupl)</p></td>
+<td><p>convert length unit from inch to cm.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.utilities.join" title="coolbox.utilities.join"><code class="xref py py-obj docutils literal notranslate"><span class="pre">join</span></code></a>(a, *p)</p></td>
 <td><p>Join two or more pathname components, inserting ‘/’ as needed.</p></td>
@@ -5365,6 +5166,12 @@ a namedtuple object</p>
 </dd></dl>
 
 <dl class="py function">
+<dt id="coolbox.utilities.bool2str">
+<code class="sig-prename descclassname">coolbox.utilities.</code><code class="sig-name descname">bool2str</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">properties</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.utilities.bool2str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Conver bool value to ‘yes’ or ‘no’, for compatible with pyGenomeTracks</p>
+</dd></dl>
+
+<dl class="py function">
 <dt id="coolbox.utilities.change_chrom_names">
 <code class="sig-prename descclassname">coolbox.utilities.</code><code class="sig-name descname">change_chrom_names</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">chrom</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.utilities.change_chrom_names" title="Permalink to this definition">¶</a></dt>
 <dd><p>Changes UCSC chromosome names to ensembl chromosome names
@@ -5618,7 +5425,8 @@ and vice versa.</p>
 <dl class="py function">
 <dt id="coolbox.utilities.fig2bytes">
 <code class="sig-prename descclassname">coolbox.utilities.</code><code class="sig-name descname">fig2bytes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fig</span></em>, <em class="sig-param"><span class="n">encode</span><span class="o">=</span><span class="default_value">'svg'</span></em>, <em class="sig-param"><span class="n">dpi</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.utilities.fig2bytes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert matplotlib.figure.Figure object to image bytes.</p>
+<dd><p>Convert matplotlib.figure.Figure/IPython.display.SVG
+object to image bytes.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -5646,6 +5454,19 @@ and vice versa.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt id="coolbox.utilities.get_tmp_dir">
+<code class="sig-prename descclassname">coolbox.utilities.</code><code class="sig-name descname">get_tmp_dir</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">'.coolbox'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.utilities.get_tmp_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the path to coolbox temporary directory.
+If the file not exists, will make it.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="coolbox.utilities.get_uniq_tmp_file">
+<code class="sig-prename descclassname">coolbox.utilities.</code><code class="sig-name descname">get_uniq_tmp_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prefix</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">suffix</span><span class="o">=</span><span class="default_value">'.svg'</span></em>, <em class="sig-param"><span class="n">dirname</span><span class="o">=</span><span class="default_value">'.coolbox'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.utilities.get_uniq_tmp_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the path to a unique(not exists) temporary file.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt id="coolbox.utilities.hex2rgb">
 <code class="sig-prename descclassname">coolbox.utilities.</code><code class="sig-name descname">hex2rgb</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">color_hex</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.utilities.hex2rgb" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert hex color code to rgb tuple.</p>
@@ -5653,6 +5474,12 @@ and vice versa.</p>
 <span class="go">(129, 154, 70)</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="coolbox.utilities.inch2cm">
+<code class="sig-prename descclassname">coolbox.utilities.</code><code class="sig-name descname">inch2cm</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">tupl</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.utilities.inch2cm" title="Permalink to this definition">¶</a></dt>
+<dd><p>convert length unit from inch to cm.</p>
 </dd></dl>
 
 <dl class="py function">
