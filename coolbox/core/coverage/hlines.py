@@ -47,7 +47,7 @@ class HLinesCov(Coverage):
 
         ymin, ymax = ax.get_ylim()
         if self.properties['percent_mode'] != 'no':
-            hlines_list = [ymin + val*ymax for val in self.properties['values']]
+            hlines_list = [ymin + val * ymax for val in self.properties['values']]
         else:
             hlines_list = self.properties['values']
 
@@ -56,4 +56,3 @@ class HLinesCov(Coverage):
                   linewidth=self.properties['line_width'],
                   color=self.properties['color'],
                   alpha=self.properties['alpha'])
-

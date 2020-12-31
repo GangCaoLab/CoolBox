@@ -1,12 +1,15 @@
 import os
 import os.path as osp
 import subprocess as subp
+from typing import Tuple
 
 import fire
 import nbformat as nbf
 
 import coolbox
 from coolbox.utilities import get_logger
+from coolbox.utilities.genome import GenomeRange
+from coolbox.api import *
 
 log = get_logger("CoolBox CLI")
 
@@ -56,14 +59,15 @@ class CLI(object):
 
     """
 
-    def __init__(self, genome="hg19", genome_range=None):
+    FRAME_POS = ("left", "right", "top", "bottom", "center")
+
+    def __init__(self, genome="hg19", genome_range: str = None, genome_range2: str = None):
         self._indent = 0
-        self.current_range = None
+        self.current_range = [None, None]
+        self.goto(genome_range, genome_range2)
         self.genome = genome
-        if genome_range and isinstance(genome_range, str):
-            self.source = f"frame = Frame(genome_range={genome_range})\n"
-        else:
-            self.source = f"frame = Frame()\n"
+        self.frame_pos = None
+        self.frames = {}
 
     @staticmethod
     def version():
@@ -79,14 +83,22 @@ class CLI(object):
         self.genome = genome
         return self
 
-    def goto(self, genome_range):
+    def goto(self, genome_range: str = None, genome_range2: str = None):
         """Goto a genome range.
 
         :param genome_range: Genome range string, like "chr9:4000000-6000000".
+        :param genome_range2: Genome range string, like "chr9:4000000-6000000. Only required in JointView mode".
         """
-        log.info(f"Goto genome range '{genome_range}'")
-        self.current_range = genome_range
-        self.source += f"frame.goto('{genome_range}')\n"
+        if genome_range2 is None:
+            genome_range2 = genome_range
+        # validate genome range
+        if genome_range:
+            gr = GenomeRange(genome_range)
+        if genome_range2:
+            gr = GenomeRange(genome_range2)
+        log.info(f"Goto genome range '{genome_range}' '{genome_range2}'")
+        self.current_range = [genome_range, genome_range2]
+
         return self
 
     @staticmethod
@@ -94,6 +106,15 @@ class CLI(object):
         """Print the document of specified Element type. For example: coolbox show_doc Cool"""
         elem_tp = get_element_type_by_str(elem_str)
         print(elem_tp.__doc__)
+
+    def joint_view(self, frame_pos: str = "top"):
+        if frame_pos not in self.FRAME_POS:
+            raise ValueError(f"Frame position should be one of {self.FRAME_POS}")
+        if frame_pos not in self.frames:
+            self.frames[frame_pos] = "frame = Frame()\n"
+        self.frame_pos = frame_pos
+
+        return self
 
     def add(self, elem_str, *args, **kwargs):
         """Add a Element(Track, Coverage, Feature), for example: coolbox add XAxis
@@ -107,9 +128,12 @@ class CLI(object):
         if ("help" in args) or ("help" in kwargs):
             self.show_doc(elem_str)
             return
+        if self.frame_pos is None:
+            self.joint_view("top")
+
         compose_code = get_compose_code(elem_str, args, kwargs)
         log.info(f"Create element, compose code: {compose_code}")
-        self.source += "\t" * self._indent + "frame += " + compose_code + "\n"
+        self.frames[self.frame_pos] += "\t" * self._indent + "frame += " + compose_code + "\n"
         return self
 
     def start_with(self, elem_str, *args, **kwargs):
@@ -122,16 +146,81 @@ class CLI(object):
         if ("help" in args) or ("help" in kwargs):
             self.show_doc(elem_str)
             return
+        if self.frame_pos is None:
+            self.joint_view("top")
+
         compose_code = get_compose_code(elem_str, args, kwargs)
         log.info(f"Create a with block, compose code: {compose_code}")
-        self.source += "\t" * self._indent + f"with {compose_code}:\n"
+        self.frames[self.frame_pos] += "\t" * self._indent + f"with {compose_code}:\n"
         self._indent += 1
         return self
 
     def end_with(self):
         """End the with block"""
+        if self._indent <= 0:
+            raise ValueError("Expect a 'start_with' command before end_with clause.")
         self._indent -= 1
         return self
+
+    @staticmethod
+    def _fetch_frame_src(pos: str, source: str) -> Tuple[str, str]:
+        """
+
+        Parameters
+        ----------
+        pos
+        source
+
+        Returns
+        -------
+        Tuple[str, str].
+        The first string is the frame's variable name, and the second string is the function's source code
+        """
+        # center frame return the first track. expected a Cool, DotHiC, HicMat
+        if pos != 'center':
+            source += "return frame\n"
+        else:
+            source += "return list(frame.tracks.values())[0]\n"
+        source = "\n".join("\t" + line for line in source.split("\n")) + "\n"
+        # generate function and call
+        frame_var = f"{pos}_frame"
+        source = f"def fetch_{frame_var}():\n" + source
+        source += f"{frame_var} = fetch_{frame_var}()\n"
+
+        return frame_var, source
+
+    @property
+    def source(self) -> str:
+        num_frames = len(self.frames)
+        if num_frames == 0:
+            raise RuntimeError("No frame has been added yet.")
+
+        if num_frames > 1 and 'center' not in self.frames:
+            raise RuntimeError("JointView mode needs a center frame. "
+                               "Use `joint_view center ADD xxx` to add center track/frame.")
+        gr1, gr2 = self.current_range
+        if gr1 is None:
+            raise RuntimeError("No genome range found."
+                               "Use `goto chr1:5000000-6000000` to set the genome range.")
+
+        frame_dict = {}
+        source = ""
+        for pos, src in self.frames.items():
+            frame_var, frame_src = self._fetch_frame_src(pos, src)
+            source += frame_src
+            frame_dict[pos] = frame_var
+
+        if 'center' in self.frames:
+            source += f"frame = JointView({frame_dict['center']}, " \
+                      f"left={frame_dict.get('left')}, " \
+                      f"right={frame_dict.get('right')}, " \
+                      f"bottom={frame_dict.get('bottom')}, " \
+                      f"top={frame_dict.get('top')}" \
+                      f")\n"
+        else:
+            source += f"frame = {list(frame_dict.values())[0]}\n"
+
+        return source
 
     def print_source(self):
         """Print the browser composing code."""
@@ -160,7 +249,7 @@ class CLI(object):
                 "from coolbox.api import *\n" +
                 self.source +
                 f"bsr = Browser(frame, reference_genome='{self.genome}')\n" +
-                (f"bsr.goto('{str(self.current_range)}')\n" if self.current_range else "") +
+                (f"bsr.goto('{str(self.current_range[0])}')\n" if self.current_range[0] else "") +
                 "bsr.show()"
             ),
         )
@@ -189,11 +278,12 @@ class CLI(object):
         self.gen_notebook(tmp)
         subp.check_call(f"jupyter notebook {tmp} " + jupyter_args, shell=True)
 
-    def plot(self, fig_path, genome_range=None):
+    def plot(self, fig_path, genome_range=None, genome_range2=None):
         """Draw a figure within a genome range and save to file
 
         :param fig_path: Figure save path
         :param genome_range: Genome range string, like "chr9:4000000-6000000".
+        :param genome_range2: Genome range string, like "chr9:4000000-6000000".
         """
         if genome_range is None:
             if self.current_range is None:
@@ -201,8 +291,14 @@ class CLI(object):
         else:
             self.goto(genome_range)
         source = "from coolbox.api import *\n" + self.source + "\n"
-        source += f"fig = frame.plot('{str(self.current_range)}')\n"
-        source += f"fig.savefig('{fig_path}')"
+        gr1, gr2 = self.current_range
+        if 'center' in self.frames:
+            source += f"fig = frame.plot('{gr1}', '{gr2}')\n"
+            # TODO can not save to pdf
+            source += f"fig.save('{fig_path}')\n"
+        else:
+            source += f"fig = frame.plot('{gr1}')\n"
+            source += f"fig.savefig('{fig_path}')\n"
         try:
             code = compile(source, "coolbox_cli_source", "exec")
             eval(code)

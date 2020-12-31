@@ -68,7 +68,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 from coolbox.core.track import *
-from coolbox.core.frame import Frame
+from coolbox.core.frame import *
 from coolbox.core.feature import *
 from coolbox.core.coverage import *
 from coolbox.core.browser import *

@@ -116,7 +116,7 @@ class JointView(SuperFrame):
             genome_range2 = genome_range1
 
         if genome_range1 is None or genome_range2 is None:
-            raise ValueError("No history genome_ranges found.")
+            raise ValueError("No history genome_range found.")
         self.current_range = [genome_range1, genome_range2]
 
     def frame_granges(self, genome_range1=None, genome_range2=None):

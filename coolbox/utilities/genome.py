@@ -116,8 +116,8 @@ class GenomeRange(object):
             return chrom, region_start, region_end
 
         except Exception:
-            raise ValueError("Failure to parse region string, please check that region format "
-                             "should be like \"chr:start-end\".")
+            raise ValueError(f"Failure to parse region string {region_string}, please check that region format "
+                             f"should be like \"chr:start-end\".")
 
     def change_chrom_names(self):
         """

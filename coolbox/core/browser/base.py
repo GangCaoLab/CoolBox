@@ -266,5 +266,3 @@ class Browser(object):
 
     def fetch_data(self, genome_range=None):
         return self.frame.fetch_data(genome_range)
-
-

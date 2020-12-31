@@ -1,5 +1,6 @@
 from ..genome import GenomeRange
 
+
 def hicmat_filetype(path):
     if path.endswith(".hic"):
         return '.hic'

@@ -16,10 +16,29 @@ def test_cli_plot():
         "add", "BigWig", f"{DATA_DIR}/bigwig_{test_itv}.bw", "-",
         "add", "BedGraph", f"{DATA_DIR}/bedgraph_{test_itv}.bg", "-",
         "add", "GTF", f"{DATA_DIR}/gtf_{test_itv}.gtf", "-",
-        "goto", test_interval,
+        "goto", test_interval, "-",
         "plot", "/tmp/test_coolbox.pdf",
     ]
     subp.check_call(cmd)
+
+    cmd = f"""
+        python -m coolbox.cli
+          joint_view top - 
+            add XAxis - 
+            add GTF {DATA_DIR}/gtf_{test_itv}.gtf - 
+            add Title GTF - 
+          joint_view right - 
+            add XAxis - 
+            add BigWig {DATA_DIR}/bigwig_{test_itv}.bw - 
+            add TrackHeight 2 - 
+            add MinValue 0 - 
+          joint_view center - 
+            add Cool {DATA_DIR}/cool_{test_itv}.mcool  - 
+          goto 'chr9:4500000-5000000' 'chr9:5200000-5850000' - 
+          plot /tmp/test_coolbox_joint_view.svg
+        """
+
+    subp.check_call(cmd.replace("\n", ""), shell=True)
 
 
 def test_cli_gen_notebook():
@@ -29,7 +48,7 @@ def test_cli_gen_notebook():
         "add", "BigWig", f"{DATA_DIR}/bigwig_{test_itv}.bw", "-",
         "add", "BedGraph", f"{DATA_DIR}/bedgraph_{test_itv}.bg", "-",
         "add", "GTF", f"{DATA_DIR}/gtf_{test_itv}.gtf", "-",
-        "goto", test_interval,
+        "goto", test_interval, "-",
         "gen_notebook", "/tmp/test_coolbox.ipynb",
     ]
     subp.check_call(cmd)
