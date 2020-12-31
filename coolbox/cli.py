@@ -36,6 +36,9 @@ def get_compose_code(elem_str, args, kwargs):
     return compose_code
 
 
+FRAME_POS = ("left", "right", "top", "bottom", "center")
+
+
 class CLI(object):
     """
     CoolBox Command Line Interface
@@ -58,8 +61,6 @@ class CLI(object):
         $ coolbox add XAxis - add BigWig test.bw - goto "chr1:5000000-6000000" - run_webapp
 
     """
-
-    FRAME_POS = ("left", "right", "top", "bottom", "center")
 
     def __init__(self, genome="hg19", genome_range: str = None, genome_range2: str = None):
         self._indent = 0
@@ -108,8 +109,32 @@ class CLI(object):
         print(elem_tp.__doc__)
 
     def joint_view(self, frame_pos: str = "top"):
-        if frame_pos not in self.FRAME_POS:
-            raise ValueError(f"Frame position should be one of {self.FRAME_POS}")
+        """Start a new frame positioned at the specified frame_pos in the final joint view.
+        The center frame should be a single Cool, HicMat, DotHic track.
+
+        For example:
+        coolbox - \
+        joint_view top - \
+            add BigWig BW_PATH - \
+        joint_view right - \
+            add GTF BTF_PATH - \
+        joint_view center - \
+            add Cool - \
+        goto 'chr1:100000-200000' 'chr2:200000-30000' - \
+        plot /tmp/test_joint_view.svg
+
+        Parameters
+        ----------
+        frame_pos: str
+        Add a frame in the given position in the joint view.
+        Should be one of 'top', 'left', 'center', 'bottom', 'right'.
+
+        Returns
+        -------
+
+        """
+        if frame_pos not in FRAME_POS:
+            raise ValueError(f"Frame position should be one of {FRAME_POS}")
         if frame_pos not in self.frames:
             self.frames[frame_pos] = "frame = Frame()\n"
         self.frame_pos = frame_pos
@@ -189,7 +214,6 @@ class CLI(object):
 
         return frame_var, source
 
-    @property
     def source(self) -> str:
         num_frames = len(self.frames)
         if num_frames == 0:
@@ -224,7 +248,7 @@ class CLI(object):
 
     def print_source(self):
         """Print the browser composing code."""
-        print(self.source)
+        print(self.source())
         return self
 
     def gen_notebook(self, notebook_path, notes=True, figsave=True):
@@ -247,7 +271,7 @@ class CLI(object):
                 f"import os; os.chdir('{os.getcwd()}')\n"
                 "import coolbox.api\n" +
                 "from coolbox.api import *\n" +
-                self.source +
+                self.source() +
                 f"bsr = Browser(frame, reference_genome='{self.genome}')\n" +
                 (f"bsr.goto('{str(self.current_range[0])}')\n" if self.current_range[0] else "") +
                 "bsr.show()"
@@ -290,7 +314,7 @@ class CLI(object):
                 raise ValueError("Should specify the genome_range")
         else:
             self.goto(genome_range)
-        source = "from coolbox.api import *\n" + self.source + "\n"
+        source = "from coolbox.api import *\n" + self.source() + "\n"
         gr1, gr2 = self.current_range
         if 'center' in self.frames:
             source += f"fig = frame.plot('{gr1}', '{gr2}')\n"
