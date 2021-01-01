@@ -4,7 +4,6 @@ import matplotlib
 import matplotlib.pyplot as plt
 import mpl_toolkits.axisartist as axisartist
 
-
 from coolbox.utilities import (
     cm2inch,
     GenomeRange,
@@ -13,7 +12,6 @@ from coolbox.utilities import (
 from .base import FrameBase
 
 log = get_logger(__name__)
-
 
 plt.rcParams['svg.fonttype'] = 'none'
 

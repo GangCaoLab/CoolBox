@@ -13,6 +13,7 @@ class SuperFrame(FrameBase, abc.ABC):
     compose figure using svgutils,
     this allow compose big figures which the matplotlib can not do.
     """
+
     def __init__(self, properties_dict, **kwargs):
         assert "sub_frames" in properties_dict
         super().__init__(properties_dict, **kwargs)

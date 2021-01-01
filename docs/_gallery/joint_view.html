@@ -97,7 +97,10 @@
 <li class="toctree-l2"><a class="reference internal" href="peakcov.html">Peak Coverage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="HiCDiff.html">Hi-C Diff</a></li>
 <li class="toctree-l2"><a class="reference internal" href="selfish.html">Differential Chromatin Interaction</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">JointView</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">JointView</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#CLI-code">CLI code</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="bw_style.html">BigWig track styles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bw_cov.html">BigWig Coverage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="arcs_cov.html">Arcs coverage</a></li>
@@ -448,7 +451,7 @@ div.rendered_html tbody tr:hover {
 <h1>JointView<a class="headerlink" href="#JointView" title="Permalink to this headline">¶</a></h1>
 <p>JointView can be used to visualize trans or cis-remote region by composing frames around a hicmat.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -458,7 +461,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -467,7 +470,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -476,7 +479,7 @@ div.rendered_html tbody tr:hover {
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -495,8 +498,8 @@ div.rendered_html tbody tr:hover {
 
 <span class="n">sub_frames</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;top&quot;</span><span class="p">:</span> <span class="n">frame1</span><span class="p">,</span>
-    <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="n">frame2</span><span class="p">,</span>
-    <span class="s2">&quot;bottom&quot;</span><span class="p">:</span> <span class="n">frame1</span><span class="p">,</span>
+    <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="n">frame1</span><span class="p">,</span>
+    <span class="s2">&quot;bottom&quot;</span><span class="p">:</span> <span class="n">frame2</span><span class="p">,</span>
     <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="n">frame2</span>
 <span class="p">}</span>
 
@@ -507,11 +510,40 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/_gallery_joint_view_3_0.svg" src="../_images/_gallery_joint_view_3_0.svg" /></div>
+</div>
+<div class="section" id="CLI-code">
+<h2>CLI code<a class="headerlink" href="#CLI-code" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>%%bash
+
+<span class="nv">DATA_DIR</span><span class="o">=</span><span class="s2">&quot;../../../tests/test_data&quot;</span>
+<span class="nv">test_itv</span><span class="o">=</span><span class="s2">&quot;chr9_4000000_6000000&quot;</span>
+coolbox <span class="se">\</span>
+  joint_view top - <span class="se">\</span>
+    add XAxis - <span class="se">\</span>
+    add GTF <span class="si">${</span><span class="nv">DATA_DIR</span><span class="si">}</span>/gtf_<span class="si">${</span><span class="nv">test_itv</span><span class="si">}</span>.gtf - <span class="se">\</span>
+    add Title GTF - <span class="se">\</span>
+  joint_view right - <span class="se">\</span>
+    add XAxis - <span class="se">\</span>
+    add BigWig <span class="si">${</span><span class="nv">DATA_DIR</span><span class="si">}</span>/bigwig_<span class="si">${</span><span class="nv">test_itv</span><span class="si">}</span>.bw - <span class="se">\</span>
+    add TrackHeight <span class="m">2</span> - <span class="se">\</span>
+    add MinValue <span class="m">0</span> - <span class="se">\</span>
+  joint_view center - <span class="se">\</span>
+    add Cool <span class="si">${</span><span class="nv">DATA_DIR</span><span class="si">}</span>/cool_<span class="si">${</span><span class="nv">test_itv</span><span class="si">}</span>.mcool  - <span class="se">\</span>
+  goto <span class="s1">&#39;chr9:4500000-5000000&#39;</span> <span class="s1">&#39;chr9:5200000-5850000&#39;</span> - <span class="se">\</span>
+  plot /tmp/test_coolbox_joint_view.svg
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 
