@@ -79,7 +79,6 @@ class JointView(SuperFrame):
         from ..frame import Frame
         from ...track.base import Track
         sub_f_names = ", ".join(sub_frames.keys())
-        assert len(sub_frames) >= 2, f"At least one of {sub_f_names} should specified."
         if (not isinstance(center, Track)) and (not hasattr(center, "plot_joint")):
             raise TypeError("center should be a Track type instance with plot_joint method, "
                             "for example Cool, DotHiC, ...")
