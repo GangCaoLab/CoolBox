@@ -21,30 +21,18 @@ class GTF(Track):
 
     Parameters
     ----------
-    file_ : str
+    file : str
         Path to .gtf(or .gtf.bgz) file.
 
     row_filter : str, optional
-        Filter rows, only keep the rows for draw. (Default 'feature == "gene"')
+        Row filter expression, only keep the rows for draw. (Default 'feature == "gene"')
 
     length_ratio_thresh : float
         Length ratio threshold of features, (Default 0.01)
 
-    height : float, optional
-        The height of track. (Default: GTF.DEFAULT_HEIGHT)
-
-    color : {str, List[str]}
-        Annotation color. (Default: 'random')
-
-    title : str, optional
-        Label text, default ''.
-
-    name : str, optional
-        Track's name.
-
+    color : {str, 'random'}, optional
+        When the color is random, color for each gene will be randomly selected.
     """
-    DEFAULT_HEIGHT = 4
-    DEFAULT_COLOR = '#2855d8'
     RANDOM_COLORS = [
         "#ffcccc",
         "#ffd700",
@@ -53,18 +41,21 @@ class GTF(Track):
         "#66ccff"
     ]
 
-    def __init__(self, file_, **kwargs):
-        properties_dict = {
-            "file": file_,
-            "row_filter": 'feature == "gene"',
-            "length_ratio_thresh": 0.005,
-            "height": GTF.DEFAULT_HEIGHT,
-            "title": '',
-            "color": 'random',
-        }
-        properties_dict.update(kwargs)
-        super().__init__(properties_dict)
-        self.bgz_file = build_gtf_index(file_)
+    DEFAULT_PROPERTIES = {
+        "height": 4,
+        "color": "random",
+        "row_filter": 'feature == "gene"',
+        "length_ratio_thresh": 0.005,
+    }
+
+    def __init__(self, file, **kwargs):
+        properties = GTF.DEFAULT_PROPERTIES.copy()
+        properties.update({
+            'file': file,
+            **kwargs
+        })
+        super().__init__(properties)
+        self.bgz_file = build_gtf_index(file)
         color = self.properties['color']
         if (type(color) is str) and (color.startswith('#')):
             self.colors = [color]
@@ -75,24 +66,42 @@ class GTF(Track):
         else:
             self.colors = GTF.RANDOM_COLORS
 
-    def fetch_data(self, genome_range):
-        return self.fetch_intervals(genome_range)
+    def fetch_data(self, gr: GenomeRange, **kwargs):
+        """
 
-    def fetch_intervals(self, genome_range):
+        Parameters
+        ----------
+
+        Returns
+        -------
+        df: pandas.DataFrame
+            should be with the format like:
+
+            columns = ['seqname', 'source', 'feature', 'start', 'end',
+                        'score', 'strand', 'frame', 'attribute', 'gene_name']
+
+        """
+        return self.fetch_intervals(gr)
+
+    def fetch_intervals(self, gr: GenomeRange):
         """
         Parameters
         ----------
-        genome_range : {str, GenomeRange}
+        gr : {str, GenomeRange}
 
         Return
         ------
         intervals : pandas.core.frame.DataFrame
             Annotation interval table.
         """
-        chrom, start, end = split_genome_range(genome_range)
         rows = []
-        for row in tabix_query(self.bgz_file, chrom, start, end):
+        for row in tabix_query(self.bgz_file, gr.chrom, gr.start, gr.end):
             rows.append(row)
+        if len(rows) == 0:
+            gr.change_chrom_names()
+            for row in tabix_query(self.bgz_file, gr.chrom, gr.start, gr.end):
+                rows.append(row)
+
         columns = ['seqname', 'source', 'feature', 'start', 'end', 'score', 'strand', 'frame', 'attribute']
         df = pd.DataFrame(rows, columns=columns)
         df['start'] = df['start'].astype(int)
@@ -101,11 +110,9 @@ class GTF(Track):
         df['gene_name'].fillna("", inplace=True)
         return df
 
-    def plot(self, ax, chrom_region, start_region, end_region):
+    def plot(self, ax, gr: GenomeRange, **kwargs):
         self.ax = ax
-        genome_range = GenomeRange(chrom_region, start_region, end_region)
-        itv_df = self.fetch_intervals(genome_range)
-        df = itv_df
+        df = self.fetch_plot_data(gr)
         if self.has_prop("row_filter"):
             filters = self.properties["row_filter"]
             for filter_ in filters.split(";"):
@@ -116,10 +123,9 @@ class GTF(Track):
                     df = eval(f'df[df["{l_}"]{r_}]')
                 except IndexError:
                     log.warning(f"row filter {filter_} is not valid.")
-        region_length = end_region - start_region
-        if self.has_prop("length_ratio_thresh"):
-            len_ratio_th = self.properties["length_ratio_thresh"]
-            df = df[(df["end"] - df["start"]) > region_length * len_ratio_th]
+        region_length = gr.end - gr.start
+        len_ratio_th = self.properties["length_ratio_thresh"]
+        df = df[(df["end"] - df["start"]) > region_length * len_ratio_th]
         features = []
         for _, row in df.iterrows():
             gf = GraphicFeature(
@@ -131,9 +137,9 @@ class GTF(Track):
             )
             features.append(gf)
         record = GraphicRecord(
-            sequence_length=end_region - start_region,
+            sequence_length=gr.end - gr.start,
             features=features,
-            first_index=start_region
+            first_index=gr.start
         )
         record.plot(
             ax=ax,

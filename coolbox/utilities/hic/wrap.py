@@ -254,7 +254,7 @@ class CoolerWrap(object):
         return binsize
 
     def fetch(self, genome_range1, genome_range2=None):
-        # TODO what if genoe_ranges are invalid
+        # TODO what if genome_ranges are invalid
         if genome_range2 is None:
             genome_range2 = genome_range1
 

@@ -11,91 +11,58 @@ log = get_logger(__name__)
 
 
 class BigWig(HistBase):
-    """
-    BigWig track.
+    """BigWig track
 
     Parameters
-    ----------
-    file_ : str
-        Path to bigwig file.
+    -----------
+    file : str
+        File path of bigwig file.
 
-    height : float, optional
-        Height of track, default BigWig.DEFAULT_HEIGHT.
+    num_bins : int, optional
+        Number of bins to plot the hist in current range, default 700.
 
-    color : str, optional
-        Track color, default BigWig.DEFAULT_COLOR.
 
-    positive_color : str, optional
-        Track's positive value color
-
-    negative_color : str, optional
-        Track's negative value color
-
-    alpha : float, optional
-        Alpha value of plot, default 1.0
-
-    number_of_bins : int, optional
-        Number_of_bins in current range, default 700.
-
-    style : str, optional
-        Track graph type, format {'fill', 'line:`size`', 'points:`size`'},
-        example: 'line:2', 'points:0.5'. default: 'fill'
-
-    orientation : str, optional
-        Track orientation, use 'inverted' for inverted track plot.
-
-    show_data_range : bool, optional
-        Show_data_range or not, default True.
-
-    data_range_style : {'text', 'y-axis'}
-        The style of the data range. default: 'y-axis'
-
-    title : str, optional
-        Label text, default ''
-
-    max_value : {float, 'auto'}, optional
-        Max value of track. 'auto' for specify max value automatically, default 'auto'.
-
-    min_value : {float, 'auto'}, optional
-        Min value of track. 'auto' for specify max value automatically, default 'auto'.
-
-    name : str, optional
-        Track's name.
     """
 
-    DEFAULT_COLOR = "#dfccde"
+    DEFAULT_PROPERTIES = {
+        "color": "#dfccde",
+        "style": HistBase.STYLE_FILL,
+        "num_bins": 700,
+        "threshold": "inf"
+    }
 
-    def __init__(self, file_, **kwargs):
-        properties_dict = {
-            'file': file_,
-            'color': self.DEFAULT_COLOR,
-            'alpha': 1.0,
-            'number_of_bins': 700,
-            'style': 'fill',
-        }
-        properties_dict.update(kwargs)
-        super().__init__(**properties_dict)
+    def __init__(self, file, **kwargs):
+        properties = BigWig.DEFAULT_PROPERTIES.copy()
+        properties.update({
+            'file': file,
+            **kwargs
+        })
+        super().__init__(**properties)
         import pyBigWig
         self.bw = pyBigWig.open(self.properties['file'])
 
-    def fetch_data(self, genome_range):
+    def fetch_plot_data(self, gr: GenomeRange, **kwargs):
+        num_bins = self.get_num_bins()
+        self.check_chrom_name(gr)
+        scores_per_bin = self.fetch_scores(gr, num_bins)
+        return scores_per_bin
+
+    def fetch_data(self, gr: GenomeRange, **kwargs):
         """
         Parameters
         ----------
-        genome_range : {str, GenomeRange}
+        gr : GenomeRange
 
         Return
         ------
         intervals : pandas.core.frame.DataFrame
             BigWig interval table.
         """
-        chrom, start, end = split_genome_range(genome_range)
+        chrom, start, end = split_genome_range(gr)
         if chrom not in self.bw.chroms():
-            chrom_ = change_chrom_names(chrom)
-        else:
-            chrom_ = chrom
+            chrom = change_chrom_names(chrom)
 
-        intervals = self.bw.intervals(chrom_, start, end)
+        intervals = self.bw.intervals(chrom, start, end)
 
         col_chrom = [chrom] * len(intervals)
         col_start = []
@@ -118,13 +85,7 @@ class BigWig(HistBase):
 
         return intval_table
 
-    def fetch_plot_data(self, genome_range: GenomeRange):
-        num_bins = self.__get_bins_num()
-        self.__check_chrom_name(genome_range)
-        scores_per_bin = self.fetch_scores(genome_range, num_bins)
-        return scores_per_bin
-
-    def __get_bins_num(self, default_num=700):
+    def get_num_bins(self, default_num=700):
         num_bins = default_num
         if 'number_of_bins' in self.properties:
             try:
@@ -168,7 +129,7 @@ class BigWig(HistBase):
                 break
         return scores_per_bin
 
-    def __check_chrom_name(self, genome_range):
+    def check_chrom_name(self, genome_range):
         if genome_range.chrom not in self.bw.chroms().keys():
             genome_range.change_chrom_names()
 
@@ -180,16 +141,16 @@ class BigWig(HistBase):
 
 class ABCompartment(BigWig):
     """
-    A/B Comapartment BigWig track.
+    A/B Compartment BigWig track.
     """
 
-    DEFAULT_POSITIVE_COLOR = "#ff9c9c"
-    DEFAULT_NEGATIVE_COLOR = "#66ccff"
+    DEFAULT_PROPERTIES = {
+        "color": "#66ccff",
+        "threshold_color": "#ff9c9c",
+        "threshold": 0,
+    }
 
-    def __init__(self, file_, **kwargs):
-        properties_dict = {
-            'positive_color': ABCompartment.DEFAULT_POSITIVE_COLOR,
-            'negative_color': ABCompartment.DEFAULT_NEGATIVE_COLOR,
-        }
-        properties_dict.update(kwargs)
-        super().__init__(file_, **properties_dict)
+    def __init__(self, file, **kwargs):
+        properties = ABCompartment.DEFAULT_PROPERTIES.copy()
+        properties.update(kwargs)
+        super().__init__(file, **properties)

@@ -50,16 +50,20 @@ def get_coverage_stack():
     return global_scope[COVERAGE_STACK_NAME]
 
 
-def bool2str(properties):
+def format_properties(properties):
     """
-    Conver bool value to 'yes' or 'no', for compatible with pyGenomeTracks
+    Convert bool value to 'yes' or 'no', for compatible with pyGenomeTracks
+    Convert string to float if possible
     """
     for key, value in properties.items():
         if isinstance(value, bool):
-            if value:
-                properties[key] = 'yes'
-            else:
-                properties[key] = 'no'
+            properties[key] = 'yes' if value else 'no'
+        elif isinstance(value, str):
+            try:
+                float_val = float(value)
+                properties[key] = float_val
+            except Exception:
+                pass
     return properties
 
 

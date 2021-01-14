@@ -1,7 +1,8 @@
-from coolbox.utilities import to_gr
+from coolbox.utilities import GenomeRange
 from .base import Track
 
 
+# TODO change properties to new mode
 class Spacer(Track):
     """
     The spacer track,
@@ -12,8 +13,6 @@ class Spacer(Track):
     height : float, optional
         The height of Spacer track. (Default: Spacer.DEFAULT_HEIGHT)
 
-    name : str, optional
-        Track's name.
     """
 
     DEFAULT_HEIGHT = 1
@@ -29,9 +28,12 @@ class Spacer(Track):
 
         super().__init__(properties_dict)
 
-    def plot(self, ax, chrom_region, start_region, end_region):
+    def fetch_data(self, gr: GenomeRange, **kwargs):
+        pass
+
+    def plot(self, ax, gr: GenomeRange, **kwargs):
         self.ax = ax
-        ax.set_xlim(start_region, end_region)
+        ax.set_xlim(gr.start, gr.end)
 
 
 class HLine(Track):
@@ -77,11 +79,14 @@ class HLine(Track):
         properties_dict.update(**kwargs)
         super().__init__(properties_dict)
 
-    def plot(self, ax, chrom_region, region_start, region_end):
+    def fetch_data(self, gr: GenomeRange, **kwargs):
+        pass
+
+    def plot(self, ax, gr: GenomeRange, **kwargs):
         self.ax = ax
 
-        ax.set_xlim(region_start, region_end)
-        ax.hlines(0, region_start, region_end,
+        ax.set_xlim(gr.start, gr.end)
+        ax.hlines(0, gr.start, gr.end,
                   linestyles=self.properties['line_style'],
                   linewidth=self.properties['line_width'],
                   colors=self.properties['color'],
@@ -121,10 +126,13 @@ class XAxis(Track):
 
         super().__init__(properties_dict)
 
-    def plot(self, ax, chrom_region, region_start, region_end):
+    def fetch_data(self, gr: GenomeRange, **kwargs):
+        pass
+
+    def plot(self, ax, gr: GenomeRange, **kwargs):
         self.ax = ax
 
-        ax.set_xlim(region_start, region_end)
+        ax.set_xlim(gr.start, gr.end)
         ticks = ax.get_xticks()
         if ticks[-1] - ticks[1] <= 1e5:
             labels = ["{:,.0f}".format((x / 1e3))
@@ -170,10 +178,10 @@ class ChromName(Track):
             "offset": offset,
         })
 
-    def fetch_data(self, genome_range):
-        return to_gr(genome_range).chrom  # return chromosome name
+    def fetch_data(self, gr: GenomeRange, **kwargs):
+        return gr.chrom  # return chromosome name
 
-    def plot(self, ax, chrom, start, end):
-        x = start + self.properties['offset'] * (end - start)
-        ax.text(x, 0, chrom, fontsize=self.properties['fontsize'])
-        ax.set_xlim(start, end)
+    def plot(self, ax, gr: GenomeRange, **kwargs):
+        x = gr.start + self.properties['offset'] * (gr.end - gr.start)
+        ax.text(x, 0, gr.chrom, fontsize=self.properties['fontsize'])
+        ax.set_xlim(gr.start, gr.end)

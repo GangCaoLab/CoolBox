@@ -1,7 +1,10 @@
+from typing import Union
+
 from .base import Coverage
+from coolbox.utilities.genome import GenomeRange
 
 
-class HLinesCov(Coverage):
+class HLines(Coverage):
     """
     Horizontal line coverage, for show threshold.
 
@@ -43,15 +46,15 @@ class HLinesCov(Coverage):
         properties_dict.update(kwargs)
         super().__init__(properties_dict)
 
-    def plot(self, ax, chrom_region, start_region, end_region):
-
+    def plot(self, ax, gr: GenomeRange, **kwargs):
+        gr = GenomeRange(gr)
         ymin, ymax = ax.get_ylim()
         if self.properties['percent_mode'] != 'no':
             hlines_list = [ymin + val * ymax for val in self.properties['values']]
         else:
             hlines_list = self.properties['values']
 
-        ax.hlines(hlines_list, start_region, end_region,
+        ax.hlines(hlines_list, gr.start, gr.end,
                   linestyle=self.properties['line_style'],
                   linewidth=self.properties['line_width'],
                   color=self.properties['color'],

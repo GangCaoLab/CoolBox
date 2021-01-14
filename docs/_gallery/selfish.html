@@ -506,7 +506,7 @@ div.rendered_html tbody tr:hover {
     <span class="n">Cool</span><span class="p">(</span><span class="n">cl2</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mf">5e-4</span><span class="p">)</span> <span class="o">+</span> <span class="n">MaxValue</span><span class="p">(</span><span class="mf">1e-1</span><span class="p">)</span> <span class="o">+</span> \
     <span class="n">Selfish</span><span class="p">(</span><span class="n">cl1</span><span class="p">,</span> <span class="n">cl2</span><span class="p">)</span> <span class="o">+</span> \
     <span class="n">XAxis</span><span class="p">()</span>
-<span class="n">frame</span> <span class="o">*=</span> <span class="n">Feature</span><span class="p">(</span><span class="s1">&#39;depth_ratio&#39;</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">*=</span> <span class="n">Feature</span><span class="p">(</span><span class="n">depth_ratio</span><span class="o">=</span><span class="mf">0.35</span><span class="p">)</span>
 <span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">region</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -533,7 +533,7 @@ div.rendered_html tbody tr:hover {
 <span class="nv">cl2</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">data_dir</span><span class="si">}</span><span class="s2">/Ra.cool&quot;</span>
 
 coolbox add XAxis - <span class="se">\</span>
-start_with Feature <span class="s2">&quot;depth_ratio&quot;</span> <span class="s2">&quot;0.35&quot;</span> - <span class="se">\</span>
+start_with Feature --depth_ratio <span class="s2">&quot;0.35&quot;</span> - <span class="se">\</span>
     add Cool <span class="nv">$cl1</span> - <span class="se">\</span>
     add Cool <span class="nv">$cl2</span> - <span class="se">\</span>
     add Selfish <span class="nv">$cl1</span> <span class="nv">$cl2</span> - <span class="se">\</span>

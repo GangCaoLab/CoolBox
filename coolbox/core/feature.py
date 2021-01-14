@@ -16,9 +16,8 @@ class Feature(object):
     Feature base class.
     """
 
-    def __init__(self, key, value):
-        self.key = key
-        self.value = value
+    def __init__(self, **kwargs):
+        self.properties = kwargs
 
     def __add__(self, other):
         from .track.base import Track
@@ -28,23 +27,23 @@ class Feature(object):
 
         if isinstance(other, Track):
             result = copy(other)
-            result.properties[self.key] = self.value
+            result.properties.update(self.properties)
             return result
         elif isinstance(other, FrameBase):
             result = copy(other)
             if len(result.tracks) != 0:
                 first = list(result.tracks.values())[0]
-                first.properties[self.key] = self.value
+                first.properties.update(self.properties)
             return result
         elif isinstance(other, Coverage):
             result = copy(other)
-            result.properties[self.key] = self.value
+            result.properties.update(self.properties)
             return result
         elif isinstance(other, CoverageStack):
             result = copy(other)
             if len(result.coverages) != 0:
                 first = result.coverages[0]
-                first[self.key] = self.value
+                first.properties.update(self.properties)
             return result
         else:
             raise TypeError(op_err_msg(self, other))
@@ -75,7 +74,7 @@ class Color(Feature):
     """
 
     def __init__(self, value):
-        super().__init__('color', value)
+        super().__init__(color=value)
 
 
 class ColorMap(Feature):
@@ -84,7 +83,8 @@ class ColorMap(Feature):
     """
 
     def __init__(self, value):
-        super().__init__('color', value)
+        # TODO which one?
+        super().__init__(color=value, cmap=value)
 
 
 class TrackHeight(Feature):
@@ -93,7 +93,7 @@ class TrackHeight(Feature):
     """
 
     def __init__(self, value):
-        super().__init__('height', value)
+        super().__init__(height=value)
 
 
 class Inverted(Feature):
@@ -102,7 +102,7 @@ class Inverted(Feature):
     """
 
     def __init__(self):
-        super().__init__('orientation', 'inverted')
+        super().__init__(orientation='inverted')
 
 
 class Title(Feature):
@@ -111,7 +111,7 @@ class Title(Feature):
     """
 
     def __init__(self, value):
-        super().__init__('title', value)
+        super().__init__(title=value)
 
 
 class MaxValue(Feature):
@@ -120,7 +120,7 @@ class MaxValue(Feature):
     """
 
     def __init__(self, value):
-        super().__init__('max_value', value)
+        super().__init__(max_value=value)
 
 
 class MinValue(Feature):
@@ -129,7 +129,7 @@ class MinValue(Feature):
     """
 
     def __init__(self, value):
-        super().__init__('min_value', value)
+        super().__init__(min_value=value)
 
 
 class HistStyle(Feature):
@@ -137,12 +137,10 @@ class HistStyle(Feature):
     Style of BigWig or BedGraph.
     """
 
-    def __init__(self, type='fill', size=0.5):
-        if type != 'fill':
-            value = type + ":" + str(size)
-        else:
-            value = 'fill'
-        super().__init__('style', value)
+    def __init__(self, style='fill', fmt="-", size=10, line_width=2.0):
+        from coolbox.core.track import HistBase
+        assert style in HistBase.STYLES, f"The style should be one of {HistBase.STYLES}"
+        super().__init__(style=style, fmt=fmt, size=size, line_width=line_width)
 
 
 class ShowDataRange(Feature):
@@ -150,11 +148,9 @@ class ShowDataRange(Feature):
     Show data range or not.
     """
 
-    def __init__(self, show=True):
-        if show:
-            super().__init__('show_data_range', 'yes')
-        else:
-            super().__init__('show_data_range', 'no')
+    def __init__(self, data_range_style="y-axis"):
+        assert data_range_style in ("no", False, "text", "y-axis"), "Should be one of ['no', 'text', 'y-axis']"
+        super().__init__(data_range_style=data_range_style)
 
 
 class ShowColorBar(Feature):
@@ -163,10 +159,7 @@ class ShowColorBar(Feature):
     """
 
     def __init__(self, show=True):
-        if show:
-            super().__init__('color_bar', 'yes')
-        else:
-            super().__init__('color_bar', 'no')
+        super().__init__(color_bar='yes' if bool(show) else 'no')
 
 
 class DepthRatio(Feature):
@@ -175,7 +168,7 @@ class DepthRatio(Feature):
     """
 
     def __init__(self, depth_ratio):
-        super().__init__('depth_ratio', depth_ratio)
+        super().__init__(depth_ratio=depth_ratio)
 
 
 class CoolStyle(Feature):
@@ -184,7 +177,7 @@ class CoolStyle(Feature):
     """
 
     def __init__(self, style='triangular'):
-        super().__init__('style', style)
+        super().__init__(style=style)
 
 
 class FrameFeature(Feature):
@@ -196,8 +189,10 @@ class FrameFeature(Feature):
         from .frame.base import FrameBase
 
         if isinstance(other, FrameBase):
+            properties = self.properties.copy()
+            properties.update(other.properties)
             result = copy(other)
-            result.properties[self.key] = self.value
+            result.properties = properties
             return result
         else:
             raise TypeError(op_err_msg(self, other))
@@ -209,7 +204,7 @@ class FrameTitle(FrameFeature):
     """
 
     def __init__(self, value):
-        super().__init__('title', value)
+        super().__init__(title=value)
 
 
 if __name__ == "__main__":

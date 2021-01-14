@@ -1,3 +1,4 @@
+from copy import copy
 from collections import OrderedDict
 
 import matplotlib
@@ -53,10 +54,10 @@ class Frame(FrameBase):
     Examples
     --------
     >>> frame_1 = Frame()
-    >>> frame_2 = Frame(genome_range="chr1:1000-2000")
+    >>> frame_2 = Frame(gr="chr1:1000-2000")
     >>> str(frame_2.current_range)
     'chr1:1000-2000'
-    >>> frame_3 = Frame(genome_range=GenomeRange("chr1", 1000, 2000))
+    >>> frame_3 = Frame(gr=GenomeRange("chr1", 1000, 2000))
     >>> str(frame_3.current_range)
     'chr1:1000-2000'
     """
@@ -154,17 +155,22 @@ class Frame(FrameBase):
         >>> frame.plot("chr1", 100000, 200000)
         >>> frame.plot("chr1:100000-200000")
         """
-        if len(args) >= 3:
-            chrom, start, end = args[:3]
-            gr = GenomeRange(chrom, start, end)
-        elif len(args) >= 1:
-            region_str = args[0]
-            gr = GenomeRange(region_str)
-            chrom, start, end = (gr.chrom, gr.start, gr.end)
+        if len(args) == 3:
+            gr = GenomeRange(*args[:3])
+            gr2 = None
+        elif len(args) == 1:
+            gr = GenomeRange(args[0])
+            gr2 = None
+        elif len(args) == 6:
+            gr = GenomeRange(args[:3])
+            gr2 = GenomeRange(args[3:])
+        elif len(args) == 2:
+            gr = GenomeRange(args[0])
+            gr2 = GenomeRange(args[1])
         else:
             raise ValueError("Please specify a genomic range in uscs format. For example: 'chr1:100000-200000'")
         # cache for the previous GenomeRange
-        self.current_range = gr
+        self.goto(gr, gr2)
 
         tracks_height = self.get_tracks_height()
         self.properties['height'] = sum(tracks_height)
@@ -196,7 +202,8 @@ class Frame(FrameBase):
             track.label_ax = label_ax
             track.y_ax = y_ax
             try:
-                track.plot(ax, chrom, start, end)
+                # Attention, copy is necessary, otherwise GenomeRange may change due to call of gr.change_chrom_names
+                track.plot(ax, copy(gr), gr2=copy(gr2))
 
             except Exception as e:
                 import sys, os
@@ -214,8 +221,10 @@ class Frame(FrameBase):
             if hasattr(track, 'coverages'):
                 for cov_idx, cov in enumerate(track.coverages):
                     cov.track = track
+                    if hasattr(cov, 'track_instance'):
+                        cov.track_instance.track = track
                     try:
-                        cov.plot(ax, chrom, start, end)
+                        cov.plot(ax, copy(gr), gr2=copy(gr2))
                     except Exception as e:
                         log.error("Error occured when plot track's coverage:\n"
                                   "\ttrack name: {}\n\ttrack type:{}\n\tcoverage name: {}\n\tcov type: {}\n"

@@ -6,7 +6,7 @@ def hicmat_filetype(path):
         return '.hic'
     else:
         p = path.split("::")[0]
-        if p.endswith(".cool") or p.endswith(".mcool"):
+        if p.endswith((".cool", ".mcool")):
             return '.cool'
         else:
             raise NotImplementedError("File type of {} not supported for HicMat".format(path))

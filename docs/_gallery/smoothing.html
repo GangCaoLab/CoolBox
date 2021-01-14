@@ -493,7 +493,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">with</span> <span class="n">Color</span><span class="p">(</span><span class="s2">&quot;RdYlBu_r&quot;</span><span class="p">),</span> <span class="n">Feature</span><span class="p">(</span><span class="s2">&quot;depth_ratio&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">):</span>
+<span></span><span class="k">with</span> <span class="n">Color</span><span class="p">(</span><span class="s2">&quot;RdYlBu_r&quot;</span><span class="p">),</span> <span class="n">Feature</span><span class="p">(</span><span class="n">depth_ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
     <span class="n">raw</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Not smooth&quot;</span><span class="p">)</span>
     <span class="n">smo0</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">gaussian_sigma</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mf">1e-1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Smooth</span><span class="se">\n</span><span class="s2">sigma=0.5&quot;</span><span class="p">)</span>
     <span class="n">smo1</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">gaussian_sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mf">1e-1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Smooth</span><span class="se">\n</span><span class="s2">sigma=1.0&quot;</span><span class="p">)</span>
@@ -524,7 +524,7 @@ div.rendered_html tbody tr:hover {
 
 coolbox add XAxis - <span class="se">\</span>
     start_with Color <span class="s2">&quot;RdYlBu_r&quot;</span> - <span class="se">\</span>
-    start_with Feature <span class="s2">&quot;depth_ratio&quot;</span> <span class="s2">&quot;0.5&quot;</span> - <span class="se">\</span>
+    start_with Feature --depth_ratio <span class="s2">&quot;0.5&quot;</span> - <span class="se">\</span>
     add DotHiC <span class="nv">$test_hic</span> - add Title <span class="s2">&quot;Not smooth&quot;</span> - <span class="se">\</span>
     add DotHiC <span class="nv">$test_hic</span> --gaussian_sigma <span class="s2">&quot;0.5&quot;</span> --min_value <span class="s2">&quot;1e-1&quot;</span> - <span class="se">\</span>
     add Title <span class="s1">&#39;Smooth sigma=0.5&#39;</span> - <span class="se">\</span>

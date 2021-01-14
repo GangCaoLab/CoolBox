@@ -1,4 +1,5 @@
 import abc
+from typing import Union
 from collections import OrderedDict
 from copy import copy
 
@@ -10,21 +11,33 @@ from coolbox.utilities import (
 
 log = get_logger(__name__)
 
+GR = Union[str, GenomeRange]
+
 
 class FrameBase(abc.ABC):
 
     def __init__(self, properties_dict, *args, **kwargs):
         # init range
-        if 'genome_range' in kwargs:
-            range_ = kwargs['genome_range']
+        if 'gr' in kwargs:
+            range_ = kwargs['gr']
             if isinstance(range_, GenomeRange):
                 self.current_range = range_
             else:
                 # init from genome range string
-                # e.g. `frame = Frame(genome_range="chr1:1000-2000")`
+                # e.g. `frame = Frame(gr="chr1:1000-2000")`
                 self.current_range = GenomeRange(range_)
         else:
             self.current_range = None
+        if 'gr2' in kwargs:
+            range_ = kwargs['gr2']
+            if isinstance(range_, GenomeRange):
+                self.current_range = range_
+            else:
+                # init from genome range string
+                # e.g. `frame = Frame(gr="chr1:1000-2000")`
+                self.current_range = GenomeRange(range_)
+        else:
+            self.current_range2 = None
 
         self.properties = properties_dict
 
@@ -45,13 +58,14 @@ class FrameBase(abc.ABC):
     def add_track(self, track):
         pass
 
-    def goto(self, genome_range):
+    def goto(self, gr: GR = None, gr2: GR = None):
         """
         Go to the range on the genome.
 
         Parameters
         ----------
-        genome_range : {str, GenomeRange}
+        gr2
+        gr : {str, GenomeRange}
             The range string,
             like "chr1:1000000-2000000", or GenomeRange object.
 
@@ -65,24 +79,21 @@ class FrameBase(abc.ABC):
         >>> str(frame.current_range)
         'chr1:1000-2000'
         """
-        if isinstance(genome_range, GenomeRange):
-            self.current_range = genome_range
-        else:
-            self.current_range = GenomeRange(genome_range)
+        if gr:
+            self.current_range = gr if isinstance(gr, GenomeRange) else GenomeRange(gr)
+        if gr2:
+            self.current_range2 = gr if isinstance(gr2, GenomeRange) else GenomeRange(gr2)
 
-    def fetch_data(self, genome_range=None):
-        if genome_range is None:
-            genome_range = self.current_range
-        if genome_range is None:
-            raise RuntimeError("Please specify a genome range like: chr1:1000-2000")
-
-        if isinstance(genome_range, str):
-            genome_range = GenomeRange(genome_range)
+    def fetch_data(self, gr: GR = None, gr2: GR = None):
+        self.goto(gr, gr2)
+        gr, gr2 = self.current_range, self.current_range2
+        if gr is None:
+            raise ValueError("No GenomeRange history found.")
 
         tracks_data = OrderedDict()
         for name, track in self.tracks.items():
             if hasattr(track, 'fetch_data'):
-                data = track.fetch_data(genome_range)
+                data = track.fetch_data(gr, gr2=gr2)
             else:
                 data = []
             tracks_data.update([(name, data)])
@@ -108,7 +119,7 @@ class FrameBase(abc.ABC):
         from ..feature import Feature
         assert isinstance(feature, Feature), "feature must a Feature object."
         for track in self.tracks.values():
-            track.properties[feature.key] = feature.value
+            track.properties.update(feature.properties)
 
     def add_cov_to_tracks(self, cov):
         """
@@ -240,12 +251,12 @@ class FrameBase(abc.ABC):
             result.properties.update(other.properties)
             return result
         elif isinstance(other, FrameFeature):
-            result.properties[other.key] = other.value
+            result.properties.update(other.properties)
             return result
         elif isinstance(other, Feature):
             if len(result.tracks) != 0:
                 last = list(result.tracks.values())[-1]
-                last.properties[other.key] = other.value
+                last.properties.update(other.properties)
             return result
         elif isinstance(other, Coverage):
             if len(result.tracks) != 0:

@@ -13,8 +13,8 @@ log = get_logger(__name__)
 class _Highlights(object):
     DEFAULT_COLOR = '#ff5d0f'
 
-    def fetch_data(self, genome_range):
-        gr = to_gr(genome_range)
+    def fetch_data(self, gr: GenomeRange, **kwargs):
+        gr = to_gr(gr)
         regions = []
 
         if gr.chrom not in list(self.interval_tree):
@@ -25,10 +25,9 @@ class _Highlights(object):
 
         return regions
 
-    def plot(self, ax, chrom_region, start_region, end_region):
+    def plot(self, ax, gr: GenomeRange, **kwargs):
 
-        gr = GenomeRange(chrom_region, start_region, end_region)
-        regions = self.fetch_data(gr)
+        regions = self.fetch_data(gr, **kwargs)
 
         for (start, end, color) in regions:
             if self.properties['color'] != 'bed_rgb':
@@ -179,7 +178,9 @@ class HighLights(Coverage, _Highlights):
         super().__init__(properties_dict)
         self.interval_tree = self.__intervaltree_from_list(self.properties['highlight_regions'])
 
+    # TODO  may be duplicate of vlines's method
     def __intervaltree_from_list(self, region_list):
+        from intervaltree import IntervalTree
         itree = {}
         for r in region_list:
             if isinstance(r, str):

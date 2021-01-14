@@ -73,3 +73,4 @@ from coolbox.core.feature import *
 from coolbox.core.coverage import *
 from coolbox.core.browser import *
 from coolbox.core.frame.superframe import JointView
+from coolbox.utilities.genome import GenomeRange

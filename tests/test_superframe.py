@@ -33,4 +33,5 @@ def test_joint_view():
         assert len(tracks_data[pos]) == len(fr.fetch_data())
 
     import numpy as np
-    assert np.all(cool1.fetch_data(*jv.current_range) == tracks_data['center'])
+    gr, gr2 = jv.current_range
+    assert np.all(cool1.fetch_data(gr, gr2=gr2) == tracks_data['center'])

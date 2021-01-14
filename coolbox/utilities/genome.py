@@ -133,9 +133,6 @@ class GenomeRange(object):
         """
         self.chrom = change_chrom_names(self.chrom)
 
-    def __str__(self):
-        return self.chrom + ":" + str(self.start) + "-" + str(self.end)
-
     @property
     def length(self):
         """
@@ -165,6 +162,9 @@ class GenomeRange(object):
         if another.end > self.end:
             return False
         return True
+
+    def __str__(self) -> str:
+        return f"{self.chrom}:{self.start}-{self.end}"
 
 
 def change_chrom_names(chrom):
@@ -259,13 +259,13 @@ class GenomeLength(dict):
 def split_genome_range(genome_range):
     """
     Little helper func.
-    enforce genome_range is a GenomeRange object, and
-    split genome_range to chrom, start, end
+    enforce gr is a GenomeRange object, and
+    split gr to chrom, start, end
     """
     if isinstance(genome_range, str):
         genome_range = GenomeRange(genome_range)
     else:
         assert isinstance(genome_range, GenomeRange), \
-            "genome_range is a `GenomeRange` object or a genome range str"
+            "gr is a `GenomeRange` object or a genome range str"
     chrom, start, end = genome_range.chrom, genome_range.start, genome_range.end
     return chrom, start, end

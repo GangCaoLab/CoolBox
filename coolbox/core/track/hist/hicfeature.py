@@ -13,17 +13,26 @@ log = get_logger(__name__)
 
 
 class HicFeature(HistBase, ABC):
+    """HicFeature base track
+
+    Parameters
+    -----------
+    hicmat: {str, HicMatBase}
+        The input hicmat file or HicMatBase object used to calculate di score.
+
+    args_hic : dict, optional
+        Key words arguments used to create Cool/DotHic tack when the input hicmat is a file path
+
+    """
     IGNORE_DIAGS = 3
 
     def __init__(self, hicmat: Union[str, HicMatBase], args_hic=None, **kwargs):
         self.hicmat = HiCMat(hicmat, **(args_hic or {}))
-        properties_dict = {
+        properties = {
             'file': self.hicmat.properties.get('file', ""),
-            'height': self.DEFAULT_HEIGHT,
-            'color': self.DEFAULT_COLOR,
         }
-        properties_dict.update(kwargs)
-        super().__init__(**properties_dict)
+        properties.update(kwargs)
+        super().__init__(**properties)
 
 
 class DiScore(HicFeature):
@@ -32,8 +41,8 @@ class DiScore(HicFeature):
 
     Parameters
     ----------
-    hicmat: {str, Cool, DotHic}
-        The input hicmat file or HicMatBase object used to calculate di.
+    hicmat: {str, HicMatBase}
+        The input hicmat file or HicMatBase object used to calculate di score.
 
     window_size: int, optional
         Width of the diamond region along the matrix used to calculate di. default: 40
@@ -41,40 +50,13 @@ class DiScore(HicFeature):
     method: {'standard', 'adaptive'}, optional
         Method used for calculating di. default: 'adaptive'
 
-    args_hic: dict, optional
-        The args passed to Cool or DotHic to create a HicMatBase object. default: None
-
-    height : float, optional
-        Height of track, default DiScore.DEFAULT_HEIGHT
-
-
-    color : str, optional
-        Track color, default DiScore.DEFAULT_COLOR
-
-    style : str, optional
-        Track graph type, format {'fill', 'line:`size`', 'points:`size`'},
-        example: 'line:2', 'points:0.5'. default: 'fill'
-
-    extra : optional
-
-    show_data_range : bool, optional
-        Show_data_range or not, default True.
-
-    data_range_style : {'text', 'y-axis'}, optional
-        The style of the data range. default: 'y-axis'
-
-    title : str, optional
-        Label text, default ''.
-
-    max_value : {float, 'auto'}, optional
-        Max value of track, use 'auto' for specify max value automatically, default 'auto'.
-
-    min_value : {float, 'auto'}, optional
-        Min value of track, use 'auto' for specify min value automatically, default 'auto'.
-
-    name : str, optional
-        Track's name.
+    args_hic : dict, optional
+        Key words arguments used to create Cool/DotHic tack when the input hicmat is a file path
     """
+
+    DEFAULT_PROPERTIES = {
+        'style': HistBase.STYLE_FILL
+    }
 
     def __init__(self,
                  hicmat: Union[str, HicMatBase],
@@ -82,19 +64,14 @@ class DiScore(HicFeature):
                  method="adaptive",
                  args_hic: dict = None,
                  **kwargs):
-        properties_dict = {
-            "style": 'fill',
-        }
-        properties_dict.update(kwargs)
-        super().__init__(hicmat, args_hic, **properties_dict)
-        self.di_scorer = self.di_methods(method)
+        properties = DiScore.DEFAULT_PROPERTIES.copy()
+        properties.update(kwargs)
+        super().__init__(hicmat, args_hic, **properties)
         self.window_size = window_size
+        self.method = method
 
-    def fetch_plot_data(self, genome_range: Union[str, GenomeRange]) -> np.ndarray:
-        return self.fetch_data(genome_range)
-
-    def fetch_data(self, genome_range: Union[str, GenomeRange]) -> np.ndarray:
-        ds_mat: np.ndarray = self.hicmat.fetch_data(genome_range)
+    def fetch_data(self, gr: GenomeRange, **kwargs) -> np.ndarray:
+        ds_mat: np.ndarray = self.hicmat.fetch_data(gr)
         mlen = ds_mat.shape[0]
         if mlen < self.window_size * 2:
             return np.zeros(mlen)
@@ -127,7 +104,7 @@ class DiScore(HicFeature):
         contacts_up[:max_len, :] = 0
         contacts_down[:max_len, :] = 0
 
-        return self.di_scorer(contacts_up, contacts_down)
+        return self.di_methods(self.method)(contacts_up, contacts_down)
 
     @classmethod
     def di_methods(cls, method: str) -> Callable[[np.ndarray, np.ndarray], np.ndarray]:
@@ -172,8 +149,8 @@ class InsuScore(HicFeature):
 
     Parameters
     ----------
-    hicmat: {str, Cool, DotHic}
-        The input hicmat file or HicMatBase object used to calculate insulation score.
+    hicmat: {str, HicMatBase}
+        The input hicmat file or HicMatBase object used to calculate di score.
 
     window_size: {int, str}, optional
         Width of the diamond region along the matrix used to calculate di. default: 20
@@ -182,39 +159,17 @@ class InsuScore(HicFeature):
     normalize: bool, optional
         Weather to log-nomalize the insulation score array. default: true
 
-    args_hic: dict, optional
-        The args passed to Cool or DotHic to create a HicMatBase object. default: None
+    method: {'standard', 'adaptive'}, optional
+        Method used for calculating di. default: 'adaptive'
 
-    height : float, optional
-        Height of track, default DiScore.DEFAULT_HEIGHT
-
-    color : str, optional
-        Track color, default DiScore.DEFAULT_COLOR
-
-    style : str, optional
-        Track graph type, format {'fill', 'line:`size`', 'points:`size`', 'heatmap'},
-        example: 'line:2', 'points:0.5'. default: 'line'
-
-    extra : optional
-
-    show_data_range : bool, optional
-        Show_data_range or not, default True.
-
-    data_range_style : {'text', 'y-axis'}, optional
-        The style of the data range. default: 'y-axis'
-
-    title : str, optional
-        Label text, default ''.
-
-    max_value : {float, 'auto'}, optional
-        Max value of track, use 'auto' for specify max value automatically, default 'auto'.
-
-    min_value : {float, 'auto'}, optional
-        Min value of track, use 'auto' for specify min value automatically, default 'auto'.
-
-    name : str, optional
-        Track's name.
+    args_hic : dict, optional
+        Key words arguments used to create Cool/DotHic tack when the input hicmat is a file path
     """
+
+    DEFAULT_PROPERTIES = {
+        "style": "line",
+        "cmap": "coolwarm_r",
+    }
 
     def __init__(self,
                  hicmat: Union[str, HicMatBase],
@@ -222,19 +177,13 @@ class InsuScore(HicFeature):
                  normalize: bool = True,
                  args_hic: dict = None,
                  **kwargs):
-        properties_dict = {
-            "style": "line",
-            "cmap": "coolwarm_r"
-        }
-        properties_dict.update(kwargs)
-        super().__init__(hicmat, args_hic, **properties_dict)
+        properties = InsuScore.DEFAULT_PROPERTIES.copy()
+        properties.update(kwargs)
+        super().__init__(hicmat, args_hic, **properties)
         self.window_size = window_size
         self.normalize = normalize
 
-    def fetch_plot_data(self, genome_range: GenomeRange) -> np.ndarray:
-        return self.fetch_data(genome_range)
-
-    def fetch_data(self, genome_range: Union[str, GenomeRange]) -> np.ndarray:
+    def fetch_data(self, gr: GenomeRange, **kwargs) -> np.ndarray:
         window_size = self.window_size
         try:
             if isinstance(window_size, int):
@@ -247,11 +196,10 @@ class InsuScore(HicFeature):
         except Exception:
             raise ValueError("window_size should be like int: 12 or str: '10-50'.")
 
-        genome_range = to_gr(genome_range)
         insus = []
         # for multiple window sizes
         for ws in window_size:
-            mat: np.ndarray = self.hicmat.fetch_data(genome_range)
+            mat: np.ndarray = self.hicmat.fetch_data(gr)
             mlen = mat.shape[0]
             if mlen < ws * 2:
                 insus.append(np.zeros(mlen))
@@ -282,78 +230,46 @@ class Virtual4C(HicFeature):
     genome_position : str
         related genome position, like: 'chr1:2000000-2000000'
 
-    args_hic : dict, optional
-        Argument for create hic track, needed only if first argument is a path.
-
     bin_width : int, optional
         How many bin used for calculate the mean value.
         default 3
 
-    color : str, optional
-        Track color.
-
-    height : int, optional
-        Track height
-
-    orientation : str, optional
-        Track orientation, use 'inverted' for inverted track plot.
-
-    max_value : {float, 'auto'}, optional
-        Max value of track, use 'auto' for specify max value automatically, default 'auto'.
-
-    min_value : {float, 'auto'}, optional
-        Min value of track, use 'auto' for specify min value automatically, default 'auto'.
-
-    show_data_range : bool, optional
-        Show_data_range or not, default True.
-
-    data_range_style : {'text', 'y-axis'}
-        The style of the data range. default: 'y-axis'
-
-    style : str, optional
-        Track graph type, format {'fill', 'line:`size`', 'points:`size`'},
-        example: 'line:2', 'points:0.5'. default: 'line:2'
-
-    title : str, optional
-        Label text, default ''.
-
-    name : str, optional
-        Track's name.
-
+    args_hic : dict, optional
+        Argument for create hic track, needed only if first argument is a path.
     """
 
-    DEFAULT_COLOR = '#2855d8'
+    DEFAULT_PROPERTIES = {
+        "style": HistBase.STYLE_LINE,
+        "line_width": 1,
+        "color": "#2855d8",
+        "bin_width": 3,
+    }
 
     def __init__(self,
                  hicmat: Union[str, HicMatBase],
                  genome_position: str,
                  args_hic: dict = None,
                  **kwargs):
-        properties_dict = {
-            'color': self.DEFAULT_COLOR,
-            'genome_position': genome_position,
-            'bin_width': 3,
-            'style': 'line:1',
-        }
-        properties_dict.update(kwargs)
-        super().__init__(hicmat, args_hic, **properties_dict)
+        properties = Virtual4C.DEFAULT_PROPERTIES.copy()
+        properties.update({
+            "genome_position": genome_position,
+            **kwargs,
+        })
+        super().__init__(hicmat, args_hic, **properties)
         self.position = GenomeRange(self.properties['genome_position'])
         self.bin_width = self.properties['bin_width']
 
-    def fetch_data(self, genome_range: Union[str, GenomeRange]) -> np.ndarray:
-        return self.fetch_plot_data(genome_range)
-
-    def fetch_plot_data(self, genome_range: GenomeRange) -> np.ndarray:
+    def fetch_data(self, gr: GenomeRange, **kwargs) -> np.ndarray:
         # fetch mean array
         from copy import copy
         bin_width = self.bin_width
         position = self.position
-        binsize = self.hicmat.infer_binsize(genome_range)
+        binsize = self.hicmat.infer_binsize(gr)
         window_range = copy(position)
         offset_ = (bin_width - 1) // 2
         assert offset_ >= 0, "bin width must >= 1"
         window_range.start = window_range.start - offset_ * binsize
         window_range.end = window_range.end + offset_ * binsize
-        arr = self.hicmat.fetch_matrix(window_range, genome_range)
+        arr = self.hicmat.fetch_data(window_range, gr2=gr)
         mean_arr = np.nanmean(arr, axis=0)
         return mean_arr

@@ -310,10 +310,10 @@ class CLI(object):
         :param genome_range2: Genome range string, like "chr9:4000000-6000000".
         """
         if genome_range is None:
-            if self.current_range is None:
-                raise ValueError("Should specify the genome_range")
+            if self.current_range[0] is None:
+                raise ValueError("Should specify the gr")
         else:
-            self.goto(genome_range)
+            self.goto(genome_range, genome_range2)
         source = "from coolbox.api import *\n" + self.source() + "\n"
         gr1, gr2 = self.current_range
         if 'center' in self.frames:

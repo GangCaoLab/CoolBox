@@ -2,7 +2,7 @@ from copy import copy
 
 from coolbox.utilities import (
     op_err_msg, get_coverage_stack, get_feature_stack,
-    bool2str
+    format_properties, GenomeRange
 )
 
 
@@ -37,7 +37,7 @@ class Coverage(object):
         return super().__new__(cls)
 
     def __init__(self, properties_dict):
-        self.properties = bool2str(properties_dict)
+        self.properties = format_properties(properties_dict)
         name = self.properties.get("name")
         if name is not None:
             assert isinstance(name, str), "Coverage name must be a `str`."
@@ -76,7 +76,7 @@ class Coverage(object):
             return result
         elif isinstance(other, Feature):
             result = copy(self)
-            result.properties[other.key] = other.value
+            result.properties.update(other.properties)
             return result
         elif isinstance(other, Coverage):
             stack = CoverageStack([self, other])
@@ -161,33 +161,37 @@ class CoverageStack(object):
             result = copy(self)
             if len(result.coverages) != 0:
                 last = result.coverages[-1]
-                last.properties[other.key] = other.value
+                last.properties.update(other.properties)
             return result
         else:
             raise TypeError(op_err_msg(self, other))
 
 
+def has_data_range(track_class):
+    from coolbox.core.track import HistBase, Hist, ArcsBase, Arcs
+    if isinstance(track_class, type):
+        return HistBase in track_class.__mro__ or ArcsBase in track_class.__mro__
+    else:
+        return track_class in (Hist, Arcs)
+
+
 def track_to_coverage(track_class):
     def init(self, *args, **kwargs):
-        from coolbox.core.track import BigWig, BedGraph
-        if (track_class is BigWig) or \
-                (track_class is BedGraph):
+        if has_data_range(track_class):
             kwargs.update({
                 "show_data_range": False,
             })
         self.track_instance = track_class(*args, **kwargs)
         self.properties = self.track_instance.properties
 
-    def plot(self, ax, chrom_region, start_region, end_region):
-        from coolbox.core.track import BigWig, BedGraph, Arcs
+    def plot(self, ax, gr: GenomeRange, **kwargs):
         if hasattr(self, 'track'):
-            if (track_class is Arcs) or \
-                    (track_class is BigWig) or \
-                    (track_class is BedGraph):
+            if has_data_range(track_class):
                 # update height when plot
                 self.track_instance.properties['height'] = self.track.properties['height']
-        self.track_instance.plot(ax, chrom_region, start_region, end_region)
+        self.track_instance.plot(ax, gr, **kwargs)
 
+    # TODO , other track methods
     cov_class = type(
         track_class.__name__ + "Coverage",
         (Coverage,),

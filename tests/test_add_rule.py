@@ -32,14 +32,14 @@ def test_track_add_frame():
 
 
 def test_track_feature():
-    assert isinstance(Track({}) + Feature("", ""), Track)
-    assert isinstance(Feature("", "") + Track({}), Track)
+    assert isinstance(Track({}) + Feature(test=""), Track)
+    assert isinstance(Feature(test="") + Track({}), Track)
 
 
 def test_frame_feature():
     frame = Track({}) + Track({})
-    assert isinstance(frame + Feature("", ""), Frame)
-    assert isinstance(Feature("", "") + frame, Frame)
+    assert isinstance(frame + Feature(test=""), Frame)
+    assert isinstance(Feature(test="") + frame, Frame)
 
 
 def test_track_coverage():
@@ -54,8 +54,8 @@ def test_frame_coverage():
 
 
 def test_coverage_feature():
-    assert isinstance(Coverage({}) + Feature("", ""), Coverage)
-    assert isinstance(Feature("", "") + Coverage({}), Coverage)
+    assert isinstance(Coverage({}) + Feature(test=""), Coverage)
+    assert isinstance(Feature(test="") + Coverage({}), Coverage)
 
 
 def test_frame_widgetspanel():
