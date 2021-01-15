@@ -43,41 +43,58 @@ class Selfish(HicMatBase):
 
     """
 
+    DEFAULT_ARGS_HIC = {
+        "transform": "no",
+        "normalize": "zscore",
+        "gaussian_sigma": "no",
+        "process_func": "no",
+    }
+
     DEFAULT_PROPERTIES = {
         "style": HicMatBase.STYLE_WINDOW,
         "cmap": "RdPu_r",
         "transform": False,
-        "norm": "log",
         "s": 10,
         "sigma0": 1.6,
+        "args_hic": DEFAULT_ARGS_HIC,
     }
 
-    def __init__(self, hic1, hic2, args_hic=None, **kwargs):
-        args_hic_ = {
-            "normalize": "zscore",
-        }
-        if args_hic:
-            args_hic_.update(args_hic)
-        if isinstance(hic1, str):
-            hic1 = HiCMat(hic1, **args_hic_)
-        if isinstance(hic2, str):
-            hic2 = HiCMat(hic2, **args_hic_)
-
+    def __init__(self, hic1, hic2, **kwargs):
+        # TODO duplicate code with HiCDiff
         properties = Selfish.DEFAULT_PROPERTIES.copy()
-        properties.update({
+        properties.update(kwargs)
+        super().__init__(**properties)
+
+        # TODO how to set hic_args in cli mode ?
+        if isinstance(hic1, str):
+            hic1 = HiCMat(hic1)
+        if isinstance(hic2, str):
+            hic2 = HiCMat(hic2)
+        self.properties.update({
             'hic1': hic1,
             'hic2': hic2,
-            **kwargs
         })
-        super().__init__(**properties)
-        for hic in hic1, hic2:  # update related hic track
-            hic.properties.update({
-                "resolution": self.properties["resolution"],
-            })
 
-        self.zero_indices = None
         self.mat1 = None
         self.mat2 = None
+
+    def fetch_data(self, gr: GenomeRange, **kwargs) -> np.ndarray:
+        # TODO find a better way
+        # For cases when updating of Frame's depth_ratio leads to un equal matrix sizes for different tracks).
+        args_hic = self.properties.copy()
+        args_hic.update(self.properties.get('args_hic', {}))
+        for hic in ('hic1', 'hic2'):
+            self.properties[hic].properties.update(args_hic)
+
+        hic1: HicMatBase = self.properties['hic1']
+        hic2: HicMatBase = self.properties['hic2']
+        self.mat1 = mat1 = hic1.fetch_plot_data(self.plot_gr, gr2=self.plot_gr2)
+        self.mat2 = mat2 = hic2.fetch_plot_data(self.plot_gr, gr2=self.plot_gr2)
+        # what does this used for ?
+        # self.zero_indices = (hic1.zero_indices | hic1.nan_indices) | (hic2.zero_indices | hic2.nan_indices)
+        pvals = self.diff_matrix(mat1, mat2)
+
+        return pvals
 
     def fetch_pixels(self, gr: GenomeRange, **kwargs) -> pd.DataFrame:
         pvals = self.fetch_data(gr, **kwargs)
@@ -131,16 +148,3 @@ class Selfish(HicMatBase):
         thr = 12
         out_p[out_p == 0] = 10 ** -1 * thr
         return out_p
-
-    def fetch_data(self, gr: GenomeRange, **kwargs) -> np.ndarray:
-        hic1, hic2 = self.properties['hic1'], self.properties['hic2']
-        kwargs.update({
-            'resolution': self.properties['resolution']
-        })
-        self.mat1 = mat1 = hic1.fetch_data(gr, **kwargs)
-        self.mat2 = mat2 = hic2.fetch_data(gr, **kwargs)
-        # what does this used for ?
-        # self.zero_indices = (hic1.zero_indices | hic1.nan_indices) | (hic2.zero_indices | hic2.nan_indices)
-        pvals = self.diff_matrix(mat1, mat2)
-
-        return pvals

@@ -100,6 +100,22 @@ class FrameBase(abc.ABC):
 
         return tracks_data
 
+    def fetch_plot_data(self, gr: GR = None, gr2: GR = None):
+        self.goto(gr, gr2)
+        gr, gr2 = self.current_range, self.current_range2
+        if gr is None:
+            raise ValueError("No GenomeRange history found.")
+
+        tracks_data = OrderedDict()
+        for name, track in self.tracks.items():
+            if hasattr(track, 'fetch_plot_data'):
+                data = track.fetch_plot_data(gr, gr2=gr2)
+            else:
+                data = []
+            tracks_data.update([(name, data)])
+
+        return tracks_data
+
     def add_feature_to_tracks(self, feature):
         """
         Add feature to all tracks in this frame.

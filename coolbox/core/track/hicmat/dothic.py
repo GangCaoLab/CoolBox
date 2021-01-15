@@ -1,7 +1,6 @@
 import numpy as np
 
 from coolbox.utilities import to_gr
-from coolbox.utilities.doctool import paste_doc
 from .base import HicMatBase
 
 
@@ -22,6 +21,8 @@ class DotHiC(HicMatBase):
     DEFAULT_PROPERTIES = {
         'cmap': "JuiceBoxLike2",
         'balance': True,
+        "norm": "no",
+        "transform": "log"
     }
 
     def __init__(self, file, **kwargs):

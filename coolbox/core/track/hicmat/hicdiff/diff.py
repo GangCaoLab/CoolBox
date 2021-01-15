@@ -28,44 +28,57 @@ class HiCDiff(HicMatBase):
 
     """
 
+    DEFAULT_ARGS_HIC = {
+        "transform": "no",
+        "normalize": "no",
+        "gaussian_sigma": "no",
+        "process_func": "no",
+    }
+
     DEFAULT_PROPERTIES = {
         'style': HicMatBase.STYLE_WINDOW,
         "cmap": "RdYlBu",
         "transform": False,
-        "norm": "no",
         'diff_method': "diff",
+        'args_hic': DEFAULT_ARGS_HIC,
     }
 
-    def __init__(self, hic1, hic2, args_hic=None, **kwargs):
-        # TODO how to set hic_args in cli mode ?
-        if isinstance(hic1, str):
-            hic1 = HiCMat(hic1, **(args_hic or {}))
-        if isinstance(hic2, str):
-            hic2 = HiCMat(hic2, **(args_hic or {}))
-
+    def __init__(self, hic1, hic2, **kwargs):
         properties = HiCDiff.DEFAULT_PROPERTIES.copy()
-        properties.update({
-            "hic1": hic1,
-            "hic2": hic2,
-            **kwargs
-        })
+        properties.update(kwargs)
         super().__init__(**properties)
 
-        for hic in hic1, hic2:  # update related hic track
-            hic.properties.update({
-                "normalize": self.properties["normalize"],
-                "resolution": self.properties['resolution'],
-            })
+        # TODO how to set hic_args in cli mode ?
+        if isinstance(hic1, str):
+            hic1 = HiCMat(hic1)
+        if isinstance(hic2, str):
+            hic2 = HiCMat(hic2)
+        self.properties.update({
+            'hic1': hic1,
+            'hic2': hic2,
+        })
+
+        self.mat1 = None
+        self.mat2 = None
 
     def fetch_data(self, gr: GenomeRange, **kwargs) -> np.ndarray:
-        hic1, hic2 = self.properties['hic1'], self.properties['hic1']
-        mat1 = hic1.fetch_data(gr, **kwargs)
-        mat2 = hic2.fetch_data(gr, **kwargs)
+        # TODO find a better way
+        # For cases when updating of Frame's depth_ratio leads to un equal matrix sizes for different tracks).
+        args_hic = self.properties.copy()
+        args_hic.update(self.properties.get('args_hic', {}))
+        for hic in ('hic1', 'hic2'):
+            self.properties[hic].properties.update(args_hic)
+
+        hic1: HicMatBase = self.properties['hic1']
+        hic2: HicMatBase = self.properties['hic2']
+        # use transformed gr for cases in 'window' style, other wise the gr would be transformed two times
+        self.mat1 = mat1 = hic1.fetch_plot_data(self.plot_gr, gr2=self.plot_gr2)
+        self.mat2 = mat2 = hic2.fetch_plot_data(self.plot_gr, gr2=self.plot_gr2)
         diff_mat = self.diff_matrix(mat1, mat2)
         try:
-            self.small_value = diff_mat[diff_mat > 0].min()
+            self.SMALL_VALUE = diff_mat[diff_mat > 0].min()
         except Exception:
-            self.small_value = 1e-12
+            pass
         return diff_mat
 
     def diff_matrix(self, mat1, mat2):

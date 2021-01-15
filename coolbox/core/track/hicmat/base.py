@@ -94,6 +94,8 @@ class HicMatBase(Track, PlotHiCMat, ProcessHicMat):
         self.fetched_binsize = None
         self.fetched_gr = None
         self.fetched_gr2 = None
+        self.plot_gr = None
+        self.plot_gr2 = None
 
     @abstractmethod
     def fetch_data(self, gr: GenomeRange, **kwargs) -> np.ndarray:
@@ -123,18 +125,12 @@ class HicMatBase(Track, PlotHiCMat, ProcessHicMat):
             Hi-C contact matrix.
         """
         gr2 = kwargs.get('gr2')
+        # If this is the right place to handle gr changes
+        # In true, chaining of fetch_plot_data through inheritance would not be possible
         if self.properties['style'] == self.STYLE_WINDOW:
-            _gr, _gr2 = self.fetch_window_genome_range(gr, gr2)
-            kwargs.update({'gr2': _gr2})
-            try:
-                arr = self.fetch_data(_gr, **kwargs)
-            except ValueError:
-                kwargs.update({"gr2": gr2})
-                arr = self.fetch_data(_gr, **kwargs)
-            finally:
-                gr, gr2 = _gr, _gr2
-        else:
-            arr = self.fetch_data(gr, **kwargs)
+            gr, gr2 = self.fetch_window_genome_range(gr, gr2)
+            kwargs.update({'gr2': gr2})
+        arr = self.fetch_data(gr, **kwargs)
         # store fetched_gr
         self.fetched_gr = gr
         self.fetched_gr2 = gr2
@@ -142,6 +138,9 @@ class HicMatBase(Track, PlotHiCMat, ProcessHicMat):
 
     def plot(self, ax, gr: GenomeRange, **kwargs):
         self.ax = ax
+        # store plot_gr in case gr get changed in window mode
+        self.plot_gr = gr
+        self.plot_gr2 = kwargs.get('gr2')
         self.matrix = self.fetch_plot_data(gr, **kwargs)
 
         # plot matrix

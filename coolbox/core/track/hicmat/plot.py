@@ -233,13 +233,13 @@ class PlotHiCMat(abc.ABC):
     def matrix_val_range(self):
         small = 1e-4
         arr = self.matrix
-        arr_no_nan = arr[np.logical_not(np.isnan(arr))]
+        arr_no_nan = arr[np.isfinite(arr)]
         min_, max_ = 1e-4, 1.0
 
         try:
             if self.properties['min_value'] == 'auto':
                 # set minimal value for color bar
-                min_ = arr[arr > arr.min()].min()
+                min_ = arr[arr > arr_no_nan.min()].min()
             else:
                 min_ = self.properties['min_value']
 
@@ -247,7 +247,6 @@ class PlotHiCMat(abc.ABC):
                 max_ = arr_no_nan.max()
             else:
                 max_ = self.properties['max_value']
-
             if max_ <= min_:
                 max_ = min_ + small
         except ValueError as e:
@@ -262,12 +261,4 @@ class PlotHiCMat(abc.ABC):
 
     @property
     def norm(self):
-        if 'normalize' in self.properties:
-            normalize = self.properties['normalize']
-            norm = self.properties['norm']
-            if (norm == 'log') and (normalize in ['no', 'total']):
-                return 'log'
-            else:
-                return 'no'
-        else:
-            return self.properties['norm']
+        return self.properties['norm']

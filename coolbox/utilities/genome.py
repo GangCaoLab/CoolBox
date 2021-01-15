@@ -166,6 +166,8 @@ class GenomeRange(object):
     def __str__(self) -> str:
         return f"{self.chrom}:{self.start}-{self.end}"
 
+    def __repr__(self) -> str:
+        return f"GenomeRange('{self}')"
 
 def change_chrom_names(chrom):
     """
