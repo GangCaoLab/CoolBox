@@ -476,7 +476,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;0.2.5&#39;
+&#39;0.3.0&#39;
 </pre></div></div>
 </div>
 <div class="section" id="Resolution">
@@ -556,7 +556,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <p>In addition, <code class="docutils literal notranslate"><span class="pre">.hic</span></code> file support three kinds of matrix balance method: * VC * VC_SQRT * KR (default)</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -574,7 +574,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -591,15 +591,16 @@ div.rendered_html tbody tr:hover {
 <li><p>zscore: (matrix - mean) / std</p></li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="k">with</span> <span class="n">Feature</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="mi">10000</span><span class="p">),</span> <span class="n">Feature</span><span class="p">(</span><span class="n">depth_ratio</span><span class="o">=</span><span class="mf">0.4</span><span class="p">),</span> <span class="n">Color</span><span class="p">(</span><span class="s2">&quot;RdYlBu_r&quot;</span><span class="p">):</span>
     <span class="n">dhic_b</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="s2">&quot;KR&quot;</span><span class="p">)</span>
     <span class="n">dhic_ub</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">dhic_exp</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;expect&#39;</span><span class="p">)</span>
-    <span class="n">dhic_z</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;zscore&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">Feature</span><span class="p">(</span><span class="n">transform</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">Feature</span><span class="p">(</span><span class="n">norm</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">MaxValue</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">MinValue</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">):</span>
+        <span class="n">dhic_exp</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;expect&#39;</span><span class="p">)</span>
+        <span class="n">dhic_z</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;zscore&#39;</span><span class="p">)</span>
 
 <span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> \
     <span class="n">dhic_ub</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Original</span><span class="se">\n</span><span class="s2">(Unbalanced)&quot;</span><span class="p">)</span> <span class="o">+</span> \
@@ -611,7 +612,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="output_area docutils container">

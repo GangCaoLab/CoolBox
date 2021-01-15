@@ -1677,20 +1677,20 @@ processors. Reloading the file solves the problem.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>gr</strong><span class="classifier">{str, GenomeRange}</span></dt><dd></dd>
-<dt><strong>Intervals within input chromosome range.</strong></dt><dd></dd>
-<dt><strong>gr2</strong><span class="classifier">{str, GenomeRange}, optional.</span></dt><dd></dd>
-<dt><strong>balance</strong><span class="classifier">bool, optional</span></dt><dd></dd>
-<dt><strong>balance matrix or not,</strong></dt><dd></dd>
-<dt><strong>default `self.is_balance`.</strong></dt><dd></dd>
-<dt><strong>resolution</strong><span class="classifier">{‘auto’, int}</span></dt><dd></dd>
-<dt><strong>resolution of the data. for example 5000.</strong></dt><dd><p>‘auto’ for calculate resolution automatically.</p>
+<dt><strong>gr</strong><span class="classifier">{str, GenomeRange}</span></dt><dd><p>Intervals within input chromosome range.</p>
 </dd>
-<dt><strong>default ‘auto’</strong></dt><dd></dd>
-<dt><strong>join</strong><span class="classifier">bool</span></dt><dd></dd>
-<dt><strong>whether to expand the bin ID columns</strong></dt><dd></dd>
-<dt><strong>into (chrom, start, end).</strong></dt><dd></dd>
-<dt><strong>default True</strong></dt><dd></dd>
+<dt><strong>gr2</strong><span class="classifier">{str, GenomeRange}, optional.</span></dt><dd></dd>
+<dt><strong>balance</strong><span class="classifier">bool, optional</span></dt><dd><p>balance matrix or not,
+default <cite>self.is_balance</cite>.</p>
+</dd>
+<dt><strong>resolution</strong><span class="classifier">{‘auto’, int}</span></dt><dd><p>resolution of the data. for example 5000.
+‘auto’ for calculate resolution automatically.
+default ‘auto’</p>
+</dd>
+<dt><strong>join</strong><span class="classifier">bool</span></dt><dd><p>whether to expand the bin ID columns
+into (chrom, start, end).
+default True</p>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -5128,50 +5128,50 @@ or a genome range string like:
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.Color" title="coolbox.core.feature.Color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Color</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.Feature" title="coolbox.core.feature.Feature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Feature</span></code></a>(**kwargs)</p></td>
+<td><p>Feature base class.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.Color" title="coolbox.core.feature.Color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Color</span></code></a>(value)</p></td>
 <td><p>Track color.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.ColorMap" title="coolbox.core.feature.ColorMap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ColorMap</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.ColorMap" title="coolbox.core.feature.ColorMap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ColorMap</span></code></a>(value)</p></td>
 <td><p>Track color map.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.CoolStyle" title="coolbox.core.feature.CoolStyle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoolStyle</span></code></a>([style])</p></td>
-<td><p>Control Cool track’s style.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.TrackHeight" title="coolbox.core.feature.TrackHeight"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TrackHeight</span></code></a>(value)</p></td>
+<td><p>Track height.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.Inverted" title="coolbox.core.feature.Inverted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Inverted</span></code></a>()</p></td>
+<td><p>Invert the orientation of track.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.Title" title="coolbox.core.feature.Title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Title</span></code></a>(value)</p></td>
+<td><p>Track title.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.MaxValue" title="coolbox.core.feature.MaxValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MaxValue</span></code></a>(value)</p></td>
+<td><p>Max value of track.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.MinValue" title="coolbox.core.feature.MinValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MinValue</span></code></a>(value)</p></td>
+<td><p>Min value of track.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.HistStyle" title="coolbox.core.feature.HistStyle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HistStyle</span></code></a>([style, fmt, size, line_width])</p></td>
+<td><p>Style of BigWig or BedGraph.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.ShowDataRange" title="coolbox.core.feature.ShowDataRange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShowDataRange</span></code></a>([data_range_style])</p></td>
+<td><p>Show data range or not.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.ShowColorBar" title="coolbox.core.feature.ShowColorBar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShowColorBar</span></code></a>([show])</p></td>
+<td><p>Show color bar or not.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.DepthRatio" title="coolbox.core.feature.DepthRatio"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DepthRatio</span></code></a>(depth_ratio)</p></td>
 <td><p>Control Cool track’s depth ratio.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.Feature" title="coolbox.core.feature.Feature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Feature</span></code></a>(**kwargs)</p></td>
-<td><p>Feature base class.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.CoolStyle" title="coolbox.core.feature.CoolStyle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoolStyle</span></code></a>([style])</p></td>
+<td><p>Control Cool track’s style.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.FrameFeature" title="coolbox.core.feature.FrameFeature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameFeature</span></code></a>(**kwargs)</p></td>
 <td><p>FrameFeature base class.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.FrameTitle" title="coolbox.core.feature.FrameTitle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTitle</span></code></a>(value)</p></td>
 <td><p>Frame title.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.HistStyle" title="coolbox.core.feature.HistStyle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HistStyle</span></code></a>([style, fmt, size, line_width])</p></td>
-<td><p>Style of BigWig or BedGraph.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.Inverted" title="coolbox.core.feature.Inverted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Inverted</span></code></a>()</p></td>
-<td><p>Invert the orientation of track.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.MaxValue" title="coolbox.core.feature.MaxValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MaxValue</span></code></a>(value)</p></td>
-<td><p>Max value of track.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.MinValue" title="coolbox.core.feature.MinValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MinValue</span></code></a>(value)</p></td>
-<td><p>Min value of track.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.ShowColorBar" title="coolbox.core.feature.ShowColorBar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShowColorBar</span></code></a>([show])</p></td>
-<td><p>Show color bar or not.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.ShowDataRange" title="coolbox.core.feature.ShowDataRange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShowDataRange</span></code></a>([data_range_style])</p></td>
-<td><p>Show data range or not.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.Title" title="coolbox.core.feature.Title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Title</span></code></a>(value)</p></td>
-<td><p>Track title.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.TrackHeight" title="coolbox.core.feature.TrackHeight"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TrackHeight</span></code></a>(value)</p></td>
-<td><p>Track height.</p></td>
 </tr>
 </tbody>
 </table>
@@ -5268,6 +5268,21 @@ or a genome range string like:
 </div>
 <div class="section" id="module-coolbox.core.frame">
 <span id="frame"></span><h2>Frame<a class="headerlink" href="#module-coolbox.core.frame" title="Permalink to this headline">¶</a></h2>
+<p><strong>Classes:</strong></p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame</span></code>(*args, **kwargs)</p></td>
+<td><p>Frame for arrange and group plots.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">JointView</span></code>(center[, top, right, bottom, left])</p></td>
+<td><p>Compose two track and a center matrix.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="jointview">
 <h2>JointView<a class="headerlink" href="#jointview" title="Permalink to this headline">¶</a></h2>
@@ -5281,11 +5296,11 @@ or a genome range string like:
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.browser.Browser" title="coolbox.core.browser.Browser"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Browser</span></code></a>(frame[, reference_genome, …])</p></td>
-<td><p>Browser base class.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.browser.WidgetsPanel" title="coolbox.core.browser.WidgetsPanel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WidgetsPanel</span></code></a>([type, reference_genome])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.browser.WidgetsPanel" title="coolbox.core.browser.WidgetsPanel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WidgetsPanel</span></code></a>([type, reference_genome])</p></td>
 <td><p>Widgets container.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.browser.Browser" title="coolbox.core.browser.Browser"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Browser</span></code></a>(frame[, reference_genome, …])</p></td>
+<td><p>Browser base class.</p></td>
 </tr>
 </tbody>
 </table>
@@ -5616,8 +5631,8 @@ default ‘hg19’</p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pop</span></code>(k[,d])</p></td>
 <td><p>If key is not found, d is returned if given, otherwise KeyError is raised</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">popitem</span></code>(/)</p></td>
-<td><p>Remove and return a (key, value) pair as a 2-tuple.</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">popitem</span></code>()</p></td>
+<td><p>2-tuple; but raise KeyError if D is empty.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setdefault</span></code>(key[, default])</p></td>
 <td><p>Insert key with a value of default if key is not in the dictionary.</p></td>
@@ -5788,11 +5803,11 @@ a (chrom, start, end) tuple</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Attributes</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>begin</strong></dt><dd><p>Alias for field number 0</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">begin</span></code></dt><dd><p>Alias for field number 0</p>
 </dd>
-<dt><strong>data</strong></dt><dd><p>Alias for field number 2</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></dt><dd><p>Alias for field number 2</p>
 </dd>
-<dt><strong>end</strong></dt><dd><p>Alias for field number 1</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">end</span></code></dt><dd><p>Alias for field number 1</p>
 </dd>
 </dl>
 </dd>
@@ -7308,37 +7323,37 @@ of the given arguments and keywords.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Attributes</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>bin</strong></dt><dd><p>Alias for field number 0</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">bin</span></code></dt><dd><p>Alias for field number 0</p>
 </dd>
-<dt><strong>cdsEnd</strong></dt><dd><p>Alias for field number 7</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">cdsEnd</span></code></dt><dd><p>Alias for field number 7</p>
 </dd>
-<dt><strong>cdsEndStat</strong></dt><dd><p>Alias for field number 14</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">cdsEndStat</span></code></dt><dd><p>Alias for field number 14</p>
 </dd>
-<dt><strong>cdsStart</strong></dt><dd><p>Alias for field number 6</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">cdsStart</span></code></dt><dd><p>Alias for field number 6</p>
 </dd>
-<dt><strong>cdsStartStat</strong></dt><dd><p>Alias for field number 13</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">cdsStartStat</span></code></dt><dd><p>Alias for field number 13</p>
 </dd>
-<dt><strong>chrom</strong></dt><dd><p>Alias for field number 2</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">chrom</span></code></dt><dd><p>Alias for field number 2</p>
 </dd>
-<dt><strong>exonCount</strong></dt><dd><p>Alias for field number 8</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">exonCount</span></code></dt><dd><p>Alias for field number 8</p>
 </dd>
-<dt><strong>exonEnds</strong></dt><dd><p>Alias for field number 10</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">exonEnds</span></code></dt><dd><p>Alias for field number 10</p>
 </dd>
-<dt><strong>exonFrames</strong></dt><dd><p>Alias for field number 15</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">exonFrames</span></code></dt><dd><p>Alias for field number 15</p>
 </dd>
-<dt><strong>exonStart</strong></dt><dd><p>Alias for field number 9</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">exonStart</span></code></dt><dd><p>Alias for field number 9</p>
 </dd>
-<dt><strong>name</strong></dt><dd><p>Alias for field number 1</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></dt><dd><p>Alias for field number 1</p>
 </dd>
-<dt><strong>name2</strong></dt><dd><p>Alias for field number 12</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">name2</span></code></dt><dd><p>Alias for field number 12</p>
 </dd>
-<dt><strong>score</strong></dt><dd><p>Alias for field number 11</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">score</span></code></dt><dd><p>Alias for field number 11</p>
 </dd>
-<dt><strong>strand</strong></dt><dd><p>Alias for field number 3</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">strand</span></code></dt><dd><p>Alias for field number 3</p>
 </dd>
-<dt><strong>txEnd</strong></dt><dd><p>Alias for field number 5</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">txEnd</span></code></dt><dd><p>Alias for field number 5</p>
 </dd>
-<dt><strong>txStart</strong></dt><dd><p>Alias for field number 4</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">txStart</span></code></dt><dd><p>Alias for field number 4</p>
 </dd>
 </dl>
 </dd>

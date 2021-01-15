@@ -1,7 +1,6 @@
 import numpy as np
 
-from coolbox.utilities import to_gr, GenomeRange
-from coolbox.utilities.doctool import paste_doc
+from coolbox.utilities import GenomeRange
 from .base import HicMatBase
 
 
@@ -49,23 +48,23 @@ class Cool(HicMatBase):
         Parameters
         ----------
         gr : {str, GenomeRange}
-        Intervals within input chromosome range.
+            Intervals within input chromosome range.
 
         gr2 : {str, GenomeRange}, optional.
 
         balance : bool, optional
-        balance matrix or not,
-        default `self.is_balance`.
+            balance matrix or not,
+            default `self.is_balance`.
 
         resolution : {'auto', int}
-        resolution of the data. for example 5000.
+            resolution of the data. for example 5000.
             'auto' for calculate resolution automatically.
-        default 'auto'
+            default 'auto'
 
         join : bool
-        whether to expand the bin ID columns
-        into (chrom, start, end).
-        default True
+            whether to expand the bin ID columns
+            into (chrom, start, end).
+            default True
 
         Return
         ------
