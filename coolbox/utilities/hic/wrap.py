@@ -77,7 +77,12 @@ class StrawWrap(object):
         from .straw import straw
         chr1loc = str(genome_range1).replace('-', ':')
         chr2loc = str(genome_range2).replace('-', ':')
-        slist = straw(self.normalization, self.hic_file, chr1loc, chr2loc, 'BP', binsize)
+        try:
+            slist = straw(self.normalization, self.hic_file, chr1loc, chr2loc, 'BP', binsize)
+        except Exception as e:
+            log.warning("Error occurred when reading the dothic file with straw:")
+            log.warning(str(e))
+            slist = []
         return slist
 
     def fetch_pixels(self, genome_range1, genome_range2=None):

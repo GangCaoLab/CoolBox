@@ -132,12 +132,7 @@ def test_cool():
 
 
 def test_dothic():
-    # .hic file is not easy to create test subset,
-    # so check if symbol link is exists or not,
-    # to decide whether test it.
-    dothic_path = f"{DATA_DIR}/test.hic"
-    if not osp.exists(dothic_path):
-        return
+    dothic_path = f"{DATA_DIR}/dothic_{test_itv}.hic"
     dot = DotHiC(dothic_path)
     exp_binsize = dot.infer_binsize(test_interval)
     assert dot.fetch_data(test_interval) is not None
