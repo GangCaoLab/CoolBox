@@ -62,22 +62,18 @@ class HLine(Track):
         Track's name.
     """
 
-    DEFAULT_LINE_WIDTH = 1.0
-    DEFAULT_HEIGHT = max(DEFAULT_LINE_WIDTH / 50, 0.05)  # this just a empiric value
-    DEFAULT_LINE_STYLE = '--'
-    DEFAULT_COLOR = '#000000'
-    DEFAULT_ALPHA = 0.75
+    DEFAULT_PROPERTIES = {
+        "line_width": 1.0,
+        "line_style": '--',
+        "height": 0.05,  # this just a empiric value,
+        "color": '#000000',
+        'alpha': 0.75
+    }
 
     def __init__(self, **kwargs):
-        properties_dict = {
-            'height': HLine.DEFAULT_HEIGHT,
-            'line_width': HLine.DEFAULT_LINE_WIDTH,
-            'line_style': HLine.DEFAULT_LINE_STYLE,
-            'color': HLine.DEFAULT_COLOR,
-            'alpha': HLine.DEFAULT_ALPHA,
-        }
-        properties_dict.update(**kwargs)
-        super().__init__(properties_dict)
+        properties = HLine.DEFAULT_PROPERTIES.copy()
+        properties.update(kwargs)
+        super().__init__(properties)
 
     def fetch_data(self, gr: GenomeRange, **kwargs):
         pass
@@ -113,18 +109,16 @@ class XAxis(Track):
         Track's name.
     """
 
-    DEFAULT_FONTSIZE = 15
-    DEFAULT_HEIGHT = 2
+    DEFAULT_PROPERTIES = {
+        "where": "bottom",
+        "height": 2,
+        "fontsize": 15,
+    }
 
     def __init__(self, **kwargs):
-        properties_dict = {
-            'height': XAxis.DEFAULT_HEIGHT,
-            'fontsize': XAxis.DEFAULT_FONTSIZE,
-            'where': 'bottom',
-        }
-        properties_dict.update(kwargs)
-
-        super().__init__(properties_dict)
+        properties = XAxis.DEFAULT_PROPERTIES.copy()
+        properties.update(kwargs)
+        super().__init__(properties)
 
     def fetch_data(self, gr: GenomeRange, **kwargs):
         pass
@@ -172,11 +166,15 @@ class ChromName(Track):
         Offset ratio to the start position.
     """
 
-    def __init__(self, fontsize=50, offset=0.45):
-        super().__init__({
-            "fontsize": fontsize,
-            "offset": offset,
-        })
+    DEFAULT_PROPERTIES = {
+        "fontsize": 50,
+        "offset": 0.45,
+    }
+
+    def __init__(self, **kwargs):
+        properties = ChromName.DEFAULT_PROPERTIES.copy()
+        properties.update(kwargs)
+        super().__init__(properties)
 
     def fetch_data(self, gr: GenomeRange, **kwargs):
         return gr.chrom  # return chromosome name
