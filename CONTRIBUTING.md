@@ -1,6 +1,6 @@
 ## Enviroment
 
-``bash
+```bash
 git clone https://github.com/GangCaoLab/CoolBox.git
 cd CoolBox
 conda env create --file environment.yml
