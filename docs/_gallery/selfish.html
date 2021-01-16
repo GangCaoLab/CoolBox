@@ -491,20 +491,20 @@ div.rendered_html tbody tr:hover {
 <span class="n">cl1</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data_dir</span><span class="si">}</span><span class="s2">/cool_chr1_89000000_90400000_for_cmp_1.mcool&quot;</span>
 <span class="n">cl2</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data_dir</span><span class="si">}</span><span class="s2">/cool_chr1_89000000_90400000_for_cmp_2.mcool&quot;</span>
 
-<span class="n">region</span> <span class="o">=</span> <span class="s2">&quot;chr1:89237500-90307500&quot;</span>
+<span class="n">region</span> <span class="o">=</span> <span class="s2">&quot;chr1:89237500-90227500&quot;</span>
 </pre></div>
 </div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">Selfish</span></code> track input two hic track(<code class="docutils literal notranslate"><span class="pre">Cool</span></code> or <code class="docutils literal notranslate"><span class="pre">DotHiC</span></code>), it perform the <code class="docutils literal notranslate"><span class="pre">selfish</span></code> algorithm on the local fetched matrics. Output the q-value(p-value after <code class="docutils literal notranslate"><span class="pre">fdr_bh</span></code> correction) of differential interaction analysis:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> \
-    <span class="n">Cool</span><span class="p">(</span><span class="n">cl1</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mf">5e-4</span><span class="p">)</span> <span class="o">+</span> <span class="n">MaxValue</span><span class="p">(</span><span class="mf">1e-1</span><span class="p">)</span> <span class="o">+</span> \
-    <span class="n">Cool</span><span class="p">(</span><span class="n">cl2</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mf">5e-4</span><span class="p">)</span> <span class="o">+</span> <span class="n">MaxValue</span><span class="p">(</span><span class="mf">1e-1</span><span class="p">)</span> <span class="o">+</span> \
-    <span class="n">Selfish</span><span class="p">(</span><span class="n">cl1</span><span class="p">,</span> <span class="n">cl2</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">Cool</span><span class="p">(</span><span class="n">cl1</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">Cool</span><span class="p">(</span><span class="n">cl2</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">Selfish</span><span class="p">(</span><span class="n">cl1</span><span class="p">,</span> <span class="n">cl2</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">)</span> <span class="o">+</span> \
     <span class="n">XAxis</span><span class="p">()</span>
 <span class="n">frame</span> <span class="o">*=</span> <span class="n">Feature</span><span class="p">(</span><span class="n">depth_ratio</span><span class="o">=</span><span class="mf">0.35</span><span class="p">)</span>
 <span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">region</span><span class="p">)</span>
@@ -512,7 +512,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -528,18 +528,18 @@ div.rendered_html tbody tr:hover {
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
 <span></span>%%bash
 
-<span class="nv">data_dir</span><span class="o">=</span><span class="s2">&quot;/home/nanguage/Dropbox/workspace/THP_paper/data/cool&quot;</span>
-<span class="nv">cl1</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">data_dir</span><span class="si">}</span><span class="s2">/THPP.cool&quot;</span>
-<span class="nv">cl2</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">data_dir</span><span class="si">}</span><span class="s2">/Ra.cool&quot;</span>
+<span class="nv">data_dir</span><span class="o">=</span><span class="s2">&quot;../../../tests/test_data/&quot;</span>
+<span class="nv">cl1</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">data_dir</span><span class="si">}</span><span class="s2">/cool_chr1_89000000_90400000_for_cmp_1.mcool&quot;</span>
+<span class="nv">cl2</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">data_dir</span><span class="si">}</span><span class="s2">/cool_chr1_89000000_90400000_for_cmp_2.mcool&quot;</span>
 
 coolbox add XAxis - <span class="se">\</span>
 start_with Feature --depth_ratio<span class="o">=</span><span class="s2">&quot;0.35&quot;</span> - <span class="se">\</span>
     add Cool <span class="nv">$cl1</span> - <span class="se">\</span>
     add Cool <span class="nv">$cl2</span> - <span class="se">\</span>
-    add Selfish <span class="nv">$cl1</span> <span class="nv">$cl2</span> - <span class="se">\</span>
+    add Selfish <span class="nv">$cl1</span> <span class="nv">$cl2</span> --norm <span class="s1">&#39;log&#39;</span> - <span class="se">\</span>
 end_with - <span class="se">\</span>
 add XAxis - <span class="se">\</span>
-goto <span class="s2">&quot;chr1:89237500-90307500&quot;</span> - <span class="se">\</span>
+goto <span class="s2">&quot;chr1:89237500-90227500&quot;</span> - <span class="se">\</span>
 plot /tmp/test_coolbox_selfish.png
 </pre></div>
 </div>

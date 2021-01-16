@@ -479,7 +479,7 @@ div.rendered_html tbody tr:hover {
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -487,41 +487,34 @@ div.rendered_html tbody tr:hover {
 <span class="n">cl1</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data_dir</span><span class="si">}</span><span class="s2">/cool_chr1_89000000_90400000_for_cmp_1.mcool&quot;</span>
 <span class="n">cl2</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data_dir</span><span class="si">}</span><span class="s2">/cool_chr1_89000000_90400000_for_cmp_2.mcool&quot;</span>
 
-<span class="n">region</span> <span class="o">=</span> <span class="s2">&quot;chr1:89237500-90307500&quot;</span>
+<span class="n">region</span> <span class="o">=</span> <span class="s2">&quot;chr1:89237500-90227500&quot;</span>
 </pre></div>
 </div>
 </div>
 <p>Normalize with <code class="docutils literal notranslate"><span class="pre">expect</span></code> matrix (decay along diagonal), difference with <code class="docutils literal notranslate"><span class="pre">diff</span></code> (matrix_A - matrix_B):</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> \
-    <span class="n">Cool</span><span class="p">(</span><span class="n">cl1</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mf">5e-4</span><span class="p">)</span> <span class="o">+</span> <span class="n">MaxValue</span><span class="p">(</span><span class="mf">1e-1</span><span class="p">)</span> <span class="o">+</span> \
-    <span class="n">Cool</span><span class="p">(</span><span class="n">cl2</span><span class="p">)</span> <span class="o">+</span> <span class="n">MinValue</span><span class="p">(</span><span class="mf">5e-4</span><span class="p">)</span> <span class="o">+</span> <span class="n">MaxValue</span><span class="p">(</span><span class="mf">1e-1</span><span class="p">)</span> <span class="o">+</span> \
-    <span class="n">HiCDiff</span><span class="p">(</span><span class="n">cl1</span><span class="p">,</span> <span class="n">cl2</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;expect&#39;</span><span class="p">,</span> <span class="n">diff_method</span><span class="o">=</span><span class="s1">&#39;diff&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;bwr_r&quot;</span><span class="p">,</span> <span class="n">args_hic</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;transform&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span> <span class="o">+</span> \
-    <span class="n">MinValue</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="n">MaxValue</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">Cool</span><span class="p">(</span><span class="n">cl1</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;window&quot;</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">Cool</span><span class="p">(</span><span class="n">cl2</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">HiCDiff</span><span class="p">(</span><span class="n">cl1</span><span class="p">,</span> <span class="n">cl2</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;expect&#39;</span><span class="p">,</span> <span class="n">diff_method</span><span class="o">=</span><span class="s1">&#39;diff&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;bwr_r&quot;</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">MinValue</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="n">MaxValue</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>  <span class="o">+</span> \
     <span class="n">XAxis</span><span class="p">()</span>
 <span class="n">frame</span> <span class="o">*=</span> <span class="n">Feature</span><span class="p">(</span><span class="n">depth_ratio</span><span class="o">=</span><span class="mf">0.35</span><span class="p">)</span>
 <span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">region</span><span class="p">)</span>
+
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-[ERROR:process.py:153 -    diagonal_mean_std()] Error when executing &#39;stds[stds &gt; 0].min()&#39;
-</pre></div></div>
-</div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_gallery_HiCDiff_5_1.png" src="../_images/_gallery_HiCDiff_5_1.png" />
+<img alt="../_images/_gallery_HiCDiff_5_0.png" src="../_images/_gallery_HiCDiff_5_0.png" />
 </div>
 </div>
 <div class="section" id="CLI-code">
@@ -539,18 +532,14 @@ div.rendered_html tbody tr:hover {
 
 coolbox add XAxis - <span class="se">\</span>
 start_with Feature --depth_ratio <span class="s2">&quot;0.35&quot;</span> - <span class="se">\</span>
-    start_with MinValue <span class="s2">&quot;5e-4&quot;</span> - <span class="se">\</span>
-    start_with MaxValue <span class="s2">&quot;1e-1&quot;</span> - <span class="se">\</span>
-        add Cool <span class="nv">$cl1</span> - <span class="se">\</span>
-        add Cool <span class="nv">$cl2</span> - <span class="se">\</span>
-    end_with - <span class="se">\</span>
-    end_with - <span class="se">\</span>
-    add HiCDiff <span class="nv">$cl1</span> <span class="nv">$cl2</span> --normalize <span class="s1">&#39;expect&#39;</span> --diff_method <span class="s1">&#39;diff&#39;</span> - <span class="se">\</span>
-    add MinValue <span class="s2">&quot;-5&quot;</span> - <span class="se">\</span>
-    add MaxValue <span class="s2">&quot;5&quot;</span> - <span class="se">\</span>
+    add Cool <span class="nv">$cl1</span> - <span class="se">\</span>
+    add Cool <span class="nv">$cl2</span> - <span class="se">\</span>
+    add HiCDiff <span class="nv">$cl1</span> <span class="nv">$cl2</span> --normalize <span class="s1">&#39;expect&#39;</span> --diff_method <span class="s1">&#39;diff&#39;</span> --cmap <span class="s1">&#39;bwr_r&#39;</span> - <span class="se">\</span>
+    add MinValue <span class="s2">&quot;-6&quot;</span> - <span class="se">\</span>
+    add MaxValue <span class="s2">&quot;6&quot;</span> - <span class="se">\</span>
 end_with - <span class="se">\</span>
 add XAxis - <span class="se">\</span>
-goto <span class="s2">&quot;chr1:89237500-90307500&quot;</span> - <span class="se">\</span>
+goto <span class="s2">&quot;chr1:89237500-90227500&quot;</span> - <span class="se">\</span>
 plot /tmp/test_coolbox.png
 </pre></div>
 </div>

@@ -30,7 +30,7 @@
    "outputs": [
     {
      "data": {
-      "text/plain": "'0.2.6'"
+      "text/plain": "'0.3.0'"
      },
      "execution_count": 2,
      "metadata": {},

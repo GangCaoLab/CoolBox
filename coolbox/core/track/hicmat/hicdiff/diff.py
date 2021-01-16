@@ -71,9 +71,11 @@ class HiCDiff(HicMatBase):
 
         hic1: HicMatBase = self.properties['hic1']
         hic2: HicMatBase = self.properties['hic2']
+        # must set to avoid re-change GenomeRange in window style
+        kwargs['gr_updated'] = True
         # use transformed gr for cases in 'window' style, other wise the gr would be transformed two times
-        self.mat1 = mat1 = hic1.fetch_plot_data(self.plot_gr, gr2=self.plot_gr2)
-        self.mat2 = mat2 = hic2.fetch_plot_data(self.plot_gr, gr2=self.plot_gr2)
+        self.mat1 = mat1 = hic1.fetch_plot_data(gr, **kwargs)
+        self.mat2 = mat2 = hic2.fetch_plot_data(gr, **kwargs)
         diff_mat = self.diff_matrix(mat1, mat2)
         try:
             self.SMALL_VALUE = diff_mat[diff_mat > 0].min()

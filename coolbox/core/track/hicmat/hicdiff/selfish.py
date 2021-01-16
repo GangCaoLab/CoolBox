@@ -88,8 +88,10 @@ class Selfish(HicMatBase):
 
         hic1: HicMatBase = self.properties['hic1']
         hic2: HicMatBase = self.properties['hic2']
-        self.mat1 = mat1 = hic1.fetch_plot_data(self.plot_gr, gr2=self.plot_gr2)
-        self.mat2 = mat2 = hic2.fetch_plot_data(self.plot_gr, gr2=self.plot_gr2)
+        # must set to avoid re-change GenomeRange in window style
+        kwargs['gr_updated'] = True
+        self.mat1 = mat1 = hic1.fetch_plot_data(gr, **kwargs)
+        self.mat2 = mat2 = hic2.fetch_plot_data(gr, **kwargs)
         # what does this used for ?
         # self.zero_indices = (hic1.zero_indices | hic1.nan_indices) | (hic2.zero_indices | hic2.nan_indices)
         pvals = self.diff_matrix(mat1, mat2)

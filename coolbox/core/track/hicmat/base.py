@@ -94,8 +94,6 @@ class HicMatBase(Track, PlotHiCMat, ProcessHicMat):
         self.fetched_binsize = None
         self.fetched_gr = None
         self.fetched_gr2 = None
-        self.plot_gr = None
-        self.plot_gr2 = None
 
     @abstractmethod
     def fetch_data(self, gr: GenomeRange, **kwargs) -> np.ndarray:
@@ -103,31 +101,39 @@ class HicMatBase(Track, PlotHiCMat, ProcessHicMat):
 
         Parameters
         ----------
-        gr
+        gr : GenomeRange
+
+        gr2 : GenomeRange, optional
 
         Returns
         -------
+        matrix : np.array
+            Hi-C raw contact matrix.
 
         """
         pass
 
-    def fetch_plot_data(self, gr: GenomeRange, **kwargs):
+    def fetch_plot_data(self, gr: GenomeRange, **kwargs) -> np.ndarray:
         """ Fetch 2d contact matrix, the matrix may be processed in case \
         'transform', 'normalize', 'gaussian_sigma', 'process_func' exits in properties.
 
         Parameters
         ----------
-        gr: GenomeRange
+        gr : GenomeRange
+
+        gr2 : GenomeRange, optional
+
+        gr_updated: bool, optional
+            If the input GenomeRange has been updated. default False
+            Default False means that the input gr will be expanded in window mode
 
         Return
         ------
         matrix : np.array
-            Hi-C contact matrix.
+            Processed hic matrix used for plotting.
         """
         gr2 = kwargs.get('gr2')
-        # If this is the right place to handle gr changes
-        # In true, chaining of fetch_plot_data through inheritance would not be possible
-        if self.properties['style'] == self.STYLE_WINDOW:
+        if self.properties['style'] == self.STYLE_WINDOW and not kwargs.get("gr_updated", False):
             gr, gr2 = self.fetch_window_genome_range(gr, gr2)
             kwargs.update({'gr2': gr2})
         arr = self.fetch_data(gr, **kwargs)
@@ -137,12 +143,21 @@ class HicMatBase(Track, PlotHiCMat, ProcessHicMat):
         return self.process_matrix(arr)
 
     def plot(self, ax, gr: GenomeRange, **kwargs):
-        self.ax = ax
-        # store plot_gr in case gr get changed in window mode
-        self.plot_gr = gr
-        self.plot_gr2 = kwargs.get('gr2')
-        self.matrix = self.fetch_plot_data(gr, **kwargs)
+        """Plot matrix
 
+        Parameters
+        ----------
+        ax
+        gr : GenomeRange
+        gr2 : GenomeRange, optional
+
+        Returns
+        -------
+
+        """
+        self.ax = ax
+        # fetch processed plot_data
+        self.matrix = self.fetch_plot_data(gr, **kwargs)
         # plot matrix
         img = self.plot_matrix(gr, kwargs.get('gr2'))
         self.adjust_figure(gr, kwargs.get('gr2'))

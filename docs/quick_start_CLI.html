@@ -460,7 +460,7 @@ coolbox version
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.2.6
+0.3.0
 </pre></div></div>
 </div>
 <p>CoolBox CLI is composed by many chainable sub-commands, we can print the help information to list them:</p>
@@ -604,38 +604,42 @@ ls -lh ../../tests/test_data
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-total 77736
+total 197184
 -rw-r--r--  1 bakezq  staff   787K Dec  6 04:11 bam_chr9_4000000_6000000.bam
--rw-r--r--  1 bakezq  staff   5.8K Jan 14 10:05 bam_chr9_4000000_6000000.bam.bai
+-rw-r--r--  1 bakezq  staff   5.8K Jan 16 09:32 bam_chr9_4000000_6000000.bam.bai
 -rw-r--r--  1 bakezq  staff   8.5K Dec  6 04:11 bed_chr9_4000000_6000000.bed
--rw-r--r--  1 bakezq  staff   2.2K Jan 14 11:09 bed_chr9_4000000_6000000.bed.bgz
--rw-r--r--  1 bakezq  staff   220B Jan 14 10:05 bed_chr9_4000000_6000000.bed.bgz.tbi
+-rw-r--r--  1 bakezq  staff   2.2K Jan 16 09:36 bed_chr9_4000000_6000000.bed.bgz
+-rw-r--r--  1 bakezq  staff   220B Jan 16 09:32 bed_chr9_4000000_6000000.bed.bgz.tbi
 -rw-r--r--  1 bakezq  staff    18K Dec  6 04:11 bedgraph_chr9_4000000_6000000.bg
+-rw-r--r--  1 bakezq  staff   4.2K Jan 16 09:36 bedgraph_chr9_4000000_6000000.bg.bgz
+-rw-r--r--  1 bakezq  staff   4.4K Jan 16 09:36 bedgraph_chr9_4000000_6000000.bg.bgz.tbi
 -rw-r--r--  1 bakezq  staff   264B Dec  6 04:11 bedpe_chr9_4000000_6000000.bedpe
--rw-r--r--  1 bakezq  staff   147B Jan 12 23:14 bedpe_chr9_4000000_6000000.bedpe.bgz
--rw-r--r--  1 bakezq  staff   160B Jan 12 23:14 bedpe_chr9_4000000_6000000.bedpe.bgz.px2
+-rw-r--r--  1 bakezq  staff   147B Jan 16 09:14 bedpe_chr9_4000000_6000000.bedpe.bgz
+-rw-r--r--  1 bakezq  staff   160B Jan 16 09:14 bedpe_chr9_4000000_6000000.bedpe.bgz.px2
 -rw-r--r--  1 bakezq  staff    31K Dec  6 04:11 bigwig_chr9_4000000_6000000.bw
+-rw-r--r--  1 bakezq  staff    23M Jan 15 22:08 cool_chr1_89000000_90400000_for_cmp_1.mcool
+-rw-r--r--  1 bakezq  staff    23M Jan 15 22:08 cool_chr1_89000000_90400000_for_cmp_2.mcool
 -rw-r--r--@ 1 bakezq  staff    26M Dec  6 23:26 cool_chr9_4000000_6000000.mcool
+-rw-r--r--  1 bakezq  staff    13M Jan 16 06:07 dothic_chr9_4000000_6000000.hic
 -rw-r--r--@ 1 bakezq  staff   9.3M Dec 29 19:24 down100.ctcf.pkl
 -rw-r--r--  1 bakezq  staff   535K Dec  6 04:11 gtf_chr9_4000000_6000000.gtf
--rw-r--r--  1 bakezq  staff    28K Jan 14 08:03 gtf_chr9_4000000_6000000.gtf.bgz
--rw-r--r--  1 bakezq  staff   398B Jan 14 08:03 gtf_chr9_4000000_6000000.gtf.bgz.tbi
+-rw-r--r--  1 bakezq  staff    28K Jan 16 09:21 gtf_chr9_4000000_6000000.gtf.bgz
+-rw-r--r--  1 bakezq  staff   398B Jan 16 09:21 gtf_chr9_4000000_6000000.gtf.bgz.tbi
 -rw-r--r--  1 bakezq  staff    32K Dec  6 04:11 hg19_ideogram.txt
 -rw-r--r--  1 bakezq  staff   1.9K Dec  6 04:11 human.hg19.genome
 -rw-r--r--  1 bakezq  staff   2.1K Dec  6 23:26 make_test_dataset.py
 -rw-r--r--  1 bakezq  staff   777B Dec  6 04:11 pairs_chr9_4000000_6000000.pairs
--rw-r--r--  1 bakezq  staff   298B Jan 12 23:14 pairs_chr9_4000000_6000000.pairs.bgz
--rw-r--r--  1 bakezq  staff   258B Jan 12 23:14 pairs_chr9_4000000_6000000.pairs.bgz.px2
+-rw-r--r--  1 bakezq  staff   298B Jan 16 09:14 pairs_chr9_4000000_6000000.pairs.bgz
+-rw-r--r--  1 bakezq  staff   258B Jan 16 09:14 pairs_chr9_4000000_6000000.pairs.bgz.px2
 -rw-r--r--  1 bakezq  staff   592B Dec  6 04:11 peak_chr9_4000000_6000000.bedpe
--rw-r--r--  1 bakezq  staff   206B Jan 14 08:44 peak_chr9_4000000_6000000.bedpe.bgz
--rw-r--r--  1 bakezq  staff   222B Jan 14 08:44 peak_chr9_4000000_6000000.bedpe.bgz.px2
+-rw-r--r--  1 bakezq  staff   206B Jan 16 09:22 peak_chr9_4000000_6000000.bedpe.bgz
+-rw-r--r--  1 bakezq  staff   222B Jan 16 09:22 peak_chr9_4000000_6000000.bedpe.bgz.px2
 -rw-r--r--  1 bakezq  staff   765K Dec  6 04:11 snp_chr9_4000000_6000000.snp
--rw-r--r--  1 bakezq  staff   299K Jan 14 09:18 snp_chr9_4000000_6000000.snp.bgz
--rw-r--r--  1 bakezq  staff   1.1K Jan 14 09:18 snp_chr9_4000000_6000000.snp.bgz.tbi
+-rw-r--r--  1 bakezq  staff   299K Jan 16 09:25 snp_chr9_4000000_6000000.snp.bgz
+-rw-r--r--  1 bakezq  staff   1.1K Jan 16 09:25 snp_chr9_4000000_6000000.snp.bgz.tbi
 -rw-r--r--  1 bakezq  staff   432B Dec  6 04:11 tad_chr9_4000000_6000000.bed
--rw-r--r--  1 bakezq  staff   153B Jan 14 09:59 tad_chr9_4000000_6000000.bed.bgz
--rw-r--r--  1 bakezq  staff   133B Jan 14 09:56 tad_chr9_4000000_6000000.bed.bgz.tbi
-lrwxr-xr-x  1 bakezq  staff    70B Dec  6 04:11 test.hic -&gt; /home/nanguage/DATA1/LD/differentiation/HiC/Ra-MseI-4sample-combin.hic
+-rw-r--r--  1 bakezq  staff   153B Jan 16 09:36 tad_chr9_4000000_6000000.bed.bgz
+-rw-r--r--  1 bakezq  staff   133B Jan 16 09:25 tad_chr9_4000000_6000000.bed.bgz.tbi
 </pre></div></div>
 </div>
 </div>
