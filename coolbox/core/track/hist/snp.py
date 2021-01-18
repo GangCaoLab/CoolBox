@@ -12,10 +12,9 @@ from .base import HistBase
 class SNP(HistBase):
     """
     Track for show SNPs Manhattan plot.
-    Input file is a tab-split file,
-    contain SNP's chrom, position, pvalue information.
-    You should specify it's column indexes by
-    `col_chrom`, `col_pos`, `col_pval` arguments.
+
+    Input file is a tab-split file contains SNP's chrom, position, pvalue information.
+    You should specify it's column indexes by `col_chrom`, `col_pos`, `col_pval` arguments.
 
     Parameters
     ----------

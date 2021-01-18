@@ -7,13 +7,13 @@ from coolbox.utilities.genome import GenomeRange
 
 
 class Pairs(ArcsBase, FetchParix):
-    """ Arcs track from .pairs file.
+    """
+    Arcs track from .pairs file.
 
     Parameters
     ----------
     file: str
         Path of .pairs file
-
 
     """
     DEFAULT_PROPERTIES = {

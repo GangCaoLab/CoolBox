@@ -12,7 +12,8 @@ log = get_logger(__name__)
 
 
 class BAM(Track):
-    """BAM alignment track for plotting reads.
+    """
+    BAM alignment track for plotting reads.
 
     Parameters
     ----------
@@ -42,11 +43,9 @@ class BAM(Track):
 
     def fetch_data(self, gr: GenomeRange, **kwargs) -> pd.DataFrame:
         """
-        Parameters
-        ----------
 
-        Return
-        ------
+        Returns
+        -------
         intervals : pandas.core.frame.DataFrame
             Sam interval table.
             The DataFrame table should has columns like:

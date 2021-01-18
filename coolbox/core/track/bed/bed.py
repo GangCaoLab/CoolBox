@@ -10,12 +10,14 @@ log = get_logger(__name__)
 
 
 class BED(BedBase, FetchBed):
-    """Bed Track for plotting 1d intervals data from .bed file.
+    """
+    Bed Track for plotting 1d intervals data from .bed file.
     The input bed file can be bed3/bed6/bed9/bed12
 
     Parameters
     ----------
-    file: str. The file path of `.bed` file.
+    file: str
+        The file path of `.bed` file.
 
 
     """

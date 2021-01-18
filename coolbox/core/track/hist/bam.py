@@ -3,7 +3,8 @@ from coolbox.utilities.bam import process_bam, coverage_by_samtools
 
 
 class BAMCov(HistBase):
-    """Alignment reads coverage track.
+    """
+    Alignment reads coverage track.
 
     Parameters
     ----------

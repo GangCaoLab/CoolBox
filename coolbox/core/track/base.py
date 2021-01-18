@@ -5,10 +5,11 @@ from coolbox.utilities import (
     get_coverage_stack, format_properties
 )
 from coolbox.utilities.genome import GenomeRange
+from coolbox.utilities.doctool import NumpyDocInheritor
 
 
 # TODO need a better way to handle doc, maybe we can build docs incrementally through inheritance dict update.
-class Track(object):
+class Track(object, metaclass=NumpyDocInheritor):
     """
     Track base class.
 
@@ -85,12 +86,54 @@ class Track(object):
         self.ax = None
 
     def fetch_data(self, gr: GenomeRange, **kwargs):
+        """
+        Fetch the raw data for the given GenomeRange.
+
+        Parameters
+        ----------
+        gr: GenomeRange
+        kwargs: dict
+            Other optional parameters including `gr2`, `resolution` for some tracks.
+
+        Returns
+        -------
+
+        """
         raise NotImplementedError
 
     def fetch_plot_data(self, gr: GenomeRange, **kwargs):
+        """
+        Fetch the plot data for the given GenomeRange.
+        The returned data would be used in `plot` function, the default implementation directly return `fetch_data`.
+
+        Parameters
+        ----------
+        gr: GenomeRange
+            GenomeRange is an object with properties of [chrom, start, end].
+
+        kwargs: dict
+            Other optional parameters including `gr2`, `resolution` for some tracks.
+
+        Returns
+        -------
+
+        """
         return self.fetch_data(gr, **kwargs)
 
     def plot(self, ax, gr: GenomeRange, **kwargs):
+        """
+        Plot figure based on data returned by `fetch_plot_data`.
+
+        Parameters
+        ----------
+        gr: GenomeRange
+        kwargs: dict
+            Other optional parameters including `gr2`, `resolution` for some tracks.
+
+        Returns
+        -------
+
+        """
         raise NotImplementedError
 
     @property

@@ -1,4 +1,3 @@
-from abc import abstractmethod
 from typing import Tuple
 
 import numpy as np
@@ -11,12 +10,11 @@ from coolbox.utilities.genome import GenomeRange
 
 
 class HicMatBase(Track, PlotHiCMat, ProcessHicMat):
-    """HicMatBase class for all track plotting matrix-like data.
-
+    """
+    HicMatBase class for all track plotting matrix-like data.
 
     Parameters
     ----------
-
     style : {'triangular', 'window', 'matrix'}, optional
         Matrix style, default 'window'.
 
@@ -95,15 +93,13 @@ class HicMatBase(Track, PlotHiCMat, ProcessHicMat):
         self.fetched_gr = None
         self.fetched_gr2 = None
 
-    @abstractmethod
     def fetch_data(self, gr: GenomeRange, **kwargs) -> np.ndarray:
-        """Fetch the raw matrix should be plotted. Normally it's a matrix with raw contacts
+        """
+        Fetch the raw matrix should be plotted. Normally it's a matrix with raw contacts
 
         Parameters
         ----------
-        gr : GenomeRange
-
-        gr2 : GenomeRange, optional
+        gr2 : GenomeRange, optional, keyword argument
 
         Returns
         -------
@@ -111,24 +107,23 @@ class HicMatBase(Track, PlotHiCMat, ProcessHicMat):
             Hi-C raw contact matrix.
 
         """
-        pass
+        raise NotImplementedError
 
     def fetch_plot_data(self, gr: GenomeRange, **kwargs) -> np.ndarray:
-        """ Fetch 2d contact matrix, the matrix may be processed in case \
+        """
+        Fetch 2d contact matrix, the matrix may be processed in case
         'transform', 'normalize', 'gaussian_sigma', 'process_func' exits in properties.
 
         Parameters
         ----------
-        gr : GenomeRange
-
         gr2 : GenomeRange, optional
 
         gr_updated: bool, optional
             If the input GenomeRange has been updated. default False
             Default False means that the input gr will be expanded in window mode
 
-        Return
-        ------
+        Returns
+        -------
         matrix : np.array
             Processed hic matrix used for plotting.
         """
@@ -143,17 +138,13 @@ class HicMatBase(Track, PlotHiCMat, ProcessHicMat):
         return self.process_matrix(arr)
 
     def plot(self, ax, gr: GenomeRange, **kwargs):
-        """Plot matrix
+        """
+        Plot matrix
 
         Parameters
         ----------
         ax
-        gr : GenomeRange
         gr2 : GenomeRange, optional
-
-        Returns
-        -------
-
         """
         self.ax = ax
         # fetch processed plot_data

@@ -5,7 +5,8 @@ from .base import HicMatBase
 
 
 class DotHiC(HicMatBase):
-    """HicMat track from .hic file.
+    """
+    HicMat track from .hic file.
 
     Parameters
     ----------
@@ -15,7 +16,6 @@ class DotHiC(HicMatBase):
     balance : {bool, 'KR', 'VC', 'VC_SQRT'}, optional
         Matrix balance method,
         default True('KR' balance)
-
 
     """
     DEFAULT_PROPERTIES = {
@@ -45,14 +45,15 @@ class DotHiC(HicMatBase):
 
         return self.fill_zero_nan(arr)
 
-    def fetch_pixels(self, genome_range, genome_range2=None, balance=None, **kwargs):
+    def fetch_pixels(self, gr, gr2=None, balance=None, **kwargs):
         """
+
         Parameters
         ----------
-        genome_range : {str, GenomeRange}
+        gr : {str, GenomeRange}
             Intervals within input chromosome range.
 
-        genome_range2 : {str, GenomeRange}
+        gr2 : {str, GenomeRange}
             Intervals within input chromsome range2.
 
         balance : {bool, 'KR', 'VC', 'VC_SQRT'}, optional
@@ -64,23 +65,23 @@ class DotHiC(HicMatBase):
             'auto' for calculate resolution automatically.
             default 'auto'
 
-        Return
-        ------
+        Returns
+        -------
         pixels : pandas.core.frame.DataFrame
             Hi-C pixels table.
             The pixel table contains the non-zero upper triangle entries of the contact map.
         """
         from coolbox.utilities.hic.wrap import StrawWrap
 
-        genome_range = to_gr(genome_range)
-        if genome_range2 is not None:
-            genome_range2 = to_gr(genome_range2)
+        gr = to_gr(gr)
+        if gr2 is not None:
+            gr2 = to_gr(gr2)
 
         path = self.properties['file']
         balance = kwargs.get('balance', self.is_balance)
         wrap = StrawWrap(path, normalization=balance, binsize=kwargs.get('resolution', 'auto'))
 
-        pixels = wrap.fetch_pixels(genome_range, genome_range2)
+        pixels = wrap.fetch_pixels(gr, gr2)
         return pixels
 
     def infer_binsize(self, genome_range1, genome_range2=None, **kwargs) -> int:

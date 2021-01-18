@@ -68,10 +68,6 @@ class GTF(Track):
 
     def fetch_data(self, gr: GenomeRange, **kwargs):
         """
-
-        Parameters
-        ----------
-
         Returns
         -------
         df: pandas.DataFrame
@@ -85,12 +81,13 @@ class GTF(Track):
 
     def fetch_intervals(self, gr: GenomeRange):
         """
+
         Parameters
         ----------
         gr : {str, GenomeRange}
 
-        Return
-        ------
+        Returns
+        -------
         intervals : pandas.core.frame.DataFrame
             Annotation interval table.
         """

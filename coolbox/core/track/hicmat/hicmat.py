@@ -7,7 +7,8 @@ from .dothic import DotHiC
 
 
 def HiCMat(file_or_hicmat: Union[str, HicMatBase], *args, **kwargs) -> HicMatBase:
-    """Compose DotHic or Cool track automatically based on tpye of file extension (.cool, .mcool, .hic)
+    """
+    Compose DotHic or Cool track automatically based on tpye of file extension (.cool, .mcool, .hic)
     """
     if isinstance(file_or_hicmat, HicMatBase):
         return file_or_hicmat

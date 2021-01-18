@@ -11,7 +11,8 @@ log = get_logger(__name__)
 
 
 class BigWig(HistBase):
-    """BigWig track
+    """
+    BigWig track
 
     Parameters
     -----------

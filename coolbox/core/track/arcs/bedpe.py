@@ -7,7 +7,8 @@ from coolbox.utilities.genome import GenomeRange
 
 
 class BEDPE(ArcsBase, FetchParix):
-    """ Arcs track from .bedpe file.
+    """
+    Arcs track from .bedpe file.
 
     Parameters
     ----------
@@ -16,7 +17,6 @@ class BEDPE(ArcsBase, FetchParix):
 
     pos : str, optional
         Method for choosing arch anchor for bedpe data: 'start', 'end', 'mid', default 'mid'
-
 
     """
     DEFAULT_PROPERTIES = {

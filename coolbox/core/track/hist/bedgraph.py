@@ -14,13 +14,13 @@ log = get_logger(__name__)
 
 
 class BedGraph(HistBase):
-    """BedGraph track.
+    """
+    BedGraph track.
 
     Parameters
     -----------
     file : str
         File path of bedgraph file.
-
 
     """
 
