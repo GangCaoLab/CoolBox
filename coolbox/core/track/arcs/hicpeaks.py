@@ -3,7 +3,7 @@ from .base import ArcsBase
 
 
 class HiCPeaks(BEDPE):
-    """H
+    """
     Hi-C Peaks(Loops) from .bedpe file. Used to show the peaks on the Hi-C interaction map.
     """
     DEFAULT_PROPERTIES = {
