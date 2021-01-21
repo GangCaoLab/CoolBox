@@ -576,8 +576,8 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Bulbasaur.png  Pikachu.png    Squirtle.png
-Charmander.png PokeBall.png   list.txt
+Bulbasaur.png   list.txt     PokeBall.png
+Charmander.png  Pikachu.png  Squirtle.png
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -805,7 +805,7 @@ Charmander.png PokeBall.png   list.txt
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;__main__.Pokemon at 0x7f9a3d950640&gt;
+&lt;__main__.Pokemon at 0x7fd6bc231ed0&gt;
 </pre></div></div>
 </div>
 <p>Maybe you found that track defination is almost same to Track. Actually you can create a Coverage directly from Track class, by using <code class="docutils literal notranslate"><span class="pre">track_to_coverage</span></code> function, for example, we convert our <code class="docutils literal notranslate"><span class="pre">ChromName</span></code> Track to Coverage:</p>
@@ -974,7 +974,6 @@ Charmander.png PokeBall.png   list.txt
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="o">!</span>pip install Scikit-learn<span class="o">==</span><span class="m">0</span>.22 <span class="nv">joblib</span><span class="o">==</span><span class="m">0</span>.14
 <span class="o">!</span>pip install peakachu
-
 </pre></div>
 </div>
 </div>
@@ -983,11 +982,11 @@ Charmander.png PokeBall.png   list.txt
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Requirement already satisfied: Scikit-learn==0.22 in /Users/bakezq/opt/miniconda3/lib/python3.8/site-packages (0.22)
-Requirement already satisfied: joblib==0.14 in /Users/bakezq/opt/miniconda3/lib/python3.8/site-packages (0.14.0)
-Requirement already satisfied: scipy&gt;=0.17.0 in /Users/bakezq/opt/miniconda3/lib/python3.8/site-packages (from Scikit-learn==0.22) (1.5.4)
-Requirement already satisfied: numpy&gt;=1.11.0 in /Users/bakezq/opt/miniconda3/lib/python3.8/site-packages (from Scikit-learn==0.22) (1.19.4)
-Requirement already satisfied: peakachu in /Users/bakezq/opt/miniconda3/lib/python3.8/site-packages (1.1.3)
+Requirement already satisfied: Scikit-learn==0.22 in /home/nanguage/S/miniconda3/envs/coolbox/lib/python3.7/site-packages (0.22)
+Requirement already satisfied: joblib==0.14 in /home/nanguage/S/miniconda3/envs/coolbox/lib/python3.7/site-packages (0.14.0)
+Requirement already satisfied: scipy&gt;=0.17.0 in /home/nanguage/S/miniconda3/envs/coolbox/lib/python3.7/site-packages (from Scikit-learn==0.22) (1.5.2)
+Requirement already satisfied: numpy&gt;=1.11.0 in /home/nanguage/S/miniconda3/envs/coolbox/lib/python3.7/site-packages (from Scikit-learn==0.22) (1.19.1)
+Requirement already satisfied: peakachu in /home/nanguage/S/miniconda3/envs/coolbox/lib/python3.7/site-packages (1.1.3)
 </pre></div></div>
 </div>
 <div class="section" id="Define-custom-track">
@@ -1004,7 +1003,7 @@ Requirement already satisfied: peakachu in /Users/bakezq/opt/miniconda3/lib/pyth
 <span class="kn">from</span> <span class="nn">peakachu</span> <span class="kn">import</span> <span class="n">peakacluster</span>
 <span class="kn">from</span> <span class="nn">coolbox.api</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">coolbox.core.track.hicmat</span> <span class="kn">import</span> <span class="n">Cool</span>
-<span class="kn">from</span> <span class="nn">coolbox.utilities</span> <span class="kn">import</span> <span class="n">GenomeRange</span>
+<span class="kn">from</span> <span class="nn">coolbox.utilities</span> <span class="kn">import</span> <span class="n">GenomeRange</span><span class="p">,</span> <span class="n">correspond_track</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;../../tests/test_data/down100.ctcf.pkl&#39;</span><span class="p">)</span>
 
@@ -1025,6 +1024,7 @@ Requirement already satisfied: peakachu in /Users/bakezq/opt/miniconda3/lib/pyth
 <span class="k">class</span> <span class="nc">PeakaChuLoops</span><span class="p">(</span><span class="n">ArcsBase</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">peakachu</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;hicpeaks&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">peakachu</span> <span class="o">=</span> <span class="n">correspond_track</span><span class="p">(</span><span class="n">peakachu</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">peakachu</span> <span class="o">=</span> <span class="n">peakachu</span>
 
     <span class="k">def</span> <span class="nf">fetch_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gr</span><span class="p">:</span> <span class="n">GenomeRange</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -1035,7 +1035,6 @@ Requirement already satisfied: peakachu in /Users/bakezq/opt/miniconda3/lib/pyth
                 <span class="k">for</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="o">*</span><span class="n">_</span> <span class="ow">in</span> <span class="n">peakacluster</span><span class="o">.</span><span class="n">local_clustering</span><span class="p">(</span><span class="n">pixels</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mi">10000</span><span class="p">)]</span>
         <span class="c1"># should return a pd.DataFrame with columns [&#39;start1&#39;, &#39;end1&#39;, &#39;start2&#39;, &#39;end2&#39;]</span>
         <span class="n">peaks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;start1&#39;</span><span class="p">,</span> <span class="s1">&#39;end1&#39;</span><span class="p">,</span> <span class="s1">&#39;start2&#39;</span><span class="p">,</span> <span class="s1">&#39;end2&#39;</span><span class="p">])</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">peakachu</span><span class="o">.</span><span class="n">fetched_binsize</span> <span class="o">+</span> <span class="n">gr</span><span class="o">.</span><span class="n">start</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">peaks</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">peaks</span>
 </pre></div>
 </div>
@@ -1074,23 +1073,6 @@ Requirement already satisfied: peakachu in /Users/bakezq/opt/miniconda3/lib/pyth
 <div class="highlight"><pre>
 scoring matrix chrm
 num candidates 79800
-     start1     end1   start2     end2
-0   4765000  4770000  4990000  4995000
-1   4745000  4750000  5440000  5445000
-2   4755000  4760000  5590000  5595000
-3   5450000  5455000  5625000  5630000
-4   5445000  5450000  5595000  5600000
-5   5180000  5185000  5420000  5425000
-6   5185000  5190000  5585000  5590000
-7   4315000  4320000  4365000  4370000
-8   4380000  4385000  4650000  4655000
-9   4605000  4610000  4745000  4750000
-10  4755000  4760000  5055000  5060000
-11  4855000  4860000  4980000  4985000
-12  4795000  4800000  4985000  4990000
-13  4930000  4935000  4985000  4990000
-14  5405000  5410000  5590000  5595000
-15  5450000  5455000  5510000  5515000
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1103,26 +1085,67 @@ num candidates 79800
 </div>
 <div class="section" id="CLI-Mode">
 <h4>CLI Mode<a class="headerlink" href="#CLI-Mode" title="Permalink to this headline">¶</a></h4>
-<div class="nbinput nblast docutils container">
+<p>Custom elements can also used in CLI mode, just save your definition to a <code class="docutils literal notranslate"><span class="pre">.py</span></code> file, and <code class="docutils literal notranslate"><span class="pre">load_module</span></code> in CLI:</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># TODO How to add custome_track.py in CLI mode ?</span>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>%%bash
+<span class="nv">module_path</span><span class="o">=</span>./_static/peakachu_track.py
+<span class="nv">data_dir</span><span class="o">=</span>../../tests/test_data/
+<span class="nv">cool_path</span><span class="o">=</span><span class="nv">$data_dir</span>/cool_chr9_4000000_6000000.mcool
+<span class="nv">gtf_path</span><span class="o">=</span><span class="nv">$data_dir</span>/gtf_chr9_4000000_6000000.gtf
+
+coolbox load_module <span class="nv">$module_path</span> - <span class="se">\</span>
+    add XAxis - <span class="se">\</span>
+    add Peakachu <span class="nv">$cool_path</span> --style <span class="s2">&quot;triangular&quot;</span> --name <span class="s2">&quot;pvals&quot;</span> - <span class="se">\</span>
+    add Cool <span class="nv">$cool_path</span> --style <span class="s2">&quot;triangular&quot;</span> --orientation <span class="s2">&quot;inverted&quot;</span> - <span class="se">\</span>
+    add PeakaChuLoops <span class="s2">&quot;pvals&quot;</span> --line_width <span class="m">5</span> -<span class="se">\</span>
+    add GTF <span class="nv">$gtf_path</span> --height <span class="m">5</span> - <span class="se">\</span>
+    goto <span class="s2">&quot;chr9:4000000-6000000&quot;</span> - <span class="se">\</span>
+    plot <span class="s2">&quot;/tmp/test_coolbox_peakachu.pdf&quot;</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+scoring matrix chrm
+num candidates 79800
+</pre></div></div>
 </div>
 </div>
 <div class="section" id="Browser-Mode">
 <h4>Browser Mode<a class="headerlink" href="#Browser-Mode" title="Permalink to this headline">¶</a></h4>
-<div class="nbinput nblast docutils container">
+<p>Custom elements are naturally adaptive to browser mode. For use custom tracks defined above, just run:</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># The same.</span>
+<span></span><span class="n">bsr</span> <span class="o">=</span> <span class="n">Browser</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+<span class="n">bsr</span><span class="o">.</span><span class="n">goto</span><span class="p">(</span><span class="n">TEST_RANGE</span><span class="p">)</span>
+<span class="n">bsr</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+scoring matrix chrm
+num candidates 80200
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "18b70179d62b44f8b486376c4f0840c2", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 </div>
 </div>

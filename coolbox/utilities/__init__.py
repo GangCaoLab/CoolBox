@@ -1,3 +1,4 @@
+import typing as t
 from os.path import abspath, dirname, join
 from collections import deque
 
@@ -65,6 +66,20 @@ def format_properties(properties):
             except Exception:
                 pass
     return properties
+
+
+def correspond_track(track_or_name: t.Union["Track", str]):
+    """
+    Search track by it's name.
+    For mark corresponding track in a element definition, allow
+    pass track name to find related object in CLI mode.
+    """
+    from coolbox.core.track.base import Track
+    if isinstance(track_or_name, str):
+        track = Track.tracks[track_or_name]
+    else:
+        track = track_or_name
+    return track
 
 
 if __name__ == "__main__":

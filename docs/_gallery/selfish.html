@@ -501,10 +501,14 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> \
-    <span class="n">Cool</span><span class="p">(</span><span class="n">cl1</span><span class="p">)</span> <span class="o">+</span> \
-    <span class="n">Cool</span><span class="p">(</span><span class="n">cl2</span><span class="p">)</span> <span class="o">+</span> \
-    <span class="n">Selfish</span><span class="p">(</span><span class="n">cl1</span><span class="p">,</span> <span class="n">cl2</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">)</span> <span class="o">+</span> \
+<span></span><span class="k">with</span> <span class="n">MinValue</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">),</span> <span class="n">MaxValue</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">cool1</span> <span class="o">=</span> <span class="n">Cool</span><span class="p">(</span><span class="n">cl1</span><span class="p">)</span>
+    <span class="n">cool2</span> <span class="o">=</span> <span class="n">Cool</span><span class="p">(</span><span class="n">cl2</span><span class="p">)</span>
+
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> \
+    <span class="n">cool1</span> <span class="o">+</span> \
+    <span class="n">cool2</span> <span class="o">+</span> \
+    <span class="n">Selfish</span><span class="p">(</span><span class="n">cool1</span><span class="p">,</span> <span class="n">cool2</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">)</span> <span class="o">+</span> \
     <span class="n">XAxis</span><span class="p">()</span>
 <span class="n">frame</span> <span class="o">*=</span> <span class="n">Feature</span><span class="p">(</span><span class="n">depth_ratio</span><span class="o">=</span><span class="mf">0.35</span><span class="p">)</span>
 <span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">region</span><span class="p">)</span>
@@ -534,8 +538,10 @@ div.rendered_html tbody tr:hover {
 
 coolbox add XAxis - <span class="se">\</span>
 start_with Feature --depth_ratio<span class="o">=</span><span class="s2">&quot;0.35&quot;</span> - <span class="se">\</span>
-    add Cool <span class="nv">$cl1</span> - <span class="se">\</span>
-    add Cool <span class="nv">$cl2</span> - <span class="se">\</span>
+    start_with Feature --min_value<span class="o">=</span><span class="s2">&quot;-9&quot;</span> --max_value<span class="o">=</span><span class="s2">&quot;-1&quot;</span> - <span class="se">\</span>
+        add Cool <span class="nv">$cl1</span> - <span class="se">\</span>
+        add Cool <span class="nv">$cl2</span> - <span class="se">\</span>
+    end_with - <span class="se">\</span>
     add Selfish <span class="nv">$cl1</span> <span class="nv">$cl2</span> --norm <span class="s1">&#39;log&#39;</span> - <span class="se">\</span>
 end_with - <span class="se">\</span>
 add XAxis - <span class="se">\</span>

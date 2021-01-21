@@ -2,6 +2,7 @@ import os
 import os.path as osp
 import subprocess as subp
 from typing import Tuple
+import runpy
 
 import fire
 import nbformat as nbf
@@ -354,6 +355,18 @@ class CLI(object):
         self.gen_notebook(tmp, notes=False, figsave=False)
         subp.check_call(f"voila {tmp} " + voila_args, shell=True)
 
+    def load_module(self, mod_str):
+        """
+        Import custom tracks from a module/package for example:
+
+            $ coolbox - load_module ./my_custom.py - add XAxis - add CustomTrack - goto "chr1:5000000-6000000" - run_webapp
+
+        :param mod_str: Path to the module.
+        """
+        globals().update(runpy.run_path(mod_str, init_globals=globals()))
+        return self
+
 
 if __name__ == "__main__":
     fire.Fire(CLI)
+

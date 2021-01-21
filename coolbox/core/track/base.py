@@ -49,25 +49,30 @@ class Track(object):
         "title": "",
     }
 
+    counts = 0
+    tracks = {}
+
     def __new__(cls, *args, **kwargs):
-        if hasattr(cls, "_counts"):
-            cls._counts += 1
-        else:
-            cls._counts = 1
+        cls.counts += 1
+        # An environment to record all exist tracks
         return super().__new__(cls)
 
-    def __init__(self, properties_dict, **kwargs):
+    def __init__(self, properties_dict={}, **kwargs):
         # TODO replace properties_dict with **kwargs ? Then the initialization in all classes are unified
         properties = Track.DEFAULT_PROPERTIES.copy()
         properties.update(properties_dict)
         properties.update(kwargs)
         self.properties = format_properties(properties)
+
         name = self.properties.get('name')
         if name:
             assert isinstance(name, str), "Track name must be a `str`."
         else:
-            name = self.__class__.__name__ + ".{}".format(self.__class__._counts)
+            name = self.__class__.__name__ + ".{}".format(self.__class__.counts)
+        Track.tracks[name] = self
         self.properties['name'] = name
+        self.name = name
+
         # disable call mixin class
         # super().__init__()
         self.coverages = []
@@ -83,6 +88,11 @@ class Track(object):
             self.coverages.append(coverage)
 
         self.ax = None
+
+    def __del__(self):
+        name = self.properties['name']
+        if name in Track.tracks:
+            del Track.tracks[name]
 
     def fetch_data(self, gr: GenomeRange, **kwargs):
         raise NotImplementedError
