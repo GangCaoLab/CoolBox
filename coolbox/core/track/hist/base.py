@@ -1,4 +1,3 @@
-from abc import abstractmethod
 from typing import Union, Tuple
 
 import numpy as np
@@ -14,11 +13,11 @@ HistData = Union[Tuple[np.ndarray, np.ndarray], pd.DataFrame, np.ndarray]
 
 
 class HistBase(Track, PlotHist):
-    """HistBase track class
+    """
+    HistBase track class
 
     Parameters
     ----------
-
     style : str, optional
         Track graph type, format {'line', 'fill', 'heatmap', 'scatter'}
 
@@ -58,8 +57,6 @@ class HistBase(Track, PlotHist):
 
     min_value : {float, 'auto'}, optional
         Min value of track. 'auto' for specify max value automatically, default 'auto'.
-
-
     """
 
     STYLE_LINE = "line"
@@ -128,27 +125,12 @@ class HistBase(Track, PlotHist):
     def fetch_plot_data(self, gr: GenomeRange, **kwargs) -> HistData:
         """
 
-        Parameters
-        ----------
-        gr
-        kwargs
-
         Returns
         -------
+        hist_data: Union[Tuple[np.ndarray, np.ndarray], pd.DataFrame, np.ndarray]
+            data used for plotting.
         """
         return self.fetch_data(gr, **kwargs)
 
-    @abstractmethod
     def fetch_data(self, gr: GenomeRange, **kwargs) -> HistData:
-        """
-
-        Parameters
-        ----------
-        gr
-        kwargs
-
-        Returns
-        -------
-
-        """
-        pass
+        raise NotImplementedError

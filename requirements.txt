@@ -8,3 +8,4 @@ nbformat
 voila
 statsmodels
 svgutils
+numpydoc

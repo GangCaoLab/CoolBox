@@ -12,7 +12,7 @@ from coolbox.utilities.logtools import get_logger
 log = get_logger(__name__)
 
 
-class ProcessHicMat(abc.ABC):
+class ProcessHicMat(object):
     SMALL_VALUE = 1e-12
 
     def process_matrix(self, arr: np.ndarray) -> np.ndarray:

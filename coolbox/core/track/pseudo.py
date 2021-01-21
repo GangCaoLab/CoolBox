@@ -5,8 +5,8 @@ from .base import Track
 # TODO change properties to new mode
 class Spacer(Track):
     """
-    The spacer track,
-    not have any real content, just used to split two tracks.
+    The spacer track
+    Does not have any real content, just used to split two tracks.
 
     Parameters
     ----------

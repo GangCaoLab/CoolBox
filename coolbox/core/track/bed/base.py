@@ -1,4 +1,3 @@
-from abc import abstractmethod, ABC
 import pandas as pd
 
 from coolbox.utilities import (
@@ -12,7 +11,7 @@ from .plot import PlotBed
 log = get_logger(__name__)
 
 
-class BedBase(Track, PlotBed, ABC):
+class BedBase(Track, PlotBed):
     """
     BED Base track.
 
@@ -76,7 +75,6 @@ class BedBase(Track, PlotBed, ABC):
     border_only : bool
         Only show border, default False
 
-
     """
 
     STYLE_GENE = "gene"
@@ -114,14 +112,11 @@ class BedBase(Track, PlotBed, ABC):
         super().__init__(properties)
         self.init_for_plot()
 
-    @abstractmethod
     def fetch_data(self, gr: GenomeRange, **kwargs) -> pd.DataFrame:
         """
-        Parameters
-        ----------
 
-        Return
-        ------
+        Returns
+        -------
         intervals : pandas.core.frame.DataFrame
             BED interval table. The table should be in format like:
 
@@ -133,7 +128,7 @@ class BedBase(Track, PlotBed, ABC):
             The table can be in bed6/bed9/bed12 format and the trailing columns can be omited.
 
         """
-        pass
+        raise NotImplementedError
 
     def plot(self, ax, gr: GenomeRange, **kwargs):
         self.ax = ax

@@ -1,5 +1,3 @@
-from abc import ABC
-
 import pandas as pd
 
 from coolbox.utilities import GenomeRange
@@ -7,7 +5,7 @@ from coolbox.core.track.base import Track
 from .plot import PlotContacts
 
 
-class ArcsBase(Track, PlotContacts, ABC):
+class ArcsBase(Track, PlotContacts):
     """
     Arcs(link) track.
 
@@ -46,8 +44,6 @@ class ArcsBase(Track, PlotContacts, ABC):
 
     alpha : float, optional
         Alpha value of track, default 0.8.
-
-
     """
 
     STYLE_ARCS = 'arcs'
@@ -78,11 +74,6 @@ class ArcsBase(Track, PlotContacts, ABC):
     def fetch_plot_data(self, gr: GenomeRange, **kwargs) -> pd.DataFrame:
         """
 
-        Parameters
-        ----------
-        gr
-        kwargs
-
         Returns
         -------
         intervals : pandas.core.frame.DataFrame
@@ -93,17 +84,8 @@ class ArcsBase(Track, PlotContacts, ABC):
         return self.fetch_data(gr, **kwargs)
 
     def plot(self, ax, gr: GenomeRange, **kwargs):
-        """Plot arc connecting two positions on a linear scale representing interactions between bins.
-
-        Parameters
-        ----------
-        ax
-        gr
-        kwargs
-
-        Returns
-        -------
-
+        """
+        Plot arc connecting two positions on a linear scale representing interactions between bins.
         """
         self.ax = ax
         df = self.fetch_plot_data(gr, **kwargs)

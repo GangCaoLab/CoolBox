@@ -549,11 +549,59 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
+
 Hi-C Peaks(Loops) from .bedpe file. Used to show the peaks on the Hi-C interaction map.
 
-    Parameters
-    ----------
+Parameters
+----------
+file: str
+    Path of .bedpe file
+pos : str, optional
+    Method for choosing arch anchor for bedpe data: &#39;start&#39;, &#39;end&#39;, &#39;mid&#39;, default &#39;mid&#39;
+style : str, optional
+    Style of arcs plot: &#39;arcs&#39;, &#39;hicpeaks&#39;, default &#39;arcs&#39;
+line_width : float, optional
+    Width of arc line.
+score_to_width : str, optional
+    Mapping function of score to width, default: &#39;0.5 + sqrt(score)&#39;
+diameter_to_height : str, optional
+    Mapping function of arc diameter(interval end - start) to height.
+    You can specify to &#39;max_diameter&#39; let all arcs has same height.
+    default &#39;max_height * diameter / max_diameter&#39;.
+orientation : str, optional
+    Track orientation, use &#39;inverted&#39; for inverted track plot. default None
+line_style : str, optional
+    Border line style, default &#39;solid&#39;
+fill : bool, optional
+    Fill center or not, default False.
+fill_color : str, optional
+    Fill color, use &#39;bed_rgb&#39; for specify color in file,
+    default &#39;bed_rgb&#39;.
+side : {&#39;upper&#39;, &#39;lower&#39;, &#39;both&#39;}
+    Plot peak in which side of the matrix.
+    NOTE: This parameters is useful only if the Cool track in matrix format.
+alpha : float, optional
+    Alpha value of track, default 0.8.
+properties_dict : dict
+    The properties(features) of this track. For example &#39;height&#39;, &#39;color&#39;...
+name : str, optional
+    The name of Track.
+    (Default: &#34;{self.__class__.__name__}.{self.__class__._counts}&#34;)
+title : str, optional
+    Title of ax
+height : int, optional
+    Height of ax
+color : str, optional;
+    Color of ax
 
+Attributes
+----------
+properties : dict
+    The properties(features) of this track. For example &#39;height&#39;, &#39;color&#39;...
+name : str
+    The name of Track.
+coverages : list of `coolbox.api.coverage.Coverage`
+    Coverages on this Track.
 
 </pre></div></div>
 </div>

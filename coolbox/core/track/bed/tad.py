@@ -3,7 +3,8 @@ from .base import BedBase
 
 
 class TAD(BED):
-    """Tad tack from bed file
+    """
+    Tad tack from bed file
     """
 
     DEFAULT_PROPERTIES = {

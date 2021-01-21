@@ -1,4 +1,3 @@
-from abc import ABC
 import numpy as np
 import pandas as pd
 import statsmodels.stats.multitest as smm
@@ -32,10 +31,8 @@ class Selfish(HicMatBase):
     s : int, optional
         Iteration count parameter of SELFISH method. Default: 10
 
-
-
-    Reference
-    ---------
+    References
+    ----------
     Abbas Roayaei Ardakany, Ferhat Ay, Stefano Lonardi,
     Selfish: discovery of differential chromatin interactions via a self-similarity measure,
     Bioinformatics, Volume 35, Issue 14, July 2019, Pages i145–i153,

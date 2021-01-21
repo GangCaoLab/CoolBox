@@ -1,8 +1,6 @@
-from abc import ABC
-
-from coolbox.utilities.genome import GenomeRange
 import numpy as np
 
+from coolbox.utilities.genome import GenomeRange
 from coolbox.core.track.hicmat.base import HicMatBase
 from coolbox.core.track.hicmat.hicmat import HiCMat
 

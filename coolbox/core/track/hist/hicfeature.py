@@ -1,10 +1,9 @@
-from abc import ABC
 from typing import Union, Callable
 
 from scipy import sparse
 import numpy as np
 
-from coolbox.utilities import GenomeRange, to_gr, get_logger
+from coolbox.utilities import GenomeRange, get_logger
 
 from ..hicmat import HicMatBase, HiCMat
 from .base import HistBase
@@ -12,8 +11,9 @@ from .base import HistBase
 log = get_logger(__name__)
 
 
-class HicFeature(HistBase, ABC):
-    """HicFeature base track
+class HicFeature(HistBase):
+    """
+    HicFeature base track
 
     Parameters
     -----------
@@ -109,7 +109,8 @@ class DiScore(HicFeature):
     @classmethod
     def di_methods(cls, method: str) -> Callable[[np.ndarray, np.ndarray], np.ndarray]:
         def standard(up, down):
-            """Compute directionality index described in:\n
+            """
+            Compute directionality index described in:\n
             Jesse R.Dixon 2012. Topological domains in mammalian genomes identified by analysis of chromatin interactions.
             """
             up = up.sum(axis=1)
@@ -122,7 +123,8 @@ class DiScore(HicFeature):
             return di_array
 
         def adaptive(up, down):
-            """Compute directionality index described in:\n
+            """
+            Compute directionality index described in:\n
             Xiao-Tao Wang 2017.HiTAD: Detecting the structural and functional hierarchies of topologically associating
             domains from chromatin interactions.
             """

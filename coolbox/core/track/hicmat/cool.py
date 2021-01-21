@@ -5,7 +5,8 @@ from .base import HicMatBase
 
 
 class Cool(HicMatBase):
-    """Cool track from .cool, .mcool file.
+    """
+    Cool track from .cool, .mcool file.
 
     Parameters
     ----------
@@ -45,14 +46,12 @@ class Cool(HicMatBase):
         return self.fill_zero_nan(arr)
 
     def fetch_pixels(self, gr: GenomeRange, **kwargs):
-        """Fetch the pixels table of upper triangle of the original contact matrix(not processed).
+        """
+        Fetch the pixels table of upper triangle of the original contact matrix(not processed).
 
         Parameters
         ----------
-        gr : {str, GenomeRange}
-            Intervals within input chromosome range.
-
-        gr2 : {str, GenomeRange}, optional.
+        gr2 : GenomeRange, optional.
 
         balance : bool, optional
             balance matrix or not,
@@ -68,11 +67,11 @@ class Cool(HicMatBase):
             into (chrom, start, end).
             default True
 
-        Return
-        ------
+        Returns
+        -------
         pixels : pandas.core.frame.DataFrame
-        Hi-C pixels table.
-        The pixel table contains the non-zero upper triangle entries of the contact map.
+            Hi-C pixels table.
+            The pixel table contains the non-zero upper triangle entries of the contact map.
         """
         from coolbox.utilities.hic.wrap import CoolerWrap
 

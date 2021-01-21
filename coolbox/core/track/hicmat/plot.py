@@ -1,4 +1,3 @@
-import abc
 import copy
 import math
 
@@ -28,7 +27,7 @@ cmaps = {
 }
 
 
-class PlotHiCMat(abc.ABC):
+class PlotHiCMat(object):
 
     def __init__(self, *args, **kwargs):
         self.ax = None
