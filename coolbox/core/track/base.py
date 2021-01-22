@@ -2,13 +2,16 @@ from copy import copy
 
 from coolbox.utilities import (
     op_err_msg, get_feature_stack,
-    get_coverage_stack, format_properties
+    get_coverage_stack, format_properties,
+    get_logger
 )
 from coolbox.utilities.genome import GenomeRange
 from coolbox.utilities.doctool import NumpyDocInheritor
 
 
-# TODO need a better way to handle doc, maybe we can build docs incrementally through inheritance dict update.
+log = get_logger(__name__)
+
+
 class Track(object, metaclass=NumpyDocInheritor):
     """
     Track base class.
@@ -238,3 +241,31 @@ class Track(object, metaclass=NumpyDocInheritor):
             self.label_ax.text(0.15, 0.5, self.properties['title'],
                                horizontalalignment='left', size='large',
                                verticalalignment='center')
+
+    def plot_coverages(self, ax, gr: GenomeRange, gr2: GenomeRange):
+        """
+        Plot all coverages on given axes.
+
+        Parameters
+        ----------
+        gr : GenomeRange
+            First genome range.
+
+        gr2 : GenomeRange
+            Second genome range.
+        """
+        if not hasattr(self, 'coverages'):
+            return
+        for cov_idx, cov in enumerate(self.coverages):
+            cov.track = self
+            if hasattr(cov, 'track_instance'):
+                cov.track_instance.track = self
+            try:
+                cov.plot(ax, copy(gr), gr2=copy(gr2))
+            except Exception as e:
+                log.error("Error occured when plot track's coverage:\n"
+                          "\ttrack name: {}\n\ttrack type:{}\n\tcoverage name: {}\n\tcov type: {}\n"
+                          "\tError: {} {}".format(
+                            self.name, type(self), cov.name, type(cov),
+                            type(e), str(e)))
+                log.exception(e)

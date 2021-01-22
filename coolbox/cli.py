@@ -319,7 +319,10 @@ class CLI(object):
         gr1, gr2 = self.current_range
         if 'center' in self.frames:
             source += f"fig = frame.plot('{gr1}', '{gr2}')\n"
-            # TODO can not save to pdf
+            # TODO: svgutils.compose.Figure can only save to svg, convert it?
+            if not fig_path.endswith('.svg'):
+                fig_path = fig_path[:-4] + '.svg'
+                log.warning(f"The JointView only support save to svg now. Save fig to: {fig_path}.")
             source += f"fig.save('{fig_path}')\n"
         else:
             source += f"fig = frame.plot('{gr1}')\n"

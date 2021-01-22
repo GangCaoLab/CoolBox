@@ -86,7 +86,6 @@ class PlotContacts(object):
             )
             ax.add_patch(arc)
 
-    # TODO if hicpeaks works in jointview mode ?
     def plot_hicpeaks(self, ax, gr: GenomeRange, gr2: GenomeRange, intervals: pd.DataFrame):
         """ plot hic peaks uppon a HicMatBase track.
 

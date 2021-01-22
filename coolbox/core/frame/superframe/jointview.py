@@ -102,6 +102,7 @@ class JointView(SuperFrame):
         size = cm2inch(self.properties['center_width'])
         fig, ax = plt.subplots(figsize=(size, size))
         center_track.plot(ax, gr1, gr2=gr2)
+        center_track.plot_coverages(ax, gr1, gr2)
         ax.set_axis_off()
         path = get_uniq_tmp_file(prefix='center', suffix='.svg')
         fig.subplots_adjust(wspace=0, hspace=0.0, left=0, right=1, bottom=0, top=1)
@@ -125,6 +126,7 @@ class JointView(SuperFrame):
 
     def frame_granges(self, gr1=None, gr2=None):
         self.goto(gr1, gr2)
+        gr1, gr2 = self.current_range
 
         trbl = self.properties['trbl']
 

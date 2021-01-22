@@ -217,21 +217,7 @@ class Frame(FrameBase):
                     type(e), str(e), fname, exc_tb.tb_lineno)
                 )
                 log.exception(e)
-            # plot coverages
-            if hasattr(track, 'coverages'):
-                for cov_idx, cov in enumerate(track.coverages):
-                    cov.track = track
-                    if hasattr(cov, 'track_instance'):
-                        cov.track_instance.track = track
-                    try:
-                        cov.plot(ax, copy(gr), gr2=copy(gr2))
-                    except Exception as e:
-                        log.error("Error occured when plot track's coverage:\n"
-                                  "\ttrack name: {}\n\ttrack type:{}\n\tcoverage name: {}\n\tcov type: {}\n"
-                                  "\tError: {} {}".format(
-                            track.name, type(track), cov.name, type(cov),
-                            type(e), str(e)))
-                        log.exception(e)
+            track.plot_coverages(ax, gr, gr2)
 
             axis_list.append(ax)
 
