@@ -95,6 +95,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#Start-a-browser">Start a browser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Load-custom-module">Load custom module</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="gallery.html">CoolBox Gallery</a></li>
@@ -529,6 +530,9 @@ coolbox
      joint_view
        Start a new frame positioned at the specified frame_pos in the final joint view. The center frame should be a single Cool, HicMat, DotHic track.
 
+     load_module
+       Import custom tracks from a module/package for example:
+
      plot
        Draw a figure within a genome range and save to file
 
@@ -574,8 +578,6 @@ coolbox
 <div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
 <span></span>%%bash
 
-<span class="c1">## Change working directory</span>
-<span class="nb">cd</span> ../../
 <span class="nb">echo</span> Current working directory: <span class="nv">$PWD</span>
 </pre></div>
 </div>
@@ -585,7 +587,7 @@ coolbox
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Current working directory: /Users/bakezq/Desktop/workspace/CoolBox.nosync
+Current working directory: /home/nanguage/DATA2/Dropbox/workspace/CoolBox/docs/source
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -604,42 +606,25 @@ ls -lh ../../tests/test_data
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-total 197184
--rw-r--r--  1 bakezq  staff   787K Dec  6 04:11 bam_chr9_4000000_6000000.bam
--rw-r--r--  1 bakezq  staff   5.8K Jan 16 09:32 bam_chr9_4000000_6000000.bam.bai
--rw-r--r--  1 bakezq  staff   8.5K Dec  6 04:11 bed_chr9_4000000_6000000.bed
--rw-r--r--  1 bakezq  staff   2.2K Jan 16 09:36 bed_chr9_4000000_6000000.bed.bgz
--rw-r--r--  1 bakezq  staff   220B Jan 16 09:32 bed_chr9_4000000_6000000.bed.bgz.tbi
--rw-r--r--  1 bakezq  staff    18K Dec  6 04:11 bedgraph_chr9_4000000_6000000.bg
--rw-r--r--  1 bakezq  staff   4.2K Jan 16 09:36 bedgraph_chr9_4000000_6000000.bg.bgz
--rw-r--r--  1 bakezq  staff   4.4K Jan 16 09:36 bedgraph_chr9_4000000_6000000.bg.bgz.tbi
--rw-r--r--  1 bakezq  staff   264B Dec  6 04:11 bedpe_chr9_4000000_6000000.bedpe
--rw-r--r--  1 bakezq  staff   147B Jan 16 09:14 bedpe_chr9_4000000_6000000.bedpe.bgz
--rw-r--r--  1 bakezq  staff   160B Jan 16 09:14 bedpe_chr9_4000000_6000000.bedpe.bgz.px2
--rw-r--r--  1 bakezq  staff    31K Dec  6 04:11 bigwig_chr9_4000000_6000000.bw
--rw-r--r--  1 bakezq  staff    23M Jan 15 22:08 cool_chr1_89000000_90400000_for_cmp_1.mcool
--rw-r--r--  1 bakezq  staff    23M Jan 15 22:08 cool_chr1_89000000_90400000_for_cmp_2.mcool
--rw-r--r--@ 1 bakezq  staff    26M Dec  6 23:26 cool_chr9_4000000_6000000.mcool
--rw-r--r--  1 bakezq  staff    13M Jan 16 06:07 dothic_chr9_4000000_6000000.hic
--rw-r--r--@ 1 bakezq  staff   9.3M Dec 29 19:24 down100.ctcf.pkl
--rw-r--r--  1 bakezq  staff   535K Dec  6 04:11 gtf_chr9_4000000_6000000.gtf
--rw-r--r--  1 bakezq  staff    28K Jan 16 09:21 gtf_chr9_4000000_6000000.gtf.bgz
--rw-r--r--  1 bakezq  staff   398B Jan 16 09:21 gtf_chr9_4000000_6000000.gtf.bgz.tbi
--rw-r--r--  1 bakezq  staff    32K Dec  6 04:11 hg19_ideogram.txt
--rw-r--r--  1 bakezq  staff   1.9K Dec  6 04:11 human.hg19.genome
--rw-r--r--  1 bakezq  staff   2.1K Dec  6 23:26 make_test_dataset.py
--rw-r--r--  1 bakezq  staff   777B Dec  6 04:11 pairs_chr9_4000000_6000000.pairs
--rw-r--r--  1 bakezq  staff   298B Jan 16 09:14 pairs_chr9_4000000_6000000.pairs.bgz
--rw-r--r--  1 bakezq  staff   258B Jan 16 09:14 pairs_chr9_4000000_6000000.pairs.bgz.px2
--rw-r--r--  1 bakezq  staff   592B Dec  6 04:11 peak_chr9_4000000_6000000.bedpe
--rw-r--r--  1 bakezq  staff   206B Jan 16 09:22 peak_chr9_4000000_6000000.bedpe.bgz
--rw-r--r--  1 bakezq  staff   222B Jan 16 09:22 peak_chr9_4000000_6000000.bedpe.bgz.px2
--rw-r--r--  1 bakezq  staff   765K Dec  6 04:11 snp_chr9_4000000_6000000.snp
--rw-r--r--  1 bakezq  staff   299K Jan 16 09:25 snp_chr9_4000000_6000000.snp.bgz
--rw-r--r--  1 bakezq  staff   1.1K Jan 16 09:25 snp_chr9_4000000_6000000.snp.bgz.tbi
--rw-r--r--  1 bakezq  staff   432B Dec  6 04:11 tad_chr9_4000000_6000000.bed
--rw-r--r--  1 bakezq  staff   153B Jan 16 09:36 tad_chr9_4000000_6000000.bed.bgz
--rw-r--r--  1 bakezq  staff   133B Jan 16 09:25 tad_chr9_4000000_6000000.bed.bgz.tbi
+total 95M
+-rw-rw-r-- 1 nanguage nanguage 787K 10月 27 09:50 bam_chr9_4000000_6000000.bam
+-rw-rw-r-- 1 nanguage nanguage 8.6K 10月 27 09:50 bed_chr9_4000000_6000000.bed
+-rw-rw-r-- 1 nanguage nanguage  18K 10月 27 20:35 bedgraph_chr9_4000000_6000000.bg
+-rw-rw-r-- 1 nanguage nanguage  264 10月 28 10:11 bedpe_chr9_4000000_6000000.bedpe
+-rw-rw-r-- 1 nanguage nanguage  31K 10月 27 09:50 bigwig_chr9_4000000_6000000.bw
+-rw-rw-r-- 1 nanguage nanguage  24M 1月  15 17:39 cool_chr1_89000000_90400000_for_cmp_1.mcool
+-rw-rw-r-- 1 nanguage nanguage  23M 1月  15 17:33 cool_chr1_89000000_90400000_for_cmp_2.mcool
+-rw-rw-r-- 1 nanguage nanguage  27M 10月 27 09:50 cool_chr9_4000000_6000000.mcool
+-rw-rw-r-- 1 nanguage nanguage  14M 1月  15 22:26 dothic_chr9_4000000_6000000.hic
+-rw-rw-r-- 1 nanguage nanguage 9.3M 12月 30 15:50 down100.ctcf.pkl
+-rw-rw-r-- 1 nanguage nanguage 535K 10月 27 09:50 gtf_chr9_4000000_6000000.gtf
+-rw-rw-r-- 1 nanguage nanguage  33K 10月 27 09:50 hg19_ideogram.txt
+-rw-rw-r-- 1 nanguage nanguage 2.0K 10月 27 09:50 human.hg19.genome
+-rw-rw-r-- 1 nanguage nanguage 2.2K 10月 27 09:50 make_test_dataset.py
+-rw-rw-r-- 1 nanguage nanguage  777 10月 29 09:55 pairs_chr9_4000000_6000000.pairs
+-rw-rw-r-- 1 nanguage nanguage  592 12月  2 22:31 peak_chr9_4000000_6000000.bedpe
+-rw-rw-r-- 1 nanguage nanguage 765K 11月 10 21:17 snp_chr9_4000000_6000000.snp
+-rw-rw-r-- 1 nanguage nanguage  432 11月  4 15:09 tad_chr9_4000000_6000000.bed
 </pre></div></div>
 </div>
 </div>
@@ -894,6 +879,79 @@ coolbox run_webapp -- --help
     --voila_args=<span class="ansi-underline">VOILA_ARGS</span>
         Arguments for run jupyter.
 </pre></div></div>
+</div>
+</div>
+<div class="section" id="Load-custom-module">
+<h2>Load custom module<a class="headerlink" href="#Load-custom-module" title="Permalink to this headline">¶</a></h2>
+<p>We can load the custom defined module(<code class="docutils literal notranslate"><span class="pre">.py</span></code> file) with the <code class="docutils literal notranslate"><span class="pre">load_module</span></code> command. For example, there are a simple custom defined track in <code class="docutils literal notranslate"><span class="pre">custom_track.py</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>%%bash
+
+<span class="nv">DIR</span><span class="o">=</span>../../tests/
+
+cat <span class="nv">$DIR</span>/custom_track.py
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+from coolbox.core.track.base import Track
+
+
+class CustomTrack(Track):
+    def __init__(self):
+        super().__init__(properties_dict={})
+
+    def fetch_data(self, gr, **kwargs):
+        return &#34;Test Custom&#34;
+
+    def plot(self, ax, gr, **kwargs):
+        x = gr.start + gr.length * 0.33
+        ax.text(x, 0, self.fetch_data(gr), fontsize=50)
+        ax.set_xlim(gr.start, gr.end)
+</pre></div></div>
+</div>
+<p>We can load it from the file with <code class="docutils literal notranslate"><span class="pre">load_module</span></code> then use it to draw a plot:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>%%bash
+
+<span class="nv">DIR</span><span class="o">=</span>../../tests/
+
+coolbox - load_module <span class="nv">$DIR</span>/custom_track.py - <span class="se">\</span>
+    add XAxis - <span class="se">\</span>
+    add CustomTrack - <span class="se">\</span>
+    goto <span class="s2">&quot;chr1:10000-20000&quot;</span> - <span class="se">\</span>
+    plot /tmp/test_coolbox_custom_cli.png
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;/tmp/test_coolbox_custom_cli.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/quick_start_CLI_28_0.png" src="_images/quick_start_CLI_28_0.png" />
+</div>
 </div>
 </div>
 </div>

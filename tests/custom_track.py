@@ -6,9 +6,9 @@ class CustomTrack(Track):
         super().__init__(properties_dict={})
 
     def fetch_data(self, gr, **kwargs):
-        return "Test"
+        return "Test Custom"
 
     def plot(self, ax, gr, **kwargs):
-        x = (gr.start+gr.end)/2
-        ax.text(x, 0, self.fetch_data(gr), fontsize=self.properties['fontsize'])
+        x = gr.start + gr.length * 0.33
+        ax.text(x, 0, self.fetch_data(gr), fontsize=50)
         ax.set_xlim(gr.start, gr.end)
