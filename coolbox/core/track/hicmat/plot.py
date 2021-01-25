@@ -1,4 +1,3 @@
-import abc
 import copy
 import math
 
@@ -9,19 +8,9 @@ from matplotlib import transforms
 from matplotlib.colors import LinearSegmentedColormap
 from mpl_toolkits.axes_grid1.axes_divider import make_axes_locatable
 
-from coolbox.utilities import (
-    to_gr,
-    get_logger,
-    GenomeRange
-)
+from coolbox.utilities import get_logger, GenomeRange
 
 log = get_logger(__name__)
-
-STYLE_TRIANGULAR = 'triangular'
-STYLE_MATRIX = 'matrix'
-STYLE_WINDOW = 'window'
-
-DEPTH_FULL = 'full'
 
 JuiceBoxLikeColor = LinearSegmentedColormap.from_list(
     'interaction', ['#FFFFFF', '#FFDFDF', '#FF7575', '#FF2626', '#F70000'])
@@ -38,181 +27,53 @@ cmaps = {
 }
 
 
-class PlotHiCMatrix(abc.ABC):
-    DEFAULT_COLOR = 'YlOrRd'
-    SMALL_VALUE = 1e-12
+class PlotHiCMat(object):
 
     def __init__(self, *args, **kwargs):
         self.ax = None
         self.label_ax = None
         self.matrix = None
 
-    @property
-    def is_inverted(self):
-        if 'orientation' in self.properties and self.properties['orientation'] == 'inverted':
-            return True
-        else:
-            # default: not inverted
-            return False
+    def plot_matrix(self, gr: GenomeRange, gr2: GenomeRange = None):
+        gr = GenomeRange(gr)
 
-    @property
-    def style(self):
-        if 'style' in self.properties:
-            return self.properties['style']
-        else:
-            # default triangular style
-            return STYLE_TRIANGULAR
-
-    @property
-    def balance(self):
-        if self.properties['balance'] == 'no':
-            return False
-        else:
-            file = self.properties['file']
-            from coolbox.utilities.hic.tools import hicmat_filetype
-            if hicmat_filetype(file) == '.hic':
-                if self.properties['balance'] == 'yes':
-                    return 'KR'  # default use KR balance
+        def get_cmap(color: str):
+            cm = color
+            if isinstance(cm, str):
+                if cm in cmaps:
+                    cmap = cmaps[cm]
                 else:
-                    return self.properties['balance']
+                    cmap = plt.get_cmap(color)
+                    cmap = copy.copy(cmap)
+                    lowest = cmap(0)
+                    cmap.set_bad(lowest)
+                    cmap.set_under(lowest)
             else:
-                return True
+                cmap = cm
+            return cmap
 
-    @property
-    def is_balance(self):
-        return bool(self.balance)
-
-    @property
-    def matrix_val_range(self):
-        small = 1e-4
-        arr = self.matrix
-        arr_no_nan = arr[np.logical_not(np.isnan(arr))]
-        min_, max_ = 1e-4, 1.0
-
-        try:
-            if self.properties['min_value'] == 'auto':
-                # set minimal value for color bar
-                min_ = arr[arr > arr.min()].min()
-            else:
-                min_ = self.properties['min_value']
-
-            if self.properties['max_value'] == 'auto':
-                max_ = arr_no_nan.max()
-            else:
-                max_ = self.properties['max_value']
-
-            if max_ <= min_:
-                max_ = min_ + small
-        except ValueError as e:
-            log.warning(e)
-            return min_, max_
-
-        return min_, max_
-
-    @property
-    def resolution(self):
-        return self.properties['resolution']
-
-    @property
-    def norm(self):
-        if 'normalize' in self.properties:
-            normalize = self.properties['normalize']
-            norm = self.properties['norm']
-            if (norm == 'log') and (normalize in ['no', 'total']):
-                return 'log'
-            else:
-                return 'no'
-        else:
-            return self.properties['norm']
-
-    def _get_cmap(self):
-        cm = self.properties['color']
-        if isinstance(cm, str):
-            if cm in cmaps:
-                cmap = cmaps[cm]
-            else:
-                cmap = plt.get_cmap(self.properties['color'])
-                cmap = copy.copy(cmap)
-                lowest = cmap(0)
-                cmap.set_bad(lowest)
-                cmap.set_under(lowest)
-        else:
-            cmap = cm
-        return cmap
-
-    def fetch_window_matrix(self, genome_range):
-        # TODO should be moved to fetch, however, hicdiff and selfix also relies on this function
-        gr = genome_range
-        from copy import copy
-        fetch_gr = copy(gr)
-        dr = self.properties['depth_ratio']
-        dr = 1.0 if dr == "full" else dr
-        dr = min(1.0, dr + 0.05)
-        x = int(gr.length * dr // 2)
-        fetch_gr.start = gr.start - x
-        fetch_gr.end = gr.end + x
-
-        out_of_bound = [False, False]
-
-        if fetch_gr.start < 0:
-            fetch_gr.start = 0
-            out_of_bound[0] = True
-
-        try:
-            arr = self.fetch_data(fetch_gr, resolution=self.resolution)
-        except ValueError:
-            out_of_bound[1] = True
-            fetch_gr.end = gr.end
-            arr = self.fetch_data(fetch_gr, resolution=self.resolution)
-
-        return arr, fetch_gr
-
-    def plot(self, ax, chrom_region, start_region, end_region):
-        # TODO should be moved to base, however, hicdiff and selfix also relies on this function
-        self.ax = ax
-
-        genome_range = GenomeRange(chrom_region, start_region, end_region)
-
-        # fetch matrix and perform transform process
-        if self.style == STYLE_WINDOW:
-            arr, fetch_gr = self.fetch_window_matrix(genome_range)
-            self.fetch_region = fetch_gr
-        else:
-            arr = self.fetch_data(genome_range, resolution=self.resolution)
-
-        self.matrix = arr
-
-        # plot matrix
-        img = self._plot_matrix(genome_range)
-        self._adjust_figure(genome_range)
-        self._draw_cbar(img)
-        self.plot_label()
-
-    def _plot_matrix(self, genome_range):
-        start, end = genome_range.start, genome_range.end
+        cmap = get_cmap(self.properties['color'])
         ax = self.ax
         arr = self.matrix
-        cmap = self._get_cmap()
         c_min, c_max = self.matrix_val_range
-
-        if self.style == STYLE_TRIANGULAR:
+        if gr2 is None and self.style == self.STYLE_TRIANGULAR:
             # triangular style
             scale_r = 1 / math.sqrt(2)
-            r_len = end - start
+            r_len = gr.end - gr.start
             # Rotate image using Affine2D, reference:
             #     https://stackoverflow.com/a/50920567/8500469
-            tr = transforms.Affine2D().translate(-start, -start) \
+            tr = transforms.Affine2D().translate(-gr.start, -gr.start) \
                 .rotate_deg_around(0, 0, 45) \
                 .scale(scale_r) \
-                .translate(start + r_len / 2, -r_len / 2)
+                .translate(gr.start + r_len / 2, -r_len / 2)
             img = ax.matshow(arr, cmap=cmap,
                              transform=tr + ax.transData,
-                             extent=(start, end, start, end),
+                             extent=(gr.start, gr.end, gr.start, gr.end),
                              aspect='auto')
-        elif self.style == STYLE_WINDOW:
+        elif gr2 is None and self.style == self.STYLE_WINDOW:
             # window style
-            fgr = self.fetch_region
-            gr = genome_range
+            # exist in HicMatBase
+            fgr = self.fetched_gr
             scale_factor = fgr.length / gr.length
             scale_r = scale_factor / math.sqrt(2)
             length_dialog = gr.length * scale_factor
@@ -227,9 +88,11 @@ class PlotHiCMatrix(abc.ABC):
                              extent=(gr.start, gr.end, gr.start, gr.end),
                              aspect='auto')
         else:
+            if gr2 is None:
+                gr2 = gr
             # matrix style
             img = ax.matshow(arr, cmap=cmap,
-                             extent=(start, end, end, start),
+                             extent=(gr.start, gr.end, gr2.end, gr2.start),
                              aspect='auto')
 
         if self.norm == 'log':
@@ -239,14 +102,12 @@ class PlotHiCMatrix(abc.ABC):
 
         return img
 
-    def _adjust_figure(self, genome_range, genome_range2=None):
+    def adjust_figure(self, gr: GenomeRange, gr2: GenomeRange = None):
         ax = self.ax
-        gr = genome_range
-        gr2 = genome_range2
         if gr2 is None:
-            if self.style == STYLE_TRIANGULAR or self.style == STYLE_WINDOW:
+            if self.style == self.STYLE_TRIANGULAR or self.style == self.STYLE_WINDOW:
 
-                if self.properties['depth_ratio'] == DEPTH_FULL:
+                if self.properties['depth_ratio'] == self.DEPTH_FULL:
                     depth = gr.length / 2
                 else:
                     depth = (gr.length / 2) * self.properties['depth_ratio']
@@ -262,7 +123,17 @@ class PlotHiCMatrix(abc.ABC):
             ax.set_xlim(gr.start, gr.end)
             ax.set_ylim(gr2.end, gr2.start)
 
-    def _plot_colorbar(self, img, orientation='vertical'):
+    def draw_colorbar(self, img):
+        # plot colorbar
+        if self.properties['color_bar'] == 'no':
+            pass
+        else:
+            if hasattr(self, 'y_ax') and self.properties['color_bar'] == 'vertical':
+                self.plot_colorbar(img, orientation='vertical')
+            else:
+                self.plot_colorbar(img, orientation='horizontal')
+
+    def plot_colorbar(self, img, orientation='vertical'):
         if orientation == 'horizontal':
             ax_divider = make_axes_locatable(self.ax)
             if self.is_inverted:
@@ -299,42 +170,13 @@ class PlotHiCMatrix(abc.ABC):
 
             c_bar.ax.yaxis.set_ticks_position('left')
 
-    def _draw_cbar(self, img):
-        # plot colorbar
-        if self.properties['color_bar'] == 'no':
-            pass
-        else:
-            if hasattr(self, 'y_ax') and self.properties['color_bar'] == 'vertical':
-                self._plot_colorbar(img, orientation='vertical')
-            else:
-                self._plot_colorbar(img, orientation='horizontal')
-
-    def plot_joint(self, ax, genome_range1, genome_range2):
-        self.ax = ax
-        gr1 = to_gr(genome_range1)
-        gr2 = to_gr(genome_range2)
-        arr = self.fetch_data(gr1, gr2, resolution=self.resolution)
-        self.matrix = arr
-        cmap = self._get_cmap()
-        img = ax.matshow(arr, cmap=cmap,
-                         extent=(gr1.start, gr1.end, gr2.end, gr2.start),
-                         aspect='auto')
-        c_min, c_max = self.matrix_val_range
-        if self.norm == 'log':
-            img.set_norm(colors.LogNorm(vmin=c_min, vmax=c_max))
-        else:
-            img.set_norm(colors.Normalize(vmin=c_min, vmax=c_max))
-        self._adjust_figure(gr1, gr2)
-        self._draw_cbar(img)
-        self.plot_label()
-
     def get_track_height(self, frame_width):
         """
         calculate track height dynamically.
         """
-        if self.style == STYLE_TRIANGULAR:
+        if self.style == self.STYLE_TRIANGULAR:
             height = frame_width * 0.5
-        elif self.style == STYLE_WINDOW:
+        elif self.style == self.STYLE_WINDOW:
             if 'height' in self.properties and self.properties['height'] != 'hic_auto':
                 height = self.properties['height']
             else:
@@ -342,11 +184,80 @@ class PlotHiCMatrix(abc.ABC):
         else:
             height = frame_width * 0.8
 
-        if 'depth_ratio' in self.properties and self.properties['depth_ratio'] != DEPTH_FULL:
-            if self.properties['style'] != STYLE_MATRIX:
+        if 'depth_ratio' in self.properties and self.properties['depth_ratio'] != self.DEPTH_FULL:
+            if self.properties['style'] != self.STYLE_MATRIX:
                 height = height * self.properties['depth_ratio']
 
         if 'color_bar' in self.properties and self.properties['color_bar'] != 'no':
             height += 1.5
 
         return height
+
+    @property
+    def is_inverted(self):
+        if 'orientation' in self.properties and self.properties['orientation'] == 'inverted':
+            return True
+        else:
+            # default: not inverted
+            return False
+
+    @property
+    def balance(self):
+        if self.properties['balance'] == 'no':
+            return False
+        else:
+            file = self.properties['file']
+            from coolbox.utilities.hic.tools import hicmat_filetype
+            if hicmat_filetype(file) == '.hic':
+                if self.properties['balance'] == 'yes':
+                    return 'KR'  # default use KR balance
+                else:
+                    return self.properties['balance']
+            else:
+                return True
+
+    @property
+    def is_balance(self):
+        return bool(self.balance)
+
+    @property
+    def style(self):
+        if 'style' in self.properties:
+            return self.properties['style']
+        else:
+            # default triangular style
+            return self.STYLE_TRIANGULAR
+
+    @property
+    def matrix_val_range(self):
+        small = 1e-4
+        arr = self.matrix
+        arr_no_nan = arr[np.isfinite(arr)]
+        min_, max_ = 1e-4, 1.0
+
+        try:
+            if self.properties['min_value'] == 'auto':
+                # set minimal value for color bar
+                min_ = arr[arr > arr_no_nan.min()].min()
+            else:
+                min_ = self.properties['min_value']
+
+            if self.properties['max_value'] == 'auto':
+                max_ = arr_no_nan.max()
+            else:
+                max_ = self.properties['max_value']
+            if max_ <= min_:
+                max_ = min_ + small
+        except ValueError as e:
+            log.warning(e)
+            return min_, max_
+
+        return min_, max_
+
+    @property
+    def resolution(self):
+        return self.properties['resolution']
+
+    @property
+    def norm(self):
+        return self.properties['norm']

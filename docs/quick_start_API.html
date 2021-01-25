@@ -114,6 +114,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#Explore-Genomic-Data-with-coolbox.api.Browser">Explore Genomic Data with <code class="docutils literal notranslate"><span class="pre">coolbox.api.Browser</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Fetch-precise-data-use-.fetch_data-API">Fetch precise data use <code class="docutils literal notranslate"><span class="pre">.fetch_data</span></code> API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Taken-together">Taken together</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="quick_start_CLI.html">Quickstart (CLI)</a></li>
@@ -460,7 +461,7 @@ div.rendered_html tbody tr:hover {
 <p>This document is for teach the basic usage of <code class="docutils literal notranslate"><span class="pre">coolbox</span></code> API and explain some basic conceptions. It’s can be a good start point to use CoolBox.</p>
 <p>Interactive online version: <a class="reference external" href="https://mybinder.org/v2/gh/GangCaoLab/CoolBox/HEAD?filepath=docs%2Fsource%2Fquick_start_API.ipynb">Binder</a></p>
 <p>Firstly import all components from <code class="docutils literal notranslate"><span class="pre">coolbox.api</span></code>, and check your CoolBox version.</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -471,14 +472,6 @@ div.rendered_html tbody tr:hover {
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Current working directory: </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">curdir</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Current working directory: /home/nanguage/DATA2/Dropbox/workspace/CoolBox
-</pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -505,7 +498,7 @@ Current working directory: /home/nanguage/DATA2/Dropbox/workspace/CoolBox
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;0.2.5&#39;
+&#39;0.3.0&#39;
 </pre></div></div>
 </div>
 <div class="section" id="Data-preparation">
@@ -518,7 +511,8 @@ Current working directory: /home/nanguage/DATA2/Dropbox/workspace/CoolBox
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">!</span>ls -lh tests/test_data/
+<span></span><span class="o">!</span>pwd
+<span class="o">!</span>ls -lh tests/test_data/
 </pre></div>
 </div>
 </div>
@@ -527,30 +521,41 @@ Current working directory: /home/nanguage/DATA2/Dropbox/workspace/CoolBox
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-total 27M
--rw-rw-r-- 1 nanguage nanguage 787K 10月 27 09:50 bam_chr9_4000000_6000000.bam
--rw-rw-r-- 1 nanguage nanguage 5.8K 11月 13 16:05 bam_chr9_4000000_6000000.bam.bai
--rw-rw-r-- 1 nanguage nanguage 8.6K 10月 27 09:50 bed_chr9_4000000_6000000.bed
--rw-rw-r-- 1 nanguage nanguage 2.2K 11月 13 16:05 bed_chr9_4000000_6000000.bed.bgz
--rw-rw-r-- 1 nanguage nanguage  220 11月 13 16:05 bed_chr9_4000000_6000000.bed.bgz.tbi
--rw-rw-r-- 1 nanguage nanguage  18K 10月 27 20:35 bedgraph_chr9_4000000_6000000.bg
--rw-rw-r-- 1 nanguage nanguage  264 10月 28 10:11 bedpe_chr9_4000000_6000000.bedpe
--rw-rw-r-- 1 nanguage nanguage  147 11月 13 16:05 bedpe_chr9_4000000_6000000.bedpe.bgz
--rw-rw-r-- 1 nanguage nanguage  160 11月 13 16:05 bedpe_chr9_4000000_6000000.bedpe.bgz.px2
--rw-rw-r-- 1 nanguage nanguage  31K 10月 27 09:50 bigwig_chr9_4000000_6000000.bw
--rw-rw-r-- 1 nanguage nanguage  27M 10月 27 09:50 cool_chr9_4000000_6000000.mcool
--rw-rw-r-- 1 nanguage nanguage 535K 10月 27 09:50 gtf_chr9_4000000_6000000.gtf
--rw-rw-r-- 1 nanguage nanguage  29K 11月 13 16:05 gtf_chr9_4000000_6000000.gtf.bgz
--rw-rw-r-- 1 nanguage nanguage  398 11月 13 16:05 gtf_chr9_4000000_6000000.gtf.bgz.tbi
--rw-rw-r-- 1 nanguage nanguage  33K 10月 27 09:50 hg19_ideogram.txt
--rw-rw-r-- 1 nanguage nanguage 2.0K 10月 27 09:50 human.hg19.genome
--rw-rw-r-- 1 nanguage nanguage 2.2K 10月 27 09:50 make_test_dataset.py
--rw-rw-r-- 1 nanguage nanguage  777 10月 29 09:55 pairs_chr9_4000000_6000000.pairs
--rw-rw-r-- 1 nanguage nanguage  298 11月 13 16:05 pairs_chr9_4000000_6000000.pairs.bgz
--rw-rw-r-- 1 nanguage nanguage  258 11月 13 16:05 pairs_chr9_4000000_6000000.pairs.bgz.px2
--rw-rw-r-- 1 nanguage nanguage 765K 11月 10 21:17 snp_chr9_4000000_6000000.snp
--rw-rw-r-- 1 nanguage nanguage  432 11月  4 15:09 tad_chr9_4000000_6000000.bed
-lrwxrwxrwx 1 nanguage nanguage   70 11月  4 14:33 test.hic -&gt; /home/nanguage/DATA1/LD/differentiation/HiC/Ra-MseI-4sample-combin.hic
+/Users/bakezq/Desktop/workspace/CoolBox.nosync
+total 197152
+-rw-r--r--  1 bakezq  staff   787K Dec  6 04:11 bam_chr9_4000000_6000000.bam
+-rw-r--r--  1 bakezq  staff   5.8K Jan 16 09:32 bam_chr9_4000000_6000000.bam.bai
+-rw-r--r--  1 bakezq  staff   8.5K Dec  6 04:11 bed_chr9_4000000_6000000.bed
+-rw-r--r--  1 bakezq  staff   2.2K Jan 16 09:32 bed_chr9_4000000_6000000.bed.bgz
+-rw-r--r--  1 bakezq  staff   220B Jan 16 09:32 bed_chr9_4000000_6000000.bed.bgz.tbi
+-rw-r--r--  1 bakezq  staff    18K Dec  6 04:11 bedgraph_chr9_4000000_6000000.bg
+-rw-r--r--  1 bakezq  staff   264B Dec  6 04:11 bedpe_chr9_4000000_6000000.bedpe
+-rw-r--r--  1 bakezq  staff   147B Jan 16 09:14 bedpe_chr9_4000000_6000000.bedpe.bgz
+-rw-r--r--  1 bakezq  staff   160B Jan 16 09:14 bedpe_chr9_4000000_6000000.bedpe.bgz.px2
+-rw-r--r--  1 bakezq  staff    31K Dec  6 04:11 bigwig_chr9_4000000_6000000.bw
+-rw-r--r--  1 bakezq  staff    23M Jan 15 22:08 cool_chr1_89000000_90400000_for_cmp_1.mcool
+-rw-r--r--  1 bakezq  staff    23M Jan 15 22:08 cool_chr1_89000000_90400000_for_cmp_2.mcool
+-rw-r--r--@ 1 bakezq  staff    26M Dec  6 23:26 cool_chr9_4000000_6000000.mcool
+-rw-r--r--  1 bakezq  staff    13M Jan 16 06:07 dothic_chr9_4000000_6000000.hic
+-rw-r--r--@ 1 bakezq  staff   9.3M Dec 29 19:24 down100.ctcf.pkl
+-rw-r--r--  1 bakezq  staff   535K Dec  6 04:11 gtf_chr9_4000000_6000000.gtf
+-rw-r--r--  1 bakezq  staff    28K Jan 16 09:21 gtf_chr9_4000000_6000000.gtf.bgz
+-rw-r--r--  1 bakezq  staff   398B Jan 16 09:21 gtf_chr9_4000000_6000000.gtf.bgz.tbi
+-rw-r--r--  1 bakezq  staff    32K Dec  6 04:11 hg19_ideogram.txt
+-rw-r--r--  1 bakezq  staff   1.9K Dec  6 04:11 human.hg19.genome
+-rw-r--r--  1 bakezq  staff   2.1K Dec  6 23:26 make_test_dataset.py
+-rw-r--r--  1 bakezq  staff   777B Dec  6 04:11 pairs_chr9_4000000_6000000.pairs
+-rw-r--r--  1 bakezq  staff   298B Jan 16 09:14 pairs_chr9_4000000_6000000.pairs.bgz
+-rw-r--r--  1 bakezq  staff   258B Jan 16 09:14 pairs_chr9_4000000_6000000.pairs.bgz.px2
+-rw-r--r--  1 bakezq  staff   592B Dec  6 04:11 peak_chr9_4000000_6000000.bedpe
+-rw-r--r--  1 bakezq  staff   206B Jan 16 09:22 peak_chr9_4000000_6000000.bedpe.bgz
+-rw-r--r--  1 bakezq  staff   222B Jan 16 09:22 peak_chr9_4000000_6000000.bedpe.bgz.px2
+-rw-r--r--  1 bakezq  staff   765K Dec  6 04:11 snp_chr9_4000000_6000000.snp
+-rw-r--r--  1 bakezq  staff   299K Jan 16 09:25 snp_chr9_4000000_6000000.snp.bgz
+-rw-r--r--  1 bakezq  staff   1.1K Jan 16 09:25 snp_chr9_4000000_6000000.snp.bgz.tbi
+-rw-r--r--  1 bakezq  staff   432B Dec  6 04:11 tad_chr9_4000000_6000000.bed
+-rw-r--r--  1 bakezq  staff   153B Jan 16 09:25 tad_chr9_4000000_6000000.bed.bgz
+-rw-r--r--  1 bakezq  staff   133B Jan 16 09:25 tad_chr9_4000000_6000000.bed.bgz.tbi
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -608,13 +613,29 @@ lrwxrwxrwx 1 nanguage nanguage   70 11月  4 14:33 test.hic -&gt; /home/nanguage
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>XAxis</p></td>
+<tr class="row-even"><td><p>Track</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+<td><p>Base class for all tracks.</p></td>
+</tr>
+<tr class="row-odd"><td><p>XAxis</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
 <td><p>X axis of genome.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Spacer</p></td>
+<tr class="row-even"><td><p>Spacer</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
 <td><p>For add vertical space between two tracks.</p></td>
+</tr>
+<tr class="row-odd"><td><p>BAM</p></td>
+<td><p><a class="reference external" href="https://samtools.github.io/hts-specs/SAMv1.pdf">.bam</a></p></td>
+<td><p>BAM track for visualize the coverage or alignment.</p></td>
+</tr>
+<tr class="row-even"><td><p>GTF</p></td>
+<td><p><a class="reference external" href="https://genome.ucsc.edu/FAQ/FAQformat.html#format4">.gtf</a></p></td>
+<td><p>Track of GTF file, for visualize gene annotation.</p></td>
+</tr>
+<tr class="row-odd"><td><p>HistBase</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+<td><p>Base class for all hist-like tracks.</p></td>
 </tr>
 <tr class="row-even"><td><p>BigWig</p></td>
 <td><p><a class="reference external" href="https://genome.ucsc.edu/goldenPath/help/bigWig.html#:~:text=BigWig%20files%20are%20created%20from,to%20the%20Genome%20Browser%20server.">.bigwig</a></p></td>
@@ -624,45 +645,13 @@ lrwxrwxrwx 1 nanguage nanguage   70 11月  4 14:33 test.hic -&gt; /home/nanguage
 <td><p><a class="reference external" href="https://genome.ucsc.edu/goldenPath/help/bedgraph.html">.bedgraph</a></p></td>
 <td><p>Track of bedgraph file.</p></td>
 </tr>
-<tr class="row-even"><td><p>BAM</p></td>
+<tr class="row-even"><td><p>BAMCov</p></td>
 <td><p><a class="reference external" href="https://samtools.github.io/hts-specs/SAMv1.pdf">.bam</a></p></td>
-<td><p>BAM track for visualize the coverage or alignment.</p></td>
+<td><p>BAM Coverage track for visualize reads coverage.</p></td>
 </tr>
-<tr class="row-odd"><td><p>BED</p></td>
-<td><p><a class="reference external" href="https://genome.ucsc.edu/FAQ/FAQformat.html#format1">.bed</a></p></td>
-<td><p>Track of Bed file, for visualization genome annotation,like refSeq genes and chromatin states.</p></td>
-</tr>
-<tr class="row-even"><td><p>GTF</p></td>
-<td><p><a class="reference external" href="https://genome.ucsc.edu/FAQ/FAQformat.html#format4">.gtf</a></p></td>
-<td><p>Track of GTF file, for visualize gene annotation.</p></td>
-</tr>
-<tr class="row-odd"><td><p>TADs</p></td>
-<td><p>.bed</p></td>
-<td><p>Track for show TAD(topologically associated domains).</p></td>
-</tr>
-<tr class="row-even"><td><p>Arcs</p></td>
-<td><p>.pairs, .bedpe</p></td>
-<td><p>Show the chromosome interactions get from ChIA-PET or Hi-C loop data.</p></td>
-</tr>
-<tr class="row-odd"><td><p>BEDPE</p></td>
-<td><p><a class="reference external" href="https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format">.bedpe</a></p></td>
-<td><p>Same to Arcs, specific to BEDPE file</p></td>
-</tr>
-<tr class="row-even"><td><p>Pairs</p></td>
-<td><p><a class="reference external" href="https://github.com/4dn-dcic/pairix/blob/master/pairs_format_specification.md">.pairs</a></p></td>
-<td><p>Same to Arcs, specific to Pairs file</p></td>
-</tr>
-<tr class="row-odd"><td><p>HiCMat</p></td>
-<td><p>.cool, .mcool, .hic</p></td>
-<td><p>Show the chromosome contact matrix from Hi-C data.</p></td>
-</tr>
-<tr class="row-even"><td><p>Cool</p></td>
-<td><p><a class="reference external" href="https://github.com/mirnylab/cooler">.cool, .mcool</a></p></td>
-<td><p>Same to HiCMat, specific to cooler’s <code class="docutils literal notranslate"><span class="pre">.cool</span></code> or <code class="docutils literal notranslate"><span class="pre">.mcool</span></code> format.</p></td>
-</tr>
-<tr class="row-odd"><td><p>DotHiC</p></td>
-<td><p><a class="reference external" href="https://github.com/aidenlab/juicer/wiki/Data#hic-files">.hic</a></p></td>
-<td><p>Same to HiCMat, specific to juicer <code class="docutils literal notranslate"><span class="pre">.hic</span></code> file format.</p></td>
+<tr class="row-odd"><td><p>SNP</p></td>
+<td><p>.tsv, .vcf</p></td>
+<td><p>Track for show SNPs Manhattan plot. Input file is a tab-split file, contain SNP’s chrom, position, pvalue information.</p></td>
 </tr>
 <tr class="row-even"><td><p>Virtual4C</p></td>
 <td><p>.cool, .mcool, .hic</p></td>
@@ -676,13 +665,61 @@ lrwxrwxrwx 1 nanguage nanguage   70 11月  4 14:33 test.hic -&gt; /home/nanguage
 <td><p>.cool, .mcool, .hic</p></td>
 <td><p>Insulation score of Hi-C matrix for inferring TAD borders.</p></td>
 </tr>
+<tr class="row-odd"><td><p>BedBase</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+<td><p>Base class for all bed-like(1d intervals) tracks.</p></td>
+</tr>
+<tr class="row-even"><td><p>BED</p></td>
+<td><p><a class="reference external" href="https://genome.ucsc.edu/FAQ/FAQformat.html#format1">.bed</a></p></td>
+<td><p>Track of Bed file, for visualization genome annotation,like refSeq genes and chromatin states or TAD intervals.</p></td>
+</tr>
+<tr class="row-odd"><td><p>TADCoverage</p></td>
+<td><p><a class="reference external" href="https://genome.ucsc.edu/FAQ/FAQformat.html#format1">.bed</a></p></td>
+<td><p>Track Coverage for showing TAD(topologically associated domains) upon a HicMat track.</p></td>
+</tr>
+<tr class="row-even"><td><p>ArcsBase</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+<td><p>Nase class for all bedpe-like(2d contacts/regions) tracks.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Arcs</p></td>
+<td><p>.pairs, .bedpe</p></td>
+<td><p>Show the chromosome interactions get from ChIA-PET or Hi-C loop data.</p></td>
+</tr>
+<tr class="row-even"><td><p>BEDPE</p></td>
+<td><p><a class="reference external" href="https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format">.bedpe</a></p></td>
+<td><p>Same to Arcs, specific to BEDPE file</p></td>
+</tr>
+<tr class="row-odd"><td><p>Pairs</p></td>
+<td><p><a class="reference external" href="https://github.com/4dn-dcic/pairix/blob/master/pairs_format_specification.md">.pairs</a></p></td>
+<td><p>Same to Arcs, specific to Pairs file</p></td>
+</tr>
+<tr class="row-even"><td><p>HiCPeaksCoverage</p></td>
+<td><p>.bedpe, .pairs</p></td>
+<td><p>HiCPeaks Coverage track for displaying peaks upon a HicMat track.</p></td>
+</tr>
+<tr class="row-odd"><td><p>HiCMatBase</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+<td><p>Base class for all matrix-like(2d ndarray) tracks.</p></td>
+</tr>
+<tr class="row-even"><td><p>HiCMat</p></td>
+<td><p>.cool, .mcool, .hic</p></td>
+<td><p>Show the chromosome contact matrix from Hi-C data.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Cool</p></td>
+<td><p><a class="reference external" href="https://github.com/mirnylab/cooler">.cool, .mcool</a></p></td>
+<td><p>Same to HiCMat, specific to cooler’s <code class="docutils literal notranslate"><span class="pre">.cool</span></code> or <code class="docutils literal notranslate"><span class="pre">.mcool</span></code> format.</p></td>
+</tr>
+<tr class="row-even"><td><p>DotHiC</p></td>
+<td><p><a class="reference external" href="https://github.com/aidenlab/juicer/wiki/Data#hic-files">.hic</a></p></td>
+<td><p>Same to HiCMat, specific to juicer <code class="docutils literal notranslate"><span class="pre">.hic</span></code> file format.</p></td>
+</tr>
 <tr class="row-odd"><td><p>HiCDiff</p></td>
 <td><p>.cool, .mcool, .hic</p></td>
 <td><p>Show the difference between two contact matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p>SNP</p></td>
-<td><p>.tsv</p></td>
-<td><p>Track for show SNPs Manhattan plot. Input file is a tab-split file, contain SNP’s chrom, position, pvalue information.</p></td>
+<tr class="row-even"><td><p>Selfish</p></td>
+<td><p>.cool, .mcool, .hic</p></td>
+<td><p>Show the difference computed by Selfish algorithm between two contact matrix.</p></td>
 </tr>
 </tbody>
 </table>
@@ -704,12 +741,20 @@ lrwxrwxrwx 1 nanguage nanguage   70 11月  4 14:33 test.hic -&gt; /home/nanguage
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+[WARNING:plot.py:56 -           plot_genes()] *WARNING* Color set to &#39;bed_rgb&#39;, but bed file does not have the rgb field. The color has been set to #1f78b4
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/quick_start_API_14_0.png" src="_images/quick_start_API_14_0.png" />
+<img alt="_images/quick_start_API_14_1.png" src="_images/quick_start_API_14_1.png" />
 </div>
 </div>
 </div>
@@ -889,7 +934,7 @@ lrwxrwxrwx 1 nanguage nanguage   70 11月  4 14:33 test.hic -&gt; /home/nanguage
     <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">+</span> \
     <span class="n">Virtual4C</span><span class="p">(</span><span class="n">cool1</span><span class="p">,</span> <span class="s2">&quot;chr9:4986000-4986000&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Virtual4C&quot;</span><span class="p">)</span> <span class="o">+</span> \
     <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">+</span> \
-    <span class="n">BAM</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/bam_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.bam&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;BAM Coverage&quot;</span><span class="p">)</span> <span class="o">+</span>\
+    <span class="n">BAMCov</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/bam_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.bam&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;BAM Coverage&quot;</span><span class="p">)</span> <span class="o">+</span>\
     <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">+</span> \
     <span class="n">Arcs</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/bedpe_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.bedpe&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Inverted</span><span class="p">()</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Arcs(BEDPE)&quot;</span><span class="p">)</span> <span class="o">+</span> \
     <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span> <span class="o">+</span> \
@@ -1202,7 +1247,7 @@ lrwxrwxrwx 1 nanguage nanguage   70 11月  4 14:33 test.hic -&gt; /home/nanguage
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "457fc19fb05744299bdf713721393ccf", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "5e0b46d1dfe74b049802251254d432c6"}</script></div>
 </div>
 </div>
 <div class="section" id="Fetch-precise-data-use-.fetch_data-API">
@@ -1224,27 +1269,29 @@ lrwxrwxrwx 1 nanguage nanguage   70 11月  4 14:33 test.hic -&gt; /home/nanguage
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-OrderedDict([(&#39;XAxis.21&#39;, &lt;coolbox.core.track.pseudo.XAxis at 0x7f11649dded0&gt;),
+OrderedDict([(&#39;XAxis.21&#39;, &lt;coolbox.core.track.pseudo.XAxis at 0x7fc1191fbaf0&gt;),
              (&#39;Cool.6&#39;,
-              &lt;coolbox.core.track.hicmat.cool.Cool at 0x7f115e736810&gt;),
+              &lt;coolbox.core.track.hicmat.cool.Cool at 0x7fc0ffa16790&gt;),
              (&#39;Spacer.6&#39;,
-              &lt;coolbox.core.track.pseudo.Spacer at 0x7f11678a1c90&gt;),
+              &lt;coolbox.core.track.pseudo.Spacer at 0x7fc0ffa16eb0&gt;),
              (&#39;Virtual4C.2&#39;,
-              &lt;coolbox.core.track.v4c.Virtual4C at 0x7f115e736990&gt;),
+              &lt;coolbox.core.track.hist.hicfeature.Virtual4C at 0x7fc0ffa160a0&gt;),
              (&#39;Spacer.7&#39;,
-              &lt;coolbox.core.track.pseudo.Spacer at 0x7f115e7369d0&gt;),
-             (&#39;BAM.2&#39;, &lt;coolbox.core.track.bam.BAM at 0x7f115e736b10&gt;),
+              &lt;coolbox.core.track.pseudo.Spacer at 0x7fc0ffa163d0&gt;),
+             (&#39;BAM.1&#39;, &lt;coolbox.core.track.bam.BAM at 0x7fc0ffa164c0&gt;),
              (&#39;Spacer.8&#39;,
-              &lt;coolbox.core.track.pseudo.Spacer at 0x7f115e736b50&gt;),
-             (&#39;BEDPE.3&#39;, &lt;coolbox.core.track.arcs.BEDPE at 0x7f115e736910&gt;),
+              &lt;coolbox.core.track.pseudo.Spacer at 0x7fc0ffa16e50&gt;),
+             (&#39;BEDPE.3&#39;,
+              &lt;coolbox.core.track.arcs.bedpe.BEDPE at 0x7fc0ffa162b0&gt;),
              (&#39;Spacer.9&#39;,
-              &lt;coolbox.core.track.pseudo.Spacer at 0x7f115ebabc10&gt;),
-             (&#39;Pairs.3&#39;, &lt;coolbox.core.track.arcs.Pairs at 0x7f115e736c10&gt;),
-             (&#39;GTF.3&#39;, &lt;coolbox.core.track.gtf.GTF at 0x7f115e736cd0&gt;),
+              &lt;coolbox.core.track.pseudo.Spacer at 0x7fc0ffa16070&gt;),
+             (&#39;Pairs.3&#39;,
+              &lt;coolbox.core.track.arcs.pairs.Pairs at 0x7fc0ffa166a0&gt;),
+             (&#39;GTF.3&#39;, &lt;coolbox.core.track.gtf.GTF at 0x7fc0ffa16e80&gt;),
              (&#39;Spacer.10&#39;,
-              &lt;coolbox.core.track.pseudo.Spacer at 0x7f115e7227d0&gt;),
+              &lt;coolbox.core.track.pseudo.Spacer at 0x7fc0ffa16130&gt;),
              (&#39;BigWig.20&#39;,
-              &lt;coolbox.core.track.hist.bigwig.BigWig at 0x7f115e736d10&gt;)])
+              &lt;coolbox.core.track.hist.bigwig.BigWig at 0x7fc0ffa160d0&gt;)])
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -1276,7 +1323,7 @@ OrderedDict([(&#39;XAxis.21&#39;, &lt;coolbox.core.track.pseudo.XAxis at 0x7f116
  &#39;Spacer.6&#39;,
  &#39;Virtual4C.2&#39;,
  &#39;Spacer.7&#39;,
- &#39;BAM.2&#39;,
+ &#39;BAM.1&#39;,
  &#39;Spacer.8&#39;,
  &#39;BEDPE.3&#39;,
  &#39;Spacer.9&#39;,
@@ -1438,6 +1485,62 @@ OrderedDict([(&#39;XAxis.21&#39;, &lt;coolbox.core.track.pseudo.XAxis at 0x7f116
 </div></div>
 </div>
 <p>We can do some statics analyze on it. For example count the distribution of interaction count, etc…</p>
+</div>
+<div class="section" id="Taken-together">
+<h2>Taken together<a class="headerlink" href="#Taken-together" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">DATA_DIR</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;tests/test_data&quot;</span>
+<span class="n">test_interval</span> <span class="o">=</span> <span class="s2">&quot;chr9:4000000-6000000&quot;</span>
+<span class="n">test_itv</span> <span class="o">=</span> <span class="n">test_interval</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span>
+
+<span class="n">cool1</span> <span class="o">=</span> <span class="n">Cool</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/cool_</span><span class="si">{</span><span class="n">test_itv</span><span class="si">}</span><span class="s2">.mcool&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;JuiceBoxLike&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="n">color_bar</span><span class="o">=</span><span class="s1">&#39;vertical&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">TrackHeight</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> \
+        <span class="n">cool1</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Hi-C(.cool)&quot;</span><span class="p">)</span> <span class="o">+</span> \
+        <span class="n">TADCoverage</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/tad_</span><span class="si">{</span><span class="n">test_itv</span><span class="si">}</span><span class="s2">.bed&quot;</span><span class="p">,</span> <span class="n">border_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;HIC with TADs&quot;</span><span class="p">)</span> <span class="o">+</span> \
+        <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span> <span class="o">+</span> \
+        <span class="n">BED</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/tad_</span><span class="si">{</span><span class="n">test_itv</span><span class="si">}</span><span class="s2">.bed&quot;</span><span class="p">,</span> <span class="n">border_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;TADs&quot;</span><span class="p">)</span> <span class="o">+</span> \
+        <span class="n">DiScore</span><span class="p">(</span><span class="n">cool1</span><span class="p">,</span> <span class="n">window_size</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span> <span class="o">+</span> <span class="n">Feature</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Directionality index&quot;</span><span class="p">)</span> <span class="o">+</span> \
+        <span class="n">InsuScore</span><span class="p">(</span><span class="n">cool1</span><span class="p">,</span> <span class="n">window_size</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Insulation score&quot;</span><span class="p">)</span> <span class="o">+</span> \
+        <span class="n">Virtual4C</span><span class="p">(</span><span class="n">cool1</span><span class="p">,</span> <span class="s2">&quot;chr9:4986000-4986000&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Virtual4C&quot;</span><span class="p">)</span> <span class="o">+</span> \
+        <span class="n">BAMCov</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/bam_</span><span class="si">{</span><span class="n">test_itv</span><span class="si">}</span><span class="s2">.bam&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;BAM Coverage&quot;</span><span class="p">)</span> <span class="o">+</span>\
+        <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span> <span class="o">+</span> \
+        <span class="n">Arcs</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/bedpe_</span><span class="si">{</span><span class="n">test_itv</span><span class="si">}</span><span class="s2">.bedpe&quot;</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Arcs(BEDPE)&quot;</span><span class="p">)</span> <span class="o">+</span> \
+        <span class="n">Arcs</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/pairs_</span><span class="si">{</span><span class="n">test_itv</span><span class="si">}</span><span class="s2">.pairs&quot;</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span> <span class="o">+</span> <span class="n">Inverted</span><span class="p">()</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Arcs(Pairs)&quot;</span><span class="p">)</span> <span class="o">+</span> \
+        <span class="n">GTF</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/gtf_</span><span class="si">{</span><span class="n">test_itv</span><span class="si">}</span><span class="s2">.gtf&quot;</span><span class="p">,</span> <span class="n">length_ratio_thresh</span><span class="o">=</span><span class="mf">0.005</span><span class="p">)</span> <span class="o">+</span> <span class="n">TrackHeight</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;GTF Annotation&quot;</span><span class="p">)</span> <span class="o">+</span> \
+        <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span> <span class="o">+</span> \
+        <span class="n">BigWig</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/bigwig_</span><span class="si">{</span><span class="n">test_itv</span><span class="si">}</span><span class="s2">.bw&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;BigWig&quot;</span><span class="p">)</span> <span class="o">+</span> \
+        <span class="n">BedGraph</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/bedgraph_</span><span class="si">{</span><span class="n">test_itv</span><span class="si">}</span><span class="s2">.bg&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;BedGraph&quot;</span><span class="p">)</span> <span class="o">+</span> \
+        <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span> <span class="o">+</span> \
+        <span class="n">BED</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/bed_</span><span class="si">{</span><span class="n">test_itv</span><span class="si">}</span><span class="s2">.bed&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Feature</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;BED Annotation&quot;</span><span class="p">)</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">45</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">goto</span><span class="p">(</span><span class="n">test_interval</span><span class="p">)</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+[WARNING:plot.py:56 -           plot_genes()] *WARNING* Color set to &#39;bed_rgb&#39;, but bed file does not have the rgb field. The color has been set to #1f78b4
+[WARNING:plot.py:56 -           plot_genes()] *WARNING* Color set to &#39;bed_rgb&#39;, but bed file does not have the rgb field. The color has been set to #1f78b4
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/quick_start_API_68_1.png" src="_images/quick_start_API_68_1.png" />
+</div>
+</div>
 </div>
 </div>
 

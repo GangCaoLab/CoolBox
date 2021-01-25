@@ -22,9 +22,9 @@ class SuperFrame(FrameBase, abc.ABC):
         """Plot each frame by a given GenomeRange object."""
         res = OrderedDict()
         for k, f in self.properties['sub_frames'].items():
-            gr = frame2grange[k]
+            gr, gr2 = frame2grange[k]
             path = get_uniq_tmp_file(prefix="frame_", suffix=".svg")
-            fig = f.plot(gr)
+            fig = f.plot(gr, gr2)
             fig.subplots_adjust(wspace=0, hspace=0.0, left=0, right=1, bottom=0, top=1)
             fig.savefig(path)
             svg = sc.SVG(path)

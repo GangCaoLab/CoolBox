@@ -409,6 +409,28 @@ def build_bed_index(file):
     return bgz_file
 
 
+def build_snp_index(file, col_chrom, col_pos):
+    c = col_chrom + 1
+    p = col_pos + 1
+    if file.endswith(".bgz"):
+        bgz_file = file
+    elif osp.exists(file + '.bgz'):
+        bgz_file = file + '.bgz'
+    else:
+        bgz_file = file + '.bgz'
+        if file.endswith('.gz'):
+            cmd = "zcat"
+        else:
+            cmd = "cat"
+        cmd += f" {file} | sort -k{c},{c} -k{p},{p}n | bgzip > {bgz_file}"
+        subp.check_call(cmd, shell=True)
+    index_file = bgz_file + '.tbi'
+    if not osp.exists(index_file):
+        cmd = ['tabix', '-s', str(c), '-b', str(p), '-e', str(p), bgz_file]
+        subp.check_call(cmd)
+    return bgz_file
+
+
 def bgz_bedpe(bedpe_path, bgz_path):
     if not osp.exists(bgz_path):
         cmd = f"sort -k1,1 -k4,4 -k2,2n -k5,5n {bedpe_path} | bgzip > {bgz_path}"
@@ -422,8 +444,8 @@ def index_bedpe(bgz_path):
 
 def pairix_query(bgz_file, query, second=None, split=True):
     if second:
-        query = query + "-" + second
-    cmd = ['pairix', bgz_file, query]
+        query = f"{query}-{second}"
+    cmd = ['pairix', str(bgz_file), str(query)]
     p = subp.Popen(cmd, stdout=subp.PIPE)
     for line in p.stdout:
         line = line.decode('utf-8')

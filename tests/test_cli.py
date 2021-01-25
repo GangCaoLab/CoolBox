@@ -53,3 +53,15 @@ def test_cli_gen_notebook():
     ]
     subp.check_call(cmd)
 
+
+def test_cli_import_custom():
+    custom_path = osp.join(HERE, "custom_track.py")
+    cmd = [
+        "python", "-m", "coolbox.cli",
+        "load_module", custom_path, "-",
+        "add", "XAxis", "-",
+        "add", "CustomTrack", "-",
+        "goto", test_interval, "-",
+        "plot", "/tmp/test_coolbox_custom.pdf"
+    ]
+    subp.check_call(cmd)

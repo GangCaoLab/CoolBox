@@ -1,12 +1,18 @@
 from copy import copy
 
 from coolbox.utilities import (
-    op_err_msg, get_feature_stack, get_coverage_stack,
-    split_genome_range, bool2str
+    op_err_msg, get_feature_stack,
+    get_coverage_stack, format_properties,
+    get_logger
 )
+from coolbox.utilities.genome import GenomeRange
+from coolbox.utilities.doctool import NumpyDocInheritor
 
 
-class Track(object):
+log = get_logger(__name__)
+
+
+class Track(object, metaclass=NumpyDocInheritor):
     """
     Track base class.
 
@@ -19,6 +25,14 @@ class Track(object):
         The name of Track.
         (Default: "{self.__class__.__name__}.{self.__class__._counts}")
 
+    title : str, optional
+        Title of ax
+
+    height : int, optional
+        Height of ax
+
+    color : str, optional;
+        Color of ax
 
     Attributes
     ----------
@@ -32,32 +46,45 @@ class Track(object):
         Coverages on this Track.
     """
 
-    DEFAULT_HEIGHT = 3
-    DEFAULT_COLOR = "#808080"
+    DEFAULT_PROPERTIES = {
+        'height': 2,
+        "color": "#808080",
+        "name": "",
+        "title": "",
+    }
+
+    counts = 0
+    tracks = {}
 
     def __new__(cls, *args, **kwargs):
-        if hasattr(cls, "_counts"):
-            cls._counts += 1
-        else:
-            cls._counts = 1
+        cls.counts += 1
+        # An environment to record all exist tracks
         return super().__new__(cls)
 
-    def __init__(self, properties_dict):
-        self.properties = properties_dict
-        self.properties = bool2str(self.properties)
+    def __init__(self, properties_dict={}, **kwargs):
+        # TODO replace properties_dict with **kwargs ? Then the initialization in all classes are unified
+        properties = Track.DEFAULT_PROPERTIES.copy()
+        properties.update(properties_dict)
+        properties.update(kwargs)
+        self.properties = format_properties(properties)
+
         name = self.properties.get('name')
-        if name is not None:
+        if name:
             assert isinstance(name, str), "Track name must be a `str`."
         else:
-            name = self.__class__.__name__ + ".{}".format(self.__class__._counts)
+            name = self.__class__.__name__ + ".{}".format(self.__class__.counts)
+        Track.tracks[name] = self
         self.properties['name'] = name
-        super().__init__()
+        self.name = name
+
+        # disable call mixin class
+        # super().__init__()
         self.coverages = []
 
         # load features from global feature stack
         features_stack = get_feature_stack()
         for features in features_stack:
-            self.properties[features.key] = features.value
+            self.properties.update(features.properties)
 
         # load coverages from global coverages stack
         coverage_stack = get_coverage_stack()
@@ -65,6 +92,62 @@ class Track(object):
             self.coverages.append(coverage)
 
         self.ax = None
+
+    def __del__(self):
+        name = self.properties['name']
+        if name in Track.tracks:
+            del Track.tracks[name]
+
+    def fetch_data(self, gr: GenomeRange, **kwargs):
+        """
+        Fetch the raw data for the given GenomeRange.
+
+        Parameters
+        ----------
+        gr: GenomeRange
+        kwargs: dict
+            Other optional parameters including `gr2`, `resolution` for some tracks.
+
+        Returns
+        -------
+
+        """
+        raise NotImplementedError
+
+    def fetch_plot_data(self, gr: GenomeRange, **kwargs):
+        """
+        Fetch the plot data for the given GenomeRange.
+        The returned data would be used in `plot` function, the default implementation directly return `fetch_data`.
+
+        Parameters
+        ----------
+        gr: GenomeRange
+            GenomeRange is an object with properties of [chrom, start, end].
+
+        kwargs: dict
+            Other optional parameters including `gr2`, `resolution` for some tracks.
+
+        Returns
+        -------
+
+        """
+        return self.fetch_data(gr, **kwargs)
+
+    def plot(self, ax, gr: GenomeRange, **kwargs):
+        """
+        Plot figure based on data returned by `fetch_plot_data`.
+
+        Parameters
+        ----------
+        gr: GenomeRange
+        kwargs: dict
+            Other optional parameters including `gr2`, `resolution` for some tracks.
+
+        Returns
+        -------
+
+        """
+        raise NotImplementedError
 
     @property
     def name(self):
@@ -153,67 +236,36 @@ class Track(object):
     def has_prop(self, p):
         return (p in self.properties) and (self.properties[p] is not None)
 
-    def plot_genome_range(self, ax, genome_range):
-        """
-        Plot the track within a genome range.
-
-        Parameters
-        ----------
-        ax: matplotlib.axes.Axes
-            Axis to use to plot the scale.
-
-        genome_range : {str, GenomeRange}
-            Genome range to plot.
-        """
-        chrom, start, end = split_genome_range(genome_range)
-        self.plot(ax, chrom, start, end)
-
-    def plot_y_axis(self, plot_axis, y_ax):
-        """
-        Plot the scale of the y axis with respect to the plot_axis
-
-        plot something that looks like this:
-        ymax ┐
-             │
-             │
-        ymin ┘
-
-        Parameters
-        ----------
-        plot_axis : matplotlib.axes.Axes
-            Main plot axis.
-
-        y_ax : matplotlib.axes.Axes
-            Axis to use to plot the scale
-        """
-
-        if 'show_data_range' in self.properties and self.properties['show_data_range'] == 'no':
-            return
-
-        def value_to_str(value):
-            if value % 1 == 0:
-                str_value = str(int(value))
-            else:
-                if value < 0.01:
-                    str_value = "{:.4f}".format(value)
-                else:
-                    str_value = "{:.2f}".format(value)
-            return str_value
-
-        ymin, ymax = plot_axis.get_ylim()
-
-        ymax_str = value_to_str(ymax)
-        ymin_str = value_to_str(ymin)
-        x_pos = [0, 0.5, 0.5, 0]
-        y_pos = [0.01, 0.01, 0.99, 0.99]
-        y_ax.plot(x_pos, y_pos, color='black', linewidth=1, transform=y_ax.transAxes)
-        y_ax.text(-0.2, -0.01, ymin_str, verticalalignment='bottom', horizontalalignment='right',
-                  transform=y_ax.transAxes)
-        y_ax.text(-0.2, 1, ymax_str, verticalalignment='top', horizontalalignment='right', transform=y_ax.transAxes)
-        y_ax.patch.set_visible(False)
-
     def plot_label(self):
         if hasattr(self, 'label_ax') and self.label_ax is not None:
             self.label_ax.text(0.15, 0.5, self.properties['title'],
                                horizontalalignment='left', size='large',
                                verticalalignment='center')
+
+    def plot_coverages(self, ax, gr: GenomeRange, gr2: GenomeRange):
+        """
+        Plot all coverages on given axes.
+
+        Parameters
+        ----------
+        gr : GenomeRange
+            First genome range.
+
+        gr2 : GenomeRange
+            Second genome range.
+        """
+        if not hasattr(self, 'coverages'):
+            return
+        for cov_idx, cov in enumerate(self.coverages):
+            cov.track = self
+            if hasattr(cov, 'track_instance'):
+                cov.track_instance.track = self
+            try:
+                cov.plot(ax, copy(gr), gr2=copy(gr2))
+            except Exception as e:
+                log.error("Error occured when plot track's coverage:\n"
+                          "\ttrack name: {}\n\ttrack type:{}\n\tcoverage name: {}\n\tcov type: {}\n"
+                          "\tError: {} {}".format(
+                            self.name, type(self), cov.name, type(cov),
+                            type(e), str(e)))
+                log.exception(e)

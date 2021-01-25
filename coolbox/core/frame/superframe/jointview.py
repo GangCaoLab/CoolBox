@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 
 from coolbox.utilities.figtools import cm2inch
 from coolbox.utilities.filetool import get_uniq_tmp_file
+from coolbox.utilities import GenomeRange
 from .base import SuperFrame
 
 
@@ -96,11 +97,12 @@ class JointView(SuperFrame):
             new_width = self.properties['center_width'] / middle_ratio
             f.properties['width'] = new_width
 
-    def plot_center(self, genome_range1, genome_range2):
+    def plot_center(self, gr1: GenomeRange, gr2: GenomeRange):
         center_track = self.properties['center_track']
         size = cm2inch(self.properties['center_width'])
         fig, ax = plt.subplots(figsize=(size, size))
-        center_track.plot_joint(ax, genome_range1, genome_range2)
+        center_track.plot(ax, gr1, gr2=gr2)
+        center_track.plot_coverages(ax, gr1, gr2)
         ax.set_axis_off()
         path = get_uniq_tmp_file(prefix='center', suffix='.svg')
         fig.subplots_adjust(wspace=0, hspace=0.0, left=0, right=1, bottom=0, top=1)
@@ -108,41 +110,46 @@ class JointView(SuperFrame):
         plt.close()
         return sc.SVG(path)
 
-    def goto(self, genome_range1=None, genome_range2=None):
-        if genome_range1 is None:
-            genome_range1 = self.current_range[0]
-        if genome_range2 is None:
-            genome_range2 = genome_range1
+    def goto(self, gr1=None, gr2=None):
+        if gr1 is not None:
+            gr1 = GenomeRange(gr1)
+        if gr2 is not None:
+            gr2 = GenomeRange(gr2)
+        if gr1 is None:
+            gr1 = self.current_range[0]
+        if gr2 is None:
+            gr2 = gr1
 
-        if genome_range1 is None or genome_range2 is None:
-            raise ValueError("No history genome_range found.")
-        self.current_range = [genome_range1, genome_range2]
+        if gr1 is None or gr2 is None:
+            raise ValueError("No history gr found.")
+        self.current_range = [gr1, gr2]
 
-    def frame_granges(self, genome_range1=None, genome_range2=None):
-        self.goto(genome_range1, genome_range2)
+    def frame_granges(self, gr1=None, gr2=None):
+        self.goto(gr1, gr2)
+        gr1, gr2 = self.current_range
 
         trbl = self.properties['trbl']
 
         orientations = ['top', 'right', 'bottom', 'left']
         frame2grange = {
-            k: (genome_range1 if (trbl[orientations.index(k)] == '1') else genome_range2)
+            k: (gr1, gr2) if (trbl[orientations.index(k)] == '1') else (gr2, gr1)
             for k in orientations
         }
 
         return frame2grange
 
-    def plot(self, genome_range1=None, genome_range2=None):
+    def plot(self, gr1=None, gr2=None):
         """
 
         Parameters
         ----------
-        genome_range1 : {str, GenomeRange}
+        gr1 : {str, GenomeRange}
             First genome range
 
-        genome_range2 : {str, GenomeRange}, optional
+        gr2 : {str, GenomeRange}, optional
             Second genome range
         """
-        frame2grange = self.frame_granges(genome_range1, genome_range2)
+        frame2grange = self.frame_granges(gr1, gr2)
         gr1, gr2 = self.current_range
         sub_frames = self.properties['sub_frames']
 
@@ -160,26 +167,26 @@ class JointView(SuperFrame):
                         *[sc.Panel(svg) for svg in frame_svgs.values()])
         return fig
 
-    def fetch_data(self, genome_range1=None, genome_range2=None) -> dict:
+    def fetch_data(self, gr1=None, gr2=None) -> dict:
         """
 
         Parameters
         ----------
-        genome_range1 : {str, GenomeRange}, optional
+        gr1 : {str, GenomeRange}, optional
             First genome range
 
-        genome_range2 : {str, GenomeRange}, optional
+        gr2 : {str, GenomeRange}, optional
             Second genome range
         """
         tracks_data = {}
-        frame2grange = self.frame_granges(genome_range1, genome_range2)
+        frame2grange = self.frame_granges(gr1, gr2)
         gr1, gr2 = self.current_range
         sub_frames = self.properties['sub_frames']
 
         for pos, fr in sub_frames.items():
-            tracks_data[pos] = sub_frames[pos].fetch_data(frame2grange[pos])
+            tracks_data[pos] = sub_frames[pos].fetch_data(frame2grange[pos][0], gr2=frame2grange[pos][1])
 
-        tracks_data['center'] = self.properties['center_track'].fetch_data(gr1, gr2)
+        tracks_data['center'] = self.properties['center_track'].fetch_data(gr1, gr2=gr2)
 
         return tracks_data
 

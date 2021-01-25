@@ -99,8 +99,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#Custom-Feature">Custom Feature</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Peakachu">Peakachu</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Define-custom-track">Define custom track</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Visualize-Track">Visualize Track</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Call-loop">Call loop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Visualize-Track">Visualize Track</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#CLI-Mode">CLI Mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Browser-Mode">Browser Mode</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -467,7 +470,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;0.2.6&#39;
+&#39;0.3.0&#39;
 </pre></div></div>
 </div>
 <div class="section" id="Custom-Track">
@@ -486,16 +489,15 @@ div.rendered_html tbody tr:hover {
         <span class="c1"># Initialization</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">genome_range</span><span class="p">,</span> <span class="o">*</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="c1"># Method for plot the track</span>
-        <span class="c1"># within the genome range &quot;chrom:start-end&quot;.</span>
+        <span class="c1"># within the genome range &quot;chrom:start-end&quot;. `genome_range` is a `GenomeRange` object with properties: chrom, start, end</span>
         <span class="c1"># Draw in the pass-in `ax` Axes</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span> <span class="nf">fetch_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">genome_range</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">fetch_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">genome_range</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="c1"># Method for fetch the data within genome_range</span>
-        <span class="c1"># genome_range is a string like: &quot;chr9:4000000-6000000&quot;</span>
-        <span class="c1"># or a `coolbox.utilities.GenomeRange` object</span>
+        <span class="c1"># genome_range is a `coolbox.utilities.GenomeRange` object</span>
         <span class="k">pass</span>
 </pre></div>
 </div>
@@ -519,13 +521,13 @@ div.rendered_html tbody tr:hover {
             <span class="s2">&quot;offset&quot;</span><span class="p">:</span> <span class="n">offset</span><span class="p">,</span>
         <span class="p">})</span>  <span class="c1"># init Track class</span>
 
-    <span class="k">def</span> <span class="nf">fetch_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">genome_range</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">to_gr</span><span class="p">(</span><span class="n">genome_range</span><span class="p">)</span><span class="o">.</span><span class="n">chrom</span>  <span class="c1"># return chromosome name</span>
+    <span class="k">def</span> <span class="nf">fetch_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gr</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">gr</span><span class="o">.</span><span class="n">chrom</span>  <span class="c1"># return chromosome name</span>
 
-    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;offset&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;fontsize&#39;</span><span class="p">])</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">gr</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">gr</span><span class="o">.</span><span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;offset&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">gr</span><span class="o">.</span><span class="n">end</span> <span class="o">-</span> <span class="n">gr</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">gr</span><span class="o">.</span><span class="n">chrom</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;fontsize&#39;</span><span class="p">])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">gr</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">gr</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -574,8 +576,8 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Bulbasaur.png  Pikachu.png    Squirtle.png
-Charmander.png PokeBall.png   list.txt
+Bulbasaur.png   list.txt     PokeBall.png
+Charmander.png  Pikachu.png  Squirtle.png
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -599,7 +601,7 @@ Charmander.png PokeBall.png   list.txt
         <span class="bp">self</span><span class="o">.</span><span class="n">img_dir</span> <span class="o">=</span> <span class="n">img_dir</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">({})</span>  <span class="c1"># init Track class</span>
 
-    <span class="k">def</span> <span class="nf">fetch_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">genome_range</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">fetch_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">genome_range</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">gr</span> <span class="o">=</span> <span class="n">to_gr</span><span class="p">(</span><span class="n">genome_range</span><span class="p">)</span> <span class="c1"># force convert to GenomeRange object</span>
         <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
         <span class="n">sub_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span>
@@ -607,8 +609,8 @@ Charmander.png PokeBall.png   list.txt
         <span class="p">]</span>
         <span class="k">return</span> <span class="n">sub_df</span>
 
-    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_data</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">chrom</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">start</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">end</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># get data in range</span>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">gr</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_data</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">gr</span><span class="o">.</span><span class="n">chrom</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">gr</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">gr</span><span class="o">.</span><span class="n">end</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># get data in range</span>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
             <span class="n">img_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">img_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;pokemon&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="c1"># get image path</span>
             <span class="n">im</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">img_path</span><span class="p">)</span>
@@ -617,7 +619,7 @@ Charmander.png PokeBall.png   list.txt
             <span class="n">py</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">box</span> <span class="o">=</span> <span class="n">AnnotationBbox</span><span class="p">(</span><span class="n">oi</span><span class="p">,</span> <span class="p">(</span><span class="n">px</span><span class="p">,</span> <span class="n">py</span><span class="p">),</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">box</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">gr</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">gr</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -734,18 +736,19 @@ Charmander.png PokeBall.png   list.txt
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">coolbox.core.coverage.base</span> <span class="kn">import</span> <span class="n">Coverage</span>
+<span class="kn">from</span> <span class="nn">coolbox.utilities</span> <span class="kn">import</span> <span class="n">GenomeRange</span>
 
 <span class="n">pokeball_path</span> <span class="o">=</span> <span class="s2">&quot;./_static/pokemons/PokeBall.png&quot;</span>
 
 <span class="k">class</span> <span class="nc">PokeBall</span><span class="p">(</span><span class="n">Coverage</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">genome_range</span><span class="p">,</span> <span class="n">img_path</span><span class="o">=</span><span class="n">pokeball_path</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">({</span>
-            <span class="s2">&quot;genome_range&quot;</span><span class="p">:</span> <span class="n">to_gr</span><span class="p">(</span><span class="n">genome_range</span><span class="p">),</span>
+            <span class="s2">&quot;genome_range&quot;</span><span class="p">:</span> <span class="n">GenomeRange</span><span class="p">(</span><span class="n">genome_range</span><span class="p">),</span>
             <span class="s2">&quot;img_path&quot;</span><span class="p">:</span> <span class="n">img_path</span><span class="p">,</span>
             <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="n">alpha</span><span class="p">,</span>
         <span class="p">})</span>
 
-    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">gr</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">gr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;genome_range&#39;</span><span class="p">]</span>
         <span class="n">img_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;img_path&#39;</span><span class="p">]</span>
         <span class="n">alpha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span>
@@ -802,7 +805,7 @@ Charmander.png PokeBall.png   list.txt
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;__main__.Pokemon at 0x7ff3298de2e0&gt;
+&lt;__main__.Pokemon at 0x7fd6bc231ed0&gt;
 </pre></div></div>
 </div>
 <p>Maybe you found that track defination is almost same to Track. Actually you can create a Coverage directly from Track class, by using <code class="docutils literal notranslate"><span class="pre">track_to_coverage</span></code> function, for example, we convert our <code class="docutils literal notranslate"><span class="pre">ChromName</span></code> Track to Coverage:</p>
@@ -872,7 +875,7 @@ Charmander.png PokeBall.png   list.txt
 
 <span class="k">class</span> <span class="nc">MyColor</span><span class="p">(</span><span class="n">Feature</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -911,18 +914,25 @@ Charmander.png PokeBall.png   list.txt
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;max_value&#39;: &#39;auto&#39;,
- &#39;min_value&#39;: &#39;auto&#39;,
- &#39;show_data_range&#39;: &#39;yes&#39;,
- &#39;data_range_style&#39;: &#39;y-axis&#39;,
- &#39;style&#39;: &#39;fill&#39;,
- &#39;title&#39;: &#39;&#39;,
- &#39;file&#39;: &#39;../../tests/test_data/bigwig_chr9_4000000_6000000.bw&#39;,
+{&#39;height&#39;: 2,
  &#39;color&#39;: &#39;#0c0cff&#39;,
+ &#39;name&#39;: &#39;BigWig.2&#39;,
+ &#39;title&#39;: &#39;&#39;,
+ &#39;style&#39;: &#39;fill&#39;,
+ &#39;fmt&#39;: &#39;-&#39;,
+ &#39;line_width&#39;: 2.0,
+ &#39;size&#39;: 10,
+ &#39;threshold_color&#39;: &#39;#ff9c9c&#39;,
+ &#39;threshold&#39;: inf,
+ &#39;cmap&#39;: &#39;bwr&#39;,
  &#39;alpha&#39;: 1.0,
- &#39;number_of_bins&#39;: 700,
- &#39;type&#39;: &#39;fill&#39;,
- &#39;name&#39;: &#39;BigWig.2&#39;}
+ &#39;orientation&#39;: None,
+ &#39;data_range_style&#39;: &#39;y-axis&#39;,
+ &#39;min_value&#39;: &#39;auto&#39;,
+ &#39;max_value&#39;: &#39;auto&#39;,
+ &#39;type&#39;: &#39;line&#39;,
+ &#39;num_bins&#39;: 700,
+ &#39;file&#39;: &#39;../../tests/test_data/bigwig_chr9_4000000_6000000.bw&#39;}
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -964,7 +974,6 @@ Charmander.png PokeBall.png   list.txt
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="o">!</span>pip install Scikit-learn<span class="o">==</span><span class="m">0</span>.22 <span class="nv">joblib</span><span class="o">==</span><span class="m">0</span>.14
 <span class="o">!</span>pip install peakachu
-
 </pre></div>
 </div>
 </div>
@@ -973,15 +982,11 @@ Charmander.png PokeBall.png   list.txt
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Requirement already satisfied: Scikit-learn==0.22 in /Users/bakezq/opt/miniconda3/lib/python3.8/site-packages (0.22)
-Requirement already satisfied: joblib==0.14 in /Users/bakezq/opt/miniconda3/lib/python3.8/site-packages (0.14.0)
-Requirement already satisfied: scipy&gt;=0.17.0 in /Users/bakezq/opt/miniconda3/lib/python3.8/site-packages (from Scikit-learn==0.22) (1.5.4)
-Requirement already satisfied: numpy&gt;=1.11.0 in /Users/bakezq/opt/miniconda3/lib/python3.8/site-packages (from Scikit-learn==0.22) (1.19.4)
-<span class="ansi-yellow-fg">WARNING: You are using pip version 20.3.2; however, version 20.3.3 is available.
-You should consider upgrading via the &#39;/Users/bakezq/opt/miniconda3/bin/python -m pip install --upgrade pip&#39; command.</span>
-Requirement already satisfied: peakachu in /Users/bakezq/opt/miniconda3/lib/python3.8/site-packages (1.1.3)
-<span class="ansi-yellow-fg">WARNING: You are using pip version 20.3.2; however, version 20.3.3 is available.
-You should consider upgrading via the &#39;/Users/bakezq/opt/miniconda3/bin/python -m pip install --upgrade pip&#39; command.</span>
+Requirement already satisfied: Scikit-learn==0.22 in /home/nanguage/S/miniconda3/envs/coolbox/lib/python3.7/site-packages (0.22)
+Requirement already satisfied: joblib==0.14 in /home/nanguage/S/miniconda3/envs/coolbox/lib/python3.7/site-packages (0.14.0)
+Requirement already satisfied: scipy&gt;=0.17.0 in /home/nanguage/S/miniconda3/envs/coolbox/lib/python3.7/site-packages (from Scikit-learn==0.22) (1.5.2)
+Requirement already satisfied: numpy&gt;=1.11.0 in /home/nanguage/S/miniconda3/envs/coolbox/lib/python3.7/site-packages (from Scikit-learn==0.22) (1.19.1)
+Requirement already satisfied: peakachu in /home/nanguage/S/miniconda3/envs/coolbox/lib/python3.7/site-packages (1.1.3)
 </pre></div></div>
 </div>
 <div class="section" id="Define-custom-track">
@@ -992,10 +997,13 @@ You should consider upgrading via the &#39;/Users/bakezq/opt/miniconda3/bin/pyth
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">joblib</span>
-<span class="kn">import</span> <span class="nn">coolbox</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">coo_matrix</span>
+<span class="kn">from</span> <span class="nn">peakachu.scoreUtils</span> <span class="kn">import</span> <span class="n">Chromosome</span>
+<span class="kn">from</span> <span class="nn">peakachu</span> <span class="kn">import</span> <span class="n">peakacluster</span>
 <span class="kn">from</span> <span class="nn">coolbox.api</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">coolbox.core.track.hicmat</span> <span class="kn">import</span> <span class="n">Cool</span>
-
+<span class="kn">from</span> <span class="nn">coolbox.utilities</span> <span class="kn">import</span> <span class="n">GenomeRange</span><span class="p">,</span> <span class="n">correspond_track</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;../../tests/test_data/down100.ctcf.pkl&#39;</span><span class="p">)</span>
 
@@ -1004,15 +1012,30 @@ You should consider upgrading via the &#39;/Users/bakezq/opt/miniconda3/bin/pyth
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">fetch_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">genome_range1</span><span class="p">,</span> <span class="n">genome_range2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">coo_matrix</span>
-        <span class="kn">from</span> <span class="nn">peakachu.scoreUtils</span> <span class="kn">import</span> <span class="n">Chromosome</span>
-        <span class="n">matrix</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fetch_data</span><span class="p">(</span><span class="n">genome_range1</span><span class="p">,</span> <span class="n">genome_range2</span><span class="p">,</span> <span class="n">resolution</span><span class="p">)</span>
-        <span class="n">ch</span> <span class="o">=</span> <span class="n">Chromosome</span><span class="p">(</span><span class="n">coo_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">),</span> <span class="n">model</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">fetch_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">genome_range1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">matrix</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fetch_data</span><span class="p">(</span><span class="n">genome_range1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="c1"># reuse Cool.fetch_data to get the raw contacts</span>
+        <span class="n">ch</span> <span class="o">=</span> <span class="n">Chromosome</span><span class="p">(</span><span class="n">coo_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">),</span> <span class="n">model</span><span class="p">)</span> <span class="c1"># call peakachu</span>
         <span class="n">pval_ma</span><span class="p">,</span> <span class="n">raw_ma</span> <span class="o">=</span> <span class="n">ch</span><span class="o">.</span><span class="n">score</span><span class="p">()</span>
-        <span class="n">pval_ma</span> <span class="o">+=</span> <span class="n">pval_ma</span><span class="o">.</span><span class="n">T</span>
-        <span class="k">return</span> <span class="n">pval_ma</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pval_ma</span> <span class="o">=</span> <span class="n">pval_ma</span><span class="o">.</span><span class="n">tocoo</span><span class="p">()</span>
+        <span class="c1"># should return a np.ndarray representing matrix</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">pval_ma</span> <span class="o">+</span> <span class="n">pval_ma</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
 
+<span class="nd">@track_to_coverage</span>
+<span class="k">class</span> <span class="nc">PeakaChuLoops</span><span class="p">(</span><span class="n">ArcsBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">peakachu</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;hicpeaks&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">peakachu</span> <span class="o">=</span> <span class="n">correspond_track</span><span class="p">(</span><span class="n">peakachu</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">peakachu</span> <span class="o">=</span> <span class="n">peakachu</span>
+
+    <span class="k">def</span> <span class="nf">fetch_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gr</span><span class="p">:</span> <span class="n">GenomeRange</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">ma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">peakachu</span><span class="o">.</span><span class="n">pval_ma</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">ma</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;</span> <span class="mf">0.87</span> <span class="c1"># threshold to filter pvals</span>
+        <span class="n">pixels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">ma</span><span class="o">.</span><span class="n">row</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">ma</span><span class="o">.</span><span class="n">col</span><span class="p">[</span><span class="n">mask</span><span class="p">]),</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">ma</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]))</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># call peakachu</span>
+                <span class="k">for</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="o">*</span><span class="n">_</span> <span class="ow">in</span> <span class="n">peakacluster</span><span class="o">.</span><span class="n">local_clustering</span><span class="p">(</span><span class="n">pixels</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mi">10000</span><span class="p">)]</span>
+        <span class="c1"># should return a pd.DataFrame with columns [&#39;start1&#39;, &#39;end1&#39;, &#39;start2&#39;, &#39;end2&#39;]</span>
+        <span class="n">peaks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;start1&#39;</span><span class="p">,</span> <span class="s1">&#39;end1&#39;</span><span class="p">,</span> <span class="s1">&#39;start2&#39;</span><span class="p">,</span> <span class="s1">&#39;end2&#39;</span><span class="p">])</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">peakachu</span><span class="o">.</span><span class="n">fetched_binsize</span> <span class="o">+</span> <span class="n">gr</span><span class="o">.</span><span class="n">start</span>
+        <span class="k">return</span> <span class="n">peaks</span>
 </pre></div>
 </div>
 </div>
@@ -1027,11 +1050,15 @@ You should consider upgrading via the &#39;/Users/bakezq/opt/miniconda3/bin/pyth
 <span></span><span class="n">DATA_DIR</span> <span class="o">=</span> <span class="s2">&quot;../../tests/test_data&quot;</span>
 <span class="n">TEST_RANGE</span> <span class="o">=</span> <span class="s2">&quot;chr9:4000000-6000000&quot;</span>
 <span class="n">RANGE_MARK</span> <span class="o">=</span> <span class="s2">&quot;chr9_4000000_6000000&quot;</span>
+<span class="n">COOL_PATH</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/cool_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.mcool&quot;</span>
 
-<span class="n">peak</span> <span class="o">=</span> <span class="n">Peakachu</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/cool_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.mcool&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;matrix&quot;</span><span class="p">)</span>
+<span class="n">PVALS</span> <span class="o">=</span> <span class="n">Peakachu</span><span class="p">(</span><span class="n">COOL_PATH</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;triangular&quot;</span><span class="p">)</span>
+<span class="n">PEAKS</span> <span class="o">=</span> <span class="n">Cool</span><span class="p">(</span><span class="n">COOL_PATH</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;triangular&quot;</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;inverted&quot;</span><span class="p">)</span> <span class="o">+</span> \
+        <span class="n">PeakaChuLoops</span><span class="p">(</span><span class="n">PVALS</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
 <span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> \
-    <span class="n">peak</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Peak pvalues&quot;</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">PVALS</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Peak pvalues&quot;</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">PEAKS</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;HiC with peaks&quot;</span><span class="p">)</span> <span class="o">+</span> \
     <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">+</span> \
     <span class="n">GTF</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/gtf_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.gtf&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">TrackHeight</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 
@@ -1056,16 +1083,69 @@ num candidates 79800
 <img alt="_images/custom_elements_38_1.png" src="_images/custom_elements_38_1.png" />
 </div>
 </div>
+<div class="section" id="CLI-Mode">
+<h4>CLI Mode<a class="headerlink" href="#CLI-Mode" title="Permalink to this headline">¶</a></h4>
+<p>Custom elements can also used in CLI mode, just save your definition to a <code class="docutils literal notranslate"><span class="pre">.py</span></code> file, and <code class="docutils literal notranslate"><span class="pre">load_module</span></code> in CLI:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
 </div>
-<div class="section" id="Call-loop">
-<h3>Call loop<a class="headerlink" href="#Call-loop" title="Permalink to this headline">¶</a></h3>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
+<span></span>%%bash
+<span class="nv">module_path</span><span class="o">=</span>./_static/peakachu_track.py
+<span class="nv">data_dir</span><span class="o">=</span>../../tests/test_data/
+<span class="nv">cool_path</span><span class="o">=</span><span class="nv">$data_dir</span>/cool_chr9_4000000_6000000.mcool
+<span class="nv">gtf_path</span><span class="o">=</span><span class="nv">$data_dir</span>/gtf_chr9_4000000_6000000.gtf
+
+coolbox load_module <span class="nv">$module_path</span> - <span class="se">\</span>
+    add XAxis - <span class="se">\</span>
+    add Peakachu <span class="nv">$cool_path</span> --style <span class="s2">&quot;triangular&quot;</span> --name <span class="s2">&quot;pvals&quot;</span> - <span class="se">\</span>
+    add Cool <span class="nv">$cool_path</span> --style <span class="s2">&quot;triangular&quot;</span> --orientation <span class="s2">&quot;inverted&quot;</span> - <span class="se">\</span>
+    add PeakaChuLoops <span class="s2">&quot;pvals&quot;</span> --line_width <span class="m">5</span> -<span class="se">\</span>
+    add GTF <span class="nv">$gtf_path</span> --height <span class="m">5</span> - <span class="se">\</span>
+    goto <span class="s2">&quot;chr9:4000000-6000000&quot;</span> - <span class="se">\</span>
+    plot <span class="s2">&quot;/tmp/test_coolbox_peakachu.pdf&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+scoring matrix chrm
+num candidates 79800
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Browser-Mode">
+<h4>Browser Mode<a class="headerlink" href="#Browser-Mode" title="Permalink to this headline">¶</a></h4>
+<p>Custom elements are naturally adaptive to browser mode. For use custom tracks defined above, just run:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
+<span></span><span class="n">bsr</span> <span class="o">=</span> <span class="n">Browser</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+<span class="n">bsr</span><span class="o">.</span><span class="n">goto</span><span class="p">(</span><span class="n">TEST_RANGE</span><span class="p">)</span>
+<span class="n">bsr</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+scoring matrix chrm
+num candidates 80200
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "18b70179d62b44f8b486376c4f0840c2", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 </div>
 </div>

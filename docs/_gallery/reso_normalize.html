@@ -476,7 +476,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&#39;0.2.5&#39;
+&#39;0.3.0&#39;
 </pre></div></div>
 </div>
 <div class="section" id="Resolution">
@@ -487,7 +487,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">test_hic</span> <span class="o">=</span> <span class="s2">&quot;../../../tests/test_data/test.hic&quot;</span>
+<span></span><span class="n">test_hic</span> <span class="o">=</span> <span class="s2">&quot;../../../tests/test_data/dothic_chr9_4000000_6000000.hic&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -560,7 +560,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">with</span> <span class="n">Feature</span><span class="p">(</span><span class="s2">&quot;resolution&quot;</span><span class="p">,</span> <span class="mi">10000</span><span class="p">),</span> <span class="n">Feature</span><span class="p">(</span><span class="s2">&quot;depth_ratio&quot;</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">),</span> <span class="n">Color</span><span class="p">(</span><span class="s2">&quot;RdYlBu_r&quot;</span><span class="p">):</span>
+<span></span><span class="k">with</span> <span class="n">Feature</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="mi">10000</span><span class="p">),</span> <span class="n">Feature</span><span class="p">(</span><span class="n">depth_ratio</span><span class="o">=</span><span class="mf">0.4</span><span class="p">),</span> <span class="n">Color</span><span class="p">(</span><span class="s2">&quot;RdYlBu_r&quot;</span><span class="p">):</span>
     <span class="n">dhic_vc</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="s2">&quot;VC&quot;</span><span class="p">)</span>
     <span class="n">dhic_vcs</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="s2">&quot;VC_SQRT&quot;</span><span class="p">)</span>
     <span class="n">dhic_kr</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="s2">&quot;KR&quot;</span><span class="p">)</span>
@@ -595,16 +595,18 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">with</span> <span class="n">Feature</span><span class="p">(</span><span class="s2">&quot;resolution&quot;</span><span class="p">,</span> <span class="mi">10000</span><span class="p">),</span> <span class="n">Feature</span><span class="p">(</span><span class="s2">&quot;depth_ratio&quot;</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">),</span> <span class="n">Color</span><span class="p">(</span><span class="s2">&quot;RdYlBu_r&quot;</span><span class="p">):</span>
+<span></span><span class="k">with</span> <span class="n">Feature</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">depth_ratio</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;RdYlBu_r&quot;</span><span class="p">):</span>
     <span class="n">dhic_b</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="s2">&quot;KR&quot;</span><span class="p">)</span>
     <span class="n">dhic_ub</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">dhic_exp</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;expect&#39;</span><span class="p">)</span>
-    <span class="n">dhic_z</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;zscore&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">Feature</span><span class="p">(</span><span class="n">transform</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">gaussian_sigma</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=-</span><span class="mi">2</span><span class="p">):</span>
+        <span class="n">dhic_exp</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;expect&#39;</span><span class="p">)</span>
+        <span class="n">dhic_z</span> <span class="o">=</span> <span class="n">DotHiC</span><span class="p">(</span><span class="n">test_hic</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="s1">&#39;zscore&#39;</span><span class="p">)</span>
 
 <span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> \
     <span class="n">dhic_ub</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Original</span><span class="se">\n</span><span class="s2">(Unbalanced)&quot;</span><span class="p">)</span> <span class="o">+</span> \
     <span class="n">dhic_b</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;balanced&quot;</span><span class="p">)</span> <span class="o">+</span> \
     <span class="n">dhic_exp</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Expect&quot;</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">HLine</span><span class="p">()</span> <span class="o">+</span> \
     <span class="n">dhic_z</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Z-score&quot;</span><span class="p">)</span>
 <span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4000000-6000000&quot;</span><span class="p">)</span>
 </pre></div>

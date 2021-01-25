@@ -2,6 +2,7 @@ import os
 import os.path as osp
 import subprocess as subp
 from typing import Tuple
+import runpy
 
 import fire
 import nbformat as nbf
@@ -310,15 +311,18 @@ class CLI(object):
         :param genome_range2: Genome range string, like "chr9:4000000-6000000".
         """
         if genome_range is None:
-            if self.current_range is None:
-                raise ValueError("Should specify the genome_range")
+            if self.current_range[0] is None:
+                raise ValueError("Should specify the gr")
         else:
-            self.goto(genome_range)
+            self.goto(genome_range, genome_range2)
         source = "from coolbox.api import *\n" + self.source() + "\n"
         gr1, gr2 = self.current_range
         if 'center' in self.frames:
             source += f"fig = frame.plot('{gr1}', '{gr2}')\n"
-            # TODO can not save to pdf
+            # TODO: svgutils.compose.Figure can only save to svg, convert it?
+            if not fig_path.endswith('.svg'):
+                fig_path = fig_path[:-4] + '.svg'
+                log.warning(f"The JointView only support save to svg now. Save fig to: {fig_path}.")
             source += f"fig.save('{fig_path}')\n"
         else:
             source += f"fig = frame.plot('{gr1}')\n"
@@ -354,6 +358,18 @@ class CLI(object):
         self.gen_notebook(tmp, notes=False, figsave=False)
         subp.check_call(f"voila {tmp} " + voila_args, shell=True)
 
+    def load_module(self, mod_str):
+        """
+        Import custom tracks from a module/package for example:
+
+            $ coolbox - load_module ./my_custom.py - add XAxis - add CustomTrack - goto "chr1:5000000-6000000" - run_webapp
+
+        :param mod_str: Path to the module.
+        """
+        globals().update(runpy.run_path(mod_str, init_globals=globals()))
+        return self
+
 
 if __name__ == "__main__":
     fire.Fire(CLI)
+

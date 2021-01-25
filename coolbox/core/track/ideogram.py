@@ -3,13 +3,13 @@ from matplotlib.collections import BrokenBarHCollection
 
 from coolbox.utilities import (
     get_logger, GenomeRange, file_to_intervaltree, hex2rgb,
-    to_gr,
 )
 from .base import Track
 
 log = get_logger(__name__)
 
 
+# TODO change properties to new mode
 class Ideogram(Track):
     """
     The chromosome ideograme track.
@@ -35,15 +35,6 @@ class Ideogram(Track):
 
     border_width : float, optional
         Border width. default: 1.2
-
-    height : int, optional
-        Track height.
-
-    title : str, optional
-        Label text, default ''.
-
-    name : str, optional
-        Track's name.
     """
 
     DEFAULT_HEIGHT = 1.2
@@ -83,24 +74,22 @@ class Ideogram(Track):
         else:
             return color_scheme['gneg']
 
-    def fetch_data(self, genome_range):
-        grange = to_gr(genome_range)
-        if grange.chrom not in self.interval_tree:
-            grange.change_chrom_names()
-        bands_in_region = sorted(self.interval_tree[grange.chrom][grange.start:grange.end])
+    def fetch_data(self, gr: GenomeRange, **kwargs):
+        if gr.chrom not in self.interval_tree:
+            gr.change_chrom_names()
+        bands_in_region = sorted(self.interval_tree[gr.chrom][gr.start:gr.end])
         rows = []
         for itv in bands_in_region:
             start, end = itv.begin, itv.end
             band_name, band_type = itv.data[:2]
-            rows.append([grange.chrom, start, end, band_name, band_type])
+            rows.append([gr.chrom, start, end, band_name, band_type])
         fields = ['chrom', 'start', 'end', 'name', 'gieStain']
         df = pd.DataFrame(rows, columns=fields)
         return df
 
-    def plot(self, ax, chrom_region, region_start, region_end):
+    def plot(self, ax, gr: GenomeRange, **kwargs):
         self.ax = ax
-        grange = GenomeRange(chrom_region, region_start, region_end)
-        df = self.fetch_data(grange)
+        df = self.fetch_data(gr)
         xranges, colors = [], []
         band_height = self.properties['height']
         for _, row in df.iterrows():
@@ -110,14 +99,14 @@ class Ideogram(Track):
             xranges.append((start, end))
             colors.append(band_color)
             if self.properties['show_band_name'] != 'no':
-                if grange.length < 80_000_000:
+                if gr.length < 80_000_000:
                     self.plot_text(band_name, start, end, band_color)
         coll = BrokenBarHCollection(xranges, (0, band_height), facecolors=colors,
                                     linewidths=self.properties['border_width'],
                                     edgecolors=self.properties['border_color'])
         ax.add_collection(coll)
         ax.set_ylim(-0.1, band_height + 0.1)
-        ax.set_xlim(region_start, region_end)
+        ax.set_xlim(gr.start, gr.end)
         self.plot_label()
 
     def plot_text(self, band_name, start, end, band_color):

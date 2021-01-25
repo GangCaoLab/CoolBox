@@ -5,10 +5,9 @@ from coolbox.utilities import (
 from .base import Coverage
 
 
-class _Vlines(object):
-    def fetch_data(self, genome_range):
+class VlinesBase(object):
+    def fetch_data(self, gr: GenomeRange):
         vlines_list = []
-        gr = to_gr(genome_range)
 
         if gr.chrom not in list(self.vlines_intval_tree):
             gr.change_chrom_names()
@@ -20,8 +19,8 @@ class _Vlines(object):
 
         return vlines_list
 
-    def plot(self, ax, chrom_region, start_region, end_region):
-        gr = GenomeRange(chrom_region, start_region, end_region)
+    def plot(self, ax, gr: GenomeRange, **kwargs):
+        gr = GenomeRange(gr)
         vlines_list = self.fetch_data(gr)
 
         ymin, ymax = ax.get_ylim()
@@ -33,7 +32,7 @@ class _Vlines(object):
                   alpha=self.properties['alpha'])
 
 
-class VlinesFromFile(Coverage, _Vlines):
+class VlinesFromFile(Coverage, VlinesBase):
     """
     Vertical lines from the file.
 
@@ -76,7 +75,7 @@ class VlinesFromFile(Coverage, _Vlines):
         self.vlines_intval_tree, _, _ = file_to_intervaltree(self.properties['file'])
 
 
-class Vlines(Coverage, _Vlines):
+class Vlines(Coverage, VlinesBase):
     """
     Vertical lines.
 
