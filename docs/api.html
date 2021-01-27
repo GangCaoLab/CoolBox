@@ -399,7 +399,10 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_yaxis_range</span></code>(plot_axis, y_ax)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_yaxis_range</span></code>(plot_axis, y_ax)</p></td>
 <td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
 </tr>
 </tbody>
@@ -422,31 +425,28 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-even"><td><p><strong>has_prop</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_coverages</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_data_range</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_data_range</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_fill</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_fill</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_heatmap</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_heatmap</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_hist</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_hist</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_line</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_line</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_scatter</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_scatter</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_text_range</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_text_range</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -547,15 +547,18 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 </dl>
 </p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_hicpeaks</span></code>(ax, gr, gr2, intervals)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_hicpeaks</span></code>(ax, gr, gr2, intervals)</p></td>
 <td><p>plot hic peaks uppon a HicMatBase track.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 64%" />
-<col style="width: 36%" />
+<col style="width: 63%" />
+<col style="width: 37%" />
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
@@ -564,10 +567,7 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 <tr class="row-even"><td><p><strong>plot_contacts</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_coverages</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -692,6 +692,9 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.BAM.plot" title="coolbox.core.track.BAM.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
 </tbody>
 </table>
 <table class="docutils align-default">
@@ -709,10 +712,7 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 <tr class="row-odd"><td><p><strong>plot_align</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -864,7 +864,10 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_yaxis_range</span></code>(plot_axis, y_ax)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_yaxis_range</span></code>(plot_axis, y_ax)</p></td>
 <td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
 </tr>
 </tbody>
@@ -884,31 +887,28 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_data_range</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_data_range</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_fill</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_fill</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_heatmap</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_heatmap</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_hist</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_hist</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_line</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_line</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_scatter</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_scatter</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>plot_text_range</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_text_range</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -1061,10 +1061,13 @@ default 0.5</p>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_tads</span></code>(ax, gr, tads)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_tads</span></code>(ax, gr, tads)</p></td>
 <td><p>Plots the boundaries as triangles in the given ax.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_triangular</span></code>(ax, gr, region, ymax, depth)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_triangular</span></code>(ax, gr, region, ymax, depth)</p></td>
 <td><p>/             /              /            _____________________</p></td>
 </tr>
 </tbody>
@@ -1096,16 +1099,13 @@ default 0.5</p>
 <tr class="row-odd"><td><p><strong>plot_box</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_genes</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_genes</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_score</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_score</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -1248,7 +1248,10 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 </dl>
 </p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_hicpeaks</span></code>(ax, gr, gr2, intervals)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_hicpeaks</span></code>(ax, gr, gr2, intervals)</p></td>
 <td><p>plot hic peaks uppon a HicMatBase track.</p></td>
 </tr>
 </tbody>
@@ -1268,10 +1271,7 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 <tr class="row-odd"><td><p><strong>plot_contacts</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -1445,10 +1445,13 @@ default 0.5</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.BedBase.plot" title="coolbox.core.track.BedBase.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_tads</span></code>(ax, gr, tads)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_tads</span></code>(ax, gr, tads)</p></td>
 <td><p>Plots the boundaries as triangles in the given ax.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_triangular</span></code>(ax, gr, region, ymax, depth)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_triangular</span></code>(ax, gr, region, ymax, depth)</p></td>
 <td><p>/             /              /            _____________________</p></td>
 </tr>
 </tbody>
@@ -1477,16 +1480,13 @@ default 0.5</p>
 <tr class="row-even"><td><p><strong>plot_box</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_coverages</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_genes</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_genes</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>plot_score</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_score</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -1639,7 +1639,10 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_yaxis_range</span></code>(plot_axis, y_ax)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_yaxis_range</span></code>(plot_axis, y_ax)</p></td>
 <td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
 </tr>
 </tbody>
@@ -1659,31 +1662,28 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-odd"><td><p><strong>load</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_data_range</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_data_range</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_fill</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_fill</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_heatmap</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_heatmap</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_hist</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_hist</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_line</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_line</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_scatter</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_scatter</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>plot_text_range</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_text_range</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -1838,7 +1838,10 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_yaxis_range</span></code>(plot_axis, y_ax)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_yaxis_range</span></code>(plot_axis, y_ax)</p></td>
 <td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
 </tr>
 </tbody>
@@ -1861,31 +1864,28 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-even"><td><p><strong>has_prop</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_coverages</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_data_range</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_data_range</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_fill</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_fill</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_heatmap</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_heatmap</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_hist</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_hist</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_line</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_line</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_scatter</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_scatter</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_text_range</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_text_range</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -2020,21 +2020,21 @@ processors. Reloading the file solves the problem.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.ChromName.plot" title="coolbox.core.track.ChromName.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
 </tbody>
 </table>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 64%" />
-<col style="width: 36%" />
+<col style="width: 58%" />
+<col style="width: 42%" />
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -2175,6 +2175,9 @@ processors. Reloading the file solves the problem.</p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
 <td><p>Plot matrix</p></td>
 </tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
 </tbody>
 </table>
 <table class="docutils align-default">
@@ -2222,19 +2225,16 @@ processors. Reloading the file solves the problem.</p>
 <tr class="row-odd"><td><p><strong>plot_colorbar</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_matrix</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_matrix</strong></p></td>
+<tr class="row-even"><td><p><strong>process_matrix</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>process_matrix</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>transform_matrix</strong></p></td>
+<tr class="row-odd"><td><p><strong>transform_matrix</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -2399,7 +2399,10 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_yaxis_range</span></code>(plot_axis, y_ax)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_yaxis_range</span></code>(plot_axis, y_ax)</p></td>
 <td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
 </tr>
 </tbody>
@@ -2419,31 +2422,28 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_data_range</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_data_range</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_fill</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_fill</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_heatmap</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_heatmap</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_hist</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_hist</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_line</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_line</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_scatter</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_scatter</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>plot_text_range</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_text_range</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -2571,6 +2571,9 @@ default True(‘KR’ balance)</p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
 <td><p>Plot matrix</p></td>
 </tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
 </tbody>
 </table>
 <table class="docutils align-default">
@@ -2618,19 +2621,16 @@ default True(‘KR’ balance)</p>
 <tr class="row-odd"><td><p><strong>plot_colorbar</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_matrix</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_matrix</strong></p></td>
+<tr class="row-even"><td><p><strong>process_matrix</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>process_matrix</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>transform_matrix</strong></p></td>
+<tr class="row-odd"><td><p><strong>transform_matrix</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -2777,21 +2777,21 @@ The pixel table contains the non-zero upper triangle entries of the contact map.
 <tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.GTF.plot" title="coolbox.core.track.GTF.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
 </tbody>
 </table>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 64%" />
-<col style="width: 36%" />
+<col style="width: 58%" />
+<col style="width: 42%" />
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -2940,21 +2940,21 @@ Used for add a horizontal line between two tracks.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.HLine.plot" title="coolbox.core.track.HLine.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
 </tbody>
 </table>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 64%" />
-<col style="width: 36%" />
+<col style="width: 58%" />
+<col style="width: 42%" />
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -3096,6 +3096,9 @@ Used for add a horizontal line between two tracks.</p>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
 <td><p>Plot matrix</p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
 </tbody>
 </table>
 <table class="docutils align-default">
@@ -3149,19 +3152,16 @@ Used for add a horizontal line between two tracks.</p>
 <tr class="row-odd"><td><p><strong>plot_colorbar</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_matrix</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_matrix</strong></p></td>
+<tr class="row-even"><td><p><strong>process_matrix</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>process_matrix</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>transform_matrix</strong></p></td>
+<tr class="row-odd"><td><p><strong>transform_matrix</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -3300,7 +3300,10 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 </dl>
 </p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_hicpeaks</span></code>(ax, gr, gr2, intervals)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_hicpeaks</span></code>(ax, gr, gr2, intervals)</p></td>
 <td><p>plot hic peaks uppon a HicMatBase track.</p></td>
 </tr>
 </tbody>
@@ -3320,10 +3323,7 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 <tr class="row-odd"><td><p><strong>plot_contacts</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -3412,6 +3412,9 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.HicMatBase.plot" title="coolbox.core.track.HicMatBase.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr, **kwargs)</p></td>
 <td><p>Plot matrix</p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
 </tbody>
 </table>
 <table class="docutils align-default">
@@ -3462,19 +3465,16 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 <tr class="row-even"><td><p><strong>plot_colorbar</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_coverages</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_matrix</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_matrix</strong></p></td>
+<tr class="row-odd"><td><p><strong>process_matrix</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>process_matrix</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>transform_matrix</strong></p></td>
+<tr class="row-even"><td><p><strong>transform_matrix</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -3654,7 +3654,10 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.HistBase.plot" title="coolbox.core.track.HistBase.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_yaxis_range</span></code>(plot_axis, y_ax)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_yaxis_range</span></code>(plot_axis, y_ax)</p></td>
 <td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
 </tr>
 </tbody>
@@ -3671,31 +3674,28 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-even"><td><p><strong>has_prop</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_coverages</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_data_range</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_data_range</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_fill</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_fill</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_heatmap</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_heatmap</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_hist</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_hist</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_line</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_line</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_scatter</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_scatter</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_text_range</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_text_range</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -3842,6 +3842,9 @@ see: <a class="reference external" href="http://genome.ucsc.edu/cgi-bin/hgTables
 <tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Ideogram.plot" title="coolbox.core.track.Ideogram.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
 </tbody>
 </table>
 <table class="docutils align-default">
@@ -3856,13 +3859,10 @@ see: <a class="reference external" href="http://genome.ucsc.edu/cgi-bin/hgTables
 <tr class="row-even"><td><p><strong>lookup_band_color</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_coverages</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_text</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_text</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -4007,7 +4007,10 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_yaxis_range</span></code>(plot_axis, y_ax)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_yaxis_range</span></code>(plot_axis, y_ax)</p></td>
 <td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
 </tr>
 </tbody>
@@ -4024,31 +4027,28 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-even"><td><p><strong>has_prop</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_coverages</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_data_range</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_data_range</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_fill</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_fill</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_heatmap</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_heatmap</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_hist</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_hist</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_line</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_line</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_scatter</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_scatter</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_text_range</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_text_range</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -4172,7 +4172,10 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 </dl>
 </p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_hicpeaks</span></code>(ax, gr, gr2, intervals)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_hicpeaks</span></code>(ax, gr, gr2, intervals)</p></td>
 <td><p>plot hic peaks uppon a HicMatBase track.</p></td>
 </tr>
 </tbody>
@@ -4192,10 +4195,7 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 <tr class="row-odd"><td><p><strong>plot_contacts</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -4323,7 +4323,10 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_yaxis_range</span></code>(plot_axis, y_ax)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_yaxis_range</span></code>(plot_axis, y_ax)</p></td>
 <td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
 </tr>
 </tbody>
@@ -4343,34 +4346,31 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-odd"><td><p><strong>load_range</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_data_range</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_data_range</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_fill</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_fill</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_heatmap</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_heatmap</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_hist</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_hist</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_line</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_line</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_scatter</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_scatter</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_text_range</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_text_range</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>transform_fn</strong></p></td>
+<tr class="row-even"><td><p><strong>transform_fn</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -4532,6 +4532,9 @@ Bioinformatics, Volume 35, Issue 14, July 2019, Pages i145–i153,
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
 <td><p>Plot matrix</p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
 </tbody>
 </table>
 <table class="docutils align-default">
@@ -4585,19 +4588,16 @@ Bioinformatics, Volume 35, Issue 14, July 2019, Pages i145–i153,
 <tr class="row-odd"><td><p><strong>plot_colorbar</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_matrix</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_matrix</strong></p></td>
+<tr class="row-even"><td><p><strong>process_matrix</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>process_matrix</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>transform_matrix</strong></p></td>
+<tr class="row-odd"><td><p><strong>transform_matrix</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -4692,21 +4692,21 @@ Does not have any real content, just used to split two tracks.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Spacer.plot" title="coolbox.core.track.Spacer.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
 </tbody>
 </table>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 64%" />
-<col style="width: 36%" />
+<col style="width: 58%" />
+<col style="width: 42%" />
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -4876,10 +4876,13 @@ default 0.5</p>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_tads</span></code>(ax, gr, tads)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_tads</span></code>(ax, gr, tads)</p></td>
 <td><p>Plots the boundaries as triangles in the given ax.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_triangular</span></code>(ax, gr, region, ymax, depth)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_triangular</span></code>(ax, gr, region, ymax, depth)</p></td>
 <td><p>/             /              /            _____________________</p></td>
 </tr>
 </tbody>
@@ -4911,16 +4914,13 @@ default 0.5</p>
 <tr class="row-odd"><td><p><strong>plot_box</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_genes</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_genes</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_score</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_score</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -4980,21 +4980,21 @@ default 0.5</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Track.plot" title="coolbox.core.track.Track.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.Track.plot_coverages" title="coolbox.core.track.Track.plot_coverages"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code></a>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
 </tbody>
 </table>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 64%" />
-<col style="width: 36%" />
+<col style="width: 58%" />
+<col style="width: 42%" />
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -5020,6 +5020,9 @@ default 0.5</p>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Track.plot" title="coolbox.core.track.Track.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.Track.plot_coverages" title="coolbox.core.track.Track.plot_coverages"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code></a>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
 </tr>
 </tbody>
 </table>
@@ -5096,6 +5099,22 @@ The returned data would be used in <cite>plot</cite> function, the default imple
 <dd class="field-odd"><dl class="simple">
 <dt><strong>gr: GenomeRange</strong></dt><dd></dd>
 <dt><strong>kwargs: dict</strong></dt><dd><p>Other optional parameters including <cite>gr2</cite>, <cite>resolution</cite> for some tracks.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="coolbox.core.track.Track.plot_coverages">
+<code class="sig-name descname">plot_coverages</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ax</span></em>, <em class="sig-param"><span class="n">gr</span><span class="p">:</span> <span class="n">coolbox.utilities.genome.GenomeRange</span></em>, <em class="sig-param"><span class="n">gr2</span><span class="p">:</span> <span class="n">coolbox.utilities.genome.GenomeRange</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.Track.plot_coverages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot all coverages on given axes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>gr</strong><span class="classifier">GenomeRange</span></dt><dd><p>First genome range.</p>
+</dd>
+<dt><strong>gr2</strong><span class="classifier">GenomeRange</span></dt><dd><p>Second genome range.</p>
 </dd>
 </dl>
 </dd>
@@ -5198,7 +5217,10 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_yaxis_range</span></code>(plot_axis, y_ax)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_yaxis_range</span></code>(plot_axis, y_ax)</p></td>
 <td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
 </tr>
 </tbody>
@@ -5215,31 +5237,28 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-even"><td><p><strong>has_prop</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_coverages</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_data_range</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_data_range</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_fill</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_fill</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_heatmap</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_heatmap</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_hist</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_hist</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_line</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_line</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_scatter</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_scatter</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_text_range</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_text_range</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -5333,21 +5352,21 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.XAxis.plot" title="coolbox.core.track.XAxis.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
 </tbody>
 </table>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 64%" />
-<col style="width: 36%" />
+<col style="width: 58%" />
+<col style="width: 42%" />
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -5609,7 +5628,10 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 </dl>
 </p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_hicpeaks</span></code>(ax, gr, gr2, intervals)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_hicpeaks</span></code>(ax, gr, gr2, intervals)</p></td>
 <td><p>plot hic peaks uppon a HicMatBase track.</p></td>
 </tr>
 </tbody>
@@ -5629,10 +5651,7 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 <tr class="row-odd"><td><p><strong>plot_contacts</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -5856,7 +5875,10 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_yaxis_range</span></code>(plot_axis, y_ax)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_yaxis_range</span></code>(plot_axis, y_ax)</p></td>
 <td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
 </tr>
 </tbody>
@@ -5876,31 +5898,28 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-odd"><td><p><strong>load</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_data_range</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_data_range</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_fill</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_fill</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_heatmap</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_heatmap</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_hist</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_hist</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_line</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_line</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_scatter</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_scatter</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>plot_text_range</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_text_range</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -6130,7 +6149,10 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_yaxis_range</span></code>(plot_axis, y_ax)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_yaxis_range</span></code>(plot_axis, y_ax)</p></td>
 <td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
 </tr>
 </tbody>
@@ -6153,31 +6175,28 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-even"><td><p><strong>has_prop</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_coverages</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_data_range</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_data_range</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_fill</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_fill</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_heatmap</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_heatmap</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_hist</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_hist</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_line</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_line</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_scatter</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_scatter</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_text_range</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_text_range</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -6470,7 +6489,10 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 </dl>
 </p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_hicpeaks</span></code>(ax, gr, gr2, intervals)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_hicpeaks</span></code>(ax, gr, gr2, intervals)</p></td>
 <td><p>plot hic peaks uppon a HicMatBase track.</p></td>
 </tr>
 </tbody>
@@ -6490,10 +6512,7 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 <tr class="row-odd"><td><p><strong>plot_contacts</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -6813,7 +6832,10 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 </dl>
 </p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_hicpeaks</span></code>(ax, gr, gr2, intervals)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_hicpeaks</span></code>(ax, gr, gr2, intervals)</p></td>
 <td><p>plot hic peaks uppon a HicMatBase track.</p></td>
 </tr>
 </tbody>
@@ -6833,10 +6855,7 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 <tr class="row-odd"><td><p><strong>plot_contacts</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -7062,10 +7081,13 @@ default 0.5</p>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_tads</span></code>(ax, gr, tads)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<td><p>Plot all coverages on given axes.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_tads</span></code>(ax, gr, tads)</p></td>
 <td><p>Plots the boundaries as triangles in the given ax.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_triangular</span></code>(ax, gr, region, ymax, depth)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_triangular</span></code>(ax, gr, region, ymax, depth)</p></td>
 <td><p>/             /              /            _____________________</p></td>
 </tr>
 </tbody>
@@ -7097,16 +7119,13 @@ default 0.5</p>
 <tr class="row-odd"><td><p><strong>plot_box</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_coverages</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_genes</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_genes</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_score</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_score</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -7308,50 +7327,50 @@ or a genome range string like:
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.Feature" title="coolbox.core.feature.Feature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Feature</span></code></a>(**kwargs)</p></td>
-<td><p>Feature base class.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.Color" title="coolbox.core.feature.Color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Color</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.Color" title="coolbox.core.feature.Color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Color</span></code></a>(value)</p></td>
 <td><p>Track color.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.ColorMap" title="coolbox.core.feature.ColorMap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ColorMap</span></code></a>(value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.ColorMap" title="coolbox.core.feature.ColorMap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ColorMap</span></code></a>(value)</p></td>
 <td><p>Track color map.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.TrackHeight" title="coolbox.core.feature.TrackHeight"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TrackHeight</span></code></a>(value)</p></td>
-<td><p>Track height.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.Inverted" title="coolbox.core.feature.Inverted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Inverted</span></code></a>()</p></td>
-<td><p>Invert the orientation of track.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.Title" title="coolbox.core.feature.Title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Title</span></code></a>(value)</p></td>
-<td><p>Track title.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.MaxValue" title="coolbox.core.feature.MaxValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MaxValue</span></code></a>(value)</p></td>
-<td><p>Max value of track.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.MinValue" title="coolbox.core.feature.MinValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MinValue</span></code></a>(value)</p></td>
-<td><p>Min value of track.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.HistStyle" title="coolbox.core.feature.HistStyle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HistStyle</span></code></a>([style, fmt, size, line_width])</p></td>
-<td><p>Style of BigWig or BedGraph.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.ShowDataRange" title="coolbox.core.feature.ShowDataRange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShowDataRange</span></code></a>([data_range_style])</p></td>
-<td><p>Show data range or not.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.ShowColorBar" title="coolbox.core.feature.ShowColorBar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShowColorBar</span></code></a>([show])</p></td>
-<td><p>Show color bar or not.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.CoolStyle" title="coolbox.core.feature.CoolStyle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoolStyle</span></code></a>([style])</p></td>
+<td><p>Control Cool track’s style.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.DepthRatio" title="coolbox.core.feature.DepthRatio"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DepthRatio</span></code></a>(depth_ratio)</p></td>
 <td><p>Control Cool track’s depth ratio.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.CoolStyle" title="coolbox.core.feature.CoolStyle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoolStyle</span></code></a>([style])</p></td>
-<td><p>Control Cool track’s style.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.Feature" title="coolbox.core.feature.Feature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Feature</span></code></a>(**kwargs)</p></td>
+<td><p>Feature base class.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.FrameFeature" title="coolbox.core.feature.FrameFeature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameFeature</span></code></a>(**kwargs)</p></td>
 <td><p>FrameFeature base class.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.FrameTitle" title="coolbox.core.feature.FrameTitle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FrameTitle</span></code></a>(value)</p></td>
 <td><p>Frame title.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.HistStyle" title="coolbox.core.feature.HistStyle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HistStyle</span></code></a>([style, fmt, size, line_width])</p></td>
+<td><p>Style of BigWig or BedGraph.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.Inverted" title="coolbox.core.feature.Inverted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Inverted</span></code></a>()</p></td>
+<td><p>Invert the orientation of track.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.MaxValue" title="coolbox.core.feature.MaxValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MaxValue</span></code></a>(value)</p></td>
+<td><p>Max value of track.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.MinValue" title="coolbox.core.feature.MinValue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MinValue</span></code></a>(value)</p></td>
+<td><p>Min value of track.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.ShowColorBar" title="coolbox.core.feature.ShowColorBar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShowColorBar</span></code></a>([show])</p></td>
+<td><p>Show color bar or not.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.ShowDataRange" title="coolbox.core.feature.ShowDataRange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShowDataRange</span></code></a>([data_range_style])</p></td>
+<td><p>Show data range or not.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.feature.Title" title="coolbox.core.feature.Title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Title</span></code></a>(value)</p></td>
+<td><p>Track title.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.feature.TrackHeight" title="coolbox.core.feature.TrackHeight"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TrackHeight</span></code></a>(value)</p></td>
+<td><p>Track height.</p></td>
 </tr>
 </tbody>
 </table>
@@ -7448,21 +7467,6 @@ or a genome range string like:
 </div>
 <div class="section" id="module-coolbox.core.frame">
 <span id="frame"></span><h2>Frame<a class="headerlink" href="#module-coolbox.core.frame" title="Permalink to this headline">¶</a></h2>
-<p><strong>Classes:</strong></p>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Frame</span></code>(*args, **kwargs)</p></td>
-<td><p>Frame for arrange and group plots.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">JointView</span></code>(center[, top, right, bottom, left])</p></td>
-<td><p>Compose two track and a center matrix.</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 <div class="section" id="jointview">
 <h2>JointView<a class="headerlink" href="#jointview" title="Permalink to this headline">¶</a></h2>
@@ -7476,11 +7480,11 @@ or a genome range string like:
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.browser.WidgetsPanel" title="coolbox.core.browser.WidgetsPanel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WidgetsPanel</span></code></a>([type, reference_genome])</p></td>
-<td><p>Widgets container.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.browser.Browser" title="coolbox.core.browser.Browser"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Browser</span></code></a>(frame[, reference_genome, …])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.browser.Browser" title="coolbox.core.browser.Browser"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Browser</span></code></a>(frame[, reference_genome, …])</p></td>
 <td><p>Browser base class.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.browser.WidgetsPanel" title="coolbox.core.browser.WidgetsPanel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WidgetsPanel</span></code></a>([type, reference_genome])</p></td>
+<td><p>Widgets container.</p></td>
 </tr>
 </tbody>
 </table>
@@ -7814,8 +7818,8 @@ default ‘hg19’</p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pop</span></code>(k[,d])</p></td>
 <td><p>If key is not found, d is returned if given, otherwise KeyError is raised</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">popitem</span></code>()</p></td>
-<td><p>2-tuple; but raise KeyError if D is empty.</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">popitem</span></code>(/)</p></td>
+<td><p>Remove and return a (key, value) pair as a 2-tuple.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setdefault</span></code>(key[, default])</p></td>
 <td><p>Insert key with a value of default if key is not in the dictionary.</p></td>
@@ -7986,11 +7990,11 @@ a (chrom, start, end) tuple</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Attributes</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">begin</span></code></dt><dd><p>Alias for field number 0</p>
+<dt><strong>begin</strong></dt><dd><p>Alias for field number 0</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></dt><dd><p>Alias for field number 2</p>
+<dt><strong>data</strong></dt><dd><p>Alias for field number 2</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">end</span></code></dt><dd><p>Alias for field number 1</p>
+<dt><strong>end</strong></dt><dd><p>Alias for field number 1</p>
 </dd>
 </dl>
 </dd>
@@ -9514,37 +9518,37 @@ of the given arguments and keywords.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Attributes</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">bin</span></code></dt><dd><p>Alias for field number 0</p>
+<dt><strong>bin</strong></dt><dd><p>Alias for field number 0</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">cdsEnd</span></code></dt><dd><p>Alias for field number 7</p>
+<dt><strong>cdsEnd</strong></dt><dd><p>Alias for field number 7</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">cdsEndStat</span></code></dt><dd><p>Alias for field number 14</p>
+<dt><strong>cdsEndStat</strong></dt><dd><p>Alias for field number 14</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">cdsStart</span></code></dt><dd><p>Alias for field number 6</p>
+<dt><strong>cdsStart</strong></dt><dd><p>Alias for field number 6</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">cdsStartStat</span></code></dt><dd><p>Alias for field number 13</p>
+<dt><strong>cdsStartStat</strong></dt><dd><p>Alias for field number 13</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">chrom</span></code></dt><dd><p>Alias for field number 2</p>
+<dt><strong>chrom</strong></dt><dd><p>Alias for field number 2</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">exonCount</span></code></dt><dd><p>Alias for field number 8</p>
+<dt><strong>exonCount</strong></dt><dd><p>Alias for field number 8</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">exonEnds</span></code></dt><dd><p>Alias for field number 10</p>
+<dt><strong>exonEnds</strong></dt><dd><p>Alias for field number 10</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">exonFrames</span></code></dt><dd><p>Alias for field number 15</p>
+<dt><strong>exonFrames</strong></dt><dd><p>Alias for field number 15</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">exonStart</span></code></dt><dd><p>Alias for field number 9</p>
+<dt><strong>exonStart</strong></dt><dd><p>Alias for field number 9</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></dt><dd><p>Alias for field number 1</p>
+<dt><strong>name</strong></dt><dd><p>Alias for field number 1</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">name2</span></code></dt><dd><p>Alias for field number 12</p>
+<dt><strong>name2</strong></dt><dd><p>Alias for field number 12</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">score</span></code></dt><dd><p>Alias for field number 11</p>
+<dt><strong>score</strong></dt><dd><p>Alias for field number 11</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">strand</span></code></dt><dd><p>Alias for field number 3</p>
+<dt><strong>strand</strong></dt><dd><p>Alias for field number 3</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">txEnd</span></code></dt><dd><p>Alias for field number 5</p>
+<dt><strong>txEnd</strong></dt><dd><p>Alias for field number 5</p>
 </dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">txStart</span></code></dt><dd><p>Alias for field number 4</p>
+<dt><strong>txStart</strong></dt><dd><p>Alias for field number 4</p>
 </dd>
 </dl>
 </dd>
