@@ -1,3 +1,5 @@
+from typing import Union
+
 from collections import OrderedDict
 
 import svgutils.compose as sc
@@ -6,6 +8,8 @@ import matplotlib.pyplot as plt
 from coolbox.utilities.figtools import cm2inch
 from coolbox.utilities.filetool import get_uniq_tmp_file
 from coolbox.utilities import GenomeRange
+from coolbox.core.track import Track
+from coolbox.core.frame import Frame
 from .base import SuperFrame
 
 
@@ -18,7 +22,7 @@ class JointView(SuperFrame):
     ----------
     center : Track
         Center track for show 'contact map-like' plot,
-        should has the '.plot_joint' method.
+        should support for plotting images with 2d GenomeRanges.
 
     top : Frame, optional
         Frame plot in the top of the center track.
@@ -40,11 +44,12 @@ class JointView(SuperFrame):
         Space between frame and center, unit in cm. default 0.5
     """
 
-    def __init__(self, center,
-                 top=None,
-                 right=None,
-                 bottom=None,
-                 left=None,
+    def __init__(self,
+                 center: Track,
+                 top: Union[Frame, Track] = None,
+                 right: Union[Frame, Track] = None,
+                 bottom: Union[Frame, Track] = None,
+                 left: Union[Frame, Track] = None,
                  **kwargs,
                  ):
         sub_frames = OrderedDict({
@@ -54,9 +59,9 @@ class JointView(SuperFrame):
             "left": left,
         })
         sub_frames = {k: v for k, v in sub_frames.items() if v is not None}
-
         self.__check_sub_frames(center, sub_frames)
-
+        # explicitely use matrix style
+        center.properties['style'] = 'matrix'
         properties = {
             "sub_frames": sub_frames,
             "center_track": center,
@@ -70,7 +75,6 @@ class JointView(SuperFrame):
 
         super().__init__(properties)
         self.__adjust_sub_frames_width()
-        self.current_range = [None, None]
 
     def cm2px(self, vec):
         return [i * self.properties['cm2px'] for i in vec]
@@ -101,28 +105,14 @@ class JointView(SuperFrame):
         center_track = self.properties['center_track']
         size = cm2inch(self.properties['center_width'])
         fig, ax = plt.subplots(figsize=(size, size))
-        center_track.plot(ax, gr1, gr2=gr2)
-        center_track.plot_coverages(ax, gr1, gr2)
+        center_track.plot(ax, gr2, gr2=gr1)
+        center_track.plot_coverages(ax, gr2, gr1)
         ax.set_axis_off()
         path = get_uniq_tmp_file(prefix='center', suffix='.svg')
         fig.subplots_adjust(wspace=0, hspace=0.0, left=0, right=1, bottom=0, top=1)
         fig.savefig(path)
         plt.close()
         return sc.SVG(path)
-
-    def goto(self, gr1=None, gr2=None):
-        if gr1 is not None:
-            gr1 = GenomeRange(gr1)
-        if gr2 is not None:
-            gr2 = GenomeRange(gr2)
-        if gr1 is None:
-            gr1 = self.current_range[0]
-        if gr2 is None:
-            gr2 = gr1
-
-        if gr1 is None or gr2 is None:
-            raise ValueError("No history gr found.")
-        self.current_range = [gr1, gr2]
 
     def frame_granges(self, gr1=None, gr2=None):
         self.goto(gr1, gr2)
