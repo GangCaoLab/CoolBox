@@ -28,14 +28,14 @@ class HiCDiff(HicMatBase):
 
     DEFAULT_ARGS_HIC = {
         "transform": "no",
-        "normalize": "no",
+        "normalize": "expect",
         "gaussian_sigma": "no",
         "process_func": "no",
     }
 
     DEFAULT_PROPERTIES = {
         'style': HicMatBase.STYLE_WINDOW,
-        "cmap": "RdYlBu",
+        "cmap": "bwr",
         "transform": False,
         'diff_method': "diff",
         'args_hic': DEFAULT_ARGS_HIC,

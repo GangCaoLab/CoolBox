@@ -159,7 +159,7 @@ class CLI(object):
 
         compose_code = get_compose_code(elem_str, args, kwargs)
         log.info(f"Create element, compose code: {compose_code}")
-        self.frames[self.frame_pos] += "\t" * self._indent + "frame += " + compose_code + "\n"
+        self.frames[self.frame_pos] += "    " * self._indent + "frame += " + compose_code + "\n"
         return self
 
     def start_with(self, elem_str, *args, **kwargs):
@@ -177,7 +177,7 @@ class CLI(object):
 
         compose_code = get_compose_code(elem_str, args, kwargs)
         log.info(f"Create a with block, compose code: {compose_code}")
-        self.frames[self.frame_pos] += "\t" * self._indent + f"with {compose_code}:\n"
+        self.frames[self.frame_pos] += "    " * self._indent + f"with {compose_code}:\n"
         self._indent += 1
         return self
 
@@ -207,7 +207,7 @@ class CLI(object):
             source += "return frame\n"
         else:
             source += "return list(frame.tracks.values())[0]\n"
-        source = "\n".join("\t" + line for line in source.split("\n")) + "\n"
+        source = "\n".join("    " + line for line in source.split("\n")) + "\n"
         # generate function and call
         frame_var = f"{pos}_frame"
         source = f"def fetch_{frame_var}():\n" + source

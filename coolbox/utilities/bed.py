@@ -384,6 +384,7 @@ def index_bedgraph(bgz_file):
 
 
 def build_bedgraph_bgz(file):
+    file = osp.expanduser(file)
     if file.endswith(".bgz"):
         bgz_file = file
     else:
@@ -397,6 +398,7 @@ def build_bedgraph_bgz(file):
 
 
 def build_bed_index(file):
+    file = osp.expanduser(file)
     if file.endswith(".bgz"):
         bgz_file = file
     else:
@@ -410,6 +412,7 @@ def build_bed_index(file):
 
 
 def build_snp_index(file, col_chrom, col_pos):
+    file = osp.expanduser(file)
     c = col_chrom + 1
     p = col_pos + 1
     if file.endswith(".bgz"):
@@ -506,6 +509,7 @@ def tabix_index(filename, preset="gff"):
 
 
 def build_gtf_index(file):
+    file = osp.expanduser(file)
     if file.endswith(".gtf"):
         bgz_file = file + ".bgz"
         if not osp.exists(bgz_file):
@@ -526,3 +530,4 @@ def build_gtf_index(file):
         log.info(f"Tabix index not found, build it in {idx_file}")
         tabix_index(bgz_file)
     return bgz_file
+

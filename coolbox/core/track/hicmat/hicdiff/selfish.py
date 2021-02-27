@@ -53,6 +53,7 @@ class Selfish(HicMatBase):
         "transform": False,
         "s": 10,
         "sigma0": 1.6,
+        "norm": 'log',
         "args_hic": DEFAULT_ARGS_HIC,
     }
 

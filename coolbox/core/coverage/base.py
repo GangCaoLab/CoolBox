@@ -47,7 +47,7 @@ class Coverage(object):
 
         stack = get_feature_stack()
         for feature in stack:
-            self.properties[feature.key] = feature.value
+            self.properties.update(feature.properties)
 
         self.track = None
 
