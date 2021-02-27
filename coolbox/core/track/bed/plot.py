@@ -39,6 +39,8 @@ class PlotBed(object):
 
     def plot_genes(self, ax, gr: GenomeRange, ov_genes: pd.DataFrame):
         properties = self.properties
+        # bed_type
+        self.properties['bed_type'] = properties['bed_type'] or self.infer_bed_type(ov_genes)
         # as min_score and max_score change every plot, we compute them for every plot
         min_score, max_score = properties['min_score'], properties['max_score']
         has_score_col = properties['bed_type'] in ('bed6', 'bed9', 'bed12')
@@ -62,8 +64,6 @@ class PlotBed(object):
         self.counter = 0
         self.small_relative = 0.004 * (gr.end - gr.start)
         self.get_length_w(ax.get_figure().get_figwidth(), gr.start, gr.end)
-        # bed_type
-        self.properties['bed_type'] = properties['bed_type'] or self.infer_bed_type(ov_genes)
         # turn labels off when too many intervals are visible.
         if properties['labels'] == 'on' and len(ov_genes) > 60:
             self.is_draw_labels = False
@@ -106,7 +106,7 @@ class PlotBed(object):
             BED6
             bed without rgb
             chr2L   0       70000   ID_5    0.26864549832   .
-            
+
             BED3
             bed with only intervals
             chr2L  0        70000
