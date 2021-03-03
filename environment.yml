@@ -10,5 +10,4 @@ dependencies:
   - pip
   - pairix
   - tabix
-  - pybigwig
   - samtools>=1.10
