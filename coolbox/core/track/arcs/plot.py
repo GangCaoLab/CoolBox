@@ -11,11 +11,11 @@ class PlotContacts(object):
         style = self.properties['style']
         columns = intervals.columns
         if style == self.STYLE_ARCS:
-            assert all(c in columns for c in ['pos1', 'pos2']), \
-                "The 'arcs' style's input DataFrame should have columns ['pos', 'pos2']"
+            assert len(intervals) == 0 or all(c in columns for c in ['pos1', 'pos2']), \
+                "The 'arcs' style's input DataFrame should have columns ['pos1', 'pos2']"
             self.plot_arcs(ax, gr, gr2, intervals)
         elif style == self.STYLE_HICPEAKS:
-            assert all(c in columns for c in ['start1', 'end1', 'start2', 'end2']), \
+            assert len(intervals) == 0 or all(c in columns for c in ['start1', 'end1', 'start2', 'end2']), \
                 "The 'hicpeaks' style's input DataFrame should have columns:" \
                 " ['start1', 'end1', 'start2', 'end2'] or ['pos1', 'pos2']"
             self.plot_hicpeaks(ax, gr, gr2, intervals)
