@@ -18,10 +18,11 @@ jobs:
     - name: Install dependencies
       run: |
         $CONDA/bin/conda env update --name base --file environment.yml
+        $CONDA/bin/pip install .
     - name: Test with pytest
       run: |
         export PATH=$CONDA/bin:$PATH
         $CONDA/bin/conda install --yes pytest
         $CONDA/bin/conda install -c conda-forge --yes pytest-tornasync
-        export PYTHONPATH="./"
+        cd tests
         $CONDA/bin/pytest

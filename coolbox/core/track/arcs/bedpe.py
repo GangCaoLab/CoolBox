@@ -75,4 +75,4 @@ class BEDPE(ArcsBase, FetchParix):
                 df = df[mask]
             return df
         else:
-            raise ValueError("The supported style for bedpe data are ['arcs', 'peaks']")
+            raise ValueError("The supported style for bedpe data are ['arcs', 'hicpeaks']")

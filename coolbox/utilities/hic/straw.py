@@ -37,7 +37,6 @@ __license__ = "MIT"
 import sys
 import struct
 import zlib
-import requests
 import io
 
 blockMap = dict()
@@ -449,16 +448,18 @@ def straw(norm, infile, chr1loc, chr2loc, unit, binsize):
     magic_string = ""
     if (infile.startswith("http")):
         # try URL first. 100K should be sufficient for header
-        headers = {'range': 'bytes=0-100000', 'x-amz-meta-requester': 'straw'}
-        s = requests.Session()
-        r = s.get(infile, headers=headers)
-        if (r.status_code >= 400):
-            print("Error accessing " + infile)
-            print("HTTP status code " + str(r.status_code))
-            return -1
-        req = io.BytesIO(r.content)
-        myrange = r.headers['content-range'].split('/')
-        totalbytes = myrange[1]
+        raise ValueError("Network file is not supported right now.")
+        # TODO replace requests to build urllib
+        # headers = {'range': 'bytes=0-100000', 'x-amz-meta-requester': 'straw'}
+        # s = requests.Session()
+        # r = s.get(infile, headers=headers)
+        # if (r.status_code >= 400):
+        #     print("Error accessing " + infile)
+        #     print("HTTP status code " + str(r.status_code))
+        #     return -1
+        # req = io.BytesIO(r.content)
+        # myrange = r.headers['content-range'].split('/')
+        # totalbytes = myrange[1]
     else:
         req = open(infile, 'rb')
 

@@ -1,5 +1,7 @@
 import os
 import os.path as osp
+import pandas as pd
+
 from coolbox.api import *
 from coolbox.utilities import GenomeRange
 import matplotlib.pyplot as plt
@@ -18,7 +20,8 @@ def test_xaxis():
 
 def test_bigwig():
     bw = BigWig(f"{DATA_DIR}/bigwig_{test_itv}.bw")
-    assert bw.fetch_data(test_interval) is not None
+    intervals = bw.fetch_data(test_interval)
+    assert isinstance(intervals, pd.DataFrame)
     fig, ax = plt.subplots()
     bw.plot(ax, test_interval)
     bw.fetch_data(empty_interval)
