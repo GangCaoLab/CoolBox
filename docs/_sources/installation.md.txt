@@ -18,7 +18,7 @@ $ git clone https://github.com/GangCaoLab/CoolBox.git
 $ cd CoolBox
 $ conda env create --file environment.yml
 $ conda activate coolbox
-$ python -m pip install . --no-deps -vv
+$ python -m pip install . -vv
 ```
 
 Enable `ipywidgets` to use the browser in Jupyter notebook:
