@@ -74,11 +74,11 @@ class StrawWrap(object):
         return binsize
 
     def __fetch_straw_list(self, genome_range1, genome_range2, binsize):
-        from .straw import straw
+        from coolbox.utilities.hic.strawC import strawC
         chr1loc = str(genome_range1).replace('-', ':')
         chr2loc = str(genome_range2).replace('-', ':')
         try:
-            slist = straw(self.normalization, self.hic_file, chr1loc, chr2loc, 'BP', binsize)
+            slist = strawC(self.normalization, self.hic_file, chr1loc, chr2loc, 'BP', binsize)
         except Exception as e:
             log.warning("Error occurred when reading the dothic file with straw:")
             log.warning(str(e))
@@ -113,7 +113,10 @@ class StrawWrap(object):
         binlen2 = (genome_range2.length // binsize) + 1
         mat = np.zeros((binlen1, binlen2), dtype=np.float64)
         is_cis = (genome_range1 == genome_range2)
-        for loc1, loc2, c in zip(*straw_list):
+        for rec in straw_list:
+            loc1 = rec.binX
+            loc2 = rec.binY
+            c = rec.counts
             bin1id = (loc1 - genome_range1.start) // binsize
             bin2id = (loc2 - genome_range2.start) // binsize
             if is_cis:
