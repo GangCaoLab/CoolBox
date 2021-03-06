@@ -17,6 +17,7 @@ jobs:
         python-version: 3.7
     - name: Install dependencies
       run: |
+        sudo apt-get install libcurl4-openssl-dev
         $CONDA/bin/conda env update --name base --file environment.yml
         $CONDA/bin/pip install .
     - name: Test with pytest
