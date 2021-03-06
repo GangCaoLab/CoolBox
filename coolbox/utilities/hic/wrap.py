@@ -74,15 +74,24 @@ class StrawWrap(object):
         return binsize
 
     def __fetch_straw_list(self, genome_range1, genome_range2, binsize):
-        from coolbox.utilities.hic.strawC import strawC
+        from coolbox.utilities.hic.straw import straw
         chr1loc = str(genome_range1).replace('-', ':')
         chr2loc = str(genome_range2).replace('-', ':')
+        slist = []
         try:
-            slist = strawC(self.normalization, self.hic_file, chr1loc, chr2loc, 'BP', binsize)
+            slist = straw(self.normalization, self.hic_file, chr1loc, chr2loc, 'BP', binsize)
         except Exception as e:
             log.warning("Error occurred when reading the dothic file with straw:")
             log.warning(str(e))
-            slist = []
+            if self.normalization != "NONE":
+                log.warning("Try to read unbalanced matrix.")
+                self.normalization = "NONE"
+                try:
+                    slist = straw(self.normalization, self.hic_file, chr1loc, chr2loc, 'BP', binsize)
+                except Exception as e:
+                    log.warning("Failed.")
+                    log.warning(str(e))
+                log.warning("Unbalanced matrix is readed.")
         return slist
 
     def fetch_pixels(self, genome_range1, genome_range2=None):
@@ -113,10 +122,8 @@ class StrawWrap(object):
         binlen2 = (genome_range2.length // binsize) + 1
         mat = np.zeros((binlen1, binlen2), dtype=np.float64)
         is_cis = (genome_range1 == genome_range2)
-        for rec in straw_list:
-            loc1 = rec.binX
-            loc2 = rec.binY
-            c = rec.counts
+        for rec in zip(*straw_list):
+            loc1, loc2, c = rec[0], rec[1], rec[2]
             bin1id = (loc1 - genome_range1.start) // binsize
             bin2id = (loc2 - genome_range2.start) // binsize
             if is_cis:
