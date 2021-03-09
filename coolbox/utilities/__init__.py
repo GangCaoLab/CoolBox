@@ -37,7 +37,7 @@ BUILT_IN_GENOMES = {
 
 FEATURES_STACK_NAME = "__COOLBOX_FEATURE_STACK__"
 COVERAGE_STACK_NAME = "__COOLBOX_COVERAGE_STACK__"
-
+IGNORE_TYPE_CHANGE = ['title','name']
 
 def get_feature_stack():
     global_scope = globals()
@@ -60,6 +60,8 @@ def format_properties(properties):
         if isinstance(value, bool):
             properties[key] = 'yes' if value else 'no'
         elif isinstance(value, str):
+            if key in IGNORE_TYPE_CHANGE:
+                continue
             try:
                 float_val = float(value)
                 properties[key] = float_val
