@@ -92,7 +92,7 @@ class HistBase(Track, PlotHist):
         self.genome_range = [None, None]
 
     def plot(self, ax, gr: GenomeRange, **kwargs):
-        log.debug("plotting {}".format(self.properties['file']))
+        log.debug("plotting {}".format(self.properties.get('file', None)))
 
         self.ax = ax
         # if genome range would change?
