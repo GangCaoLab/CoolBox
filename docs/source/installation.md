@@ -18,7 +18,7 @@ $ git clone https://github.com/GangCaoLab/CoolBox.git
 $ cd CoolBox
 $ conda env create --file environment.yml
 $ conda activate coolbox
-$ python -m pip install . -vv
+$ python setup.py install
 ```
 
 Enable `ipywidgets` to use the browser in Jupyter notebook:
@@ -42,11 +42,9 @@ interactively explore their genomic data.
 
 For this purpose, you can reference this
 [Quickstart (API) page](https://gangcaolab.github.io/CoolBox/quick_start_API.html).
-
-
 Or just import `coolbox` as a
 Python plot package use in their own plot
-script(see [example](https://todo)).
+script.
 
 
 ### CLI

@@ -6,13 +6,13 @@ LABEL version="1"
 LABEL software="CoolBox"
 LABEL software.version="latest"
 LABEL website="https://github.com/Nanguage/CoolBox"
-LABEL documentation="https://github.com/Nanguage/CoolBox/wiki"
+LABEL documentation="https://gangcaolab.github.io/CoolBox/index.html"
 LABEL license="https://github.com/Nanguage/CoolBox/blob/master/LICENSE"
 LABEL tags="Bioinformatics,Genomics,Hi-C,Visualization"
 
 MAINTAINER nanguage@yahoo.com
 
-ENV version=0.2.1
+ENV version=0.3.4
 
 ENV MINICONDA https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
 

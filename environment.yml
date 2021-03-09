@@ -11,4 +11,3 @@ dependencies:
   - pairix
   - tabix
   - samtools>=1.10
-  - libcurl
