@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'CoolBox'
-copyright = '2020, WeizeXu'
+copyright = '2021, WeizeXu'
 author = 'WeizeXu'
 
 

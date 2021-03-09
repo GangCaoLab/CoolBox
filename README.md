@@ -21,6 +21,10 @@
   <a href="https://gangcaolab.github.io/CoolBox/index.html">
     <img src="https://readthedocs.org/projects/ansicolortags/badge/?version=latest" alt="Documentation Status" />
   </a>
+  
+  <a href="https://hub.docker.com/r/nanguage/coolbox">
+  	<img src="https://img.shields.io/docker/pulls/nanguage/coolbox">
+  </a>
 </p>
 
 WIP

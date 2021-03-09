@@ -77,7 +77,7 @@ RUN conda upgrade conda
 # Install
 RUN wget https://github.com/GangCaoLab/CoolBox/archive/${version}.tar.gz
 RUN tar zxvf ${version}.tar.gz
-RUN cd CoolBox-${version} && conda env update --file environment.yml -n base && python -m pip install . --no-deps -vv
+RUN cd CoolBox-${version} && conda env update --file environment.yml -n base && python setup.py install
 RUN jupyter nbextension enable --py widgetsnbextension
 
 

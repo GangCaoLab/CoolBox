@@ -209,10 +209,17 @@ by this way you can use the latest updated features:</p>
 $ <span class="nb">cd</span> CoolBox
 $ conda env create --file environment.yml
 $ conda activate coolbox
-$ python -m pip install . -vv
+$ python setup.py install
 </pre></div>
 </div>
-<p>Enable <code class="docutils literal notranslate"><span class="pre">ipywidgets</span></code> to use the browser in Jupyter notebook:</p>
+<p>Another way is install from PyPI. But you should ensure these
+<a class="reference external" href="https://github.com/GangCaoLab/CoolBox/blob/master/environment.yml">dependency</a>
+is installed.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install coolbox
+</pre></div>
+</div>
+<p>After installation, you should
+enable <code class="docutils literal notranslate"><span class="pre">ipywidgets</span></code> to use the browser in Jupyter notebook:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ jupyter nbextension <span class="nb">enable</span> --py widgetsnbextension
 </pre></div>
 </div>
@@ -228,10 +235,10 @@ draw figures or compose a Browser object to
 interactively explore their genomic data.</p>
 <p><img alt="browser" src="_images/browser_compose_1.png" /></p>
 <p>For this purpose, you can reference this
-<a class="reference external" href="https://gangcaolab.github.io/CoolBox/quick_start_API.html">Quickstart (API) page</a>.</p>
-<p>Or just import <code class="docutils literal notranslate"><span class="pre">coolbox</span></code> as a
+<a class="reference external" href="https://gangcaolab.github.io/CoolBox/quick_start_API.html">Quickstart (API) page</a>.
+Or just import <code class="docutils literal notranslate"><span class="pre">coolbox</span></code> as a
 Python plot package use in their own plot
-script(see <a class="reference external" href="https://todo">example</a>).</p>
+script.</p>
 </div>
 <div class="section" id="cli">
 <h3>CLI<a class="headerlink" href="#cli" title="Permalink to this headline">¶</a></h3>
@@ -256,13 +263,16 @@ See <a class="reference external" href="https://docs.microsoft.com/en-us/windows
 </div>
 <p>Run a container, with mount current directory in file system to the ‘/data’ in the container.
 And binding the container port 8888(jupyter default port) to the host port 9000:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ docker run -ti -p 9000:8888 nanguage/coolbox:latest
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ docker run -ti -v $(pwd):/data -p 9000:8888 nanguage/coolbox:latest
 </pre></div>
 </div>
 <p>Then run jupyter notebook in the container:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ jupyter notebook --ip=0.0.0.0 --allow-root
+## will print the token here
 </pre></div>
 </div>
+<p>Then open http://127.0.0.1:9000/ with your browser, and type the
+token printed in the console.</p>
 </div>
 </div>
 </div>

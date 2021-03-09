@@ -21,7 +21,17 @@ $ conda activate coolbox
 $ python setup.py install
 ```
 
-Enable `ipywidgets` to use the browser in Jupyter notebook:
+Another way is install from PyPI. But you should ensure these
+[dependency](https://github.com/GangCaoLab/CoolBox/blob/master/environment.yml)
+is installed.
+
+```bash
+$ pip install coolbox
+```
+
+
+After installation, you should
+enable `ipywidgets` to use the browser in Jupyter notebook:
 
 ```bash
 $ jupyter nbextension enable --py widgetsnbextension
@@ -76,11 +86,16 @@ Run a container, with mount current directory in file system to the '/data' in t
 And binding the container port 8888(jupyter default port) to the host port 9000:
 
 ```
-$ docker run -ti -p 9000:8888 nanguage/coolbox:latest
+$ docker run -ti -v $(pwd):/data -p 9000:8888 nanguage/coolbox:latest
 ```
 
 Then run jupyter notebook in the container:
 
 ```
 $ jupyter notebook --ip=0.0.0.0 --allow-root
+## will print the token here
 ```
+
+Then open http://127.0.0.1:9000/ with your browser, and type the
+token printed in the console.
+
