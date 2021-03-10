@@ -28,6 +28,8 @@ cmaps = {
 
 
 class PlotHiCMat(object):
+    JuiceBoxLikeColor = cmaps.get('JuiceBoxLike')
+    JuiceBoxLikeColor2 = cmaps.get('JuiceBoxLike2')
 
     def __init__(self, *args, **kwargs):
         self.ax = None
