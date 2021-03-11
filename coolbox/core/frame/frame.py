@@ -167,6 +167,9 @@ class Frame(FrameBase):
         elif len(args) == 2:
             gr = GenomeRange(args[0])
             gr2 = GenomeRange(args[1])
+        elif self.current_range:
+            gr = self.current_range
+            gr2 = None
         else:
             raise ValueError("Please specify a genomic range in uscs format. For example: 'chr1:100000-200000'")
         # cache for the previous GenomeRange
