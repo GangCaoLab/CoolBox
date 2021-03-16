@@ -105,6 +105,13 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Arcs style</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Open-region">Open region</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Line-width">Line width</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Fill">Fill</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Height">Height</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Line-style">Line style</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Color">Color</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Orientation">Orientation</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="arcs_cov.html">Arcs coverage</a></li>
@@ -490,7 +497,6 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">bedpe_path</span> <span class="o">=</span> <span class="s2">&quot;../../../tests/test_data/bedpe_var_chr9_4000000_6000000.bedpe&quot;</span>
-<span class="n">cool_path</span> <span class="o">=</span> <span class="s2">&quot;../../../tests/test_data/cool_chr9_4000000_6000000.mcool&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -514,7 +520,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_gallery_arcs_style_6_0.png" src="../_images/_gallery_arcs_style_6_0.png" />
+<img alt="../_images/_gallery_arcs_style_5_0.png" src="../_images/_gallery_arcs_style_5_0.png" />
 </div>
 </div>
 <p>Otherwise(default), will fetch the contacts only one side located in the region:</p>
@@ -535,7 +541,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_gallery_arcs_style_8_0.png" src="../_images/_gallery_arcs_style_8_0.png" />
+<img alt="../_images/_gallery_arcs_style_7_0.png" src="../_images/_gallery_arcs_style_7_0.png" />
 </div>
 </div>
 </div>
@@ -560,7 +566,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_gallery_arcs_style_11_0.png" src="../_images/_gallery_arcs_style_11_0.png" />
+<img alt="../_images/_gallery_arcs_style_9_0.png" src="../_images/_gallery_arcs_style_9_0.png" />
 </div>
 </div>
 <p>If the static line width is needed, use the <code class="docutils literal notranslate"><span class="pre">line_width</span></code> parameter:</p>
@@ -581,7 +587,171 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="output_area docutils container">
+<img alt="../_images/_gallery_arcs_style_11_0.png" src="../_images/_gallery_arcs_style_11_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Fill">
+<h2>Fill<a class="headerlink" href="#Fill" title="Permalink to this headline">¶</a></h2>
+<p>Set the <code class="docutils literal notranslate"><span class="pre">fill=True</span></code> to fill arc area, and adjust color and alpha with <code class="docutils literal notranslate"><span class="pre">fill_color</span></code>, <code class="docutils literal notranslate"><span class="pre">fill_alpha</span></code> parameters:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">arc</span> <span class="o">=</span> <span class="n">Arcs</span><span class="p">(</span><span class="n">bedpe_path</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fill_alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">fill_color</span><span class="o">=</span><span class="s2">&quot;#3297dc&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">TrackHeight</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">arc</span>
+
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4500000-6000000&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
 <img alt="../_images/_gallery_arcs_style_13_0.png" src="../_images/_gallery_arcs_style_13_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Height">
+<h2>Height<a class="headerlink" href="#Height" title="Permalink to this headline">¶</a></h2>
+<p>The arc height is calculate from it’s diameter(xmax - xmin), the default equation is: <code class="docutils literal notranslate"><span class="pre">(max_height</span> <span class="pre">-</span> <span class="pre">0.5)</span> <span class="pre">*</span> <span class="pre">diameter</span> <span class="pre">/</span> <span class="pre">max_diameter</span></code>. It can be changed with <code class="docutils literal notranslate"><span class="pre">diameter_to_height</span></code> parameter, for example to use static height:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">arc</span> <span class="o">=</span> <span class="n">Arcs</span><span class="p">(</span><span class="n">bedpe_path</span><span class="p">,</span> <span class="n">diameter_to_height</span><span class="o">=</span><span class="s2">&quot;max_height-0.5&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">TrackHeight</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">arc</span>
+
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4500000-6000000&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_gallery_arcs_style_15_0.png" src="../_images/_gallery_arcs_style_15_0.png" />
+</div>
+</div>
+<p>Let shorter arcs has higher than longer:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">arc</span> <span class="o">=</span> <span class="n">Arcs</span><span class="p">(</span><span class="n">bedpe_path</span><span class="p">,</span> <span class="n">diameter_to_height</span><span class="o">=</span><span class="s2">&quot;(max_diameter/diameter)*0.5&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">TrackHeight</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">arc</span>
+
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4500000-6000000&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_gallery_arcs_style_17_0.png" src="../_images/_gallery_arcs_style_17_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Line-style">
+<h2>Line style<a class="headerlink" href="#Line-style" title="Permalink to this headline">¶</a></h2>
+<p>see <a class="reference external" href="https://matplotlib.org/3.1.0/gallery/lines_bars_and_markers/linestyles.html">linestyles</a>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">arc</span> <span class="o">=</span> <span class="n">Arcs</span><span class="p">(</span><span class="n">bedpe_path</span><span class="p">,</span> <span class="n">line_style</span><span class="o">=</span><span class="s2">&quot;dotted&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">TrackHeight</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">arc</span>
+
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4500000-6000000&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_gallery_arcs_style_19_0.png" src="../_images/_gallery_arcs_style_19_0.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Color">
+<h1>Color<a class="headerlink" href="#Color" title="Permalink to this headline">¶</a></h1>
+<p>Arcs deafault use statical color, set with <code class="docutils literal notranslate"><span class="pre">color</span></code> parameter:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">arc</span> <span class="o">=</span> <span class="n">Arcs</span><span class="p">(</span><span class="n">bedpe_path</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">TrackHeight</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">arc</span>
+
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4500000-6000000&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_gallery_arcs_style_21_0.png" src="../_images/_gallery_arcs_style_21_0.png" />
+</div>
+</div>
+<p>Dynamic color can be enabled with “cmap”, here is a example, other ColorMap can reference <a class="reference external" href="https://matplotlib.org/stable/tutorials/colors/colormaps.html">here</a>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">arc</span> <span class="o">=</span> <span class="n">Arcs</span><span class="p">(</span><span class="n">bedpe_path</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Reds&quot;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span> <span class="o">+</span> <span class="n">TrackHeight</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">arc</span>
+
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4500000-6000000&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_gallery_arcs_style_23_0.png" src="../_images/_gallery_arcs_style_23_0.png" />
+</div>
+</div>
+<div class="section" id="Orientation">
+<h2>Orientation<a class="headerlink" href="#Orientation" title="Permalink to this headline">¶</a></h2>
+<p>Arcs canbe inverted:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">arc</span> <span class="o">=</span> <span class="n">Arcs</span><span class="p">(</span><span class="n">bedpe_path</span><span class="p">)</span> <span class="o">+</span> <span class="n">Inverted</span><span class="p">()</span> <span class="o">+</span> <span class="n">TrackHeight</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="c1"># Or:</span>
+<span class="c1">#arc = Arcs(bedpe_path, orientation=&quot;inverted&quot;) + TrackHeight(8)</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">arc</span>
+
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:4500000-6000000&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_gallery_arcs_style_25_0.png" src="../_images/_gallery_arcs_style_25_0.png" />
 </div>
 </div>
 </div>

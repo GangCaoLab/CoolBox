@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
-from matplotlib.patches import Arc, Rectangle
+from matplotlib.patches import Arc, Rectangle, Ellipse
+from matplotlib import cm
 
 from coolbox.utilities.genome import GenomeRange, get_logger
 
@@ -66,7 +67,13 @@ class PlotContacts(object):
             else:
                 ax.set_ylim(-0.001, height)
 
-        color = properties['color']
+        def get_color(score, min_score, max_score):
+            if properties['cmap'] is not None:
+                cmap = cm.get_cmap(properties['cmap'])
+                return cmap((max(score, min_score)-min_score)/(max_score-min_score))
+            else:
+                return properties['color']
+
         alpha = properties['alpha']
         max_height = properties['height']
         adjust_yaxis(max_height)
@@ -74,11 +81,23 @@ class PlotContacts(object):
         if len(intervals) == 0:
             return
 
+        if properties['cmap'] is not None:
+            if properties['vmax'] is not None:
+                max_score = properties['vmax']
+            elif 'score' in intervals.columns:
+                max_score = intervals['score'].max()
+            else:
+                max_score = 1
+        else:
+            max_score = 1
+        min_score = properties['vmin'] or 0
+
         max_diameter = (intervals['pos2'] - intervals['pos1']).max()
         for row in intervals.itertuples():
             start, end = row.pos1, row.pos2
             score = row.score if hasattr(row, 'score') else 1
             line_width = get_linewidth(score)
+            color = get_color(score, min_score, max_score)
             diameter = (end - start)
             height = 2 * get_height(diameter)
             center = (start + end) / 2
@@ -89,7 +108,14 @@ class PlotContacts(object):
                 color=color,
                 alpha=alpha,
                 lw=line_width,
+                linestyle=properties['line_style']
             )
+            if properties['fill'] == 'yes':
+                fill = Ellipse((center, 0), diameter, height,
+                               alpha=properties['fill_alpha'],
+                               color=properties['fill_color'],
+                               fill=True)
+                ax.add_patch(fill)
             ax.add_patch(arc)
 
     def plot_hicpeaks(self, ax, gr: GenomeRange, gr2: GenomeRange, intervals: pd.DataFrame):
@@ -149,12 +175,20 @@ class PlotContacts(object):
         plot_kwargs = {
             'edgecolor': properties['color'],
             'facecolor': properties['fill_color'],
-            'alpha': properties['alpha'],
             'linewidth': properties['line_width'],
             'linestyle': properties['line_style'],
             'fill': True if properties['fill'] == 'yes' else False
         }
         side = properties['side']
+
+        def set_alpha(rec):
+            fc = list(rec.get_facecolor())
+            fc[-1] = properties['fill_alpha']
+            rec.set_facecolor(fc)
+            ec = list(rec.get_edgecolor())
+            ec[-1] = properties['alpha']
+            rec.set_edgecolor(ec)
+            return rec
 
         for loop in intervals.itertuples():
             (st1, ed1, st2, ed2) = loop.start1, loop.end1, loop.start2, loop.end2
@@ -163,6 +197,7 @@ class PlotContacts(object):
                 if y >= depth_limit:
                     continue
                 rec = Rectangle((x, y), w, h, angle=45, **plot_kwargs)
+                rec = set_alpha(rec)
                 ax.add_patch(rec)
 
             elif hicmat_style in hicmat_ma_style:
@@ -170,10 +205,12 @@ class PlotContacts(object):
                     # plot upper rectangle
                     x, y, (w, h) = pos_matrix_upper(st1, ed1, st2, ed2)
                     rec = Rectangle((x, y), w, h, **plot_kwargs)
+                    rec = set_alpha(rec)
                     ax.add_patch(rec)
 
                 if side in ('lower', 'both'):
                     # plot lower rectangle
                     x, y, (w, h) = pos_matrix_lower(st1, ed1, st2, ed2)
                     rec = Rectangle((x, y), w, h, **plot_kwargs)
+                    rec = set_alpha(rec)
                     ax.add_patch(rec)

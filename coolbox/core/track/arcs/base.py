@@ -42,6 +42,10 @@ class ArcsBase(Track, PlotContacts):
         Fill color, use 'bed_rgb' for specify color in file,
         default 'bed_rgb'.
 
+    fill_alpha : float, optional
+        Alpha value of fill region.
+        default 0.2
+
     side : {'upper', 'lower', 'both'}
         Plot peak in which side of the matrix.
         NOTE: This parameters is useful only if the Cool track in matrix format.
@@ -58,17 +62,21 @@ class ArcsBase(Track, PlotContacts):
         # arcs
         'line_width': None,
         'score_to_width': '0.5 + math.sqrt(score)',
-        'open_region': True,
         'diameter_to_height': '(max_height - 0.5) * diameter / max_diameter',
         'orientation': None,
+        'cmap': None,
+        'vmin': None,
+        'vmax': None,
         # hicpeaks
-        "line_style": "solid",
-        "fill": False,
-        "fill_color": "white",
         "side": "both",
         # general
+        "line_style": "solid",
+        'open_region': True,
         'color': '#3297dc',
         'alpha': 0.8,
+        "fill": False,
+        "fill_color": "#3297dc",
+        "fill_alpha": 0.2,
     }
 
     def __init__(self, **kwargs):
