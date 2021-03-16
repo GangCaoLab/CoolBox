@@ -47,7 +47,7 @@
     <img src="https://github.com/GangCaoLab/coolbox/actions/workflows/python-package-conda.yml/badge.svg" alt="Build Status">
   </a>
 
-  <a href="https://codecov.io/gh/GangCalLab/coolbox">
+  <a href="https://app.codecov.io/gh/GangCaoLab/CoolBox">
     <img src="https://codecov.io/gh/GangCaoLab/coolbox/branch/master/graph/badge.svg" alt="codecov">
   </a>
 
@@ -58,13 +58,11 @@
 </p>
 
 
-WIP
-
 Flexible, user-friendly genomic data visualization toolkit. 
 
 ![](docs/images/title.png)
 
-Highlights:
+## Highlights:
 
 * Multi-omics data interactively visualization.
 * User-friendly [API (ggplot2-like Python EDSL)](https://gangcaolab.github.io/CoolBox/quick_start_API.html) and [CLI](https://gangcaolab.github.io/CoolBox/quick_start_CLI.html).
@@ -75,9 +73,18 @@ Highlights:
 More details please read the [documentation](https://gangcaolab.github.io/CoolBox/index.html).
 Interactively online demo: [binder](https://mybinder.org/v2/gh/GangCaoLab/CoolBox/master?filepath=tests%2FTestRegion.ipynb)
 
-Thanks
+## Develop
+
+See [CONTRIBUTING.md](https://github.com/GangCaoLab/CoolBox/blob/master/CONTRIBUTING.md) 
+
+## Thanks
 
 + [pyGenomeTracks](https://github.com/deeptools/pyGenomeTracks),
 CoolBox's plot system is fork from it.
 
+### Contributors 
+This project exists thanks to all the people who contribute. 
+<a href="https://github.com/GangCaoLab/CoolBox/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=GangCaoLab/CoolBox" />
+</a>
 
