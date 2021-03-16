@@ -11,21 +11,36 @@
   </a>
   
   <a href="https://anaconda.org/bioconda/coolbox">
-    <img src="https://anaconda.org/bioconda/coolbox/badges/installer/conda.svg" alt="Install with conda" />
+    <img src="https://img.shields.io/conda/v/bioconda/coolbox" alt="Install with conda" />
   </a>
   
-  <a href="https://github.com/GangCaoLab/CoolBox/actions?query=workflow%3A%22Python+Package+using+Conda%22">
-    <img src="https://github.com/GangCaoLab/CoolBox/workflows/Python%20Package%20using%20Conda/badge.svg" alt="Python Package using Conda" />
-  </a>
   
-  <a href="https://gangcaolab.github.io/CoolBox/index.html">
-    <img src="https://readthedocs.org/projects/ansicolortags/badge/?version=latest" alt="Documentation Status" />
+  <a href="https://pypi.python.org/pypi/coolbox/">
+    <img src="https://img.shields.io/pypi/v/coolbox.svg" alt="Install with PyPi" />
   </a>
   
   <a href="https://hub.docker.com/r/nanguage/coolbox">
-  	<img src="https://img.shields.io/docker/pulls/nanguage/coolbox">
+  	<img src="https://img.shields.io/docker/v/nanguage/coolbox?label=docker&logo=docker&sort=semver" alt="Docker version">
   </a>
+  
+  <a href="https://github.com/GangCaoLab/CoolBox/releases">
+  	<img src="https://img.shields.io/github/v/release/gangcaolab/coolbox?include_prereleases&label=github" alt="Github release">
+  </a>
+ 
+  <a href="https://gangcaolab.github.io/CoolBox/index.html">
+  	<img src="https://readthedocs.org/projects/ansicolortags/badge/?version=latest" alt="Documentation">
+  </a>
+  
 </p>
+
+[![Python versions](https://img.shields.io/pypi/pyversions/coolbox.svg)](https://pypi.python.org/pypi/coolbox/)
+[![Downloads](https://pepy.tech/badge/coolbox)](https://pepy.tech/project/coolbox)
+[![Downloads per week](https://pepy.tech/badge/coolbox/week)](https://pepy.tech/project/coolbox) 
+[![Build Status](https://github.com/GangCaoLab/coolbox/actions/workflows/python-package-conda.yml/badge.svg)](https://github.com/GangCaoLab/coolbox/actions/workflows/python-package-conda.yml) 
+[![codecov](https://codecov.io/gh/GangCaoLab/coolbox/branch/master/graph/badge.svg)](https://codecov.io/gh/GangCalLab/coolbox)
+[![Python versions](https://img.shields.io/github/license/GangCaoLab/coolbox)](https://github.com/GangCaoLab/CoolBox/blob/master/LICENSE)
+
+
 
 WIP
 
