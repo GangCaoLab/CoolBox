@@ -19,10 +19,15 @@ jobs:
       run: |
         $CONDA/bin/conda env update --name base --file environment.yml
         $CONDA/bin/pip install .
+        $CONDA/bin/pip install pytest-cov
     - name: Test with pytest
       run: |
         export PATH=$CONDA/bin:$PATH
         $CONDA/bin/conda install --yes pytest
         $CONDA/bin/conda install -c conda-forge --yes pytest-tornasync
-        cd tests
-        $CONDA/bin/pytest
+        $CONDA/bin/pytest --cov=./ tests/
+    - name: "Upload coverage to Codecov"
+      uses: codecov/codecov-action@v1
+      with:
+        fail_ci_if_error: true
+
