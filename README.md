@@ -31,15 +31,31 @@
   	<img src="https://readthedocs.org/projects/ansicolortags/badge/?version=latest" alt="Documentation">
   </a>
   
+  <a href="https://pypi.python.org/pypi/coolbox">
+    <img src="https://img.shields.io/pypi/pyversions/coolbox.svg" alt="Version">
+  </a>
+  
+  <a href="https://pepy.tech/project/coolbox">
+    <img src="https://pepy.tech/badge/coolbox" alt="Downloads">
+  </a>
+
+  <a href="https://pepy.tech/project/coolbox">
+    <img src="https://pepy.tech/badge/coolbox/week" alt="Downloads per week">
+  </a>
+  
+  <a href="https://github.com/GangCaoLab/coolbox/actions/workflows/python-package-conda.yml">
+    <img src="https://github.com/GangCaoLab/coolbox/actions/workflows/python-package-conda.yml/badge.svg" alt="Build Status">
+  </a>
+
+  <a href="https://codecov.io/gh/GangCalLab/coolbox">
+    <img src="https://codecov.io/gh/GangCaoLab/coolbox/branch/master/graph/badge.svg" alt="codecov">
+  </a>
+
+  <a href="https://github.com/GangCaoLab/CoolBox/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/GangCaoLab/coolbox" alt="license">
+  </a>
+
 </p>
-
-[![Python versions](https://img.shields.io/pypi/pyversions/coolbox.svg)](https://pypi.python.org/pypi/coolbox/)
-[![Downloads](https://pepy.tech/badge/coolbox)](https://pepy.tech/project/coolbox)
-[![Downloads per week](https://pepy.tech/badge/coolbox/week)](https://pepy.tech/project/coolbox) 
-[![Build Status](https://github.com/GangCaoLab/coolbox/actions/workflows/python-package-conda.yml/badge.svg)](https://github.com/GangCaoLab/coolbox/actions/workflows/python-package-conda.yml) 
-[![codecov](https://codecov.io/gh/GangCaoLab/coolbox/branch/master/graph/badge.svg)](https://codecov.io/gh/GangCalLab/coolbox)
-[![Python versions](https://img.shields.io/github/license/GangCaoLab/coolbox)](https://github.com/GangCaoLab/CoolBox/blob/master/LICENSE)
-
 
 
 WIP
