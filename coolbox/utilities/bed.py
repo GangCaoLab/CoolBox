@@ -1,3 +1,4 @@
+import typing as T
 import subprocess as subp
 from functools import partial
 from os import path as osp
@@ -8,6 +9,7 @@ import types
 
 from .filetool import opener, to_string
 from .logtools import get_logger
+from .genome import GenomeRange
 
 log = get_logger(__name__)
 
@@ -445,9 +447,13 @@ def index_bedpe(bgz_path):
     subp.check_call(cmd)
 
 
-def pairix_query(bgz_file, query, second=None, split=True):
+def pairix_query(bgz_file, query: GenomeRange, second: T.Optional[GenomeRange] = None,
+                 open_region: bool = False, split: bool = True):
     if second:
-        query = f"{query}-{second}"
+        query = f"{query}|{second}"
+    else:
+        if open_region:
+            query = f"{query}|{query.chrom}"
     cmd = ['pairix', str(bgz_file), str(query)]
     p = subp.Popen(cmd, stdout=subp.PIPE)
     for line in p.stdout:

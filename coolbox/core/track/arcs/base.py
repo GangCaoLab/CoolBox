@@ -14,11 +14,15 @@ class ArcsBase(Track, PlotContacts):
     style : str, optional
         Style of arcs plot: 'arcs', 'hicpeaks', default 'arcs'
 
+    score_to_width : str, optional
+        Mapping function of score to width, default: '0.5 + math.sqrt(score)'
+
     line_width : float, optional
         Width of arc line.
 
-    score_to_width : str, optional
-        Mapping function of score to width, default: '0.5 + sqrt(score)'
+    open_region : bool, optional
+        If specified to True, will fetch the contacts on side in the region,
+        default True
 
     diameter_to_height : str, optional
         Mapping function of arc diameter(interval end - start) to height.
@@ -52,9 +56,10 @@ class ArcsBase(Track, PlotContacts):
     DEFAULT_PROPERTIES = {
         'style': STYLE_ARCS,
         # arcs
-        'line_width': 1,
-        'score_to_width': '0.5 + sqrt(score)',
-        'diameter_to_height': 'max_height * diameter / max_diameter',
+        'line_width': None,
+        'score_to_width': '0.5 + math.sqrt(score)',
+        'open_region': True,
+        'diameter_to_height': '(max_height - 0.5) * diameter / max_diameter',
         'orientation': None,
         # hicpeaks
         "line_style": "solid",

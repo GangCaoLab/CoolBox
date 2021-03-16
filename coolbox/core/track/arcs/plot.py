@@ -2,7 +2,10 @@ import numpy as np
 import pandas as pd
 from matplotlib.patches import Arc, Rectangle
 
-from coolbox.utilities.genome import GenomeRange
+from coolbox.utilities.genome import GenomeRange, get_logger
+
+
+log = get_logger(__name__)
 
 
 class PlotContacts(object):
@@ -45,13 +48,16 @@ class PlotContacts(object):
             return 0.97 * max_height * diameter / max_diameter
 
         def get_linewidth(score):
-            if 'line_width' in properties:
+            if ('line_width' in properties) and properties['line_width'] is not None:
                 return float(properties['line_width'])
             elif 'score_to_width' in properties:
                 try:
+                    import numpy
+                    import math
                     return eval(properties['score_to_width'])
-                except Exception:
-                    pass
+                except Exception as e:
+                    log.warning(str(e))
+                    log.warning("Fail to evaluate width according to score")
             return 0.5 * np.sqrt(score)
 
         def adjust_yaxis(height):
@@ -71,7 +77,7 @@ class PlotContacts(object):
         max_diameter = (intervals['pos2'] - intervals['pos1']).max()
         for row in intervals.itertuples():
             start, end = row.pos1, row.pos2
-            score = row.score if 'score' in row else 1
+            score = row.score if hasattr(row, 'score') else 1
             line_width = get_linewidth(score)
             diameter = (end - start)
             height = 2 * get_height(diameter)

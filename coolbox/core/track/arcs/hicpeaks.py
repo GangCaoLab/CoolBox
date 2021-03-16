@@ -9,6 +9,7 @@ class HiCPeaks(BEDPE):
     DEFAULT_PROPERTIES = {
         "style": ArcsBase.STYLE_HICPEAKS,
         'color': "#2255ff",
+        "open_region": True,
         "alpha": 0.6,
         "line_width": 5,
     }

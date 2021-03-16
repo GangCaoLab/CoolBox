@@ -23,6 +23,7 @@ CoolBox Gallery
 
     _gallery/bw_style.ipynb
     _gallery/bw_cov.ipynb
+    _gallery/arcs_style.ipynb
     _gallery/arcs_cov.ipynb
     _gallery/snp.ipynb
 
