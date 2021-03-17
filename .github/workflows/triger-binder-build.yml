@@ -11,7 +11,7 @@ jobs:
       - uses: s-weigand/trigger-mybinder-build@v1
         with:
           target-repo: GangCaoLab/CoolBox
-          service-name: github
+          service-name: gh
           target-state: master
           use-default-build-servers: true
           debug: true
