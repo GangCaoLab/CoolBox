@@ -1,4 +1,4 @@
-name: 'Trigger-Binder-build'
+name: 'Trigger-binder-build'
 on:
   push:
     branches:
