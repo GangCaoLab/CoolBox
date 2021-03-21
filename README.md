@@ -60,6 +60,7 @@
 
 Flexible, user-friendly genomic data visualization toolkit. 
 
+![](docs/images/api_and_cli.png)
 ![](docs/images/title.png)
 
 ## Highlights:
