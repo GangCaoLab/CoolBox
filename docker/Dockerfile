@@ -12,7 +12,7 @@ LABEL tags="Bioinformatics,Genomics,Hi-C,Visualization"
 
 MAINTAINER nanguage@yahoo.com
 
-ENV version=0.3.4
+ENV version=0.3.6
 
 ENV MINICONDA https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
 
