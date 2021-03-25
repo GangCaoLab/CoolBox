@@ -2,6 +2,7 @@ import typing as T
 import subprocess as subp
 from functools import partial
 from os import path as osp
+import itertools
 
 from intervaltree import Interval, IntervalTree
 import collections
@@ -119,21 +120,15 @@ class ReadBed(object):
     """
 
     def __init__(self, file_handle):
-
+        file_iter1, file_iter2 = itertools.tee(file_handle, 2)
         self.file_type = None
-        self.file_handle = file_handle
+        self.file_handle = file_iter1
         self.line_number = 0
-        # guess file type
-        fields = self.get_no_comment_line()
-        fields = to_string(fields)
-        fields = fields.split()
-
-        self.guess_file_type(fields)
+        self.guess_file_type(file_iter2)
         if type(file_handle) is types.GeneratorType:
             self._file_name = "<from generator>"
         else:
             self._file_name = file_handle.name
-            self.file_handle.seek(0)
         self.prev_chrom = None
         self.prev_start = -1
         self.prev_line = None
@@ -155,23 +150,31 @@ class ReadBed(object):
     def __iter__(self):
         return self
 
-    def get_no_comment_line(self):
+    def get_no_comment_line(self, iter=None, count=True):
         """
         Skips comment lines starting with '#'
         "track" or "browser" in the bed files
         """
-        line = next(self.file_handle)
+        if iter:
+            line = next(iter)
+        else:
+            line = next(self.file_handle)
         line = to_string(line)
         if line.startswith("#") or line.startswith("track") or \
                 line.startswith("browser") or line.strip() == '':
             line = self.get_no_comment_line()
 
-        self.line_number += 1
+        if count:
+            self.line_number += 1
         return line
 
-    def guess_file_type(self, line_values):
+    def guess_file_type(self, file_iter):
         """try to guess type of bed file by counting the fields
         """
+        fields = self.get_no_comment_line(iter=file_iter, count=False)
+        fields = to_string(fields)
+        line_values = fields.split()
+
         if len(line_values) == 3:
             self.file_type = 'bed3'
         elif len(line_values) == 4:

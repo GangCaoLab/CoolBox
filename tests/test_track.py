@@ -28,8 +28,15 @@ def test_bigwig():
 
 
 def test_bed():
-    bed = BED(f"{DATA_DIR}/bed_{test_itv}.bed")
-    assert bed.fetch_data(test_interval) is not None
+    path = f"{DATA_DIR}/bed_{test_itv}.bed"
+    bed = BED(path)
+    df = bed.fetch_data(test_interval)
+    count = 0
+    with open(path) as f:
+        for line in f:
+            if not line.startswith("#"):
+                count += 1
+    assert df.shape[0] == count
     fig, ax = plt.subplots()
     bed.plot(ax, test_interval)
     bed.fetch_data(empty_interval)
@@ -189,4 +196,5 @@ if __name__ == "__main__":
     # test_bam()
     # test_bedgraph()
     # test_arcs()
-    test_tads()
+    # test_tads()
+    test_bed()
