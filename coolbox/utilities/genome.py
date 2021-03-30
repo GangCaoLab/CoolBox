@@ -159,9 +159,7 @@ class GenomeRange(object):
             return False
         if another.start < self.start:
             return False
-        if another.end > self.end:
-            return False
-        return True
+        return another.end <= self.end
 
     def __str__(self) -> str:
         return f"{self.chrom}:{self.start}-{self.end}"
@@ -219,9 +217,7 @@ class GenomeLength(dict):
             return False
         if genome_range.start < 1:
             return False
-        if genome_range.end > self[genome_range.chrom]:
-            return False
-        return True
+        return genome_range.end <= self[genome_range.chrom]
 
     def bound_range(self, genome_range):
         """
@@ -231,31 +227,24 @@ class GenomeLength(dict):
         """
         if self.check_range(genome_range):
             return genome_range
+        chrom, start, end = "", 0, 0
+
+        if genome_range.chrom not in self:
+            raise ValueError("{} not in chromosome file: {}".format(
+                genome_range.chrom, self.length_file))
         else:
-            chrom, start, end = "", 0, 0
+            chrom = genome_range.chrom
 
-            if genome_range.chrom not in self:
-                raise ValueError("{} not in chromosome file: {}".format(
-                    genome_range.chrom, self.length_file))
-            else:
-                chrom = genome_range.chrom
+        start = max(genome_range.start, 1)
+        if genome_range.end > self[genome_range.chrom]:
+            end = self[genome_range.chrom]
+            if start >= end:
+                start = end - genome_range.length
+                start = max(start, 1)
+        else:
+            end = genome_range.end
 
-            if genome_range.start < 1:
-                start = 1
-            else:
-                start = genome_range.start
-
-            if genome_range.end > self[genome_range.chrom]:
-                end = self[genome_range.chrom]
-                if start >= end:
-                    start = end - genome_range.length
-                    if start < 1:
-                        start = 1
-            else:
-                end = genome_range.end
-
-            bounded_range = GenomeRange(chrom, start, end)
-            return bounded_range
+        return GenomeRange(chrom, start, end)
 
 
 def split_genome_range(genome_range):

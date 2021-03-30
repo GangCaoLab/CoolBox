@@ -155,10 +155,7 @@ class ReadBed(object):
         Skips comment lines starting with '#'
         "track" or "browser" in the bed files
         """
-        if iter:
-            line = next(iter)
-        else:
-            line = next(self.file_handle)
+        line = next(iter) if iter else next(self.file_handle)
         line = to_string(line)
         if line.startswith("#") or line.startswith("track") or \
                 line.startswith("browser") or line.strip() == '':
@@ -354,10 +351,7 @@ class ReadBed(object):
 
 def bgz_bed(bed_path, bgz_path):
     cmd = ""
-    if bed_path.endswith(".gz"):
-        cmd += "zcat"
-    else:
-        cmd += "cat"
+    cmd += "zcat" if bed_path.endswith(".gz") else "cat"
     subp.check_call(cmd + f" {bed_path} | sort -k1,1 -k2,2n | bgzip > {bgz_path}",
                     shell=True)
     return bgz_path
@@ -426,10 +420,7 @@ def build_snp_index(file, col_chrom, col_pos):
         bgz_file = file + '.bgz'
     else:
         bgz_file = file + '.bgz'
-        if file.endswith('.gz'):
-            cmd = "zcat"
-        else:
-            cmd = "cat"
+        cmd = "zcat" if file.endswith('.gz') else "cat"
         cmd += f" {file} | sort -k{c},{c} -k{p},{p}n | bgzip > {bgz_file}"
         subp.check_call(cmd, shell=True)
     index_file = bgz_file + '.tbi'

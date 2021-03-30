@@ -23,15 +23,13 @@ class SimpleWidgets(WidgetsBox):
         super().__init__(browser, frame_widget, *args, **kwargs)
 
     def get_widgets_dict(self):
-        widgets = self.navigation_bar.widgets
-        return widgets
+        return self.navigation_bar.widgets
 
     def refresh_widgets(self, who=None):
         self.navigation_bar.refresh_widgets(self.browser, who)
 
     def compose_panel(self, widgets_dict):
-        panel = self.navigation_bar.panel
-        return panel
+        return self.navigation_bar.panel
 
     def register_events_handler(self):
         self.navigation_bar.register_events_handler(self.browser)

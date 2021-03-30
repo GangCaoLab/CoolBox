@@ -121,12 +121,10 @@ class JointView(SuperFrame):
         trbl = self.properties['trbl']
 
         orientations = ['top', 'right', 'bottom', 'left']
-        frame2grange = {
+        return {
             k: (gr1, gr2) if (trbl[orientations.index(k)] == '1') else (gr2, gr1)
             for k in orientations
         }
-
-        return frame2grange
 
     def plot(self, gr1=None, gr2=None):
         """
@@ -152,10 +150,9 @@ class JointView(SuperFrame):
         self.__transform_sub_svgs(frame_svgs, sub_frames, center_offsets)
 
         figsize = self.cm2px(self.__get_figsize(sub_frames))
-        fig = sc.Figure(f"{figsize[0]}px", f"{figsize[1]}px",
+        return sc.Figure(f"{figsize[0]}px", f"{figsize[1]}px",
                         sc.Panel(center_svg),
                         *[sc.Panel(svg) for svg in frame_svgs.values()])
-        return fig
 
     def fetch_data(self, gr1=None, gr2=None) -> dict:
         """
@@ -168,13 +165,16 @@ class JointView(SuperFrame):
         gr2 : {str, GenomeRange}, optional
             Second genome range
         """
-        tracks_data = {}
         frame2grange = self.frame_granges(gr1, gr2)
         gr1, gr2 = self.current_range
         sub_frames = self.properties['sub_frames']
 
-        for pos, fr in sub_frames.items():
-            tracks_data[pos] = sub_frames[pos].fetch_data(frame2grange[pos][0], gr2=frame2grange[pos][1])
+        tracks_data = {
+            pos: sub_frames[pos].fetch_data(
+                frame2grange[pos][0], gr2=frame2grange[pos][1]
+            )
+            for pos, fr in sub_frames.items()
+        }
 
         tracks_data['center'] = self.properties['center_track'].fetch_data(gr1, gr2=gr2)
 

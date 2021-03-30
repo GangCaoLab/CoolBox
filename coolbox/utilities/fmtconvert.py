@@ -35,8 +35,7 @@ class refGeneRec(_refGeneRec):
         bed12_item = (chrom, start, end, name, score, strand, thick_start, thick_end, item_rgb,
                       block_count, block_sizes, block_starts)
 
-        bed12_line = "\t".join(bed12_item)
-        return bed12_line
+        return "\t".join(bed12_item)
 
     def to_line(self):
         return "\t".join(self)
@@ -55,8 +54,7 @@ class refGeneRec(_refGeneRec):
         ends = exons_end.split(",")
         ends = [int(i) for i in ends if i]
         sizes = [ends[i] - starts[i] for i, _ in enumerate(starts)]
-        exons_size = ",".join([str(i) for i in sizes])
-        return exons_size
+        return ",".join(str(i) for i in sizes)
 
 
 def refgene_txt_to_bed12(txt_file, bed_file):

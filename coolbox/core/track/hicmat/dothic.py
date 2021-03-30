@@ -81,8 +81,7 @@ class DotHiC(HicMatBase):
         balance = kwargs.get('balance', self.is_balance)
         wrap = StrawWrap(path, normalization=balance, binsize=kwargs.get('resolution', 'auto'))
 
-        pixels = wrap.fetch_pixels(gr, gr2)
-        return pixels
+        return wrap.fetch_pixels(gr, gr2)
 
     def infer_binsize(self, genome_range1, genome_range2=None, **kwargs) -> int:
         from coolbox.utilities.hic.wrap import StrawWrap

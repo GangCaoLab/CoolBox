@@ -15,15 +15,15 @@ class _Highlights(object):
 
     def fetch_data(self, gr: GenomeRange, **kwargs):
         gr = to_gr(gr)
-        regions = []
-
         if gr.chrom not in list(self.interval_tree):
             gr.change_chrom_names()
 
-        for region in sorted(self.interval_tree[gr.chrom][gr.start - 10000:gr.end + 10000]):
-            regions.append((region.begin, region.end, region.data))
-
-        return regions
+        return [
+            (region.begin, region.end, region.data)
+            for region in sorted(
+                self.interval_tree[gr.chrom][gr.start - 10000 : gr.end + 10000]
+            )
+        ]
 
     def plot(self, ax, gr: GenomeRange, **kwargs):
 

@@ -49,15 +49,13 @@ class BedGraph(HistBase):
             gr.chrom = change_chrom_names(gr.chrom)
             rows = self.load(gr)
 
-        intval_table = pd.DataFrame(rows, columns=['chromsome', 'start', 'end', 'score'])
-
-        return intval_table
+        return pd.DataFrame(rows, columns=['chromsome', 'start', 'end', 'score'])
 
     def load(self, genome_range):
-        rows = []
         gr = genome_range
-        for it in tabix_query(self.bgz_file, gr.chrom, gr.start, gr.end, split=True):
-            rows.append([
-                it[0], int(it[1]), int(it[2]), float(it[3])
-            ])
-        return rows
+        return [
+            [it[0], int(it[1]), int(it[2]), float(it[3])]
+            for it in tabix_query(
+                self.bgz_file, gr.chrom, gr.start, gr.end, split=True
+            )
+        ]

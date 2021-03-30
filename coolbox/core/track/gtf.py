@@ -61,7 +61,7 @@ class GTF(Track):
             self.colors = [color]
         elif type(color) is list:
             self.colors = [c for c in color if (type(c) is str) and c.startswith('#')]
-            if len(self.colors) == 0:
+            if not self.colors:
                 self.colors = GTF.RANDOM_COLORS
         else:
             self.colors = GTF.RANDOM_COLORS
@@ -91,10 +91,8 @@ class GTF(Track):
         intervals : pandas.core.frame.DataFrame
             Annotation interval table.
         """
-        rows = []
-        for row in tabix_query(self.bgz_file, gr.chrom, gr.start, gr.end):
-            rows.append(row)
-        if len(rows) == 0:
+        rows = [row for row in tabix_query(self.bgz_file, gr.chrom, gr.start, gr.end)]
+        if not rows:
             gr.change_chrom_names()
             for row in tabix_query(self.bgz_file, gr.chrom, gr.start, gr.end):
                 rows.append(row)

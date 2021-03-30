@@ -75,10 +75,9 @@ class ProcessHicMat(object):
     @classmethod
     def normalize_matrix(cls, mat: np.ndarray, cis=True, method='zscore') -> np.ndarray:
         if cis:
-            res = cls.normalize_cis(mat, method)
+            return cls.normalize_cis(mat, method)
         else:
-            res = cls.normalize_trans(mat, method)
-        return res
+            return cls.normalize_trans(mat, method)
 
     @classmethod
     def normalize_cis(cls, mat: np.ndarray, method: str) -> np.ndarray:
@@ -151,7 +150,6 @@ class ProcessHicMat(object):
             stds[stds == 0] = stds[stds > 0].min()
         except Exception:
             log.error("Error when executing 'stds[stds > 0].min()'")
-            pass
         return np.array(means), stds
 
 
@@ -165,5 +163,4 @@ class ProcessHicMat(object):
         k3[w, :w - p] = 1
         k3[w, w + 2 * p - 1:2 * w + 1] = 1
         k3[w + 2 * p - 1:2 * w + 1, w] = 1
-        k = k1 - k2 - k3
-        return k
+        return k1 - k2 - k3

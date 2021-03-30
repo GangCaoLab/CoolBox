@@ -25,7 +25,11 @@ class Feature(object):
         from .coverage.base import Coverage
         from .coverage.base import CoverageStack
 
-        if isinstance(other, Track):
+        if (
+            isinstance(other, Track)
+            or not isinstance(other, FrameBase)
+            and isinstance(other, Coverage)
+        ):
             result = copy(other)
             result.properties.update(self.properties)
             return result
@@ -34,10 +38,6 @@ class Feature(object):
             if len(result.tracks) != 0:
                 first = list(result.tracks.values())[0]
                 first.properties.update(self.properties)
-            return result
-        elif isinstance(other, Coverage):
-            result = copy(other)
-            result.properties.update(self.properties)
             return result
         elif isinstance(other, CoverageStack):
             result = copy(other)
@@ -51,12 +51,12 @@ class Feature(object):
     def __mul__(self, other):
         from .frame.base import FrameBase
 
-        if isinstance(other, FrameBase):
-            result = copy(other)
-            result.add_feature_to_tracks(self)
-            return result
-        else:
+        if not isinstance(other, FrameBase):
             raise TypeError(op_err_msg(self, other, op='*'))
+
+        result = copy(other)
+        result.add_feature_to_tracks(self)
+        return result
 
     def __enter__(self):
         stack = get_feature_stack()
@@ -188,14 +188,14 @@ class FrameFeature(Feature):
     def __add__(self, other):
         from .frame.base import FrameBase
 
-        if isinstance(other, FrameBase):
-            properties = self.properties.copy()
-            properties.update(other.properties)
-            result = copy(other)
-            result.properties = properties
-            return result
-        else:
+        if not isinstance(other, FrameBase):
             raise TypeError(op_err_msg(self, other))
+
+        properties = self.properties.copy()
+        properties.update(other.properties)
+        result = copy(other)
+        result.properties = properties
+        return result
 
 
 class FrameTitle(FrameFeature):

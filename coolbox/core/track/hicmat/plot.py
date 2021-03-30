@@ -107,7 +107,7 @@ class PlotHiCMat(object):
     def adjust_figure(self, gr: GenomeRange, gr2: GenomeRange = None):
         ax = self.ax
         if gr2 is None:
-            if self.style == self.STYLE_TRIANGULAR or self.style == self.STYLE_WINDOW:
+            if self.style in [self.STYLE_TRIANGULAR, self.STYLE_WINDOW]:
 
                 if self.properties['depth_ratio'] == self.DEPTH_FULL:
                     depth = gr.length / 2
@@ -127,9 +127,7 @@ class PlotHiCMat(object):
 
     def draw_colorbar(self, img):
         # plot colorbar
-        if self.properties['color_bar'] == 'no':
-            pass
-        else:
+        if self.properties['color_bar'] != 'no':
             if hasattr(self, 'y_ax') and self.properties['color_bar'] == 'vertical':
                 self.plot_colorbar(img, orientation='vertical')
             else:
@@ -153,11 +151,11 @@ class PlotHiCMat(object):
                 c_min, c_max = self.matrix_val_range
 
                 def abs_inc(num):
-                    if num != 0:
-                        sign = num / abs(num)
-                        return int(sign * abs(num + 1))
-                    else:
+                    if num == 0:
                         return 1
+
+                    sign = num / abs(num)
+                    return int(sign * abs(num + 1))
 
                 lower_ = int(np.log10(c_min))
                 upper_ = abs_inc(int(np.log10(c_max)))
@@ -186,9 +184,12 @@ class PlotHiCMat(object):
         else:
             height = frame_width * 0.8
 
-        if 'depth_ratio' in self.properties and self.properties['depth_ratio'] != self.DEPTH_FULL:
-            if self.properties['style'] != self.STYLE_MATRIX:
-                height = height * self.properties['depth_ratio']
+        if (
+            'depth_ratio' in self.properties
+            and self.properties['depth_ratio'] != self.DEPTH_FULL
+            and self.properties['style'] != self.STYLE_MATRIX
+        ):
+            height = height * self.properties['depth_ratio']
 
         if 'color_bar' in self.properties and self.properties['color_bar'] != 'no':
             height += 1.5
@@ -207,16 +208,15 @@ class PlotHiCMat(object):
     def balance(self):
         if self.properties['balance'] == 'no':
             return False
-        else:
-            file = self.properties['file']
-            from coolbox.utilities.hic.tools import hicmat_filetype
-            if hicmat_filetype(file) == '.hic':
-                if self.properties['balance'] == 'yes':
-                    return 'KR'  # default use KR balance
-                else:
-                    return self.properties['balance']
+        file = self.properties['file']
+        from coolbox.utilities.hic.tools import hicmat_filetype
+        if hicmat_filetype(file) == '.hic':
+            if self.properties['balance'] == 'yes':
+                return 'KR'  # default use KR balance
             else:
-                return True
+                return self.properties['balance']
+        else:
+            return True
 
     @property
     def is_balance(self):
