@@ -114,7 +114,7 @@ class NumpyDocInheritor(DocInheritorBase):
 
         # merge parameters
         c_params = [param for param in c_doc['Parameters']]
-        c_param_names = set(param.name for param in c_params)
+        c_param_names = {param.name for param in c_params}
         p_params = [param for param in p_doc['Parameters'] if param.name not in c_param_names]
         c_params += p_params
 

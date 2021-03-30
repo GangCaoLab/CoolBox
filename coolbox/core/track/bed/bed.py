@@ -36,7 +36,6 @@ class BED(BedBase, FetchBed):
         self.bgz_file = build_bed_index(file)
 
     def fetch_data(self, gr: GenomeRange, **kwargs):
-        intervals = self.fetch_intervals(self.bgz_file, gr)
-        return intervals
+        return self.fetch_intervals(self.bgz_file, gr)
 
 

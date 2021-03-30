@@ -220,9 +220,7 @@ class Track(object, metaclass=NumpyDocInheritor):
 
         if isinstance(coverages, CoverageStack):
             coverages = coverages.coverages
-        elif isinstance(coverages, list):
-            pass
-        else:
+        elif not isinstance(coverages, list):
             raise TypeError("coverages must a list of Coverage or CoverageStack")
 
         if not hasattr(self, 'coverages'):

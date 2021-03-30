@@ -116,11 +116,9 @@ class DiScore(HicFeature):
             up = up.sum(axis=1)
             down = down.sum(axis=1)
             expected = (up + down) / 2.0
-            di_array = (np.sign(down - up) *
+            return (np.sign(down - up) *
                         ((up - expected) ** 2 + (down - expected) ** 2)
                         / expected)
-
-            return di_array
 
         def adaptive(up, down):
             """
@@ -135,9 +133,7 @@ class DiScore(HicFeature):
             var_down = np.square(down - mean_down[:, None]).sum(axis=1)
             denom = np.sqrt((var_up + var_down) / (window_size * (window_size - 1)))
             denom[denom == 0] = 1
-            di_array = (mean_down - mean_up) / denom
-
-            return di_array
+            return (mean_down - mean_up) / denom
 
         if method not in locals():
             raise RuntimeError("Only support methods {}".format(list(locals().keys())))
@@ -273,5 +269,4 @@ class Virtual4C(HicFeature):
         window_range.start = window_range.start - offset_ * binsize
         window_range.end = window_range.end + offset_ * binsize
         arr = self.hicmat.fetch_data(window_range, gr2=gr)
-        mean_arr = np.nanmean(arr, axis=0)
-        return mean_arr
+        return np.nanmean(arr, axis=0)

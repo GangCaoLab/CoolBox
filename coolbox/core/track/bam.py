@@ -88,9 +88,13 @@ class BAM(Track):
 
     def fetch_intervals(self, genome_range: GenomeRange):
         chrom, start, end = split_genome_range(genome_range)
-        rows = []
-        for row_items in query_bam(self.indexed_bam, chrom, start, end, split=True):
-            rows.append(row_items)
+        rows = [
+            row_items
+            for row_items in query_bam(
+                self.indexed_bam, chrom, start, end, split=True
+            )
+        ]
+
         # https://samtools.github.io/hts-specs/SAMv1.pdf
         fields = ["qname", "flag", "rname", "pos", "mapq", "cigar",
                   "rnext", "pnext", "tlen", "seq", "qual", "options"]

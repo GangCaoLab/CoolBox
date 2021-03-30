@@ -79,8 +79,7 @@ class Coverage(object):
             result.properties.update(other.properties)
             return result
         elif isinstance(other, Coverage):
-            stack = CoverageStack([self, other])
-            return stack
+            return CoverageStack([self, other])
         elif isinstance(other, CoverageStack):
             result = copy(other)
             result.to_bottom(self)
@@ -90,12 +89,12 @@ class Coverage(object):
 
     def __mul__(self, other):
         from ..frame.base import FrameBase
-        if isinstance(other, FrameBase):
-            result = copy(other)
-            result.add_cov_to_tracks(self)
-            return result
-        else:
+        if not isinstance(other, FrameBase):
             raise TypeError(op_err_msg(self, other, op='*'))
+
+        result = copy(other)
+        result.add_cov_to_tracks(self)
+        return result
 
     def __enter__(self):
         stack = get_coverage_stack()
@@ -107,7 +106,7 @@ class Coverage(object):
         stack.pop()
 
     def check_track_type(self, allow):
-        valid = any([isinstance(self.track, type_) for type_ in allow])
+        valid = any(isinstance(self.track, type_) for type_ in allow)
         if not valid:
             msg = "{} coverage's track must be a instance of {}".format(
                 self.track.__class__.__name__,
@@ -185,10 +184,9 @@ def track_to_coverage(track_class):
         self.properties = self.track_instance.properties
 
     def plot(self, ax, gr: GenomeRange, **kwargs):
-        if hasattr(self, 'track'):
-            if has_data_range(track_class):
-                # update height when plot
-                self.track_instance.properties['height'] = self.track.properties['height']
+        if hasattr(self, 'track') and has_data_range(track_class):
+            # update height when plot
+            self.track_instance.properties['height'] = self.track.properties['height']
         self.track_instance.plot(ax, gr, **kwargs)
 
     # TODO , other track methods

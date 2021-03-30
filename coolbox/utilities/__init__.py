@@ -14,8 +14,9 @@ def op_err_msg(a, b, op='+'):
     """
     Generate the error message of error operand type.
     """
-    msg = "unsupported operand type(s) for {}: '{}' and '{}'".format(op, str(type(a)), str(type(b)))
-    return msg
+    return "unsupported operand type(s) for {}: '{}' and '{}'".format(
+        op, str(type(a)), str(type(b))
+    )
 
 
 #
@@ -78,10 +79,9 @@ def correspond_track(track_or_name: t.Union["Track", str]):
     """
     from coolbox.core.track.base import Track
     if isinstance(track_or_name, str):
-        track = Track.tracks[track_or_name]
+        return Track.tracks[track_or_name]
     else:
-        track = track_or_name
-    return track
+        return track_or_name
 
 
 if __name__ == "__main__":

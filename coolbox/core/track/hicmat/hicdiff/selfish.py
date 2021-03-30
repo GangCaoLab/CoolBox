@@ -109,7 +109,7 @@ class Selfish(HicMatBase):
         end1 = start1 + binsize
         start2 = start + idx_x * binsize
         end2 = start2 + binsize
-        df = pd.DataFrame({
+        return pd.DataFrame({
             'chrom': gr.chrom,
             'start1': start1,
             'end1': end1,
@@ -119,7 +119,6 @@ class Selfish(HicMatBase):
             'value2': mat2[idx_y, idx_x],
             'qvalue': pvals[idx_y, idx_x],
         })
-        return df
 
     def _get_scales(self):
         sigma0 = self.properties['sigma0']

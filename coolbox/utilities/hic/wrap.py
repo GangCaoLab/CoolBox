@@ -62,16 +62,14 @@ class StrawWrap(object):
         self.fetched_binsize = binsize  # expose fetched binsize
 
         straw_list = self.__fetch_straw_list(genome_range1, genome_range2, binsize)
-        matrix = self.__list_to_matrix(straw_list, genome_range1, genome_range2, binsize)
-        return matrix
+        return self.__list_to_matrix(straw_list, genome_range1, genome_range2, binsize)
 
     def infer_binsize(self, genome_range):
         from .tools import infer_resolution
         if self.binsize == 'auto':
-            binsize = infer_resolution(genome_range, self.resolutions)
+            return infer_resolution(genome_range, self.resolutions)
         else:
-            binsize = self.binsize
-        return binsize
+            return self.binsize
 
     def __fetch_straw_list(self, genome_range1, genome_range2, binsize):
         from coolbox.utilities.hic.straw import straw
@@ -171,19 +169,19 @@ class StrawWrap(object):
         # metadata extraction
         metadata = {}
         nattributes = struct.unpack(b'<i', req.read(4))[0]
-        for x in range(nattributes):
+        for _ in range(nattributes):
             key = readcstr(req)
             value = readcstr(req)
             metadata[key] = value
         nChrs = struct.unpack(b'<i', req.read(4))[0]
-        for i in range(0, nChrs):
+        for i in range(nChrs):
             name = readcstr(req)
             length = struct.unpack(b'<i', req.read(4))[0]
             if name and length:
                 chrs[i] = [i, name, length]
         nBpRes = struct.unpack(b'<i', req.read(4))[0]
         # find bp delimited resolutions supported by the hic file
-        for x in range(0, nBpRes):
+        for _ in range(nBpRes):
             res = struct.unpack(b'<i', req.read(4))[0]
             resolutions.append(res)
         return chrs, resolutions, masterindex, genome, metadata
@@ -246,10 +244,7 @@ class CoolerWrap(object):
 
     def get_cool(self, genome_range):
         binsize = self.infer_binsize(genome_range)
-        if self.is_multi:
-            cool = self.coolers[binsize]
-        else:
-            cool = self.cool
+        cool = self.coolers[binsize] if self.is_multi else self.cool
         self.fetched_binsize = binsize  # expose fetched binsize
         return cool
 
@@ -304,6 +299,4 @@ class CoolerWrap(object):
             genome_range2.change_chrom_names()
 
         mat = cool.matrix(as_pixels=True, balance=self.balance, join=join)
-        pixels = mat.fetch(str(genome_range1), str(genome_range2))
-
-        return pixels
+        return mat.fetch(str(genome_range1), str(genome_range2))

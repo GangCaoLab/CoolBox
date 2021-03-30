@@ -171,7 +171,6 @@ class HicMatBase(Track, PlotHiCMat, ProcessHicMat):
         fetch_gr.start = gr.start - x
         fetch_gr.end = gr.end + x
 
-        if fetch_gr.start < 0:
-            fetch_gr.start = 0
+        fetch_gr.start = max(fetch_gr.start, 0)
 
         return fetch_gr, gr2
