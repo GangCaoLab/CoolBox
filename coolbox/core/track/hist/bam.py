@@ -35,13 +35,11 @@ class BAMCov(HistBase):
 
     def fetch_data(self, gr: GenomeRange, **kwargs) -> HistData:
         bins = self.properties.get("num_bins", 200)
-        scores_per_bin = self.fetch_coverage(gr, bins)
-        return scores_per_bin
+        return self.fetch_coverage(gr, bins)
 
     def fetch_coverage(self, genome_range: GenomeRange, bins=100):
-        scores_per_bin = coverage_by_samtools(
+        return coverage_by_samtools(
             self.indexed_bam,
             str(genome_range),
             bins
         )
-        return scores_per_bin

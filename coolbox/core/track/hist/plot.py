@@ -109,13 +109,9 @@ class PlotHist(object):
 
         def value_to_str(value):
             if value % 1 == 0:
-                str_value = str(int(value))
+                return str(int(value))
             else:
-                if value < 0.01:
-                    str_value = "{:.4f}".format(value)
-                else:
-                    str_value = "{:.2f}".format(value)
-            return str_value
+                return "{:.4f}".format(value) if value < 0.01 else "{:.2f}".format(value)
 
         ymin, ymax = plot_axis.get_ylim()
 

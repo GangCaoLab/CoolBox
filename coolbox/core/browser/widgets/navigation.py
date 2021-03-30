@@ -179,40 +179,74 @@ class NavigationBar(object):
         if frame is None:
             frame = HTML()
         tracks = self.__get_tracks_name(browser)
-        widgets = OrderedDict([
-            ("chromosomes_list", Dropdown(options=chromosomes)),
-            ("left_button", Button(icon="arrow-left")),
-            ("right_button", Button(icon="arrow-right")),
-            ("zoom_out_button", Button(icon="search-minus")),
-            ("zoom_in_button", Button(icon="search-plus")),
-            ("range_textbox", Text(placeholder="genome range like: 'chr1:10000-20000'")),
-            ("go_button", Button(description="Go")),
-
-            ("range_slider", IntRangeSlider(continuous_update=False, readout=False, layout=Layout(width='90%'))),
-            ("range_min_label", Label("", layout=Layout(width='2%'))),
-            ("range_max_label", Label("", layout=Layout(width='20%'))),
-
-            ("auto_check_box", Checkbox(value=True, description="Auto Range",
-                                        layout=Layout(width='120px'),
-                                        style={'description_width': 'initial'})),
-            ("track_min_val_float_text",
-             FloatText(value=0.0001, description="Track's min value:", step=0.5, disabled=True,
-                       layout=Layout(width='30%'),
-                       style={'description_width': 'initial'})),
-            ("track_max_val_float_text", FloatText(value=10, description="Track's max value:", step=0.5, disabled=True,
-                                                   layout=Layout(width='30%'),
-                                                   style={'description_width': 'initial'})),
-            ("track_dropdown", Dropdown(options=[ALL_BW_MARK] + tracks,
-                                        value=ALL_BW_MARK,
-                                        description="Select track",
-                                        disabled=True,
-                                        )),
-            ("frame", frame)
-        ])
-        return widgets
+        return OrderedDict(
+            [
+                ("chromosomes_list", Dropdown(options=chromosomes)),
+                ("left_button", Button(icon="arrow-left")),
+                ("right_button", Button(icon="arrow-right")),
+                ("zoom_out_button", Button(icon="search-minus")),
+                ("zoom_in_button", Button(icon="search-plus")),
+                (
+                    "range_textbox",
+                    Text(placeholder="genome range like: 'chr1:10000-20000'"),
+                ),
+                ("go_button", Button(description="Go")),
+                (
+                    "range_slider",
+                    IntRangeSlider(
+                        continuous_update=False,
+                        readout=False,
+                        layout=Layout(width='90%'),
+                    ),
+                ),
+                ("range_min_label", Label("", layout=Layout(width='2%'))),
+                ("range_max_label", Label("", layout=Layout(width='20%'))),
+                (
+                    "auto_check_box",
+                    Checkbox(
+                        value=True,
+                        description="Auto Range",
+                        layout=Layout(width='120px'),
+                        style={'description_width': 'initial'},
+                    ),
+                ),
+                (
+                    "track_min_val_float_text",
+                    FloatText(
+                        value=0.0001,
+                        description="Track's min value:",
+                        step=0.5,
+                        disabled=True,
+                        layout=Layout(width='30%'),
+                        style={'description_width': 'initial'},
+                    ),
+                ),
+                (
+                    "track_max_val_float_text",
+                    FloatText(
+                        value=10,
+                        description="Track's max value:",
+                        step=0.5,
+                        disabled=True,
+                        layout=Layout(width='30%'),
+                        style={'description_width': 'initial'},
+                    ),
+                ),
+                (
+                    "track_dropdown",
+                    Dropdown(
+                        options=[ALL_BW_MARK] + tracks,
+                        value=ALL_BW_MARK,
+                        description="Select track",
+                        disabled=True,
+                    ),
+                ),
+                ("frame", frame),
+            ]
+        )
 
     def __compose_panel(self, widgets_dict):
-        panel = VBox([
+        return VBox([
             VBox([
                 HBox(list(widgets_dict.values())[:7]),
                 HBox([
@@ -229,4 +263,3 @@ class NavigationBar(object):
             ], layout=Layout(border='solid 2px')),
             widgets_dict["frame"],
         ])
-        return panel

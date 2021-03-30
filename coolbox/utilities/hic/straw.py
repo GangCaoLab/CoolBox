@@ -29,6 +29,7 @@ Example:
 
 See https://github.com/theaidenlab/straw/wiki/Python for more documentation
 """
+
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 __author__ = "Yue Wu and Neva Durand"
@@ -39,7 +40,7 @@ import struct
 import zlib
 import io
 
-blockMap = dict()
+blockMap = {}
 # global version
 version = 0
 
@@ -96,13 +97,13 @@ def readHeader(req, chr1, chr2, posilist):
 
     # read and throw away attribute dictionary (stats+graphs)
     nattributes = struct.unpack('<i', req.read(4))[0]
-    for x in range(nattributes):
+    for _ in range(nattributes):
         key = __readcstr(req)
         value = __readcstr(req)
     nChrs = struct.unpack('<i', req.read(4))[0]
     found1 = False
     found2 = False
-    for i in range(0, nChrs):
+    for i in range(nChrs):
         name = __readcstr(req)
         length = struct.unpack('<i', req.read(4))[0]
         if (name == chr1):
@@ -139,13 +140,13 @@ def readFooter(req, c1, c2, norm, unit, resolution):
        list: File position of matrix, position+size chr1 normalization vector,
              position+size chr2 normalization vector
     """
-    c1NormEntry = dict()
-    c2NormEntry = dict()
+    c1NormEntry = {}
+    c2NormEntry = {}
     nBytes = struct.unpack('<i', req.read(4))[0]
     key = str(c1) + "_" + str(c2)
     nEntries = struct.unpack('<i', req.read(4))[0]
     found = False
-    for i in range(nEntries):
+    for _ in range(nEntries):
         stri = __readcstr(req)
         fpos = struct.unpack('<q', req.read(8))[0]
         sizeinbytes = struct.unpack('<i', req.read(4))[0]
@@ -157,32 +158,32 @@ def readFooter(req, c1, c2, norm, unit, resolution):
     if (norm == "NONE"):
         return [myFilePos, 0, 0]
     nExpectedValues = struct.unpack('<i', req.read(4))[0]
-    for i in range(nExpectedValues):
+    for _ in range(nExpectedValues):
         str_ = __readcstr(req)
         binSize = struct.unpack('<i', req.read(4))[0]
         nValues = struct.unpack('<i', req.read(4))[0]
-        for j in range(nValues):
+        for _ in range(nValues):
             v = struct.unpack('<d', req.read(8))[0]
         nNormalizationFactors = struct.unpack('<i', req.read(4))[0]
-        for j in range(nNormalizationFactors):
+        for _ in range(nNormalizationFactors):
             chrIdx = struct.unpack('<i', req.read(4))[0]
             v = struct.unpack('<d', req.read(8))[0]
     nExpectedValues = struct.unpack('<i', req.read(4))[0]
-    for i in range(nExpectedValues):
+    for _ in range(nExpectedValues):
         str_ = __readcstr(req)
         str_ = __readcstr(req)
         binSize = struct.unpack('<i', req.read(4))[0]
         nValues = struct.unpack('<i', req.read(4))[0]
-        for j in range(nValues):
+        for _ in range(nValues):
             v = struct.unpack('<d', req.read(8))[0]
         nNormalizationFactors = struct.unpack('<i', req.read(4))[0]
-        for j in range(nNormalizationFactors):
+        for _ in range(nNormalizationFactors):
             chrIdx = struct.unpack('<i', req.read(4))[0]
             v = struct.unpack('<d', req.read(8))[0]
     nEntries = struct.unpack('<i', req.read(4))[0]
     found1 = False
     found2 = False
-    for i in range(nEntries):
+    for _ in range(nEntries):
         normtype = __readcstr(req)
         chrIdx = struct.unpack('<i', req.read(4))[0]
         unit1 = __readcstr(req)
@@ -237,14 +238,12 @@ def readMatrixZoomData(req, myunit, mybinsize):
         myBlockColumnCount = blockColumnCount
         storeBlockData = True
     nBlocks = struct.unpack('<i', req.read(4))[0]
-    for b in range(nBlocks):
-        blockNumber = struct.unpack('<i', req.read(4))[0]
-        filePosition = struct.unpack('<q', req.read(8))[0]
-        blockSizeInBytes = struct.unpack('<i', req.read(4))[0]
-        entry = dict()
-        entry['size'] = blockSizeInBytes
-        entry['position'] = filePosition
+    for _ in range(nBlocks):
         if (storeBlockData):
+            blockNumber = struct.unpack('<i', req.read(4))[0]
+            filePosition = struct.unpack('<q', req.read(8))[0]
+            blockSizeInBytes = struct.unpack('<i', req.read(4))[0]
+            entry = {'size': blockSizeInBytes, 'position': filePosition}
             blockMap[blockNumber] = entry
     return [storeBlockData, myBlockBinCount, myBlockColumnCount]
 
@@ -276,7 +275,7 @@ def readMatrix(req, unit, binsize):
         if (list1[1] != -1 and list1[2] != -1):
             blockBinCount = list1[1]
             blockColumnCount = list1[2]
-        i = i + 1
+        i += 1
     if (not found):
         print("Error finding block data\n")
         return -1
@@ -337,10 +336,7 @@ def readBlock(req, size):
             binX = struct.unpack('<i', uncompressedBytes[(12 * i + 4):(12 * i + 8)])[0]
             binY = struct.unpack('<i', uncompressedBytes[(12 * i + 8):(12 * i + 12)])[0]
             counts = struct.unpack('<f', uncompressedBytes[(12 * i + 12):(12 * i + 16)])[0]
-            record = dict()
-            record['binX'] = binX
-            record['binY'] = binY
-            record['counts'] = counts
+            record = {'binX': binX, 'binY': binY, 'counts': counts}
             v.append(record)
     else:
         binXOffset = struct.unpack('<i', uncompressedBytes[4:8])[0]
@@ -351,35 +347,32 @@ def readBlock(req, size):
         if (type_ == 1):
             rowCount = struct.unpack('<h', uncompressedBytes[14:16])[0]
             temp = 16
-            for i in range(rowCount):
+            for _ in range(rowCount):
                 y = struct.unpack('<h', uncompressedBytes[temp:(temp + 2)])[0]
-                temp = temp + 2
+                temp += 2
                 binY = y + binYOffset
                 colCount = struct.unpack('<h', uncompressedBytes[temp:(temp + 2)])[0]
-                temp = temp + 2
-                for j in range(colCount):
+                temp += 2
+                for _ in range(colCount):
                     x = struct.unpack('<h', uncompressedBytes[temp:(temp + 2)])[0]
-                    temp = temp + 2
+                    temp += 2
                     binX = binXOffset + x
                     if (useShort == 0):
                         c = struct.unpack('<h', uncompressedBytes[temp:(temp + 2)])[0]
-                        temp = temp + 2
+                        temp += 2
                         counts = c
                     else:
                         counts = struct.unpack('<f', uncompressedBytes[temp:(temp + 4)])[0]
-                        temp = temp + 4
-                    record = dict()
-                    record['binX'] = binX
-                    record['binY'] = binY
-                    record['counts'] = counts
+                        temp += 4
+                    record = {'binX': binX, 'binY': binY, 'counts': counts}
                     v.append(record)
-                    index = index + 1
-        elif (type_ == 2):
+                    index += 1
+        elif type_ == 2:
             temp = 14
             nPts = struct.unpack('<i', uncompressedBytes[temp:(temp + 4)])[0]
-            temp = temp + 4
+            temp += 4
             w = struct.unpack('<h', uncompressedBytes[temp:(temp + 2)])[0]
-            temp = temp + 2
+            temp += 2
             for i in range(nPts):
                 row = int(i / w)
                 col = i - row * w
@@ -387,24 +380,18 @@ def readBlock(req, size):
                 bin2 = int(binYOffset + row)
                 if (useShort == 0):
                     c = struct.unpack('<h', uncompressedBytes[temp:(temp + 2)])[0]
-                    temp = temp + 2
+                    temp += 2
                     if (c != -32768):
-                        record = dict()
-                        record['binX'] = bin1
-                        record['binY'] = bin2
-                        record['counts'] = c
+                        record = {'binX': bin1, 'binY': bin2, 'counts': c}
                         v.append(record)
-                        index = index + 1
+                        index += 1
                 else:
                     counts = struct.unpack('<f', uncompressedBytes[temp:(temp + 4)])[0]
-                    temp = temp + 4
+                    temp += 4
                     if (countsnot != 0x7fc00000):
-                        record = dict()
-                        record['binX'] = bin1
-                        record['binY'] = bin2
-                        record['counts'] = counts
+                        record = {'binX': bin1, 'binY': bin2, 'counts': counts}
                         v.append(record)
-                        index = index + 1
+                        index += 1
     return v
 
 
@@ -422,7 +409,7 @@ def readNormalizationVector(req):
     """
     value = []
     nValues = struct.unpack('<i', req.read(4))[0]
-    for i in range(nValues):
+    for _ in range(nValues):
         d = struct.unpack('<d', req.read(8))[0]
         value.append(d)
     return value
@@ -463,11 +450,11 @@ def straw(norm, infile, chr1loc, chr2loc, unit, binsize):
     else:
         req = open(infile, 'rb')
 
-    if (not (norm == "NONE" or norm == "VC" or norm == "VC_SQRT" or norm == "KR")):
+    if not norm in ["NONE", "VC", "VC_SQRT", "KR"]:
         print(
             "Norm specified incorrectly, must be one of <NONE/VC/VC_SQRT/KR>\nUsage: straw <NONE/VC/VC_SQRT/KR> <hicFile(s)> <chr1>[:x1:x2] <chr2>[:y1:y2] <BP/FRAG> <binsize>\n")
         return -1
-    if (not (unit == "BP" or unit == "FRAG")):
+    if not unit in ["BP", "FRAG"]:
         print(
             "Unit specified incorrectly, must be one of <BP/FRAG>\nUsage: straw <NONE/VC/VC_SQRT/KR> <hicFile(s)> <chr1>[:x1:x2] <chr2>[:y1:y2] <BP/FRAG> <binsize>\n")
         return -1
@@ -545,13 +532,11 @@ def straw(norm, infile, chr1loc, chr2loc, unit, binsize):
             headers = {'range': endrange, 'x-amz-meta-requester': 'straw'}
             r = s.get(infile, headers=headers)
             req = io.BytesIO(r.content)
-            c2Norm = readNormalizationVector(req)
         else:
             req.seek(c1NormEntry['position'])
             c1Norm = readNormalizationVector(req)
             req.seek(c2NormEntry['position'])
-            c2Norm = readNormalizationVector(req)
-
+        c2Norm = readNormalizationVector(req)
     if (infile.startswith("http")):
         headers = {'range': 'bytes={0}-'.format(myFilePos), 'x-amz-meta-requester': 'straw'}
         r = s.get(infile, headers=headers, stream=True)
@@ -568,7 +553,7 @@ def straw(norm, infile, chr1loc, chr2loc, unit, binsize):
     counts = []
 
     for i_set in (blockNumbers):
-        idx = dict()
+        idx = {}
         if (i_set in blockMap):
             idx = blockMap[i_set]
         else:
@@ -593,10 +578,7 @@ def straw(norm, infile, chr1loc, chr2loc, unit, binsize):
             c = rec['counts']
             if (norm != "NONE"):
                 a = c1Norm[rec['binX']] * c2Norm[rec['binY']]
-                if (a != 0.0):
-                    c = (c / (c1Norm[rec['binX']] * c2Norm[rec['binY']]))
-                else:
-                    c = "inf"
+                c = (c / (c1Norm[rec['binX']] * c2Norm[rec['binY']])) if (a != 0.0) else "inf"
             if ((x >= origRegionIndices[0] and x <= origRegionIndices[1] and y >= origRegionIndices[2] and y <=
                  origRegionIndices[3]) or (
                     (c1 == c2) and y >= origRegionIndices[0] and y <= origRegionIndices[1] and x >= origRegionIndices[
@@ -620,9 +602,8 @@ def printme(norm, infile, chr1loc, chr2loc, unit, binsize, outfile):
        binsize(int): Resolution, i.e. 25000 for 25K
        outfile(str): Name of text file to write to
     """
-    f = open(outfile, 'w')
-    result = straw(norm, infile, chr1loc, chr2loc, unit, binsize)
-    for i in range(len(result[0])):
-        f.write("{0}\t{1}\t{2}\n".format(result[0][i], result[1][i], result[2][i]))
-        # print("{0}\t{1}\t{2}".format(result[0][i], result[1][i], result[2][i]))
-    f.close()
+    with open(outfile, 'w') as f:
+        result = straw(norm, infile, chr1loc, chr2loc, unit, binsize)
+        for i in range(len(result[0])):
+            f.write("{0}\t{1}\t{2}\n".format(result[0][i], result[1][i], result[2][i]))
+            # print("{0}\t{1}\t{2}".format(result[0][i], result[1][i], result[2][i]))

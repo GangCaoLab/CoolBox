@@ -30,8 +30,7 @@ def get_version():
         for line in f.readlines():
             m = re.match("__version__ = '([^']+)'", line)
             if m:
-                ver = m.group(1)
-                return ver
+                return m.group(1)
         raise IOError("Version information can not found.")
 
 

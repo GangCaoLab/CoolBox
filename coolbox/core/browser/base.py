@@ -96,21 +96,17 @@ class Browser(object):
         default_length = 10 ** 7
 
         if self.chrom_lengthes[chrom] > default_length:
-            range_ = GenomeRange(chrom, 1, default_length)
+            return GenomeRange(chrom, 1, default_length)
         else:
-            range_ = GenomeRange(chrom, 1, self.chrom_lengthes[chrom])
-
-        return range_
+            return GenomeRange(chrom, 1, self.chrom_lengthes[chrom])
 
     @property
     def window_size(self):
-        size = self.current_range.end - self.current_range.start
-        return size
+        return self.current_range.end - self.current_range.start
 
     @property
     def center(self):
-        center = (self.current_range.start + self.current_range.end) // 2
-        return center
+        return (self.current_range.start + self.current_range.end) // 2
 
     def goto(self, genome_range, who=None):
         if isinstance(genome_range, str):

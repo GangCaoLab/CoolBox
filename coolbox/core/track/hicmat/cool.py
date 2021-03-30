@@ -79,8 +79,7 @@ class Cool(HicMatBase):
         balance = kwargs.get('balance', self.is_balance)
         wrap = CoolerWrap(path, balance=balance, binsize=kwargs.get('resolution', 'auto'))
 
-        pixels = wrap.fetch_pixels(gr, kwargs.get('gr2'), join=kwargs.get('join', True))
-        return pixels
+        return wrap.fetch_pixels(gr, kwargs.get('gr2'), join=kwargs.get('join', True))
 
     def infer_binsize(self, gr: GenomeRange, **kwargs) -> int:
         from coolbox.utilities.hic.wrap import CoolerWrap

@@ -45,8 +45,7 @@ class BigWig(HistBase):
     def fetch_plot_data(self, gr: GenomeRange, **kwargs):
         num_bins = self.get_num_bins()
         self.check_chrom_name(gr)
-        scores_per_bin = self.fetch_scores(gr, num_bins)
-        return scores_per_bin
+        return self.fetch_scores(gr, num_bins)
 
     def fetch_data(self, gr: GenomeRange, **kwargs):
         """
@@ -94,7 +93,6 @@ class BigWig(HistBase):
             scores_per_bin = self.bw.fetch(gr.chrom, gr.start, gr.end, num_bins).astype(float)
         except Exception as e:
             log.warning(f"error found while reading bigwig scores: {e}")
-            pass
         return scores_per_bin
 
     def check_chrom_name(self, genome_range):

@@ -84,8 +84,7 @@ class Ideogram(Track):
             band_name, band_type = itv.data[:2]
             rows.append([gr.chrom, start, end, band_name, band_type])
         fields = ['chrom', 'start', 'end', 'name', 'gieStain']
-        df = pd.DataFrame(rows, columns=fields)
-        return df
+        return pd.DataFrame(rows, columns=fields)
 
     def plot(self, ax, gr: GenomeRange, **kwargs):
         self.ax = ax
@@ -98,9 +97,11 @@ class Ideogram(Track):
             band_color = self.lookup_band_color(band_type)
             xranges.append((start, end))
             colors.append(band_color)
-            if self.properties['show_band_name'] != 'no':
-                if gr.length < 80_000_000:
-                    self.plot_text(band_name, start, end, band_color)
+            if (
+                self.properties['show_band_name'] != 'no'
+                and gr.length < 80_000_000
+            ):
+                self.plot_text(band_name, start, end, band_color)
         coll = BrokenBarHCollection(xranges, (0, band_height), facecolors=colors,
                                     linewidths=self.properties['border_width'],
                                     edgecolors=self.properties['border_color'])
@@ -113,12 +114,6 @@ class Ideogram(Track):
         band_height = self.properties['height']
         x_pos = start + (end - start) * 0.15
         y_pos = band_height / 2
-        if isinstance(band_color, str):
-            rgb = hex2rgb(band_color)
-        else:
-            rgb = band_color
-        if sum(rgb) < 100:
-            color = '#e2e2e2'
-        else:
-            color = '#000000'
+        rgb = hex2rgb(band_color) if isinstance(band_color, str) else band_color
+        color = '#e2e2e2' if sum(rgb) < 100 else '#000000'
         self.ax.text(x_pos, y_pos, band_name, fontsize=self.properties['font_size'], color=color)

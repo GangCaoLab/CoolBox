@@ -92,10 +92,7 @@ class FrameBase(abc.ABC):
 
         tracks_data = OrderedDict()
         for name, track in self.tracks.items():
-            if hasattr(track, 'fetch_data'):
-                data = track.fetch_data(gr, gr2=gr2)
-            else:
-                data = []
+            data = track.fetch_data(gr, gr2=gr2) if hasattr(track, 'fetch_data') else []
             tracks_data.update([(name, data)])
 
         return tracks_data
@@ -174,8 +171,7 @@ class FrameBase(abc.ABC):
         from ..track import BedGraph, BigWig
         if name is None:  # set all setable tracks
             for track in self.tracks.values():
-                if isinstance(track, BedGraph) or \
-                        isinstance(track, BigWig):
+                if isinstance(track, (BedGraph, BigWig)):
                     track.properties['min_value'] = min_
                     track.properties['max_value'] = max_
         else:  # set specified track

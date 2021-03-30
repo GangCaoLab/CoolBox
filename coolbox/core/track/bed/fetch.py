@@ -22,8 +22,8 @@ class FetchBed(object):
         if len(intervals) == 0:
             gr.change_chrom_names()
             intervals, bed_type = self.load_range(bgz_file, gr)
-            if len(intervals) == 0:
-                log.debug(f"No valid intervals were found in file {bgz_file} within range {gr}")
+        if len(intervals) == 0:
+            log.debug(f"No valid intervals were found in file {bgz_file} within range {gr}")
         intval_table = self.intervals2dataframe(intervals, bed_type)
         # attach bed_type info onto the dataframe
         intval_table.bed_type = bed_type
@@ -31,16 +31,13 @@ class FetchBed(object):
 
     @staticmethod
     def load_range(bgz_file, gr: GenomeRange) -> Tuple[Sequence, Union[str, None]]:
-        intervals = []
         try:
             bed_iterator = ReadBed(query_bed(bgz_file, gr.chrom, gr.start, gr.end))
         except StopIteration:
             log.info(f"No records in the range {str(gr)}")
             return [], None
 
-        for bed in bed_iterator:
-            intervals.append(bed)
-
+        intervals = [bed for bed in bed_iterator]
         return intervals, bed_iterator.file_type
 
     @staticmethod
@@ -61,6 +58,4 @@ class FetchBed(object):
         else:
             fields = bed_fields[:6]
 
-        df = pd.DataFrame(intervals, columns=fields)
-
-        return df
+        return pd.DataFrame(intervals, columns=fields)

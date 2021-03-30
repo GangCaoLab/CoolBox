@@ -23,11 +23,10 @@ class FullWidgets(WidgetsBox):
         track_config = OrderedDict([
 
         ])
-        widgets_dict = OrderedDict([
+        return OrderedDict([
             ("navigation_bar", navigation_bar),
             ("track_config", track_config),
         ])
-        return widgets_dict
 
     def compose_panel(self, widgets_dict):
         # compose navigation_bar

@@ -47,8 +47,7 @@ def rgb2hex(r, g, b):
     """
     assert (0, 0, 0) <= (r, g, b) <= (255, 255, 255), \
         "(r, g, b) value must within range 0 ~ 255."
-    hex = "#{:02x}{:02x}{:02x}".format(r, g, b)
-    return hex
+    return "#{:02x}{:02x}{:02x}".format(r, g, b)
 
 
 def hex2rgb(color_hex):
@@ -142,12 +141,12 @@ def get_size(obj, seen=None):
     # self-referential objects
     seen.add(obj_id)
     if isinstance(obj, dict):
-        size += sum([get_size(v, seen) for v in obj.values()])
-        size += sum([get_size(k, seen) for k in obj.keys()])
+        size += sum(get_size(v, seen) for v in obj.values())
+        size += sum(get_size(k, seen) for k in obj.keys())
     elif hasattr(obj, '__dict__'):
         size += get_size(obj.__dict__, seen)
     elif hasattr(obj, '__iter__') and not isinstance(obj, (str, bytes, bytearray)):
-        size += sum([get_size(i, seen) for i in obj])
+        size += sum(get_size(i, seen) for i in obj)
     return size
 
 

@@ -120,7 +120,7 @@ class PlotBed(object):
                 bed_extended_end = (bed.end + 2 * self.small_relative)
 
             # get smallest free row
-            if len(row_last_position) == 0:
+            if not row_last_position:
                 free_row = 0
                 row_last_position.append(bed_extended_end)
             else:
@@ -201,7 +201,7 @@ class PlotBed(object):
         # draw 'backbone', a line from the start until the end of the gene
         ax.plot([bed.start, bed.end], [ypos + half_height, ypos + half_height], 'black', linewidth=0.5, zorder=-1)
 
-        for idx in range(0, bed.block_count):
+        for idx in range(bed.block_count):
             x0 = bed.start + bed.block_starts[idx]
             x1 = x0 + bed.block_sizes[idx]
             if x1 < bed.thick_start or x0 > bed.thick_end:
@@ -268,7 +268,7 @@ class PlotBed(object):
 
         # get start, end of all the blocks
         positions = []
-        for idx in range(0, bed.block_count):
+        for idx in range(bed.block_count):
             x0 = bed.start + bed.block_starts[idx]
             x1 = x0 + bed.block_sizes[idx]
             if x0 < bed.thick_start < x1:
@@ -293,11 +293,7 @@ class PlotBed(object):
             positions = positions[::-1]
 
         first_pos = positions.pop()
-        if first_pos[2] == 'UTR':
-            _rgb = 'grey'
-        else:
-            _rgb = rgb
-
+        _rgb = 'grey' if first_pos[2] == 'UTR' else rgb
         vertices = self.draw_arrow(ax, first_pos[0], first_pos[1], bed.strand, ypos)
 
         ax.add_patch(Polygon(vertices, closed=True, fill=True,
@@ -306,10 +302,7 @@ class PlotBed(object):
                              linewidth=0.5))
 
         for start_pos, end_pos, _type in positions:
-            if _type == 'UTR':
-                _rgb = 'grey'
-            else:
-                _rgb = rgb
+            _rgb = 'grey' if _type == 'UTR' else rgb
             vertices = [(start_pos, ypos), (start_pos, ypos + height),
                         (end_pos, ypos + height), (end_pos, ypos)]
 
@@ -411,12 +404,11 @@ class PlotBed(object):
 
         # if the domain directive is given, ypos simply oscilates between 0 and 100
         if self.properties['display'] == 'interlaced':
-            ypos = self.properties['interval_height'] if self.counter % 2 == 0 else 1
+            return self.properties['interval_height'] if self.counter % 2 == 0 else 1
         elif self.properties['display'] == 'collapsed':
-            ypos = 0
+            return 0
         else:
-            ypos = free_row * self.row_scale
-        return ypos
+            return free_row * self.row_scale
 
     def get_rgb_and_edge_color(self, bed):
         # TODO need simplification
@@ -531,7 +523,7 @@ class PlotBed(object):
 
         rgb, edgecolor = self.get_rgb_and_edge_color(region)
 
-        fill = True if self.properties['border_only'] == 'no' else False
+        fill = self.properties['border_only'] == 'no'
 
         rec = Rectangle((x, y), w, h,
                         fill=fill,
@@ -550,7 +542,7 @@ class PlotBed(object):
             return
         bed = region
         score = bed.score
-        if not (isinstance(score, float) or isinstance(score, int)):
+        if not isinstance(score, (float, int)):
             # score is not number not plot
             return
         region_length = region.end - region.start
