@@ -85,11 +85,15 @@ class PlotHist(object):
         alpha = self.properties.get("alpha", 1.0)
         threshold = float(self.properties.get("threshold"))
         threshold_color = self.properties.get("threshold_color")
-        ax.stairs(edges=edges, values=values, linewidth=line_width, color=color, alpha=alpha, fill=fill)
         if threshold and np.sum(values > threshold) > 0:
+            masked_values = values.copy()
+            masked_values[masked_values > threshold] = np.nan
+            ax.stairs(edges=edges, values=masked_values, linewidth=line_width, color=color, alpha=alpha, fill=fill)
             masked_values = values.copy()
             masked_values[masked_values <= threshold] = np.nan
             ax.stairs(edges=edges, values=masked_values, linewidth=line_width, color=threshold_color, alpha=alpha, fill=fill)
+        else:
+            ax.stairs(edges=edges, values=values, linewidth=line_width, color=color, alpha=alpha, fill=fill)
 
     def plot_data_range(self, ax, ymin, ymax, data_range_style, gr: GenomeRange):
         if data_range_style == 'text':
