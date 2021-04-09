@@ -14,6 +14,10 @@ class PlotHist(object):
         style = self.properties.get('style', 'line')
         if 'heatmap' in style:
             self.plot_heatmap(ax, gr, values)
+        elif 'stairsfilled' in style:
+            self.plot_stairs(ax, gr, values, fill=True)
+        elif 'stairs' in style:
+            self.plot_stairs(ax, gr, values, fill=False)
         elif 'fill' in style:
             self.plot_fill(ax, indexes, values)
         elif 'scatter' in style:
@@ -71,6 +75,25 @@ class PlotHist(object):
         if threshold and np.sum(values > threshold) > 0:
             masked_values = np.ma.masked_greater_equal(values, threshold)
             ax.plot(indexes, masked_values, fmt, linewidth=line_width, color=threshold_color, alpha=alpha)
+
+    def plot_stairs(self, ax, gr, values, fill=True):
+        if len(values.shape) == 2:
+            values = values.T
+        edges = np.linspace(gr.start, gr.end, values.shape[0] + 1)
+        line_width = self.properties.get('line_width', 1)
+        color = self.properties.get('color')
+        alpha = self.properties.get("alpha", 1.0)
+        threshold = float(self.properties.get("threshold"))
+        threshold_color = self.properties.get("threshold_color")
+        if threshold and np.sum(values > threshold) > 0:
+            masked_values = values.copy()
+            masked_values[masked_values > threshold] = np.nan
+            ax.stairs(edges=edges, values=masked_values, linewidth=line_width, color=color, alpha=alpha, fill=fill)
+            masked_values = values.copy()
+            masked_values[masked_values <= threshold] = np.nan
+            ax.stairs(edges=edges, values=masked_values, linewidth=line_width, color=threshold_color, alpha=alpha, fill=fill)
+        else:
+            ax.stairs(edges=edges, values=values, linewidth=line_width, color=color, alpha=alpha, fill=fill)
 
     def plot_data_range(self, ax, ymin, ymax, data_range_style, gr: GenomeRange):
         if data_range_style == 'text':
