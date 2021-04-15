@@ -71,6 +71,11 @@ def test_gtf():
     fig, ax = plt.subplots()
     gtf.plot(ax, test_interval)
     gtf.fetch_data(empty_interval)
+    gtf = GTF(f"{DATA_DIR}/gtf_{test_itv}_fake.gtf")
+    assert gtf.fetch_data(test_interval) is not None
+    fig, ax = plt.subplots()
+    gtf.plot(ax, test_interval)
+    gtf.fetch_data(empty_interval)
 
 
 def test_bam():
@@ -192,9 +197,9 @@ def test_hicfeatures():
 
 if __name__ == "__main__":
     # test_xaxis()
-    # test_gtf()
+    test_gtf()
     # test_bam()
     # test_bedgraph()
     # test_arcs()
     # test_tads()
-    test_bed()
+    # test_bed()

@@ -32,6 +32,10 @@ class GTF(Track):
 
     color : {str, 'random'}, optional
         When the color is random, color for each gene will be randomly selected.
+
+    name_attribute : {'auto', 'gene_name', 'gene_id', str}, optional
+        Use which attribute to show feature's name.
+        Default use 'auto'(try 'gene_name' -> 'gene_id' -> 'position_string')
     """
     RANDOM_COLORS = [
         "#ffcccc",
@@ -46,6 +50,7 @@ class GTF(Track):
         "color": "random",
         "row_filter": 'feature == "gene"',
         "length_ratio_thresh": 0.005,
+        "name_attribute": "auto",
     }
 
     def __init__(self, file, **kwargs):
@@ -74,7 +79,7 @@ class GTF(Track):
             should be with the format like:
 
             columns = ['seqname', 'source', 'feature', 'start', 'end',
-                        'score', 'strand', 'frame', 'attribute', 'gene_name']
+                        'score', 'strand', 'frame', 'attribute', 'feature_name']
 
         """
         return self.fetch_intervals(gr)
@@ -101,8 +106,20 @@ class GTF(Track):
         df = pd.DataFrame(rows, columns=columns)
         df['start'] = df['start'].astype(int)
         df['end'] = df['end'].astype(int)
-        df['gene_name'] = df['attribute'].str.extract(".*gene_name (.*?) ").iloc[:, 0].str.strip('\";')
-        df['gene_name'].fillna("", inplace=True)
+        name_attr = self.properties.get("name_attr", "auto")
+        if name_attr == "auto":
+            gene_name = df['attribute'].str.extract(".*gene_name (.*?) ").iloc[:, 0].str.strip('\";')
+            if gene_name.hasnans:
+                gene_id = df['attribute'].str.extract(".*gene_id (.*?) ").iloc[:, 0].str.strip('\";')
+                gene_name.fillna(gene_id, inplace=True)
+                if gene_name.hasnans:
+                    pos_str = df['seqname'].astype(str) + ":" +\
+                              df['start'].astype(str) + "-" +\
+                              df['end'].astype(str)
+                    gene_name.fillna(pos_str, inplace=True)
+            df['feature_name'] = gene_name
+        else:
+            df['feature_name'] = df['attribute'].str.extract(f".*{name_attr} (.*?) ").iloc[:, 0].str.strip('\";')
         return df
 
     def plot(self, ax, gr: GenomeRange, **kwargs):
@@ -127,7 +144,7 @@ class GTF(Track):
                 start=row['start'],
                 end=row['end'],
                 strand=(1 if row['strand'] == '+' else -1),
-                label=row['gene_name'],
+                label=row['feature_name'],
                 color=random.choice(self.colors),
             )
             features.append(gf)
