@@ -12,8 +12,6 @@ LABEL tags="Bioinformatics,Genomics,Hi-C,Visualization"
 
 MAINTAINER nanguage@yahoo.com
 
-ENV version=0.3.7
-
 ENV MINICONDA https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
 
 ENV LD_ALL C.UTF-8
@@ -57,6 +55,7 @@ RUN apt-get clean all && \
         git             \
         mercurial       \
         subversion      \
+        jq              \
         zlib1g-dev &&   \
         apt-get clean && \
         apt-get purge && \
@@ -75,6 +74,7 @@ RUN conda config --add channels bioconda
 RUN conda upgrade conda
 
 # Install
+RUN export version=$(curl https://api.github.com/repos/gangcaolab/coolbox/releases/latest -s | jq .tag_name | sed 's/\"//g')
 RUN wget https://github.com/GangCaoLab/CoolBox/archive/${version}.tar.gz
 RUN tar zxvf ${version}.tar.gz
 RUN cd CoolBox-${version} && conda env update --file environment.yml -n base && python setup.py install
