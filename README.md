@@ -51,11 +51,11 @@
     <img src="https://codecov.io/gh/GangCaoLab/coolbox/branch/master/graph/badge.svg" alt="codecov">
   </a>
 
-  <a href="https://app.codecov.io/gh/GangCaoLab/CoolBox">
+  <a href="https://www.biorxiv.org/content/10.1101/2021.04.15.439923v1">
     <img src="https://img.shields.io/badge/preprint-biorxiv-red" alt="biorxiv">
   </a>
 
-  <a href="https://www.biorxiv.org/content/10.1101/2021.04.15.439923v1">
+  <a href="https://github.com/GangCaoLab/CoolBox/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/GangCaoLab/coolbox" alt="license">
   </a>
 
