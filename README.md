@@ -51,7 +51,11 @@
     <img src="https://codecov.io/gh/GangCaoLab/coolbox/branch/master/graph/badge.svg" alt="codecov">
   </a>
 
-  <a href="https://github.com/GangCaoLab/CoolBox/blob/master/LICENSE">
+  <a href="https://app.codecov.io/gh/GangCaoLab/CoolBox">
+    <img src="https://img.shields.io/badge/preprint-biorxiv-red" alt="biorxiv">
+  </a>
+
+  <a href="https://www.biorxiv.org/content/10.1101/2021.04.15.439923v1">
     <img src="https://img.shields.io/github/license/GangCaoLab/coolbox" alt="license">
   </a>
 
@@ -76,6 +80,23 @@ Interactively online demo: [binder](https://mybinder.org/v2/gh/GangCaoLab/CoolBo
 ## Develop
 
 See [CONTRIBUTING.md](https://github.com/GangCaoLab/CoolBox/blob/master/CONTRIBUTING.md) 
+
+## Citation
+
+```
+@article {Xu2021.04.15.439923,
+	author = {Xu, Weize and Zhong, Quan and Lin, Da and Li, Guoliang and Cao, Gang},
+	title = {CoolBox: A flexible toolkit for visual analysis of genomics data},
+	elocation-id = {2021.04.15.439923},
+	year = {2021},
+	doi = {10.1101/2021.04.15.439923},
+	publisher = {Cold Spring Harbor Laboratory},
+	abstract = {We developed CoolBox, an open source toolkit for visual analysis of genomics data, which is highly compatible with the Python ecosystem, easy to use and highly customizable with a well-designed user interface. It can be used in various visualization situations like a Swiss army knife, for example, to produce high-quality genome track plots or fetch common used genomic data files with a Python script or command line, interactively explore genomic data within Jupyter environment or web browser. Moreover, owing to the highly extensible API design, users can customize their own tracks without difficulty, which can greatly facilitate analytical, comparative genomic data visualization tasks.Competing Interest StatementThe authors have declared no competing interest.},
+	URL = {https://www.biorxiv.org/content/early/2021/04/16/2021.04.15.439923},
+	eprint = {https://www.biorxiv.org/content/early/2021/04/16/2021.04.15.439923.full.pdf},
+	journal = {bioRxiv}
+}
+```
 
 ## Thanks
 
