@@ -37,7 +37,8 @@ class DotHiC(HicMatBase):
         from coolbox.utilities.hic.wrap import StrawWrap
 
         path = self.properties['file']
-        wrap = StrawWrap(path, normalization=self.balance, binsize=kwargs.get('resolution', 'auto'))
+        binsize = kwargs.get('resolution', self.properties.get('resolution', 'auto'))
+        wrap = StrawWrap(path, normalization=self.balance, binsize=binsize)
 
         arr = wrap.fetch(genome_range, genome_range2)
 

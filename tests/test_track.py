@@ -144,6 +144,10 @@ def test_cool():
     fig, ax = plt.subplots()
     cl.plot(ax, test_interval)
     cl.fetch_data(empty_interval)
+    exp_binsize = 10000
+    cl2 = Cool(f"{DATA_DIR}/cool_{test_itv}.mcool", resolution=exp_binsize)
+    cl2.fetch_data(test_interval)
+    assert cl2.fetched_binsize == exp_binsize
 
 
 def test_dothic():
@@ -156,6 +160,10 @@ def test_dothic():
     fig, ax = plt.subplots()
     dot.plot(ax, test_interval)
     dot.fetch_data(empty_interval)
+    exp_binsize = 10000
+    dot = DotHiC(dothic_path, resolution=exp_binsize)
+    dot.fetch_data(test_interval)
+    assert dot.fetched_binsize == exp_binsize
 
 
 def test_hicfeatures():
@@ -196,8 +204,10 @@ def test_hicfeatures():
 
 
 if __name__ == "__main__":
+    # test_cool()
+    test_dothic()
     # test_xaxis()
-    test_gtf()
+    # test_gtf()
     # test_bam()
     # test_bedgraph()
     # test_arcs()

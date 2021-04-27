@@ -38,7 +38,8 @@ class Cool(HicMatBase):
         from coolbox.utilities.hic.wrap import CoolerWrap
 
         path = self.properties['file']
-        wrap = CoolerWrap(path, balance=self.balance, binsize=kwargs.get('resolution', 'auto'))
+        binsize = kwargs.get('resolution', self.properties.get('resolution', 'auto'))
+        wrap = CoolerWrap(path, balance=self.balance, binsize=binsize)
         arr = wrap.fetch(gr, kwargs.get('gr2'))
 
         self.fetched_binsize = wrap.fetched_binsize  # expose fetched binsize
