@@ -39,8 +39,8 @@ $ jupyter nbextension enable --py widgetsnbextension
 
 ## Usage
 
-There are two kinds of way to use CoolBox. 
-Directly using it's Python API or using the command line interface.
+CoolBox can be use in two ways. 
+Directly using its Python API or using the command line interface.
 
 ### API
 
@@ -59,20 +59,18 @@ script.
 
 ### CLI
 
-Their are another more convenient way
-to use CoolBox for command line user.
-They can directly draw genomic track plot or
+Command line users can use CoolBox in a more convenient way. They can directly draw genomic track plot or
 compose browser by simple command line:
 
 ![fig_CLI](../images/fig_CLI.png)
 
 ### For Windows Users
 
-CoolBox not support run on Windows natively for now.
+Currently, CoolBox cannot be run natively on Windows.
 But you can use the WSL(Windows Subsystem for Linux) to run it.
 See [this](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
 
-Or, you can choice to use docker on Windows.
+Or, you can choose to use docker on Windows.
 
 ### Docker
 
@@ -83,7 +81,7 @@ $ docker pull nanguage/coolbox
 ```
 
 Run a container, with mount current directory in file system to the '/data' in the container.
-And binding the container port 8888(jupyter default port) to the host port 9000:
+And binding the container port `8888` (jupyter default port) to the host port `9000`:
 
 ```
 $ docker run -ti -v $(pwd):/data -p 9000:8888 nanguage/coolbox:latest
