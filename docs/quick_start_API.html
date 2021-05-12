@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Quickstart (API) &mdash; CoolBox  documentation</title>
   
@@ -17,10 +17,7 @@
 
   
   
-
   
-  
-
   
 
   
@@ -33,6 +30,7 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
@@ -55,7 +53,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> CoolBox
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> CoolBox
           
 
           
@@ -106,12 +104,12 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#Compose-Tracks-to-Frame">Compose Tracks to Frame</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Adjust-Tracks-and-Frame-with-Feature">Adjust Tracks and Frame with Feature</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#with-statement">with statement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-statement"><code class="docutils literal notranslate"><span class="pre">with</span></code> statement</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#Coverage">Coverage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Vertical-lines:">Vertical lines:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#HighLights:">HighLights:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Vertical-lines">Vertical lines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#HighLights">HighLights</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#Explore-Genomic-Data-with-coolbox.api.Browser">Explore Genomic Data with <code class="docutils literal notranslate"><span class="pre">coolbox.api.Browser</span></code></a></li>
@@ -163,8 +161,6 @@
 
 
 
-
-
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -176,7 +172,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="_sources/quick_start_API.ipynb.txt" rel="nofollow"> View page source</a>
           
         
@@ -462,9 +458,9 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="Quickstart-(API)">
 <h1>Quickstart (API)<a class="headerlink" href="#Quickstart-(API)" title="Permalink to this headline">¶</a></h1>
-<p>This document is for teach the basic usage of <code class="docutils literal notranslate"><span class="pre">coolbox</span></code> API and explain some basic conceptions. It’s can be a good start point to use CoolBox.</p>
+<p>This document is for teaching the basic usage of <code class="docutils literal notranslate"><span class="pre">coolbox</span></code> API and explaining some basic conceptions. It is a good starting point for using CoolBox.</p>
 <p>Interactive online version: <a class="reference external" href="https://mybinder.org/v2/gh/GangCaoLab/CoolBox/HEAD?filepath=docs%2Fsource%2Fquick_start_API.ipynb">Binder</a></p>
-<p>Firstly import all components from <code class="docutils literal notranslate"><span class="pre">coolbox.api</span></code>, and check your CoolBox version.</p>
+<p>First, let’s import all the components from <code class="docutils literal notranslate"><span class="pre">coolbox.api</span></code>, and check your CoolBox version.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -509,7 +505,7 @@ div.rendered_html tbody tr:hover {
 <h2>Data preparation<a class="headerlink" href="#Data-preparation" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="Testing-dataset">
 <h3>Testing dataset<a class="headerlink" href="#Testing-dataset" title="Permalink to this headline">¶</a></h3>
-<p>Here, we use <a class="reference external" href="https://github.com/GangCaoLab/CoolBox/tree/master/tests/test_data">a small testing dataset</a> for convenient. This dataset contains files in differnet file formats, and they are in same genome range(chr9:4000000-6000000) of a reference genome (hg19).</p>
+<p>Here, we use <a class="reference external" href="https://github.com/GangCaoLab/CoolBox/tree/master/tests/test_data">a small testing dataset</a> for convenience. This dataset contains files in differnet file formats, and they are in the same genome range (chr9:4000000-6000000) of the human reference genome (hg19).</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
@@ -567,7 +563,7 @@ total 197152
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># Here we define const values for reference files easily later</span>
+<span></span><span class="c1"># Here, we define const values for reference files easily later</span>
 <span class="n">DATA_DIR</span> <span class="o">=</span> <span class="s2">&quot;tests/test_data&quot;</span>
 <span class="n">TEST_RANGE</span> <span class="o">=</span> <span class="s2">&quot;chr9:4000000-6000000&quot;</span>
 <span class="n">RANGE_MARK</span> <span class="o">=</span> <span class="s2">&quot;chr9_4000000_6000000&quot;</span>
@@ -578,8 +574,8 @@ total 197152
 </div>
 <div class="section" id="Track-is-the-basic-element">
 <h2>Track is the basic element<a class="headerlink" href="#Track-is-the-basic-element" title="Permalink to this headline">¶</a></h2>
-<p>In CoolBox ploting system, “Track” is the basic element. If you have used genome browser like <a class="reference external" href="https://genome.ucsc.edu/">UCSC Genome Browser</a> or <a class="reference external" href="https://epigenomegateway.wustl.edu/">WashU EpiGenome Browser</a>, you must know what it is.</p>
-<p>Basically, “Track” is a image what is related to a piece of continuous region on the reference genome. The most common track is the bigWig track, If you have read some papers about epigenomics you must have seen some figures like this:</p>
+<p>In CoolBox ploting system, “Track” is the basic element. If you have used genome browsers like <a class="reference external" href="https://genome.ucsc.edu/">UCSC Genome Browser</a> or <a class="reference external" href="https://epigenomegateway.wustl.edu/">WashU EpiGenome Browser</a>, you must know what it is.</p>
+<p>Basically, “Track” is an image that is related to a piece of continuous region on the reference genome. The most common track is the <code class="docutils literal notranslate"><span class="pre">bigWig</span></code> track, If you have read some papers about epigenomics you must have seen some figures like this:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
@@ -600,10 +596,10 @@ total 197152
 <img alt="_images/quick_start_API_9_0.png" src="_images/quick_start_API_9_0.png" />
 </div>
 </div>
-<p>Actually, bigWig is just one kind of track, there are other kinds of tracks in CoolBox, for display other kind of genomic data like long range genome interaction from ChIA-PET and genome contact matrix from Hi-C.</p>
+<p>Actually, <code class="docutils literal notranslate"><span class="pre">bigWig</span></code> is just one kind of track. There are other kinds of tracks in CoolBox used to display other kinds of genomic data like long range genome interaction from ChIA-PET and genome contact matrix from Hi-C.</p>
 <div class="section" id="Track-types">
 <h3>Track types<a class="headerlink" href="#Track-types" title="Permalink to this headline">¶</a></h3>
-<p>Now, CoolBox support the following track types:</p>
+<p>Now, CoolBox supports the following track types:</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 33%" />
@@ -732,8 +728,8 @@ total 197152
 <h3>Other kinds of tracks:<a class="headerlink" href="#Other-kinds-of-tracks:" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="BED-track-:">
 <h4>BED track :<a class="headerlink" href="#BED-track-:" title="Permalink to this headline">¶</a></h4>
-<p>BED track used to show the genome annotation information like RefSeq or chromatin states. Here we have the RefSeq data, it can be visualized with <code class="docutils literal notranslate"><span class="pre">coolbox.api.BED</span></code>:</p>
-<p>Visualize RefSeq with CoolBox:</p>
+<p>BED track is used to show the genome annotation information like RefSeq or chromatin states. Here, we have the RefSeq data which can be visualized with <code class="docutils literal notranslate"><span class="pre">coolbox.api.BED</span></code>:</p>
+<p>Visualizing RefSeq with CoolBox:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
@@ -764,7 +760,7 @@ total 197152
 </div>
 <div class="section" id="GTFtrack-:">
 <h4>GTFtrack :<a class="headerlink" href="#GTFtrack-:" title="Permalink to this headline">¶</a></h4>
-<p>GTF track is also for visualize gene annotations:</p>
+<p>GTF track is also used to visualize gene annotations:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
@@ -787,14 +783,14 @@ total 197152
 </div>
 <div class="section" id="Hi-C-(.cool)-Track">
 <h4>Hi-C (.cool) Track<a class="headerlink" href="#Hi-C-(.cool)-Track" title="Permalink to this headline">¶</a></h4>
-<p>CoolBox also support Hi-C data visualization.</p>
-<p>CoolBox support two types of input format for Hi-C matrix data, <a class="reference external" href="https://github.com/GangCaoLab/CoolBox/wiki/Hi-C#cool">.cool</a> and <a class="reference external" href="https://github.com/GangCaoLab/CoolBox/wiki/Hi-C#dothic">.hic</a> file.</p>
+<p>CoolBox also supports Hi-C data visualization.</p>
+<p>CoolBox supports two types of input format for Hi-C matrix data, <a class="reference external" href="https://github.com/GangCaoLab/CoolBox/wiki/Hi-C#cool">.cool</a> and <a class="reference external" href="https://github.com/GangCaoLab/CoolBox/wiki/Hi-C#dothic">.hic</a> file.</p>
 <p>Their API is very similar, You can use <code class="docutils literal notranslate"><span class="pre">CoolBox.api.HiCMat</span></code> to visualize both.</p>
-<p>Here we use a <code class="docutils literal notranslate"><span class="pre">.cool</span></code> file as example.</p>
+<p>Here, we use a <code class="docutils literal notranslate"><span class="pre">.cool</span></code> file as an example.</p>
 <div class="section" id="multi-cool(.mcool)-for-multiple-resolution-Hi-C-matrix">
 <h5><code class="docutils literal notranslate"><span class="pre">multi-cool(.mcool)</span></code> for multiple resolution Hi-C matrix<a class="headerlink" href="#multi-cool(.mcool)-for-multiple-resolution-Hi-C-matrix" title="Permalink to this headline">¶</a></h5>
-<p>Cooler file support multi-resolution interaction matrix storage (normally file name ends with <code class="docutils literal notranslate"><span class="pre">.mcool</span></code>), this feature allow us take appropriate resolution matrix data depending on the corresponding genome region size, it let program respond fast when plot the hic matrix.</p>
-<p>The multi-resolution cooler file is suggested, you can use <code class="docutils literal notranslate"><span class="pre">cooler</span> <span class="pre">zoomify</span></code> command to create multi-resolution cooler file from a single resolution cooler file.</p>
+<p>Cooler file supports multi-resolution interaction matrix storage (normally file name ends with <code class="docutils literal notranslate"><span class="pre">.mcool</span></code>), this feature allows us take appropriate resolution matrix data depending on the corresponding genome region size, it lets program respond fast when plotting the Hi-C matrix.</p>
+<p>The multi-resolution cooler file is recommended. You can use <code class="docutils literal notranslate"><span class="pre">cooler</span> <span class="pre">zoomify</span></code> command to create multi-resolution cooler file from a single resolution cooler file.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
@@ -813,8 +809,8 @@ total 197152
 <img alt="_images/quick_start_API_19_0.png" src="_images/quick_start_API_19_0.png" />
 </div>
 </div>
-<p>Default Hi-C Track will be plot in <code class="docutils literal notranslate"><span class="pre">triangular</span></code> style, it also can be <code class="docutils literal notranslate"><span class="pre">matrix</span></code> or <code class="docutils literal notranslate"><span class="pre">window</span></code> style.</p>
-<p>Just change the specify the <code class="docutils literal notranslate"><span class="pre">style</span></code> parameter, when create Cool instance, like this:</p>
+<p>Default Hi-C Track will be plotted in <code class="docutils literal notranslate"><span class="pre">triangular</span></code> style. It also can be plotted in <code class="docutils literal notranslate"><span class="pre">matrix</span></code> or <code class="docutils literal notranslate"><span class="pre">window</span></code> style.</p>
+<p>Just specify the <code class="docutils literal notranslate"><span class="pre">style</span></code> parameter, when creating Cool instance, like this:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
@@ -852,7 +848,7 @@ total 197152
 <img alt="_images/quick_start_API_22_0.png" src="_images/quick_start_API_22_0.png" />
 </div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">Cool</span></code> show balanced matrix as default, if you want to show the unbalanced matrix, you can set as:</p>
+<p><code class="docutils literal notranslate"><span class="pre">Cool</span></code> shows balanced matrix as default, if you want to show the unbalanced matrix, you can set as:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
@@ -875,9 +871,9 @@ total 197152
 </div>
 <div class="section" id="Arcs-Track">
 <h4>Arcs Track<a class="headerlink" href="#Arcs-Track" title="Permalink to this headline">¶</a></h4>
-<p>Another kind of important technology like ChIA-PET or HiChIP, it can produce many long-range genome-wide chromatin interactions.</p>
-<p>And, some times, Hi-C contact matrix is too informative to understand, we only need some most important interactions from it, We use some tools like <a class="reference external" href="https://github.com/theaidenlab/juicer/wiki/HiCCUPS">HICCUPS</a> call the most significant interactions, or “Peaks” from contact matrix.</p>
-<p>In either case, Arcs Track can be used to visulize the data. Arcs track accept <code class="docutils literal notranslate"><span class="pre">.pairs</span></code> or <code class="docutils literal notranslate"><span class="pre">.bedpe</span></code> format:</p>
+<p>Technologies like ChIA-PET or HiChIP can produce many long-range genome-wide chromatin interactions.</p>
+<p>And, sometimes, the Hi-C contact matrix contains too much information than needed. When we only need some of the most important interactions from it, we can use some tools like <a class="reference external" href="https://github.com/theaidenlab/juicer/wiki/HiCCUPS">HICCUPS</a> to call the most significant interactions, or “peaks” from the contact matrix.</p>
+<p>In either case, Arcs Track can be used to visulize the data. Arcs track accepts <code class="docutils literal notranslate"><span class="pre">.pairs</span></code> or <code class="docutils literal notranslate"><span class="pre">.bedpe</span></code> format:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
@@ -921,11 +917,11 @@ total 197152
 </div>
 <div class="section" id="Compose-Tracks-to-Frame">
 <h2>Compose Tracks to Frame<a class="headerlink" href="#Compose-Tracks-to-Frame" title="Permalink to this headline">¶</a></h2>
-<p>In CoolBox you can compose tracks with “+” operator, as shown above, compose XAxis track and a bigwig track to a frame object:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>frame = XAxis() + BigWig(&quot;data/K562_RNASeq.bigWig&quot;)
+<p>In CoolBox you can compose tracks with “+” operator, as shown above, compose <code class="docutils literal notranslate"><span class="pre">XAxis</span></code> track and a <code class="docutils literal notranslate"><span class="pre">bigwig</span></code> track to a frame object:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">BigWig</span><span class="p">(</span><span class="s2">&quot;data/K562_RNASeq.bigWig&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Frame is a higher level object, denote a set of relevant tracks. We can use a long “+” expression compose a complex Frame.</p>
+<p>Frame is a higher level object and it denotes a set of related tracks. We can use a long “+” expression to compose a complex Frame.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
@@ -969,9 +965,9 @@ total 197152
 </div>
 <div class="section" id="Adjust-Tracks-and-Frame-with-Feature">
 <h2>Adjust Tracks and Frame with Feature<a class="headerlink" href="#Adjust-Tracks-and-Frame-with-Feature" title="Permalink to this headline">¶</a></h2>
-<p>Maybe you have noticed that, in the complex expression above, there some element witch added with Tracks is not a Track, for example, the <code class="docutils literal notranslate"><span class="pre">TrackHeight</span></code>, <code class="docutils literal notranslate"><span class="pre">Title</span></code> and <code class="docutils literal notranslate"><span class="pre">Title</span></code>.</p>
-<p>These elements is <code class="docutils literal notranslate"><span class="pre">Feature</span></code>, it is represent the features of the Track.</p>
-<p>For example, we set the color and track height feature of a bigWig track.</p>
+<p>Maybe you have noticed that, in the complex expression above, there are some elements which added with Tracks is not a Track, for example, the <code class="docutils literal notranslate"><span class="pre">TrackHeight</span></code>, <code class="docutils literal notranslate"><span class="pre">Title</span></code> and <code class="docutils literal notranslate"><span class="pre">Title</span></code>.</p>
+<p>These elements are <code class="docutils literal notranslate"><span class="pre">Feature</span></code> and they represent the features of the Track.</p>
+<p>For example, we set the color and track height feature of a <code class="docutils literal notranslate"><span class="pre">bigWig</span></code> track.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
@@ -1031,7 +1027,7 @@ total 197152
 </div>
 </div>
 <div class="section" id="with-statement">
-<h3>with statement<a class="headerlink" href="#with-statement" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">with</span></code> statement<a class="headerlink" href="#with-statement" title="Permalink to this headline">¶</a></h3>
 <p>By the way, there are one useful trick, you can use Feature with “<code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">statement</span></code>”, like:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
@@ -1070,14 +1066,14 @@ total 197152
 </div>
 </div>
 <p>As shown above, any tracks created inside the “<code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">statement</span></code>” will have the specified feature.</p>
-<p>use this trick, we can simplify the complex expression:</p>
+<p>Using this trick, we can simplify the complex expression:</p>
 </div>
 </div>
 <div class="section" id="Coverage">
 <h2>Coverage<a class="headerlink" href="#Coverage" title="Permalink to this headline">¶</a></h2>
-<p>Some times we need to draw some graphics above the original figure, for example, the vertical lines and highlight regions. CoolBox has another kinds of element, the <code class="docutils literal notranslate"><span class="pre">Coverage</span></code>. We can add coverage with track, after added to track, coverage will plot upper the track when track is ploted.</p>
-<div class="section" id="Vertical-lines:">
-<h3>Vertical lines:<a class="headerlink" href="#Vertical-lines:" title="Permalink to this headline">¶</a></h3>
+<p>Sometimes we need to draw some graphics above the original figure, for example, the vertical lines and highlight regions. CoolBox has another kinds of element, the <code class="docutils literal notranslate"><span class="pre">Coverage</span></code>. We can add coverage with track, after added to track, coverage will be plotted above the track when the track is plotted.</p>
+<div class="section" id="Vertical-lines">
+<h3>Vertical lines<a class="headerlink" href="#Vertical-lines" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
@@ -1168,8 +1164,8 @@ total 197152
 </div>
 </div>
 </div>
-<div class="section" id="HighLights:">
-<h3>HighLights:<a class="headerlink" href="#HighLights:" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="HighLights">
+<h3>HighLights<a class="headerlink" href="#HighLights" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
@@ -1209,8 +1205,8 @@ total 197152
 </div>
 <div class="section" id="Explore-Genomic-Data-with-coolbox.api.Browser">
 <h2>Explore Genomic Data with <code class="docutils literal notranslate"><span class="pre">coolbox.api.Browser</span></code><a class="headerlink" href="#Explore-Genomic-Data-with-coolbox.api.Browser" title="Permalink to this headline">¶</a></h2>
-<p>When you want to explore the data, you will change the genome region window very frequently. Under these circumstances, when you want to do the operations like “move right”, “move left”, “zoom in”, “zoom out”, if you use above <code class="docutils literal notranslate"><span class="pre">Frame.plot</span></code> API to plot the figure, you must change parameters and run again. It is troublesome and boring. In order to solve this problem, CoolBox impletmented a simple GUI with <a class="reference external" href="https://ipywidgets.readthedocs.io/">ipywidgets</a>.</p>
-<p>You can crate a <code class="docutils literal notranslate"><span class="pre">Browser</span></code> instance with a composed frame, and call <code class="docutils literal notranslate"><span class="pre">.show()</span></code> method to show the browser.</p>
+<p>When you want to explore the data, you will change the genome region window very frequently. Under these circumstances, when you want to do the operations like “move right”, “move left”, “zoom in”, “zoom out”, if you use above <code class="docutils literal notranslate"><span class="pre">Frame.plot</span></code> API to plot the figure, you must change parameters and run again. It is tiresome and boring. In order to solve this problem, CoolBox impletmented a simple GUI with <a class="reference external" href="https://ipywidgets.readthedocs.io/">ipywidgets</a>.</p>
+<p>You can create a <code class="docutils literal notranslate"><span class="pre">Browser</span></code> instance with a composed frame, and call <code class="docutils literal notranslate"><span class="pre">.show()</span></code> method to show the browser.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
@@ -1251,13 +1247,13 @@ total 197152
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "5e0b46d1dfe74b049802251254d432c6"}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "5e0b46d1dfe74b049802251254d432c6", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 </div>
 <div class="section" id="Fetch-precise-data-use-.fetch_data-API">
 <h2>Fetch precise data use <code class="docutils literal notranslate"><span class="pre">.fetch_data</span></code> API<a class="headerlink" href="#Fetch-precise-data-use-.fetch_data-API" title="Permalink to this headline">¶</a></h2>
-<p>In CoolBox, data and figure is bound together with a single Python object. So, you can fetch precise data of what you see in the figure.</p>
-<p>Call the <code class="docutils literal notranslate"><span class="pre">.fetch_data</span></code> method of <code class="docutils literal notranslate"><span class="pre">Browser</span></code> or <code class="docutils literal notranslate"><span class="pre">Frame</span></code>, will return an <code class="docutils literal notranslate"><span class="pre">collection.OrderDict</span></code> which store many <code class="docutils literal notranslate"><span class="pre">pandas.Dataframe</span></code> object correspond to each tracks in the browser or frame , and the data is only about the current genome region.</p>
+<p>In CoolBox, data and figure are bound together with a single Python object. So, you can fetch precise data of what you see in the figure.</p>
+<p>Call the <code class="docutils literal notranslate"><span class="pre">.fetch_data</span></code> method of <code class="docutils literal notranslate"><span class="pre">Browser</span></code> or <code class="docutils literal notranslate"><span class="pre">Frame</span></code>, will return an <code class="docutils literal notranslate"><span class="pre">collection.OrderDict</span></code> which stores many <code class="docutils literal notranslate"><span class="pre">pandas.Dataframe</span></code> objects corresponding to each track in the browser or frame, and the data is only about the current genome region.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
@@ -1488,7 +1484,7 @@ OrderedDict([(&#39;XAxis.21&#39;, &lt;coolbox.core.track.pseudo.XAxis at 0x7fc11
 </table>
 </div></div>
 </div>
-<p>We can do some statics analyze on it. For example count the distribution of interaction count, etc…</p>
+<p>We can perform some statistics analysis on it. For example, count the distribution of interaction count, etc…</p>
 </div>
 <div class="section" id="Taken-together">
 <h2>Taken together<a class="headerlink" href="#Taken-together" title="Permalink to this headline">¶</a></h2>
@@ -1553,29 +1549,37 @@ OrderedDict([(&#39;XAxis.21&#39;, &lt;coolbox.core.track.pseudo.XAxis at 0x7fc11
            
           </div>
           <footer>
+  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="quick_start_CLI.html" class="btn btn-neutral float-right" title="Quickstart (CLI)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="installation.html" class="btn btn-neutral float-left" title="Installation &amp; Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+      
+        <a href="quick_start_CLI.html" class="btn btn-neutral float-right" title="Quickstart (CLI)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation &amp; Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
+  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, WeizeXu.
+        
+        &copy; Copyright 2021, WeizeXu
 
     </p>
   </div>
     
     
     
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
+
         </div>
       </div>
 
