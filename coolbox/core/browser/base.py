@@ -43,8 +43,9 @@ class Browser(object):
         dpi : int, optional
             The dpi of frame's image.
 
-        img_format : str, optional
-            Frame image format, default svg.
+        img_format : {'svg', 'png'}
+            Image format for browser display, default svg.
+            NOTE: This argument not for saving image.
         """
 
         self.dpi = dpi
@@ -251,6 +252,8 @@ class Browser(object):
     def save(self, path, dpi=None):
         """
         Save current frame's image to file.
+        The suffix of the path will changing the saving format.
+        For example: `bsr.save("fig.png")` will save file to 'png' format.
         """
         c_fig = self.frame.show()
         dpi = dpi or self.dpi
