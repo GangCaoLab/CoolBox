@@ -62,5 +62,14 @@ setup(
     zip_safe=False,
     classifiers=classifiers,
     install_requires=get_install_requires(),
+    extras_requires={
+        "doc": [
+            "sphinx_rtd_theme",
+            "autodocsumm",
+            "recommonmark",
+            "nbsphinx",
+            "sphinx_gallery",
+        ]
+    },
     python_requires='>=3.7, <4',
 )
