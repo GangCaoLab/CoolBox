@@ -6,20 +6,19 @@ from .cool import Cool
 from .dothic import DotHiC
 
 
-def HiCMat(file_or_hicmat: Union[str, HicMatBase], *args, **kwargs) -> HicMatBase:
+def HiCMat(file: Union[str, HicMatBase], *args, **kwargs) -> HicMatBase:
     """
     Compose DotHic or Cool track automatically based on tpye of file extension (.cool, .mcool, .hic)
     """
-    if isinstance(file_or_hicmat, HicMatBase):
-        return file_or_hicmat
-    elif not Path(file_or_hicmat).is_file():
+    if isinstance(file, HicMatBase):
+        return file
+    elif not Path(file).is_file():
         raise ValueError("The file path does not exist.")
 
-    p = file_or_hicmat
-    if p.endswith(".hic"):
-        return DotHiC(file_or_hicmat, *args, **kwargs)
-    elif p.endswith((".cool", ".mcool")):
-        return Cool(file_or_hicmat, *args, **kwargs)
+    if file.endswith(".hic"):
+        return DotHiC(file, *args, **kwargs)
+    elif file.endswith((".cool", ".mcool")):
+        return Cool(file, *args, **kwargs)
     else:
         raise NotImplementedError(f"File type of {p} not supported for HicMat. "
                                   f"The file type should be one of .cool/.mcool/.hic")
