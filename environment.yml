@@ -11,5 +11,6 @@ dependencies:
   - pairix
   - tabix
   - samtools>=1.10
+  - libcurl
   - pip:
     - -r file:requirements.txt
