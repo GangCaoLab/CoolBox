@@ -17,6 +17,8 @@ def clear_bgz_and_indexes():
 
 def pytest_sessionstart(session):
     clear_bgz_and_indexes()
+    import matplotlib
+    matplotlib.use("Agg")
 
 
 def pytest_sessionfinish(session):

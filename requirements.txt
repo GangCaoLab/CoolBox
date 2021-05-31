@@ -16,3 +16,4 @@ pybbi
 numpydoc
 fire
 pytest
+strawC

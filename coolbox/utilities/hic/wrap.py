@@ -61,8 +61,8 @@ class StrawWrap(object):
         binsize = self.infer_binsize(genome_range1)
         self.fetched_binsize = binsize  # expose fetched binsize
 
-        straw_list = self.__fetch_straw_list(genome_range1, genome_range2, binsize)
-        return self.__list_to_matrix(straw_list, genome_range1, genome_range2, binsize)
+        straw_iter = self.__fetch_straw_iter(genome_range1, genome_range2, binsize)
+        return self.__straw_to_matrix(straw_iter, genome_range1, genome_range2, binsize)
 
     def infer_binsize(self, genome_range):
         from .tools import infer_resolution
@@ -71,13 +71,36 @@ class StrawWrap(object):
         else:
             return self.binsize
 
-    def __fetch_straw_list(self, genome_range1, genome_range2, binsize):
+    def __fetch_straw_iter(self, genome_range1, genome_range2, binsize):
+        try:
+            slist = self.__fetch_straw_list_strawc(genome_range1, genome_range2, binsize)
+            siter = ((r.binX, r.binY, r.counts) for r in slist)
+        except ImportError:
+            log.warning("strawC is not installed. Install strawC to achieve faster read speed: $ pip install strawC")
+            slist = self.__fetch_straw_list_straw(genome_range1, genome_range2, binsize)
+            siter = ((r[0] * binsize, r[1] * binsize, r[2]) for r in zip(*slist))
+        return siter
+
+    def __fetch_straw_list_straw(self, genome_range1, genome_range2, binsize):
         from coolbox.utilities.hic.straw import straw
+        s1, e1 = genome_range1.start//binsize, genome_range1.end//binsize
+        s2, e2 = genome_range2.start//binsize, genome_range2.end//binsize
+        straw_obj = straw(self.hic_file)
+        matrix_obj = straw_obj.getNormalizedMatrix(genome_range1.chrom, genome_range2.chrom, self.normalization, 'BP', binsize)
+        if matrix_obj is None:
+            log.warning("Try to read unbalanced matrix.")
+            self.normalization = "NONE"
+            matrix_obj = straw_obj.getNormalizedMatrix(genome_range1.chrom, genome_range2.chrom, self.normalization, 'BP', binsize)
+        slist = matrix_obj.getDataFromBinRegion(s1, e1, s2, e2)
+        return slist
+
+    def __fetch_straw_list_strawc(self, genome_range1, genome_range2, binsize):
+        import strawC
         chr1loc = str(genome_range1).replace('-', ':')
         chr2loc = str(genome_range2).replace('-', ':')
         slist = []
         try:
-            slist = straw(self.normalization, self.hic_file, chr1loc, chr2loc, 'BP', binsize)
+            slist = strawC.strawC(self.normalization, self.hic_file, chr1loc, chr2loc, 'BP', binsize)
         except Exception as e:
             log.warning("Error occurred when reading the dothic file with straw:")
             log.warning(str(e))
@@ -85,7 +108,7 @@ class StrawWrap(object):
                 log.warning("Try to read unbalanced matrix.")
                 self.normalization = "NONE"
                 try:
-                    slist = straw(self.normalization, self.hic_file, chr1loc, chr2loc, 'BP', binsize)
+                    slist = strawC.strawC(self.normalization, self.hic_file, chr1loc, chr2loc, 'BP', binsize)
                 except Exception as e:
                     log.warning("Failed.")
                     log.warning(str(e))
@@ -101,9 +124,9 @@ class StrawWrap(object):
         if genome_range2.chrom.startswith("chr"):
             genome_range2.change_chrom_names()
         binsize = self.infer_binsize(genome_range1)
-        slist = self.__fetch_straw_list(genome_range1, genome_range2, binsize)
-        pixels = DataFrame(slist)
-        pixels = pixels.T
+        siter = self.__fetch_straw_iter(genome_range1, genome_range2, binsize)
+        rows = [[i[0], i[1], i[2]] for i in siter]
+        pixels = DataFrame(rows)
         pixels.columns = ['start1', 'start2', 'value']
         pixels['start1'] = pixels['start1'].astype('int32')
         pixels['start2'] = pixels['start2'].astype('int32')
@@ -114,13 +137,13 @@ class StrawWrap(object):
         pixels = pixels[['chrom1', 'start1', 'end1', 'chrom2', 'start2', 'end2', 'value']]
         return pixels
 
-    def __list_to_matrix(self, straw_list, genome_range1, genome_range2, binsize):
+    def __straw_to_matrix(self, straw_iter, genome_range1, genome_range2, binsize):
         import numpy as np
         binlen1 = (genome_range1.length // binsize) + 1
         binlen2 = (genome_range2.length // binsize) + 1
         mat = np.zeros((binlen1, binlen2), dtype=np.float64)
         is_cis = (genome_range1 == genome_range2)
-        for rec in zip(*straw_list):
+        for rec in straw_iter:
             loc1, loc2, c = rec[0], rec[1], rec[2]
             bin1id = (loc1 - genome_range1.start) // binsize
             bin2id = (loc2 - genome_range2.start) // binsize
