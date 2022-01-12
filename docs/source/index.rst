@@ -10,11 +10,9 @@ Welcome to CoolBox's documentation!
 
 Project page: `GitHub <https://github.com/GangCaoLab/CoolBox>`_
 
-Table of contents
-=================
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    installation
    quick_start_API.ipynb

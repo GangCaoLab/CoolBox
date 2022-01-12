@@ -13,8 +13,6 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
 
   
@@ -32,11 +30,12 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "tex2jax_ignore|mathjax_ignore|document", "processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -190,17 +189,68 @@
 <h1>Welcome to CoolBox’s documentation!<a class="headerlink" href="#welcome-to-coolbox-s-documentation" title="Permalink to this headline">¶</a></h1>
 <img alt="_images/title.png" src="_images/title.png" />
 <p>Project page: <a class="reference external" href="https://github.com/GangCaoLab/CoolBox">GitHub</a></p>
-</div>
-<div class="section" id="table-of-contents">
-<h1>Table of contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation &amp; Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quick_start_API.html">Quickstart (API)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quick_start_CLI.html">Quickstart (CLI)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gallery.html">CoolBox Gallery</a></li>
-<li class="toctree-l1"><a class="reference internal" href="custom_elements.html">Customizing CoolBox</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation &amp; Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#install-coolbox">Install CoolBox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#usage">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start_API.html">Quickstart (API)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quick_start_API.html#Data-preparation">Data preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start_API.html#Track-is-the-basic-element">Track is the basic element</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start_API.html#Compose-Tracks-to-Frame">Compose Tracks to Frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start_API.html#Adjust-Tracks-and-Frame-with-Feature">Adjust Tracks and Frame with Feature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start_API.html#Coverage">Coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start_API.html#Explore-Genomic-Data-with-coolbox.api.Browser">Explore Genomic Data with <code class="docutils literal notranslate"><span class="pre">coolbox.api.Browser</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start_API.html#Fetch-precise-data-use-.fetch_data-API">Fetch precise data use <code class="docutils literal notranslate"><span class="pre">.fetch_data</span></code> API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start_API.html#Taken-together">Taken together</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start_CLI.html">Quickstart (CLI)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quick_start_CLI.html#Check-the-basic-information">Check the basic information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start_CLI.html#Example-Dataset">Example Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start_CLI.html#Compose-Frame">Compose Frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start_CLI.html#Start-a-browser">Start a browser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quick_start_CLI.html#Load-custom-module">Load custom module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gallery.html">CoolBox Gallery</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/hicmat_cmaps.html">Colormaps of Hi-C contact map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/reso_normalize.html">Resolution, Balance and Normalize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/smoothing.html">Smoothing matrix with gaussian filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/hicfeature.html">Hi-C features like Virtual4C, DiScore, InsuScore</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/TADs.html">TADs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/peakcov.html">Peak Coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/HiCDiff.html">Hi-C Diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/selfish.html">Differential Chromatin Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/joint_view.html">JointView</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/bw_style.html">BigWig track styles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/bw_cov.html">BigWig Coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/arcs_style.html">Arcs style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/arcs_style.html#Color">Color</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/arcs_cov.html">Arcs coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/snp.html">SNP Manhattan plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/decay.html">Decay curve</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="custom_elements.html">Customizing CoolBox</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="custom_elements.html#Custom-Track">Custom Track</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_elements.html#Custom-Coverage">Custom Coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_elements.html#Custom-Feature">Custom Feature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_elements.html#Peakachu">Peakachu</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-coolbox.core.track">Track</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-coolbox.core.coverage">Coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-coolbox.core.feature">Feature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-coolbox.core.frame">Frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#jointview">JointView</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-coolbox.core.browser">Browser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-coolbox.utilities">Utilities</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
