@@ -26,6 +26,7 @@ CoolBox Gallery
     _gallery/arcs_style.ipynb
     _gallery/arcs_cov.ipynb
     _gallery/snp.ipynb
+    _gallery/ideogram.ipynb
 
 .. nbgallery::
     :caption: Auxiliary functions

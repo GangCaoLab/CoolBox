@@ -24,7 +24,7 @@ class Ideogram(Track):
     color_scheme : dict, optional
         Color scheme of ideogram, default: Ideogram.DEFAULT_COLOR_SCHEME
 
-    show_name : bool, optional
+    show_band_name : bool, optional
         Show band name or not. default True.
 
     font_size : int, optional
@@ -55,7 +55,7 @@ class Ideogram(Track):
         properties_dict = {
             'file': file_,
             'color_scheme': Ideogram.DEFAULT_COLOR_SCHEME,
-            'show_name': True,
+            'show_band_name': True,
             'font_size': Ideogram.DEFAULT_FONT_SIZE,
             'border_color': '#000000',
             'border_width': Ideogram.DEFAULT_BORDER_WIDTH,
@@ -83,7 +83,7 @@ class Ideogram(Track):
             start, end = itv.begin, itv.end
             band_name, band_type = itv.data[:2]
             rows.append([gr.chrom, start, end, band_name, band_type])
-        fields = ['chrom', 'start', 'end', 'name', 'gieStain']
+        fields = ['chrom', 'start', 'end', 'band_name', 'band_type']
         return pd.DataFrame(rows, columns=fields)
 
     def plot(self, ax, gr: GenomeRange, **kwargs):
@@ -101,7 +101,7 @@ class Ideogram(Track):
                 self.properties['show_band_name'] != 'no'
                 and gr.length < 80_000_000
             ):
-                self.plot_text(band_name, start, end, band_color)
+                self.plot_text(band_name, start, end, gr, band_color)
         coll = BrokenBarHCollection(xranges, (0, band_height), facecolors=colors,
                                     linewidths=self.properties['border_width'],
                                     edgecolors=self.properties['border_color'])
@@ -110,10 +110,18 @@ class Ideogram(Track):
         ax.set_xlim(gr.start, gr.end)
         self.plot_label()
 
-    def plot_text(self, band_name, start, end, band_color):
+    def plot_text(self, band_name, start, end, gr, band_color):
         band_height = self.properties['height']
         x_pos = start + (end - start) * 0.15
+        if x_pos < gr.start:
+            x_pos = gr.start + 0.5 * (end - gr.start)
+            if (end - gr.start) < gr.length  * 0.10:
+                return
+        elif x_pos > gr.end:
+            x_pos = start + 0.5 * (gr.end - start)
+            if (gr.end - start) < gr.length * 0.10:
+                return
         y_pos = band_height / 2
         rgb = hex2rgb(band_color) if isinstance(band_color, str) else band_color
-        color = '#e2e2e2' if sum(rgb) < 100 else '#000000'
+        color = '#e2e2e2' if sum(rgb) < 200 else '#000000'
         self.ax.text(x_pos, y_pos, band_name, fontsize=self.properties['font_size'], color=color)
