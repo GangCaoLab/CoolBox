@@ -10,6 +10,8 @@ HERE = osp.dirname(osp.abspath(__file__))
 DATA_DIR = f"{HERE}/test_data"
 test_interval = GenomeRange("chr9:4000000-6000000")
 empty_interval = GenomeRange("chr10:4000000-6000000")
+sub_interval1 = GenomeRange("chr9:4500000-5000000")
+sub_interval2 = GenomeRange("chr9:5200000-5850000")
 test_itv = str(test_interval).replace(':', '_').replace('-', '_')
 
 
@@ -148,6 +150,14 @@ def test_cool():
     cl2 = Cool(f"{DATA_DIR}/cool_{test_itv}.mcool", resolution=exp_binsize)
     cl2.fetch_data(test_interval)
     assert cl2.fetched_binsize == exp_binsize
+    mat1 = cl.fetch_data(sub_interval1, gr2=sub_interval2)
+    mat2 = cl.fetch_data(sub_interval2, gr2=sub_interval1)
+    assert mat1.shape[0] != mat1.shape[1]
+    assert mat2.shape[0] != mat2.shape[1]
+    assert mat1.shape == (mat2.shape[1], mat2.shape[0])
+    assert mat2[mat2>0].shape[0] > 0
+    fig, ax = plt.subplots()
+    cl.plot(ax, sub_interval1, gr2=sub_interval2)
 
 
 def test_dothic():
@@ -164,6 +174,14 @@ def test_dothic():
     dot = DotHiC(dothic_path, resolution=exp_binsize)
     dot.fetch_data(test_interval)
     assert dot.fetched_binsize == exp_binsize
+    mat1 = dot.fetch_data(sub_interval1, gr2=sub_interval2)
+    mat2 = dot.fetch_data(sub_interval2, gr2=sub_interval1)
+    assert mat1.shape[0] != mat1.shape[1]
+    assert mat2.shape[0] != mat2.shape[1]
+    assert mat1.shape == (mat2.shape[1], mat2.shape[0])
+    assert mat2[mat2>0].shape[0] > 0
+    fig, ax = plt.subplots()
+    dot.plot(ax, sub_interval1, gr2=sub_interval2)
 
 
 def test_hicfeatures():

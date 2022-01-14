@@ -33,14 +33,14 @@ class DotHiC(HicMatBase):
         })
         super().__init__(**properties)
 
-    def fetch_data(self, genome_range, genome_range2=None, **kwargs) -> np.ndarray:
+    def fetch_data(self, gr, gr2=None, **kwargs) -> np.ndarray:
         from coolbox.utilities.hic.wrap import StrawWrap
 
         path = self.properties['file']
         binsize = kwargs.get('resolution', self.properties.get('resolution', 'auto'))
         wrap = StrawWrap(path, normalization=self.balance, binsize=binsize)
 
-        arr = wrap.fetch(genome_range, genome_range2)
+        arr = wrap.fetch(gr, gr2)
 
         self.fetched_binsize = wrap.fetched_binsize  # expose fetched binsize
 

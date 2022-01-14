@@ -35,7 +35,7 @@ class StrawWrap(object):
         self.chromosomes, self.resolutions, self.masterindex, self.genome, self.metadata = self.__info()
         self.fetched_binsize = None
 
-    def fetch(self, genome_range1, genome_range2=None):
+    def fetch(self, gr1, gr2=None):
         """
         Return
         ------
@@ -43,26 +43,34 @@ class StrawWrap(object):
         """
         from coolbox.utilities.genome import GenomeRange
 
-        if genome_range2 is None:
-            genome_range2 = genome_range1
-        genome_range1 = to_gr(genome_range1)
-        genome_range2 = to_gr(genome_range2)
+        flip = False
 
-        if isinstance(genome_range1, str):
-            genome_range1 = GenomeRange(genome_range1)
-        if isinstance(genome_range2, str):
-            genome_range2 = GenomeRange(genome_range2)
+        if gr2 is None:
+            gr2 = gr1
+        gr1 = to_gr(gr1)
+        gr2 = to_gr(gr2)
+        if gr2.start < gr1.start:
+            flip = True
+            gr1, gr2 = gr2, gr1
 
-        if genome_range1.chrom.startswith("chr"):
-            genome_range1.change_chrom_names()
-        if genome_range2.chrom.startswith("chr"):
-            genome_range2.change_chrom_names()
+        if isinstance(gr1, str):
+            gr1 = GenomeRange(gr1)
+        if isinstance(gr2, str):
+            gr2 = GenomeRange(gr2)
 
-        binsize = self.infer_binsize(genome_range1)
+        if gr1.chrom.startswith("chr"):
+            gr1.change_chrom_names()
+        if gr2.chrom.startswith("chr"):
+            gr2.change_chrom_names()
+
+        binsize = self.infer_binsize(gr1)
         self.fetched_binsize = binsize  # expose fetched binsize
 
-        straw_iter = self.__fetch_straw_iter(genome_range1, genome_range2, binsize)
-        return self.__straw_to_matrix(straw_iter, genome_range1, genome_range2, binsize)
+        straw_iter = self.__fetch_straw_iter(gr1, gr2, binsize)
+        mat = self.__straw_to_matrix(straw_iter, gr1, gr2, binsize)
+        if flip:
+            mat = mat.T
+        return mat
 
     def infer_binsize(self, genome_range):
         from .tools import infer_resolution

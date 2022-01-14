@@ -12,6 +12,7 @@ jupyter nbextension enable --py widgetsnbextension
 ## Test and rebuild doc
 
 ```bash
+export PYTHONPATH=`pwd`
 pytest tests
 cd docs && make html; cp -r build/html/* .
 ```

@@ -93,7 +93,7 @@ class HicMatBase(Track, PlotHiCMat, ProcessHicMat):
         self.fetched_gr = None
         self.fetched_gr2 = None
 
-    def fetch_data(self, gr: GenomeRange, **kwargs) -> np.ndarray:
+    def fetch_data(self, gr: GenomeRange, gr2=None, **kwargs) -> np.ndarray:
         """
         Fetch the raw matrix should be plotted. Normally it's a matrix with raw contacts
 
@@ -109,7 +109,7 @@ class HicMatBase(Track, PlotHiCMat, ProcessHicMat):
         """
         raise NotImplementedError
 
-    def fetch_plot_data(self, gr: GenomeRange, **kwargs) -> np.ndarray:
+    def fetch_plot_data(self, gr: GenomeRange, gr2=None, **kwargs) -> np.ndarray:
         """
         Fetch 2d contact matrix, the matrix may be processed in case
         'transform', 'normalize', 'gaussian_sigma', 'process_func' exits in properties.
@@ -127,17 +127,15 @@ class HicMatBase(Track, PlotHiCMat, ProcessHicMat):
         matrix : np.array
             Processed hic matrix used for plotting.
         """
-        gr2 = kwargs.get('gr2')
         if self.properties['style'] == self.STYLE_WINDOW and not kwargs.get("gr_updated", False):
             gr, gr2 = self.fetch_window_genome_range(gr, gr2)
-            kwargs.update({'gr2': gr2})
-        arr = self.fetch_data(gr, **kwargs)
+        arr = self.fetch_data(gr, gr2=gr2, **kwargs)
         # store fetched_gr
         self.fetched_gr = gr
         self.fetched_gr2 = gr2
         return self.process_matrix(arr)
 
-    def plot(self, ax, gr: GenomeRange, **kwargs):
+    def plot(self, ax, gr: GenomeRange, gr2=None, **kwargs):
         """
         Plot matrix
 
@@ -148,10 +146,10 @@ class HicMatBase(Track, PlotHiCMat, ProcessHicMat):
         """
         self.ax = ax
         # fetch processed plot_data
-        self.matrix = self.fetch_plot_data(gr, **kwargs)
+        self.matrix = self.fetch_plot_data(gr, gr2=gr2, **kwargs)
         # plot matrix
-        img = self.plot_matrix(gr, kwargs.get('gr2'))
-        self.adjust_figure(gr, kwargs.get('gr2'))
+        img = self.plot_matrix(gr, gr2)
+        self.adjust_figure(gr, gr2)
         self.draw_colorbar(img)
         self.plot_label()
 

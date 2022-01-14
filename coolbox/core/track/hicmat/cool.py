@@ -34,19 +34,19 @@ class Cool(HicMatBase):
         })
         super().__init__(**properties)
 
-    def fetch_data(self, gr: GenomeRange, **kwargs) -> np.ndarray:
+    def fetch_data(self, gr: GenomeRange, gr2=None, **kwargs) -> np.ndarray:
         from coolbox.utilities.hic.wrap import CoolerWrap
 
         path = self.properties['file']
         binsize = kwargs.get('resolution', self.properties.get('resolution', 'auto'))
         wrap = CoolerWrap(path, balance=self.balance, binsize=binsize)
-        arr = wrap.fetch(gr, kwargs.get('gr2'))
+        arr = wrap.fetch(gr, gr2)
 
         self.fetched_binsize = wrap.fetched_binsize  # expose fetched binsize
 
         return self.fill_zero_nan(arr)
 
-    def fetch_pixels(self, gr: GenomeRange, **kwargs):
+    def fetch_pixels(self, gr: GenomeRange, gr2=None, **kwargs):
         """
         Fetch the pixels table of upper triangle of the original contact matrix(not processed).
 
@@ -80,7 +80,7 @@ class Cool(HicMatBase):
         balance = kwargs.get('balance', self.is_balance)
         wrap = CoolerWrap(path, balance=balance, binsize=kwargs.get('resolution', 'auto'))
 
-        return wrap.fetch_pixels(gr, kwargs.get('gr2'), join=kwargs.get('join', True))
+        return wrap.fetch_pixels(gr, gr2, join=kwargs.get('join', True))
 
     def infer_binsize(self, gr: GenomeRange, **kwargs) -> int:
         from coolbox.utilities.hic.wrap import CoolerWrap
