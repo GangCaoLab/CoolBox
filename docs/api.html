@@ -198,102 +198,6 @@
 <h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="module-coolbox.core.track">
 <span id="track"></span><h2>Track<a class="headerlink" href="#module-coolbox.core.track" title="Permalink to this headline">¶</a></h2>
-<p><strong>Classes:</strong></p>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.ABCompartment" title="coolbox.core.track.ABCompartment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ABCompartment</span></code></a>(*args, **kwargs)</p></td>
-<td><p>A/B Compartment BigWig track.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.ArcsBase" title="coolbox.core.track.ArcsBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ArcsBase</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Arcs(link) track.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.BAM" title="coolbox.core.track.BAM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BAM</span></code></a>(*args, **kwargs)</p></td>
-<td><p>BAM alignment track for plotting reads.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.BAMCov" title="coolbox.core.track.BAMCov"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BAMCov</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Alignment reads coverage track.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.BED" title="coolbox.core.track.BED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BED</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Bed Track for plotting 1d intervals data from .bed file.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.BEDPE" title="coolbox.core.track.BEDPE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BEDPE</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Arcs track from .bedpe file.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.BedBase" title="coolbox.core.track.BedBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BedBase</span></code></a>(*args, **kwargs)</p></td>
-<td><p>BED Base track.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.BedGraph" title="coolbox.core.track.BedGraph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BedGraph</span></code></a>(*args, **kwargs)</p></td>
-<td><p>BedGraph track.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.BigWig" title="coolbox.core.track.BigWig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BigWig</span></code></a>(*args, **kwargs)</p></td>
-<td><p>BigWig track</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.ChromName" title="coolbox.core.track.ChromName"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChromName</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Track for show chromosome name.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Cool" title="coolbox.core.track.Cool"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Cool</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Cool track from .cool, .mcool file.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.DiScore" title="coolbox.core.track.DiScore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DiScore</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Directionnality index track.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.DotHiC" title="coolbox.core.track.DotHiC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DotHiC</span></code></a>(*args, **kwargs)</p></td>
-<td><p>HicMat track from .hic file.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.GTF" title="coolbox.core.track.GTF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GTF</span></code></a>(*args, **kwargs)</p></td>
-<td><p>GTF gene annotation track.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.HLine" title="coolbox.core.track.HLine"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HLine</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Horizontal line track.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.HiCDiff" title="coolbox.core.track.HiCDiff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HiCDiff</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Track for express the comparison between two HiC Track.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.HiCPeaks" title="coolbox.core.track.HiCPeaks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HiCPeaks</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Hi-C Peaks(Loops) from .bedpe file.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.HicMatBase" title="coolbox.core.track.HicMatBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HicMatBase</span></code></a>(*args, **kwargs)</p></td>
-<td><p>HicMatBase class for all track plotting matrix-like data.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.HistBase" title="coolbox.core.track.HistBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HistBase</span></code></a>(*args, **kwargs)</p></td>
-<td><p>HistBase track class</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.Ideogram" title="coolbox.core.track.Ideogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Ideogram</span></code></a>(*args, **kwargs)</p></td>
-<td><p>The chromosome ideograme track.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.InsuScore" title="coolbox.core.track.InsuScore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InsuScore</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Insulation score track.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.Pairs" title="coolbox.core.track.Pairs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pairs</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Arcs track from .pairs file.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.SNP" title="coolbox.core.track.SNP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SNP</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Track for show SNPs Manhattan plot.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.Selfish" title="coolbox.core.track.Selfish"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Selfish</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Differential chromatin interaction.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Spacer" title="coolbox.core.track.Spacer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Spacer</span></code></a>(*args, **kwargs)</p></td>
-<td><p>The spacer track Does not have any real content, just used to split two tracks.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.TAD" title="coolbox.core.track.TAD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TAD</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Tad tack from bed file</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Track" title="coolbox.core.track.Track"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Track</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Track base class.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.Virtual4C" title="coolbox.core.track.Virtual4C"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Virtual4C</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Track for view virtual 4C related to a certain genome position, and a HiC Track (include <cite>Cool</cite> and <cite>DotHiC</cite>).</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.XAxis" title="coolbox.core.track.XAxis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAxis</span></code></a>(*args, **kwargs)</p></td>
-<td><p>The x axis track.</p></td>
-</tr>
-</tbody>
-</table>
 <p><strong>Functions:</strong></p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -312,156 +216,99 @@
 </tr>
 </tbody>
 </table>
-<dl class="py class">
-<dt id="coolbox.core.track.ABCompartment">
-<em class="property">class </em><code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">ABCompartment</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.ABCompartment" title="Permalink to this definition">¶</a></dt>
-<dd><p>A/B Compartment BigWig track.</p>
-<dl class="field-list">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>file</strong><span class="classifier">str</span></dt><dd><p>File path of bigwig file.</p>
-</dd>
-<dt><strong>num_bins</strong><span class="classifier">int, optional</span></dt><dd><p>Number of bins to plot the hist in current range, default 700.</p>
-</dd>
-<dt><strong>style</strong><span class="classifier">str, optional</span></dt><dd><p>Track graph type, format {‘line’, ‘fill’, ‘heatmap’, ‘scatter’}</p>
-</dd>
-<dt><strong>fmt</strong><span class="classifier">str, optional</span></dt><dd><p>Line styles used when the plot style is <cite>line</cite>, will be passed as <cite>fmt</cite> parameter in <cite>matplotlib.pyplot.plot</cite></p>
-</dd>
-<dt><strong>line_width</strong><span class="classifier">int, optional</span></dt><dd><p>Value used when the plot style is <cite>line</cite>, will be passed as <cite>linewidth</cite> parameter in <cite>matplotlib.pyplot.plot</cite></p>
-</dd>
-<dt><strong>size</strong><span class="classifier">int, optional</span></dt><dd><p>Value used when the plot style is <cite>scatter</cite>, will be passed as <cite>s</cite> parameter in <cite>matplotlib.pyplot.scatter</cite></p>
-</dd>
-<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Main color</p>
-</dd>
-<dt><strong>threshold_color</strong><span class="classifier">str, optional</span></dt><dd><p>Track’s color for values greater than specified threshold.</p>
-</dd>
-<dt><strong>threshold</strong><span class="classifier">float, optional</span></dt><dd><p>Threshold used when the plot style is <cite>line</cite> or <cite>scatter</cite>, values greater than this thresh will be
-plotted with <cite>color = threshold_color</cite></p>
-</dd>
-<dt><strong>cmap: str, optional</strong></dt><dd><p>Cmap used when the plot type is heatmap, will be passed as <cite>cmap</cite> paramerter in <cite>matplotlib.pyplot.matshow</cite></p>
-</dd>
-<dt><strong>alpha</strong><span class="classifier">float, optional</span></dt><dd><p>Alpha value of plot, default 1.0</p>
-</dd>
-<dt><strong>orientation</strong><span class="classifier">str, optional</span></dt><dd><p>Track orientation, use ‘inverted’ for inverted track plot.</p>
-</dd>
-<dt><strong>data_range_style</strong><span class="classifier">{bool, ‘text’, ‘y-axis’}, optional</span></dt><dd><p>Show_data_range or not, default True.</p>
-</dd>
-<dt><strong>max_value</strong><span class="classifier">{float, ‘auto’}, optional</span></dt><dd><p>Max value of track. ‘auto’ for specify max value automatically, default ‘auto’.</p>
-</dd>
-<dt><strong>min_value</strong><span class="classifier">{float, ‘auto’}, optional</span></dt><dd><p>Min value of track. ‘auto’ for specify max value automatically, default ‘auto’.</p>
-</dd>
-<dt><strong>properties_dict</strong><span class="classifier">dict</span></dt><dd><p>The properties(features) of this track. For example ‘height’, ‘color’…</p>
-</dd>
-<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>The name of Track.
-(Default: “{self.__class__.__name__}.{self.__class__._counts}”)</p>
-</dd>
-<dt><strong>title</strong><span class="classifier">str, optional</span></dt><dd><p>Title of ax</p>
-</dd>
-<dt><strong>height</strong><span class="classifier">int, optional</span></dt><dd><p>Height of ax</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Attributes</dt>
-<dd class="field-even"><dl>
-<dt><strong>properties</strong><span class="classifier">dict</span></dt><dd><p>The properties(features) of this track. For example ‘height’, ‘color’…</p>
-</dd>
-<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>The name of Track.</p>
-</dd>
-<dt><strong>coverages</strong><span class="classifier">list of <cite>coolbox.api.coverage.Coverage</cite></span></dt><dd><p>Coverages on this Track.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<p class="rubric">Methods</p>
+<p><strong>Classes:</strong></p>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
-<td><p>Append coverage to this track.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.ArcsBase" title="coolbox.core.track.ArcsBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ArcsBase</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Arcs(link) track.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code>(gr, **kwargs)</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.BAM" title="coolbox.core.track.BAM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BAM</span></code></a>(*args, **kwargs)</p></td>
+<td><p>BAM alignment track for plotting reads.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code>(gr, **kwargs)</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.BAMCov" title="coolbox.core.track.BAMCov"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BAMCov</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Alignment reads coverage track.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_scores</span></code>(genome_range, num_bins[, …])</p></td>
-<td><p>Fetch bins scores within input chromosome range.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.BED" title="coolbox.core.track.BED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BED</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Bed Track for plotting 1d intervals data from .bed file.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
-<td><p>Pile a stack of coverages with self’s coverages</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.BEDPE" title="coolbox.core.track.BEDPE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BEDPE</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Arcs track from .bedpe file.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
-<td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.BedBase" title="coolbox.core.track.BedBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BedBase</span></code></a>(*args, **kwargs)</p></td>
+<td><p>BED Base track.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
-<td><p>Plot all coverages on given axes.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.BedGraph" title="coolbox.core.track.BedGraph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BedGraph</span></code></a>(*args, **kwargs)</p></td>
+<td><p>BedGraph track.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_yaxis_range</span></code>(plot_axis, y_ax)</p></td>
-<td><p>Plot the scale of the y axis with respect to the plot_axis</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.BigWig" title="coolbox.core.track.BigWig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BigWig</span></code></a>(*args, **kwargs)</p></td>
+<td><p>BigWig track</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.ChromName" title="coolbox.core.track.ChromName"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChromName</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Track for show chromosome name.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.Cool" title="coolbox.core.track.Cool"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Cool</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Cool track from .cool, .mcool file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.DiScore" title="coolbox.core.track.DiScore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DiScore</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Directionnality index track.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.DotHiC" title="coolbox.core.track.DotHiC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DotHiC</span></code></a>(*args, **kwargs)</p></td>
+<td><p>HicMat track from .hic file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.GTF" title="coolbox.core.track.GTF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GTF</span></code></a>(*args, **kwargs)</p></td>
+<td><p>GTF gene annotation track.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.HLine" title="coolbox.core.track.HLine"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HLine</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Horizontal line track.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.HiCDiff" title="coolbox.core.track.HiCDiff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HiCDiff</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Track for express the comparison between two HiC Track.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.HiCPeaks" title="coolbox.core.track.HiCPeaks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HiCPeaks</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Hi-C Peaks(Loops) from .bedpe file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.HicMatBase" title="coolbox.core.track.HicMatBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HicMatBase</span></code></a>(*args, **kwargs)</p></td>
+<td><p>HicMatBase class for all track plotting matrix-like data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.HistBase" title="coolbox.core.track.HistBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HistBase</span></code></a>(*args, **kwargs)</p></td>
+<td><p>HistBase track class</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Ideogram" title="coolbox.core.track.Ideogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Ideogram</span></code></a>(*args, **kwargs)</p></td>
+<td><p>The chromosome ideograme track.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.InsuScore" title="coolbox.core.track.InsuScore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InsuScore</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Insulation score track.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Pairs" title="coolbox.core.track.Pairs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pairs</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Arcs track from .pairs file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.SNP" title="coolbox.core.track.SNP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SNP</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Track for show SNPs Manhattan plot.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Selfish" title="coolbox.core.track.Selfish"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Selfish</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Differential chromatin interaction.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.Spacer" title="coolbox.core.track.Spacer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Spacer</span></code></a>(*args, **kwargs)</p></td>
+<td><p>The spacer track Does not have any real content, just used to split two tracks.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.TAD" title="coolbox.core.track.TAD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TAD</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Tad tack from bed file</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.Track" title="coolbox.core.track.Track"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Track</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Track base class.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Virtual4C" title="coolbox.core.track.Virtual4C"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Virtual4C</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Track for view virtual 4C related to a certain genome position, and a HiC Track (include <cite>Cool</cite> and <cite>DotHiC</cite>).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.XAxis" title="coolbox.core.track.XAxis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XAxis</span></code></a>(*args, **kwargs)</p></td>
+<td><p>The x axis track.</p></td>
 </tr>
 </tbody>
 </table>
-<table class="docutils align-default">
-<colgroup>
-<col style="width: 67%" />
-<col style="width: 33%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><strong>adjust_plot</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>check_chrom_name</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>get_num_bins</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>has_prop</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_data_range</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>plot_fill</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_heatmap</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>plot_hist</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>plot_line</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_scatter</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>plot_stairs</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_text_range</strong></p></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
 <dl class="py function">
 <dt id="coolbox.core.track.Arcs">
 <code class="sig-prename descclassname">coolbox.core.track.</code><code class="sig-name descname">Arcs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; coolbox.core.track.arcs.base.ArcsBase<a class="headerlink" href="#coolbox.core.track.Arcs" title="Permalink to this definition">¶</a></dt>
@@ -2190,13 +2037,13 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
 <td><p>Append coverage to this track.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.Cool.fetch_data" title="coolbox.core.track.Cool.fetch_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code></a>(gr, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.Cool.fetch_data" title="coolbox.core.track.Cool.fetch_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code></a>(gr[, gr2])</p></td>
 <td><p>Fetch the raw matrix should be plotted.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Cool.fetch_pixels" title="coolbox.core.track.Cool.fetch_pixels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_pixels</span></code></a>(gr, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Cool.fetch_pixels" title="coolbox.core.track.Cool.fetch_pixels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_pixels</span></code></a>(gr[, gr2])</p></td>
 <td><p>Fetch the pixels table of upper triangle of the original contact matrix(not processed).</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code>(gr, **kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code>(gr[, gr2])</p></td>
 <td><p>Fetch 2d contact matrix, the matrix may be processed in case ‘transform’, ‘normalize’, ‘gaussian_sigma’, ‘process_func’ exits in properties.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width)</p></td>
@@ -2205,7 +2052,7 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
 <td><p>Pile a stack of coverages with self’s coverages</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr[, gr2])</p></td>
 <td><p>Plot matrix</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
@@ -2279,17 +2126,17 @@ plotted with <cite>color = threshold_color</cite></p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Cool.fetch_data" title="coolbox.core.track.Cool.fetch_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code></a>(gr, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.Cool.fetch_data" title="coolbox.core.track.Cool.fetch_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code></a>(gr[, gr2])</p></td>
 <td><p>Fetch the raw matrix should be plotted.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.Cool.fetch_pixels" title="coolbox.core.track.Cool.fetch_pixels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_pixels</span></code></a>(gr, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.Cool.fetch_pixels" title="coolbox.core.track.Cool.fetch_pixels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_pixels</span></code></a>(gr[, gr2])</p></td>
 <td><p>Fetch the pixels table of upper triangle of the original contact matrix(not processed).</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py method">
 <dt id="coolbox.core.track.Cool.fetch_data">
-<code class="sig-name descname">fetch_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gr</span><span class="p">:</span> <span class="n">coolbox.utilities.genome.GenomeRange</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#coolbox.core.track.Cool.fetch_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fetch_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gr</span><span class="p">:</span> <span class="n">coolbox.utilities.genome.GenomeRange</span></em>, <em class="sig-param"><span class="n">gr2</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#coolbox.core.track.Cool.fetch_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fetch the raw matrix should be plotted. Normally it’s a matrix with raw contacts</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2311,7 +2158,7 @@ plotted with <cite>color = threshold_color</cite></p>
 
 <dl class="py method">
 <dt id="coolbox.core.track.Cool.fetch_pixels">
-<code class="sig-name descname">fetch_pixels</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gr</span><span class="p">:</span> <span class="n">coolbox.utilities.genome.GenomeRange</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.Cool.fetch_pixels" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fetch_pixels</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gr</span><span class="p">:</span> <span class="n">coolbox.utilities.genome.GenomeRange</span></em>, <em class="sig-param"><span class="n">gr2</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.Cool.fetch_pixels" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fetch the pixels table of upper triangle of the original contact matrix(not processed).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2591,7 +2438,7 @@ default True(‘KR’ balance)</p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
 <td><p>Append coverage to this track.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.DotHiC.fetch_data" title="coolbox.core.track.DotHiC.fetch_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code></a>(genome_range[, genome_range2])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.DotHiC.fetch_data" title="coolbox.core.track.DotHiC.fetch_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code></a>(gr[, gr2])</p></td>
 <td><p>Fetch the raw matrix should be plotted.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.DotHiC.fetch_pixels" title="coolbox.core.track.DotHiC.fetch_pixels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_pixels</span></code></a>(gr[, gr2, balance])</p></td>
@@ -2601,7 +2448,7 @@ default True(‘KR’ balance)</p>
 </dl>
 </p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code>(gr, **kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code>(gr[, gr2])</p></td>
 <td><p>Fetch 2d contact matrix, the matrix may be processed in case ‘transform’, ‘normalize’, ‘gaussian_sigma’, ‘process_func’ exits in properties.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width)</p></td>
@@ -2610,7 +2457,7 @@ default True(‘KR’ balance)</p>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
 <td><p>Pile a stack of coverages with self’s coverages</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr[, gr2])</p></td>
 <td><p>Plot matrix</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
@@ -2684,7 +2531,7 @@ default True(‘KR’ balance)</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.DotHiC.fetch_data" title="coolbox.core.track.DotHiC.fetch_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code></a>(genome_range[, genome_range2])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.DotHiC.fetch_data" title="coolbox.core.track.DotHiC.fetch_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code></a>(gr[, gr2])</p></td>
 <td><p>Fetch the raw matrix should be plotted.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.DotHiC.fetch_pixels" title="coolbox.core.track.DotHiC.fetch_pixels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_pixels</span></code></a>(gr[, gr2, balance])</p></td>
@@ -2698,7 +2545,7 @@ default True(‘KR’ balance)</p>
 </table>
 <dl class="py method">
 <dt id="coolbox.core.track.DotHiC.fetch_data">
-<code class="sig-name descname">fetch_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">genome_range</span></em>, <em class="sig-param"><span class="n">genome_range2</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#coolbox.core.track.DotHiC.fetch_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fetch_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gr</span></em>, <em class="sig-param"><span class="n">gr2</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#coolbox.core.track.DotHiC.fetch_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fetch the raw matrix should be plotted. Normally it’s a matrix with raw contacts</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -3135,7 +2982,7 @@ Used for add a horizontal line between two tracks.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.HiCDiff.fetch_data" title="coolbox.core.track.HiCDiff.fetch_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code></a>(gr, **kwargs)</p></td>
 <td><p>Fetch the raw matrix should be plotted.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code>(gr, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code>(gr[, gr2])</p></td>
 <td><p>Fetch 2d contact matrix, the matrix may be processed in case ‘transform’, ‘normalize’, ‘gaussian_sigma’, ‘process_func’ exits in properties.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width)</p></td>
@@ -3144,7 +2991,7 @@ Used for add a horizontal line between two tracks.</p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
 <td><p>Pile a stack of coverages with self’s coverages</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr[, gr2])</p></td>
 <td><p>Plot matrix</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
@@ -3460,10 +3307,10 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
 <td><p>Append coverage to this track.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.HicMatBase.fetch_data" title="coolbox.core.track.HicMatBase.fetch_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code></a>(gr, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.HicMatBase.fetch_data" title="coolbox.core.track.HicMatBase.fetch_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code></a>(gr[, gr2])</p></td>
 <td><p>Fetch the raw matrix should be plotted.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.HicMatBase.fetch_plot_data" title="coolbox.core.track.HicMatBase.fetch_plot_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code></a>(gr, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.HicMatBase.fetch_plot_data" title="coolbox.core.track.HicMatBase.fetch_plot_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code></a>(gr[, gr2])</p></td>
 <td><p>Fetch 2d contact matrix, the matrix may be processed in case ‘transform’, ‘normalize’, ‘gaussian_sigma’, ‘process_func’ exits in properties.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width)</p></td>
@@ -3472,7 +3319,7 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
 <td><p>Pile a stack of coverages with self’s coverages</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.HicMatBase.plot" title="coolbox.core.track.HicMatBase.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.HicMatBase.plot" title="coolbox.core.track.HicMatBase.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr[, gr2])</p></td>
 <td><p>Plot matrix</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
@@ -3549,20 +3396,20 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.HicMatBase.fetch_data" title="coolbox.core.track.HicMatBase.fetch_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code></a>(gr, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.HicMatBase.fetch_data" title="coolbox.core.track.HicMatBase.fetch_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code></a>(gr[, gr2])</p></td>
 <td><p>Fetch the raw matrix should be plotted.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.HicMatBase.fetch_plot_data" title="coolbox.core.track.HicMatBase.fetch_plot_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code></a>(gr, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.HicMatBase.fetch_plot_data" title="coolbox.core.track.HicMatBase.fetch_plot_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code></a>(gr[, gr2])</p></td>
 <td><p>Fetch 2d contact matrix, the matrix may be processed in case ‘transform’, ‘normalize’, ‘gaussian_sigma’, ‘process_func’ exits in properties.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.HicMatBase.plot" title="coolbox.core.track.HicMatBase.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.HicMatBase.plot" title="coolbox.core.track.HicMatBase.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr[, gr2])</p></td>
 <td><p>Plot matrix</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py method">
 <dt id="coolbox.core.track.HicMatBase.fetch_data">
-<code class="sig-name descname">fetch_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gr</span><span class="p">:</span> <span class="n">coolbox.utilities.genome.GenomeRange</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#coolbox.core.track.HicMatBase.fetch_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fetch_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gr</span><span class="p">:</span> <span class="n">coolbox.utilities.genome.GenomeRange</span></em>, <em class="sig-param"><span class="n">gr2</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#coolbox.core.track.HicMatBase.fetch_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fetch the raw matrix should be plotted. Normally it’s a matrix with raw contacts</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -3584,7 +3431,7 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 
 <dl class="py method">
 <dt id="coolbox.core.track.HicMatBase.fetch_plot_data">
-<code class="sig-name descname">fetch_plot_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gr</span><span class="p">:</span> <span class="n">coolbox.utilities.genome.GenomeRange</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#coolbox.core.track.HicMatBase.fetch_plot_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fetch_plot_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gr</span><span class="p">:</span> <span class="n">coolbox.utilities.genome.GenomeRange</span></em>, <em class="sig-param"><span class="n">gr2</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#coolbox.core.track.HicMatBase.fetch_plot_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fetch 2d contact matrix, the matrix may be processed in case
 ‘transform’, ‘normalize’, ‘gaussian_sigma’, ‘process_func’ exits in properties.</p>
 <dl class="field-list simple">
@@ -3611,7 +3458,7 @@ Default False means that the input gr will be expanded in window mode</p>
 
 <dl class="py method">
 <dt id="coolbox.core.track.HicMatBase.plot">
-<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ax</span></em>, <em class="sig-param"><span class="n">gr</span><span class="p">:</span> <span class="n">coolbox.utilities.genome.GenomeRange</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.HicMatBase.plot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ax</span></em>, <em class="sig-param"><span class="n">gr</span><span class="p">:</span> <span class="n">coolbox.utilities.genome.GenomeRange</span></em>, <em class="sig-param"><span class="n">gr2</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.HicMatBase.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot matrix</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -4604,7 +4451,7 @@ Bioinformatics, Volume 35, Issue 14, July 2019, Pages i145–i153,
 <tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.Selfish.fetch_data" title="coolbox.core.track.Selfish.fetch_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code></a>(gr, **kwargs)</p></td>
 <td><p>Fetch the raw matrix should be plotted.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code>(gr, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code>(gr[, gr2])</p></td>
 <td><p>Fetch 2d contact matrix, the matrix may be processed in case ‘transform’, ‘normalize’, ‘gaussian_sigma’, ‘process_func’ exits in properties.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width)</p></td>
@@ -4613,7 +4460,7 @@ Bioinformatics, Volume 35, Issue 14, July 2019, Pages i145–i153,
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
 <td><p>Pile a stack of coverages with self’s coverages</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr[, gr2])</p></td>
 <td><p>Plot matrix</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>

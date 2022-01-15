@@ -21,7 +21,7 @@ CoolBox Gallery
     :name: other-gallery
     :glob:
 
-    _gallery/bw_style.ipynb
+    _gallery/hist_style.ipynb
     _gallery/bw_cov.ipynb
     _gallery/arcs_style.ipynb
     _gallery/arcs_cov.ipynb

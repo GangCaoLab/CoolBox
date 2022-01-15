@@ -84,7 +84,6 @@ class PlotHist(object):
         else:
             ax.plot(indexes, values, fmt, linewidth=line_width, color=color, alpha=alpha)
 
-
     def plot_stairs(self, ax, gr, values, fill=True):
         if len(values.shape) == 2:
             values = values.T
