@@ -104,19 +104,3 @@ class BigWig(HistBase):
                         "{}\n\nPlease check that the chromosome name is part of the bigwig file "
                         "and that the region is valid".format(str(genome_range), self.properties['file']))
 
-
-class ABCompartment(BigWig):
-    """
-    A/B Compartment BigWig track.
-    """
-
-    DEFAULT_PROPERTIES = {
-        "color": "#66ccff",
-        "threshold_color": "#ff9c9c",
-        "threshold": 0,
-    }
-
-    def __init__(self, file, **kwargs):
-        properties = ABCompartment.DEFAULT_PROPERTIES.copy()
-        properties.update(kwargs)
-        super().__init__(file, **properties)

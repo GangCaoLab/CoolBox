@@ -55,10 +55,13 @@ class PlotHist(object):
         color = self.properties['color']
         size = self.properties['size']
         alpha = self.properties['alpha']
+        fmt = self.properties.get('fmt')
+        if fmt == '-':
+            fmt = '.'
         mask = values > threshold
-        ax.scatter(indexes[mask], values[mask], s=size, alpha=alpha, c=self.properties.get('threshold_color', color))
+        ax.scatter(indexes[mask], values[mask], marker=fmt, s=size, alpha=alpha, c=self.properties.get('threshold_color', color))
         mask = ~mask
-        ax.scatter(indexes[mask], values[mask], s=size, alpha=alpha, c=color)
+        ax.scatter(indexes[mask], values[mask], marker=fmt, s=size, alpha=alpha, c=color)
 
     def plot_line(self, ax, indexes, values):
         # reference for plotting with threshold: https://stackoverflow.com/a/30122991/10336496
@@ -71,10 +74,16 @@ class PlotHist(object):
         alpha = self.properties.get("alpha", 1.0)
         threshold = float(self.properties.get("threshold"))
         threshold_color = self.properties.get("threshold_color")
-        ax.plot(indexes, values, fmt, linewidth=line_width, color=color, alpha=alpha)
         if threshold and np.sum(values > threshold) > 0:
-            masked_values = np.ma.masked_greater_equal(values, threshold)
-            ax.plot(indexes, masked_values, fmt, linewidth=line_width, color=threshold_color, alpha=alpha)
+            masked_g = values.copy()
+            masked_g[masked_g < threshold] = np.nan
+            ax.plot(indexes, masked_g, fmt, linewidth=line_width, color=threshold_color, alpha=alpha)
+            masked_l = values.copy()
+            masked_l[masked_l >= threshold] = np.nan
+            ax.plot(indexes, masked_l, fmt, linewidth=line_width, color=color, alpha=alpha)
+        else:
+            ax.plot(indexes, values, fmt, linewidth=line_width, color=color, alpha=alpha)
+
 
     def plot_stairs(self, ax, gr, values, fill=True):
         if len(values.shape) == 2:
