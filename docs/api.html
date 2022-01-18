@@ -815,16 +815,8 @@ The input bed file can be bed3/bed6/bed9/bed12</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>file: str</strong></dt><dd><p>The file path of <cite>.bed</cite> file.</p>
-</dd>
-<dt><strong>style</strong><span class="classifier">{‘gene’, ‘tad’}</span></dt><dd></dd>
 <dt><strong>gene_style: {‘flybase’, ‘normal’}</strong></dt><dd></dd>
 <dt><strong>display</strong><span class="classifier">{‘stacked’, ‘interlaced’, ‘collapsed’}, optional</span></dt><dd><p>Display mode. (Default: ‘stacked’)</p>
-</dd>
-<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Track color, ‘bed_rgb’ for auto specify color according to bed record.
-(Default: ‘bed_rgb’)</p>
-</dd>
-<dt><strong>border_color</strong><span class="classifier">str, optional</span></dt><dd><p>Border_color of gene. (Default: ‘black’)</p>
 </dd>
 <dt><strong>fontsize</strong><span class="classifier">int, optional</span></dt><dd><p>Font size. (Default: BED.DEFAULT_FONTSIZE)</p>
 </dd>
@@ -835,27 +827,18 @@ The input bed file can be bed3/bed6/bed9/bed12</p>
 </dd>
 <dt><strong>num_rows</strong><span class="classifier">int, optional</span></dt><dd><p>Set the max interval rows. (Default: unlimited interval rows)</p>
 </dd>
+<dt><strong>row_height</strong><span class="classifier">float</span></dt><dd><p>Height of a row. default 0.5</p>
+</dd>
+<dt><strong>file: str</strong></dt><dd><p>The file path of <cite>.bed</cite> file.</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Track color, ‘bed_rgb’ for auto specify color according to bed record.
+(Default: ‘bed_rgb’)</p>
+</dd>
+<dt><strong>border_color</strong><span class="classifier">str, optional</span></dt><dd><p>Border_color of gene. (Default: ‘black’)</p>
+</dd>
 <dt><strong>max_value</strong><span class="classifier">float, optional</span></dt><dd><p>Max score. (Default: inf)</p>
 </dd>
 <dt><strong>min_value</strong><span class="classifier">float, optional</span></dt><dd><p>Min score. (Default: -inf)</p>
-</dd>
-<dt><strong>border_style: str, optional</strong></dt><dd><p>Border style of tad. (Default: ‘solid’)</p>
-</dd>
-<dt><strong>border_width: int, optional</strong></dt><dd><p>Border width of tad. (Default: ‘2.0’)</p>
-</dd>
-<dt><strong>show_score</strong><span class="classifier">bool</span></dt><dd><p>Show bed score or not.
-default False.</p>
-</dd>
-<dt><strong>score_font_size</strong><span class="classifier">{‘auto’, int}</span></dt><dd><p>Score text font size.
-default ‘auto’</p>
-</dd>
-<dt><strong>score_font_color</strong><span class="classifier">str</span></dt><dd><p>Score text color.
-default ‘#000000’</p>
-</dd>
-<dt><strong>score_height_ratio</strong><span class="classifier">float</span></dt><dd><p>(text tag height) / (TAD height). used for adjust the position of Score text.
-default 0.5</p>
-</dd>
-<dt><strong>border_only</strong><span class="classifier">bool</span></dt><dd><p>Only show border, default False</p>
 </dd>
 <dt><strong>properties_dict</strong><span class="classifier">dict</span></dt><dd><p>The properties(features) of this track. For example ‘height’, ‘color’…</p>
 </dd>
@@ -898,7 +881,7 @@ default 0.5</p>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw_gene_with_introns_flybase_style</span></code>(ax, …)</p></td>
 <td><p>draws a gene using different styles</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.BED.fetch_data" title="coolbox.core.track.BED.fetch_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code></a>(gr, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code>(gr, **kwargs)</p></td>
 <td><p><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p></p></dd>
@@ -911,29 +894,23 @@ default 0.5</p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code>(gr, **kwargs)</p></td>
 <td><p>Fetch the plot data for the given GenomeRange.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_length_w</span></code>(fig_width, region_start, region_end)</p></td>
-<td><p>to improve the visualization of the genes it is good to have an estimation of the label length.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_y_pos</span></code>(free_row)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_y_pos</span></code>(free_row)</p></td>
 <td><p>The y_pos is set such that regions to be plotted do not overlap (stacked).</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">intervals2dataframe</span></code>(intervals, bed_type)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">intervals2dataframe</span></code>(intervals, bed_type)</p></td>
 <td><p>Convert intervals list to pandas.DataFrame</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
 <td><p>Pile a stack of coverages with self’s coverages</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.BED.plot" title="coolbox.core.track.BED.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
 <td><p>Plot all coverages on given axes.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_tads</span></code>(ax, gr, tads)</p></td>
-<td><p>Plots the boundaries as triangles in the given ax.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_triangular</span></code>(ax, gr, region, ymax, depth)</p></td>
-<td><p>/             /              /            _____________________</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_colormap</span></code>(df)</p></td>
+<td><p>As min_score and max_score change every plot, we compute them for every plot</p></td>
 </tr>
 </tbody>
 </table>
@@ -949,28 +926,25 @@ default 0.5</p>
 <tr class="row-even"><td><p><strong>get_rgb_and_edge_color</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
+<tr class="row-odd"><td><p><strong>get_track_height</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>infer_bed_type</strong></p></td>
+<tr class="row-even"><td><p><strong>has_prop</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>init_for_plot</strong></p></td>
+<tr class="row-odd"><td><p><strong>infer_bed_type</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>load_range</strong></p></td>
+<tr class="row-even"><td><p><strong>init_colormap</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_box</strong></p></td>
+<tr class="row-odd"><td><p><strong>load_range</strong></p></td>
 <td></td>
 </tr>
 <tr class="row-even"><td><p><strong>plot_genes</strong></p></td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>plot_score</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -982,37 +956,20 @@ default 0.5</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.BED.fetch_data" title="coolbox.core.track.BED.fetch_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code></a>(gr, **kwargs)</p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.BED.plot" title="coolbox.core.track.BED.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr, **kwargs)</p></td>
+<td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py method">
-<dt id="coolbox.core.track.BED.fetch_data">
-<code class="sig-name descname">fetch_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gr</span><span class="p">:</span> <span class="n">coolbox.utilities.genome.GenomeRange</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.BED.fetch_data" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list">
+<dt id="coolbox.core.track.BED.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ax</span></em>, <em class="sig-param"><span class="n">gr</span><span class="p">:</span> <span class="n">coolbox.utilities.genome.GenomeRange</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.BED.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>gr: GenomeRange</strong></dt><dd></dd>
 <dt><strong>kwargs: dict</strong></dt><dd><p>Other optional parameters including <cite>gr2</cite>, <cite>resolution</cite> for some tracks.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl>
-<dt><strong>intervals</strong><span class="classifier">pandas.core.frame.DataFrame</span></dt><dd><p>BED interval table. The table should be in format like:</p>
-<dl class="simple">
-<dt>bed_fields = [‘chromosome’, ‘start’, ‘end’,</dt><dd><p>‘name’, ‘score’, ‘strand’,
-‘thick_start’, ‘thick_end’,
-‘rgb’, ‘block_count’,
-‘block_sizes’, ‘block_starts’]</p>
-</dd>
-</dl>
-<p>The table can be in bed6/bed9/bed12 format and the trailing columns can be omited.</p>
 </dd>
 </dl>
 </dd>
@@ -1213,45 +1170,16 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>style</strong><span class="classifier">{‘gene’, ‘tad’}</span></dt><dd></dd>
-<dt><strong>gene_style: {‘flybase’, ‘normal’}</strong></dt><dd></dd>
-<dt><strong>display</strong><span class="classifier">{‘stacked’, ‘interlaced’, ‘collapsed’}, optional</span></dt><dd><p>Display mode. (Default: ‘stacked’)</p>
+<dt><strong>file: str</strong></dt><dd><p>The file path of <cite>.bed</cite> file.</p>
 </dd>
 <dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Track color, ‘bed_rgb’ for auto specify color according to bed record.
 (Default: ‘bed_rgb’)</p>
 </dd>
 <dt><strong>border_color</strong><span class="classifier">str, optional</span></dt><dd><p>Border_color of gene. (Default: ‘black’)</p>
 </dd>
-<dt><strong>fontsize</strong><span class="classifier">int, optional</span></dt><dd><p>Font size. (Default: BED.DEFAULT_FONTSIZE)</p>
-</dd>
-<dt><strong>labels</strong><span class="classifier">{True, False, ‘auto’}, optional</span></dt><dd><p>Draw bed name or not. ‘auto’ for automate decision according to density.
-(Default: ‘auto’)</p>
-</dd>
-<dt><strong>interval_height</strong><span class="classifier">int, optional</span></dt><dd><p>The height of the interval. (Default: 100)</p>
-</dd>
-<dt><strong>num_rows</strong><span class="classifier">int, optional</span></dt><dd><p>Set the max interval rows. (Default: unlimited interval rows)</p>
-</dd>
 <dt><strong>max_value</strong><span class="classifier">float, optional</span></dt><dd><p>Max score. (Default: inf)</p>
 </dd>
 <dt><strong>min_value</strong><span class="classifier">float, optional</span></dt><dd><p>Min score. (Default: -inf)</p>
-</dd>
-<dt><strong>border_style: str, optional</strong></dt><dd><p>Border style of tad. (Default: ‘solid’)</p>
-</dd>
-<dt><strong>border_width: int, optional</strong></dt><dd><p>Border width of tad. (Default: ‘2.0’)</p>
-</dd>
-<dt><strong>show_score</strong><span class="classifier">bool</span></dt><dd><p>Show bed score or not.
-default False.</p>
-</dd>
-<dt><strong>score_font_size</strong><span class="classifier">{‘auto’, int}</span></dt><dd><p>Score text font size.
-default ‘auto’</p>
-</dd>
-<dt><strong>score_font_color</strong><span class="classifier">str</span></dt><dd><p>Score text color.
-default ‘#000000’</p>
-</dd>
-<dt><strong>score_height_ratio</strong><span class="classifier">float</span></dt><dd><p>(text tag height) / (TAD height). used for adjust the position of Score text.
-default 0.5</p>
-</dd>
-<dt><strong>border_only</strong><span class="classifier">bool</span></dt><dd><p>Only show border, default False</p>
 </dd>
 <dt><strong>properties_dict</strong><span class="classifier">dict</span></dt><dd><p>The properties(features) of this track. For example ‘height’, ‘color’…</p>
 </dd>
@@ -1285,45 +1213,27 @@ default 0.5</p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
 <td><p>Append coverage to this track.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw_gene_simple</span></code>(ax, bed, ypos, rgb, edgecolor)</p></td>
-<td><p>draws an interval with direction (if given)</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw_gene_with_introns</span></code>(ax, bed, ypos, rgb, …)</p></td>
-<td><p>draws a gene like in flybase gbrowse.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw_gene_with_introns_flybase_style</span></code>(ax, …)</p></td>
-<td><p>draws a gene using different styles</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.BedBase.fetch_data" title="coolbox.core.track.BedBase.fetch_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code></a>(gr, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.BedBase.fetch_data" title="coolbox.core.track.BedBase.fetch_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code></a>(gr, **kwargs)</p></td>
 <td><p><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
 </p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code>(gr, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code>(gr, **kwargs)</p></td>
 <td><p>Fetch the plot data for the given GenomeRange.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_length_w</span></code>(fig_width, region_start, region_end)</p></td>
-<td><p>to improve the visualization of the genes it is good to have an estimation of the label length.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_y_pos</span></code>(free_row)</p></td>
-<td><p>The y_pos is set such that regions to be plotted do not overlap (stacked).</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
 <td><p>Pile a stack of coverages with self’s coverages</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.BedBase.plot" title="coolbox.core.track.BedBase.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
 <td><p>Plot all coverages on given axes.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_tads</span></code>(ax, gr, tads)</p></td>
-<td><p>Plots the boundaries as triangles in the given ax.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_triangular</span></code>(ax, gr, region, ymax, depth)</p></td>
-<td><p>/             /              /            _____________________</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.BedBase.set_colormap" title="coolbox.core.track.BedBase.set_colormap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_colormap</span></code></a>(df)</p></td>
+<td><p>As min_score and max_score change every plot, we compute them for every plot</p></td>
 </tr>
 </tbody>
 </table>
@@ -1333,31 +1243,19 @@ default 0.5</p>
 <col style="width: 28%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><strong>draw_arrow</strong></p></td>
+<tr class="row-odd"><td><p><strong>get_rgb_and_edge_color</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>get_rgb_and_edge_color</strong></p></td>
+<tr class="row-even"><td><p><strong>has_prop</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
+<tr class="row-odd"><td><p><strong>infer_bed_type</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>infer_bed_type</strong></p></td>
+<tr class="row-even"><td><p><strong>init_colormap</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>init_for_plot</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>plot_box</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_genes</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>plot_label</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>plot_score</strong></p></td>
+<tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -1376,8 +1274,8 @@ default 0.5</p>
 </dl>
 </p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.BedBase.plot" title="coolbox.core.track.BedBase.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr, **kwargs)</p></td>
-<td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#coolbox.core.track.BedBase.set_colormap" title="coolbox.core.track.BedBase.set_colormap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_colormap</span></code></a>(df)</p></td>
+<td><p>As min_score and max_score change every plot, we compute them for every plot</p></td>
 </tr>
 </tbody>
 </table>
@@ -1410,18 +1308,9 @@ default 0.5</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="coolbox.core.track.BedBase.plot">
-<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ax</span></em>, <em class="sig-param"><span class="n">gr</span><span class="p">:</span> <span class="n">coolbox.utilities.genome.GenomeRange</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.BedBase.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>gr: GenomeRange</strong></dt><dd></dd>
-<dt><strong>kwargs: dict</strong></dt><dd><p>Other optional parameters including <cite>gr2</cite>, <cite>resolution</cite> for some tracks.</p>
-</dd>
-</dl>
-</dd>
-</dl>
+<dt id="coolbox.core.track.BedBase.set_colormap">
+<code class="sig-name descname">set_colormap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.BedBase.set_colormap" title="Permalink to this definition">¶</a></dt>
+<dd><p>As min_score and max_score change every plot, we compute them for every plot</p>
 </dd></dl>
 
 </dd></dl>
@@ -2046,7 +1935,7 @@ plotted with <cite>color = threshold_color</cite></p>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code>(gr[, gr2])</p></td>
 <td><p>Fetch 2d contact matrix, the matrix may be processed in case ‘transform’, ‘normalize’, ‘gaussian_sigma’, ‘process_func’ exits in properties.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width, *args)</p></td>
 <td><p>calculate track height dynamically.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
@@ -2451,7 +2340,7 @@ default True(‘KR’ balance)</p>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code>(gr[, gr2])</p></td>
 <td><p>Fetch 2d contact matrix, the matrix may be processed in case ‘transform’, ‘normalize’, ‘gaussian_sigma’, ‘process_func’ exits in properties.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width, *args)</p></td>
 <td><p>calculate track height dynamically.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
@@ -2611,7 +2500,7 @@ The pixel table contains the non-zero upper triangle entries of the contact map.
 </dd>
 <dt><strong>color</strong><span class="classifier">{str, ‘random’}, optional</span></dt><dd><p>When the color is random, color for each gene will be randomly selected.</p>
 </dd>
-<dt><strong>name_attribute</strong><span class="classifier">{‘auto’, ‘gene_name’, ‘gene_id’, str}, optional</span></dt><dd><p>Use which attribute to show feature’s name.
+<dt><strong>name_attr</strong><span class="classifier">{‘auto’, ‘gene_name’, ‘gene_id’, str}, optional</span></dt><dd><p>Use which attribute to show feature’s name.
 Default use ‘auto’(try ‘gene_name’ -&gt; ‘gene_id’ -&gt; ‘position_string’)</p>
 </dd>
 <dt><strong>properties_dict</strong><span class="classifier">dict</span></dt><dd><p>The properties(features) of this track. For example ‘height’, ‘color’…</p>
@@ -2985,7 +2874,7 @@ Used for add a horizontal line between two tracks.</p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code>(gr[, gr2])</p></td>
 <td><p>Fetch 2d contact matrix, the matrix may be processed in case ‘transform’, ‘normalize’, ‘gaussian_sigma’, ‘process_func’ exits in properties.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width, *args)</p></td>
 <td><p>calculate track height dynamically.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
@@ -3313,7 +3202,7 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.HicMatBase.fetch_plot_data" title="coolbox.core.track.HicMatBase.fetch_plot_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code></a>(gr[, gr2])</p></td>
 <td><p>Fetch 2d contact matrix, the matrix may be processed in case ‘transform’, ‘normalize’, ‘gaussian_sigma’, ‘process_func’ exits in properties.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width, *args)</p></td>
 <td><p>calculate track height dynamically.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
@@ -4454,7 +4343,7 @@ Bioinformatics, Volume 35, Issue 14, July 2019, Pages i145–i153,
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code>(gr[, gr2])</p></td>
 <td><p>Fetch 2d contact matrix, the matrix may be processed in case ‘transform’, ‘normalize’, ‘gaussian_sigma’, ‘process_func’ exits in properties.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_track_height</span></code>(frame_width, *args)</p></td>
 <td><p>calculate track height dynamically.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
@@ -4696,30 +4585,6 @@ Does not have any real content, just used to split two tracks.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>file: str</strong></dt><dd><p>The file path of <cite>.bed</cite> file.</p>
-</dd>
-<dt><strong>style</strong><span class="classifier">{‘gene’, ‘tad’}</span></dt><dd></dd>
-<dt><strong>gene_style: {‘flybase’, ‘normal’}</strong></dt><dd></dd>
-<dt><strong>display</strong><span class="classifier">{‘stacked’, ‘interlaced’, ‘collapsed’}, optional</span></dt><dd><p>Display mode. (Default: ‘stacked’)</p>
-</dd>
-<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Track color, ‘bed_rgb’ for auto specify color according to bed record.
-(Default: ‘bed_rgb’)</p>
-</dd>
-<dt><strong>border_color</strong><span class="classifier">str, optional</span></dt><dd><p>Border_color of gene. (Default: ‘black’)</p>
-</dd>
-<dt><strong>fontsize</strong><span class="classifier">int, optional</span></dt><dd><p>Font size. (Default: BED.DEFAULT_FONTSIZE)</p>
-</dd>
-<dt><strong>labels</strong><span class="classifier">{True, False, ‘auto’}, optional</span></dt><dd><p>Draw bed name or not. ‘auto’ for automate decision according to density.
-(Default: ‘auto’)</p>
-</dd>
-<dt><strong>interval_height</strong><span class="classifier">int, optional</span></dt><dd><p>The height of the interval. (Default: 100)</p>
-</dd>
-<dt><strong>num_rows</strong><span class="classifier">int, optional</span></dt><dd><p>Set the max interval rows. (Default: unlimited interval rows)</p>
-</dd>
-<dt><strong>max_value</strong><span class="classifier">float, optional</span></dt><dd><p>Max score. (Default: inf)</p>
-</dd>
-<dt><strong>min_value</strong><span class="classifier">float, optional</span></dt><dd><p>Min score. (Default: -inf)</p>
-</dd>
 <dt><strong>border_style: str, optional</strong></dt><dd><p>Border style of tad. (Default: ‘solid’)</p>
 </dd>
 <dt><strong>border_width: int, optional</strong></dt><dd><p>Border width of tad. (Default: ‘2.0’)</p>
@@ -4737,6 +4602,21 @@ default ‘#000000’</p>
 default 0.5</p>
 </dd>
 <dt><strong>border_only</strong><span class="classifier">bool</span></dt><dd><p>Only show border, default False</p>
+</dd>
+<dt><strong>depth_ratio</strong><span class="classifier">{float, ‘auto’, ‘full’}</span></dt><dd><p>Depth ratio of triangular, use ‘full’ for full depth, use ‘auto’ for calculate depth by current genome_range. default ‘auto’.</p>
+</dd>
+<dt><strong>orientation</strong><span class="classifier">{‘normal’, ‘inverted’}</span></dt><dd><p>Invert y-axis or not, default ‘normal’</p>
+</dd>
+<dt><strong>file: str</strong></dt><dd><p>The file path of <cite>.bed</cite> file.</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Track color, ‘bed_rgb’ for auto specify color according to bed record.
+(Default: ‘bed_rgb’)</p>
+</dd>
+<dt><strong>border_color</strong><span class="classifier">str, optional</span></dt><dd><p>Border_color of gene. (Default: ‘black’)</p>
+</dd>
+<dt><strong>max_value</strong><span class="classifier">float, optional</span></dt><dd><p>Max score. (Default: inf)</p>
+</dd>
+<dt><strong>min_value</strong><span class="classifier">float, optional</span></dt><dd><p>Min score. (Default: -inf)</p>
 </dd>
 <dt><strong>properties_dict</strong><span class="classifier">dict</span></dt><dd><p>The properties(features) of this track. For example ‘height’, ‘color’…</p>
 </dd>
@@ -4770,51 +4650,39 @@ default 0.5</p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
 <td><p>Append coverage to this track.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw_gene_simple</span></code>(ax, bed, ypos, rgb, edgecolor)</p></td>
-<td><p>draws an interval with direction (if given)</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw_gene_with_introns</span></code>(ax, bed, ypos, rgb, …)</p></td>
-<td><p>draws a gene like in flybase gbrowse.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw_gene_with_introns_flybase_style</span></code>(ax, …)</p></td>
-<td><p>draws a gene using different styles</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code>(gr, **kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code>(gr, **kwargs)</p></td>
 <td><p><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
 </p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_intervals</span></code>(bgz_file, gr)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_intervals</span></code>(bgz_file, gr)</p></td>
 <td><p>Fetch intervals within input chromosome range.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code>(gr, **kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code>(gr, **kwargs)</p></td>
 <td><p>Fetch the plot data for the given GenomeRange.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_length_w</span></code>(fig_width, region_start, region_end)</p></td>
-<td><p>to improve the visualization of the genes it is good to have an estimation of the label length.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_y_pos</span></code>(free_row)</p></td>
-<td><p>The y_pos is set such that regions to be plotted do not overlap (stacked).</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">intervals2dataframe</span></code>(intervals, bed_type)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">intervals2dataframe</span></code>(intervals, bed_type)</p></td>
 <td><p>Convert intervals list to pandas.DataFrame</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
 <td><p>Pile a stack of coverages with self’s coverages</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.TAD.plot" title="coolbox.core.track.TAD.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
 <td><p>Plot all coverages on given axes.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_tads</span></code>(ax, gr, tads)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_tads</span></code>(ax, gr, tads)</p></td>
 <td><p>Plots the boundaries as triangles in the given ax.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_triangular</span></code>(ax, gr, region, ymax, depth)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_triangular</span></code>(ax, gr, region, ymax, depth)</p></td>
 <td><p>/             /              /            _____________________</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_colormap</span></code>(df)</p></td>
+<td><p>As min_score and max_score change every plot, we compute them for every plot</p></td>
 </tr>
 </tbody>
 </table>
@@ -4824,28 +4692,28 @@ default 0.5</p>
 <col style="width: 28%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><strong>draw_arrow</strong></p></td>
+<tr class="row-odd"><td><p><strong>get_depth_ratio</strong></p></td>
 <td></td>
 </tr>
 <tr class="row-even"><td><p><strong>get_rgb_and_edge_color</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
+<tr class="row-odd"><td><p><strong>get_track_height</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>infer_bed_type</strong></p></td>
+<tr class="row-even"><td><p><strong>has_prop</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>init_for_plot</strong></p></td>
+<tr class="row-odd"><td><p><strong>infer_bed_type</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>load_range</strong></p></td>
+<tr class="row-even"><td><p><strong>init_colormap</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_box</strong></p></td>
+<tr class="row-odd"><td><p><strong>load_range</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_genes</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_box</strong></p></td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
@@ -4856,6 +4724,33 @@ default 0.5</p>
 </tr>
 </tbody>
 </table>
+<p><strong>Methods:</strong></p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.track.TAD.plot" title="coolbox.core.track.TAD.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr, **kwargs)</p></td>
+<td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="coolbox.core.track.TAD.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ax</span></em>, <em class="sig-param"><span class="n">gr</span><span class="p">:</span> <span class="n">coolbox.utilities.genome.GenomeRange</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.track.TAD.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>gr: GenomeRange</strong></dt><dd></dd>
+<dt><strong>kwargs: dict</strong></dt><dd><p>Other optional parameters including <cite>gr2</cite>, <cite>resolution</cite> for some tracks.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -6943,30 +6838,6 @@ NOTE: This parameters is useful only if the Cool track in matrix format.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>file: str</strong></dt><dd><p>The file path of <cite>.bed</cite> file.</p>
-</dd>
-<dt><strong>style</strong><span class="classifier">{‘gene’, ‘tad’}</span></dt><dd></dd>
-<dt><strong>gene_style: {‘flybase’, ‘normal’}</strong></dt><dd></dd>
-<dt><strong>display</strong><span class="classifier">{‘stacked’, ‘interlaced’, ‘collapsed’}, optional</span></dt><dd><p>Display mode. (Default: ‘stacked’)</p>
-</dd>
-<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Track color, ‘bed_rgb’ for auto specify color according to bed record.
-(Default: ‘bed_rgb’)</p>
-</dd>
-<dt><strong>border_color</strong><span class="classifier">str, optional</span></dt><dd><p>Border_color of gene. (Default: ‘black’)</p>
-</dd>
-<dt><strong>fontsize</strong><span class="classifier">int, optional</span></dt><dd><p>Font size. (Default: BED.DEFAULT_FONTSIZE)</p>
-</dd>
-<dt><strong>labels</strong><span class="classifier">{True, False, ‘auto’}, optional</span></dt><dd><p>Draw bed name or not. ‘auto’ for automate decision according to density.
-(Default: ‘auto’)</p>
-</dd>
-<dt><strong>interval_height</strong><span class="classifier">int, optional</span></dt><dd><p>The height of the interval. (Default: 100)</p>
-</dd>
-<dt><strong>num_rows</strong><span class="classifier">int, optional</span></dt><dd><p>Set the max interval rows. (Default: unlimited interval rows)</p>
-</dd>
-<dt><strong>max_value</strong><span class="classifier">float, optional</span></dt><dd><p>Max score. (Default: inf)</p>
-</dd>
-<dt><strong>min_value</strong><span class="classifier">float, optional</span></dt><dd><p>Min score. (Default: -inf)</p>
-</dd>
 <dt><strong>border_style: str, optional</strong></dt><dd><p>Border style of tad. (Default: ‘solid’)</p>
 </dd>
 <dt><strong>border_width: int, optional</strong></dt><dd><p>Border width of tad. (Default: ‘2.0’)</p>
@@ -6984,6 +6855,21 @@ default ‘#000000’</p>
 default 0.5</p>
 </dd>
 <dt><strong>border_only</strong><span class="classifier">bool</span></dt><dd><p>Only show border, default False</p>
+</dd>
+<dt><strong>depth_ratio</strong><span class="classifier">{float, ‘auto’, ‘full’}</span></dt><dd><p>Depth ratio of triangular, use ‘full’ for full depth, use ‘auto’ for calculate depth by current genome_range. default ‘auto’.</p>
+</dd>
+<dt><strong>orientation</strong><span class="classifier">{‘normal’, ‘inverted’}</span></dt><dd><p>Invert y-axis or not, default ‘normal’</p>
+</dd>
+<dt><strong>file: str</strong></dt><dd><p>The file path of <cite>.bed</cite> file.</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Track color, ‘bed_rgb’ for auto specify color according to bed record.
+(Default: ‘bed_rgb’)</p>
+</dd>
+<dt><strong>border_color</strong><span class="classifier">str, optional</span></dt><dd><p>Border_color of gene. (Default: ‘black’)</p>
+</dd>
+<dt><strong>max_value</strong><span class="classifier">float, optional</span></dt><dd><p>Max score. (Default: inf)</p>
+</dd>
+<dt><strong>min_value</strong><span class="classifier">float, optional</span></dt><dd><p>Min score. (Default: -inf)</p>
 </dd>
 <dt><strong>properties_dict</strong><span class="classifier">dict</span></dt><dd><p>The properties(features) of this track. For example ‘height’, ‘color’…</p>
 </dd>
@@ -7017,51 +6903,39 @@ default 0.5</p>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_coverage</span></code>(coverage[, pos])</p></td>
 <td><p>Append coverage to this track.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw_gene_simple</span></code>(ax, bed, ypos, rgb, edgecolor)</p></td>
-<td><p>draws an interval with direction (if given)</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw_gene_with_introns</span></code>(ax, bed, ypos, rgb, …)</p></td>
-<td><p>draws a gene like in flybase gbrowse.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw_gene_with_introns_flybase_style</span></code>(ax, …)</p></td>
-<td><p>draws a gene using different styles</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code>(gr, **kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_data</span></code>(gr, **kwargs)</p></td>
 <td><p><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
 </p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_intervals</span></code>(bgz_file, gr)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_intervals</span></code>(bgz_file, gr)</p></td>
 <td><p>Fetch intervals within input chromosome range.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code>(gr, **kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_plot_data</span></code>(gr, **kwargs)</p></td>
 <td><p>Fetch the plot data for the given GenomeRange.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_length_w</span></code>(fig_width, region_start, region_end)</p></td>
-<td><p>to improve the visualization of the genes it is good to have an estimation of the label length.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_y_pos</span></code>(free_row)</p></td>
-<td><p>The y_pos is set such that regions to be plotted do not overlap (stacked).</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">intervals2dataframe</span></code>(intervals, bed_type)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">intervals2dataframe</span></code>(intervals, bed_type)</p></td>
 <td><p>Convert intervals list to pandas.DataFrame</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pile_coverages</span></code>(coverages[, pos])</p></td>
 <td><p>Pile a stack of coverages with self’s coverages</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(ax, gr, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.coverage.TAD.plot" title="coolbox.core.coverage.TAD.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr, **kwargs)</p></td>
 <td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_coverages</span></code>(ax, gr, gr2)</p></td>
 <td><p>Plot all coverages on given axes.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_tads</span></code>(ax, gr, tads)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_tads</span></code>(ax, gr, tads)</p></td>
 <td><p>Plots the boundaries as triangles in the given ax.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_triangular</span></code>(ax, gr, region, ymax, depth)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_triangular</span></code>(ax, gr, region, ymax, depth)</p></td>
 <td><p>/             /              /            _____________________</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_colormap</span></code>(df)</p></td>
+<td><p>As min_score and max_score change every plot, we compute them for every plot</p></td>
 </tr>
 </tbody>
 </table>
@@ -7071,28 +6945,28 @@ default 0.5</p>
 <col style="width: 28%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><strong>draw_arrow</strong></p></td>
+<tr class="row-odd"><td><p><strong>get_depth_ratio</strong></p></td>
 <td></td>
 </tr>
 <tr class="row-even"><td><p><strong>get_rgb_and_edge_color</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>has_prop</strong></p></td>
+<tr class="row-odd"><td><p><strong>get_track_height</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>infer_bed_type</strong></p></td>
+<tr class="row-even"><td><p><strong>has_prop</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>init_for_plot</strong></p></td>
+<tr class="row-odd"><td><p><strong>infer_bed_type</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>load_range</strong></p></td>
+<tr class="row-even"><td><p><strong>init_colormap</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><strong>plot_box</strong></p></td>
+<tr class="row-odd"><td><p><strong>load_range</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><strong>plot_genes</strong></p></td>
+<tr class="row-even"><td><p><strong>plot_box</strong></p></td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><p><strong>plot_label</strong></p></td>
@@ -7103,6 +6977,33 @@ default 0.5</p>
 </tr>
 </tbody>
 </table>
+<p><strong>Methods:</strong></p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#coolbox.core.coverage.TAD.plot" title="coolbox.core.coverage.TAD.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(ax, gr, **kwargs)</p></td>
+<td><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="coolbox.core.coverage.TAD.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ax</span></em>, <em class="sig-param"><span class="n">gr</span><span class="p">:</span> <span class="n">coolbox.utilities.genome.GenomeRange</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#coolbox.core.coverage.TAD.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot figure based on data returned by <cite>fetch_plot_data</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>gr: GenomeRange</strong></dt><dd></dd>
+<dt><strong>kwargs: dict</strong></dt><dd><p>Other optional parameters including <cite>gr2</cite>, <cite>resolution</cite> for some tracks.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -7112,30 +7013,6 @@ default 0.5</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>file: str</strong></dt><dd><p>The file path of <cite>.bed</cite> file.</p>
-</dd>
-<dt><strong>style</strong><span class="classifier">{‘gene’, ‘tad’}</span></dt><dd></dd>
-<dt><strong>gene_style: {‘flybase’, ‘normal’}</strong></dt><dd></dd>
-<dt><strong>display</strong><span class="classifier">{‘stacked’, ‘interlaced’, ‘collapsed’}, optional</span></dt><dd><p>Display mode. (Default: ‘stacked’)</p>
-</dd>
-<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Track color, ‘bed_rgb’ for auto specify color according to bed record.
-(Default: ‘bed_rgb’)</p>
-</dd>
-<dt><strong>border_color</strong><span class="classifier">str, optional</span></dt><dd><p>Border_color of gene. (Default: ‘black’)</p>
-</dd>
-<dt><strong>fontsize</strong><span class="classifier">int, optional</span></dt><dd><p>Font size. (Default: BED.DEFAULT_FONTSIZE)</p>
-</dd>
-<dt><strong>labels</strong><span class="classifier">{True, False, ‘auto’}, optional</span></dt><dd><p>Draw bed name or not. ‘auto’ for automate decision according to density.
-(Default: ‘auto’)</p>
-</dd>
-<dt><strong>interval_height</strong><span class="classifier">int, optional</span></dt><dd><p>The height of the interval. (Default: 100)</p>
-</dd>
-<dt><strong>num_rows</strong><span class="classifier">int, optional</span></dt><dd><p>Set the max interval rows. (Default: unlimited interval rows)</p>
-</dd>
-<dt><strong>max_value</strong><span class="classifier">float, optional</span></dt><dd><p>Max score. (Default: inf)</p>
-</dd>
-<dt><strong>min_value</strong><span class="classifier">float, optional</span></dt><dd><p>Min score. (Default: -inf)</p>
-</dd>
 <dt><strong>border_style: str, optional</strong></dt><dd><p>Border style of tad. (Default: ‘solid’)</p>
 </dd>
 <dt><strong>border_width: int, optional</strong></dt><dd><p>Border width of tad. (Default: ‘2.0’)</p>
@@ -7153,6 +7030,21 @@ default ‘#000000’</p>
 default 0.5</p>
 </dd>
 <dt><strong>border_only</strong><span class="classifier">bool</span></dt><dd><p>Only show border, default False</p>
+</dd>
+<dt><strong>depth_ratio</strong><span class="classifier">{float, ‘auto’, ‘full’}</span></dt><dd><p>Depth ratio of triangular, use ‘full’ for full depth, use ‘auto’ for calculate depth by current genome_range. default ‘auto’.</p>
+</dd>
+<dt><strong>orientation</strong><span class="classifier">{‘normal’, ‘inverted’}</span></dt><dd><p>Invert y-axis or not, default ‘normal’</p>
+</dd>
+<dt><strong>file: str</strong></dt><dd><p>The file path of <cite>.bed</cite> file.</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Track color, ‘bed_rgb’ for auto specify color according to bed record.
+(Default: ‘bed_rgb’)</p>
+</dd>
+<dt><strong>border_color</strong><span class="classifier">str, optional</span></dt><dd><p>Border_color of gene. (Default: ‘black’)</p>
+</dd>
+<dt><strong>max_value</strong><span class="classifier">float, optional</span></dt><dd><p>Max score. (Default: inf)</p>
+</dd>
+<dt><strong>min_value</strong><span class="classifier">float, optional</span></dt><dd><p>Min score. (Default: -inf)</p>
 </dd>
 <dt><strong>properties_dict</strong><span class="classifier">dict</span></dt><dd><p>The properties(features) of this track. For example ‘height’, ‘color’…</p>
 </dd>

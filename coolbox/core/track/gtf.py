@@ -33,7 +33,7 @@ class GTF(Track):
     color : {str, 'random'}, optional
         When the color is random, color for each gene will be randomly selected.
 
-    name_attribute : {'auto', 'gene_name', 'gene_id', str}, optional
+    name_attr : {'auto', 'gene_name', 'gene_id', str}, optional
         Use which attribute to show feature's name.
         Default use 'auto'(try 'gene_name' -> 'gene_id' -> 'position_string')
     """
@@ -50,7 +50,7 @@ class GTF(Track):
         "color": "random",
         "row_filter": 'feature == "gene"',
         "length_ratio_thresh": 0.005,
-        "name_attribute": "auto",
+        "name_attr": "auto",
     }
 
     def __init__(self, file, **kwargs):
