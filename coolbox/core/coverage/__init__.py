@@ -3,7 +3,7 @@ from .vlines import Vlines, VlinesFromFile
 from .hlines import HLines
 
 from .base import track_to_coverage
-from ..track.bed import TAD
+from ..track.tad import TAD
 from ..track.hist import Hist, BigWig, BedGraph
 from ..track.arcs import Arcs, Pairs, BEDPE, HiCPeaks
 

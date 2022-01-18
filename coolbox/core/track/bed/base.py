@@ -1,28 +1,24 @@
+from typing import Union
+
 import pandas as pd
+import matplotlib
 
-from coolbox.utilities import (
-    get_logger
-)
+from coolbox.utilities import get_logger
+from coolbox.utilities.bed import build_bed_index
 from coolbox.utilities.genome import GenomeRange
-
 from coolbox.core.track.base import Track
-from .plot import PlotBed
 
 log = get_logger(__name__)
 
 
-class BedBase(Track, PlotBed):
+class BedBase(Track):
     """
     BED Base track.
 
     Parameters
     ----------
-    style : {'gene', 'tad'}
-
-    gene_style: {'flybase', 'normal'}
-
-    display : {'stacked', 'interlaced', 'collapsed'}, optional
-        Display mode. (Default: 'stacked')
+    file: str
+        The file path of `.bed` file.
 
     color : str, optional
         Track color, 'bed_rgb' for auto specify color according to bed record.
@@ -31,86 +27,32 @@ class BedBase(Track, PlotBed):
     border_color : str, optional
         Border_color of gene. (Default: 'black')
 
-    fontsize : int, optional
-        Font size. (Default: BED.DEFAULT_FONTSIZE)
-
-    labels : {True, False, 'auto'}, optional
-        Draw bed name or not. 'auto' for automate decision according to density.
-        (Default: 'auto')
-
-    interval_height : int, optional
-        The height of the interval. (Default: 100)
-
-    num_rows : int, optional
-        Set the max interval rows. (Default: unlimited interval rows)
-
     max_value : float, optional
         Max score. (Default: inf)
 
     min_value : float, optional
         Min score. (Default: -inf)
 
-    border_style: str, optional
-        Border style of tad. (Default: 'solid')
-
-    border_width: int, optional
-        Border width of tad. (Default: '2.0')
-
-    show_score : bool
-        Show bed score or not.
-        default False.
-
-    score_font_size : {'auto', int}
-        Score text font size.
-        default 'auto'
-
-    score_font_color : str
-        Score text color.
-        default '#000000'
-
-    score_height_ratio : float
-        (text tag height) / (TAD height). used for adjust the position of Score text.
-        default 0.5
-
-    border_only : bool
-        Only show border, default False
-
     """
-
-    STYLE_GENE = "gene"
-    STYLE_TAD = "tad"
 
     COLOR = "#1f78b4"
 
     DEFAULT_PROPERTIES = {
-        'style': STYLE_GENE,
-        # gene
-        'gene_style': 'flybase',
-        'display': 'stacked',
         'color': "bed_rgb",
         'border_color': "#1f78b4",
-        'fontsize': 12,
-        'interval_height': 100,
-        'num_rows': None,
-        'labels': 'off',
         'min_score': '-inf',
         'max_score': 'inf',
         'bed_type': None,
-        # tad
-        'border_style': "--",
-        'border_width': 2.0,
-        "show_score": False,
-        "score_font_size": 'auto',
-        "score_font_color": "#000000",
-        "score_height_ratio": 0.4,
-        "border_only": False,
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, file, **kwargs):
         properties = BedBase.DEFAULT_PROPERTIES.copy()
-        properties.update(kwargs)
+        properties.update({
+            'file': file,
+            **kwargs
+        })
         super().__init__(properties)
-        self.init_for_plot()
+        self.bgz_file = build_bed_index(file)
 
     def fetch_data(self, gr: GenomeRange, **kwargs) -> pd.DataFrame:
         """
@@ -128,17 +70,83 @@ class BedBase(Track, PlotBed):
             The table can be in bed6/bed9/bed12 format and the trailing columns can be omited.
 
         """
-        raise NotImplementedError
+        return self.fetch_intervals(self.bgz_file, gr)
 
-    def plot(self, ax, gr: GenomeRange, **kwargs):
-        self.ax = ax
-        ov_intervals: pd.DataFrame = self.fetch_plot_data(gr, **kwargs)
+    def init_colormap(self):
+        self.colormap = None
+        if not matplotlib.colors.is_color_like(self.properties['color']) and self.properties['color'] != 'bed_rgb':
+            if self.properties['color'] not in matplotlib.cm.datad:
+                log.warning("*WARNING* color: '{}' for Track {} is not valid. Color has "
+                            "been set to {}".format(self.properties['color'], self.properties['name'],
+                                                    self.COLOR))
+                self.properties['color'] = self.COLOR
+            else:
+                self.colormap = self.properties['color']
 
-        style = self.properties['style']
-        if style == self.STYLE_TAD:
-            self.plot_tads(ax, gr, ov_intervals)
-        elif style == self.STYLE_GENE:
-            self.plot_genes(ax, gr, ov_intervals)
+    def set_colormap(self, df):
+        """As min_score and max_score change every plot, we compute them for every plot"""
+        props = self.properties
+        min_score, max_score = props['min_score'], props['max_score']
+        has_score_col = props['bed_type'] in ('bed6', 'bed9', 'bed12')
+        if has_score_col and (df.shape[0] > 0):
+            min_score = (min_score != 'inf') or df['score'].min()
+            max_score = (max_score != '-inf') or df['score'].max()
+        min_score, max_score = float(min_score), float(max_score)
+        # set colormap
+        if self.colormap is not None:
+            norm = matplotlib.colors.Normalize(vmin=min_score, vmax=max_score)
+            cmap = matplotlib.cm.get_cmap(props['color'])
+            self.colormap = matplotlib.cm.ScalarMappable(norm=norm, cmap=cmap)
+        if props['color'] == 'bed_rgb' and props['bed_type'] not in ['bed12', 'bed9']:
+            log.warning("*WARNING* Color set to 'bed_rgb', but bed file does not have the rgb field. The color has "
+                        "been set to {}".format(self.COLOR))
+            self.properties['color'] = self.COLOR
+            self.colormap = None
+
+    def get_rgb_and_edge_color(self, bed):
+        # TODO need simplification
+        props = self.properties
+        rgb = props['color']
+        edgecolor = props['border_color']
+
+        if self.colormap:
+            # translate value field (in the example above is 0 or 0.2686...) into a color
+            rgb = self.colormap.to_rgba(bed.score)
+
+        # for tad coverage
+        if props.get('border_only', 'no') == 'yes':
+            rgb = 'none'
+        elif props['color'] == 'bed_rgb':
+            # if rgb is set in the bed line, this overrides the previously
+            # defined colormap
+            if props['bed_type'] in ['bed9', 'bed12'] and len(bed.rgb) == 3:
+                try:
+                    rgb = [float(x) / 255 for x in bed.rgb]
+                    if 'border_color' in props:
+                        edgecolor = props['border_color']
+                    else:
+                        edgecolor = props['color']
+                except IndexError:
+                    rgb = self.COLOR
+            else:
+                rgb = self.COLOR
+        return rgb, edgecolor
+
+    @staticmethod
+    def infer_bed_type(df: pd.DataFrame) -> Union[str, None]:
+        #  bed_type of dataframe are store in dataframe's __dict__ in FetchBed.fetch_intervals
+        if 'bed_type' in df.__dict__:
+            bed_type = df.bed_type
         else:
-            raise ValueError("style not supportted, should be one of 'gene' 'tad' ")
-        self.plot_label()
+            bed_types = {
+                12: 'bed12',
+                9: 'bed9',
+                6: 'bed6',
+                3: 'bed3'
+            }
+            num_col = len(df.columns)
+            bed_type = bed_types[num_col] if num_col in bed_types else 'bed3'
+            if bed_type == 'bed3' and num_col < 3:
+                raise ValueError(f"Invalid dataframe for bed3 with columns: {df.columns}")
+        return bed_type
+

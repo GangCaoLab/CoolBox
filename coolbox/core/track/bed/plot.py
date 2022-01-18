@@ -13,60 +13,63 @@ from coolbox.utilities.genome import GenomeRange
 log = get_logger(__name__)
 
 
-class PlotBed(object):
-    def init_for_plot(self):
-        from matplotlib import font_manager
+class PlotGenes(object):
 
+    def __init__(self, *args, **kwargs):
+        self.init_colormap()
+        from matplotlib import font_manager
         properties = self.properties
         self.len_w = None  # this is the length of the letter 'w' given the font size
         self.counter = None
         self.small_relative = None
         self.is_draw_labels = properties['labels'] == 'on'
         self.fp = font_manager.FontProperties(size=properties['fontsize'])
-        # set the distance between rows
         self.row_scale = properties['interval_height'] * 2.3
-        # set colormap if possible, else None, wait for setting when plot
-        self.colormap = None
-        if not matplotlib.colors.is_color_like(self.properties['color']) and self.properties['color'] != 'bed_rgb':
-            # check if the color is a valid colormap name
-            if self.properties['color'] not in matplotlib.cm.datad:
-                log.warning("*WARNING* color: '{}' for Track {} is not valid. Color has "
-                            "been set to {}".format(self.properties['color'], self.properties['name'],
-                                                    self.COLOR))
-                self.properties['color'] = self.COLOR
-            else:
-                self.colormap = self.properties['color']
+        self.cache_gr = None
+        self.cache_res = None
 
-    def plot_genes(self, ax, gr: GenomeRange, ov_genes: pd.DataFrame):
+    def fetch_plot_data(self, gr: GenomeRange, **kwargs) -> pd.DataFrame:
+        if gr == self.cache_gr:
+            return self.cache_res
+        else:
+            self.cache_gr = gr
+            self.cache_res = self.fetch_data(gr, **kwargs)
+            return self.cache_res
+
+    def get_track_height(self, frame_width, current_range):
+        props = self.properties
+        if (props.get('height', 'auto') == 'auto') and\
+           ('interval_height' in props) and\
+           (props.get('display', 'stacked') == 'stacked'):
+            ov_genes = self.fetch_plot_data(current_range)
+            self.plot_genes(None, current_range, ov_genes, dry_run=True, fig_width=frame_width)
+            return max(props['interval_height'] * self.current_row_num, props['interval_height'])
+        else:
+            return self.properties['height']
+
+    def __set_plot_params(self, gr: GenomeRange, ov_genes: pd.DataFrame):
         properties = self.properties
         # bed_type
         self.properties['bed_type'] = properties['bed_type'] or self.infer_bed_type(ov_genes)
-        # as min_score and max_score change every plot, we compute them for every plot
-        min_score, max_score = properties['min_score'], properties['max_score']
-        has_score_col = properties['bed_type'] in ('bed6', 'bed9', 'bed12')
-        if has_score_col and len(ov_genes):
-            min_score = (min_score != 'inf') or ov_genes['score'].min()
-            max_score = (max_score != '-inf') or ov_genes['score'].max()
-        min_score, max_score = float(min_score), float(max_score)
-
-        # set colormap
-        if self.colormap is not None:
-            norm = matplotlib.colors.Normalize(vmin=min_score, vmax=max_score)
-            cmap = matplotlib.cm.get_cmap(properties['color'])
-            self.colormap = matplotlib.cm.ScalarMappable(norm=norm, cmap=cmap)
-        if properties['color'] == 'bed_rgb' and properties['bed_type'] not in ['bed12', 'bed9']:
-            log.warning("*WARNING* Color set to 'bed_rgb', but bed file does not have the rgb field. The color has "
-                        "been set to {}".format(self.COLOR))
-            self.properties['color'] = self.COLOR
-            self.colormap = None
-
-
-        self.counter = 0
-        self.small_relative = 0.004 * (gr.end - gr.start)
-        self.get_length_w(ax.get_figure().get_figwidth(), gr.start, gr.end)
+        self.set_colormap(ov_genes)
         # turn labels off when too many intervals are visible.
-        if properties['labels'] == 'on' and len(ov_genes) > 60:
-            self.is_draw_labels = False
+        if properties['labels'] == 'auto':
+            if len(ov_genes) > 60:
+                self.is_draw_labels = False
+            else:
+                self.is_draw_labels = True
+        self.small_relative = 0.004 * (gr.end - gr.start)
+        self.counter = 0
+
+    def plot_genes(self, ax, gr: GenomeRange, ov_genes: pd.DataFrame, dry_run = False, fig_width = None):
+        properties = self.properties
+        self.__set_plot_params(gr, ov_genes)
+
+        assert (not dry_run) or (fig_width is not None)
+        if dry_run:
+            self.__get_length_w(fig_width, gr.start, gr.end)
+        else:
+            self.__get_length_w(ax.get_figure().get_figwidth(), gr.start, gr.end)
 
         num_rows = properties['num_rows']
         max_num_row_local = 1
@@ -145,26 +148,29 @@ class PlotBed(object):
                 max_num_row_local = free_row
             if ypos > max_ypos:
                 max_ypos = ypos
-
-            if properties['bed_type'] == 'bed12':
-                if properties['gene_style'] == 'flybase':
-                    self.draw_gene_with_introns_flybase_style(ax, bed, ypos, rgb, edgecolor)
+            
+            if not dry_run:
+                if properties['bed_type'] == 'bed12':
+                    if properties['gene_style'] == 'flybase':
+                        self.draw_gene_with_introns_flybase_style(ax, bed, ypos, rgb, edgecolor)
+                    else:
+                        self.draw_gene_with_introns(ax, bed, ypos, rgb, edgecolor)
                 else:
-                    self.draw_gene_with_introns(ax, bed, ypos, rgb, edgecolor)
-            else:
-                self.draw_gene_simple(ax, bed, ypos, rgb, edgecolor)
+                    self.draw_gene_simple(ax, bed, ypos, rgb, edgecolor)
 
-            if self.is_draw_labels and bed.start > gr.start and bed.end < gr.end:
-                ax.text(bed.end + self.small_relative,
-                        ypos + (float(properties['interval_height']) / 2),
-                        bed.name,
-                        horizontalalignment='left',
-                        verticalalignment='center',
-                        fontproperties=self.fp)
+                if self.is_draw_labels and bed.start > gr.start and bed.end < gr.end:
+                    ax.text(bed.end + self.small_relative,
+                            ypos + (float(properties['interval_height']) / 2),
+                            bed.name,
+                            horizontalalignment='left',
+                            verticalalignment='center',
+                            fontproperties=self.fp)
 
         if self.counter == 0:
             log.warning(f"*Warning* No intervals were found for file {properties['file']} "
                         f"in Track \'{properties['name']}\' for the interval plotted ({gr}).\n")
+
+        self.current_row_num = len(row_last_position)
 
         ymax = 0
         if num_rows:
@@ -174,14 +180,13 @@ class PlotBed(object):
 
         log.debug("ylim {},{}".format(ymin, ymax))
         # the axis is inverted (thus, ymax < ymin)
-        ax.set_ylim(ymin, ymax)
+        if not dry_run:
+            ax.set_ylim(ymin, ymax)
 
-        if properties['display'] == 'domain':
-            ax.set_ylim(-5, 205)
-        elif properties['display'] == 'collapsed':
-            ax.set_ylim(-5, 105)
+            if properties['display'] == 'collapsed':
+                ax.set_ylim(-5, 105)
 
-        ax.set_xlim(gr.start, gr.end)
+            ax.set_xlim(gr.start, gr.end)
 
     def draw_gene_with_introns(self, ax, bed, ypos, rgb, edgecolor):
         """
@@ -369,7 +374,7 @@ class PlotBed(object):
 
         return vertices
 
-    def get_length_w(self, fig_width, region_start, region_end):
+    def __get_length_w(self, fig_width, region_start, region_end):
         """
         to improve the visualization of the genes it is good to have an estimation of the label
         length. In the following code I try to get the length of a 'W' in base pairs.
@@ -410,162 +415,3 @@ class PlotBed(object):
         else:
             return free_row * self.row_scale
 
-    def get_rgb_and_edge_color(self, bed):
-        # TODO need simplification
-        rgb = self.properties['color']
-        edgecolor = self.properties['border_color']
-
-        if self.colormap:
-            # translate value field (in the example above is 0 or 0.2686...) into a color
-            rgb = self.colormap.to_rgba(bed.score)
-
-        # for tad coverage
-        if self.properties['style'] == 'tad' and self.properties['border_only'] == 'yes':
-            rgb = 'none'
-        elif self.properties['color'] == 'bed_rgb':
-            # if rgb is set in the bed line, this overrides the previously
-            # defined colormap
-            if self.properties['bed_type'] in ['bed9', 'bed12'] and len(bed.rgb) == 3:
-                try:
-                    rgb = [float(x) / 255 for x in bed.rgb]
-                    if 'border_color' in self.properties:
-                        edgecolor = self.properties['border_color']
-                    else:
-                        edgecolor = self.properties['color']
-                except IndexError:
-                    rgb = self.COLOR
-            else:
-                rgb = self.COLOR
-        return rgb, edgecolor
-
-    @staticmethod
-    def infer_bed_type(df: pd.DataFrame) -> Union[str, None]:
-        #  bed_type of dataframe are store in dataframe's __dict__ in FetchBed.fetch_intervals
-        if 'bed_type' in df.__dict__:
-            bed_type = df.bed_type
-        else:
-            bed_types = {
-                12: 'bed12',
-                9: 'bed9',
-                6: 'bed6',
-                3: 'bed3'
-            }
-            num_col = len(df.columns)
-            bed_type = bed_types[num_col] if num_col in bed_types else 'bed3'
-            if bed_type == 'bed3' and num_col < 3:
-                raise ValueError(f"Invalid dataframe for bed3 with columns: {df.columns}")
-        return bed_type
-
-    def plot_tads(self, ax, gr: GenomeRange, tads: pd.DataFrame):
-        """
-        Plots the boundaries as triangles in the given ax.
-        """
-        from coolbox.core.track.hicmat import HicMatBase
-        # coverage only
-        assert 'track' in self.__dict__ and isinstance(self.track, HicMatBase), \
-            f"The parent track should be instance of {HicMatBase}"
-
-        hicmat_tri_style = (HicMatBase.STYLE_WINDOW, HicMatBase.STYLE_TRIANGULAR)
-        hicmat_ma_style = (HicMatBase.STYLE_MATRIX,)
-
-        hictrack = self.track
-        hicmat_style = hictrack.properties['style']
-
-        # TODO Should we add plotting in BigWig, BedGraph, ABCCompartment, Arcs support?(The original codes supports)
-        for region in tads.itertuples():
-            if hicmat_style in hicmat_tri_style:
-                depth = (gr.end - gr.start) / 2
-                ymax = (gr.end - gr.start)
-                self.plot_triangular(ax, gr, region, ymax, depth)
-            elif hicmat_style in hicmat_ma_style:
-                self.plot_box(ax, gr, region)
-            else:
-                raise ValueError(f"unsupported hicmat style {hicmat_style}")
-
-        if len(tads) == 0:
-            log.warning("No regions found for Coverage {}.".format(self.properties['name']))
-
-    def plot_triangular(self, ax, gr, region, ymax, depth):
-        """
-              /\
-             /  \
-            /    \
-        _____________________
-           x1 x2 x3
-        """
-
-        from matplotlib.patches import Polygon
-        x1 = region.start
-        x2 = x1 + float(region.end - region.start) / 2
-        x3 = region.end
-        y1 = 0
-        y2 = (region.end - region.start)
-
-        y = (y2 / ymax) * depth
-
-        rgb, edgecolor = self.get_rgb_and_edge_color(region)
-
-        triangle = Polygon(np.array([[x1, y1], [x2, y], [x3, y1]]), closed=True,
-                           facecolor=rgb, edgecolor=edgecolor,
-                           alpha=self.properties['alpha'],
-                           linestyle=self.properties['border_style'],
-                           linewidth=self.properties['border_width'])
-        ax.add_artist(triangle)
-        self.plot_score(ax, gr, region, 'triangular', ymax, depth)
-
-    def plot_box(self, ax, gr, region):
-        from matplotlib.patches import Rectangle
-
-        x1 = region.start
-        x2 = region.end
-        x = y = x1
-        w = h = (x2 - x1)
-
-        rgb, edgecolor = self.get_rgb_and_edge_color(region)
-
-        fill = self.properties['border_only'] == 'no'
-
-        rec = Rectangle((x, y), w, h,
-                        fill=fill,
-                        facecolor=rgb,
-                        edgecolor=edgecolor,
-                        alpha=self.properties['alpha'],
-                        linestyle=self.properties['border_style'],
-                        linewidth=self.properties['border_width'])
-        ax.add_patch(rec)
-        self.plot_score(ax, gr, region, 'box')
-
-    def plot_score(self, ax, gr, region, style, ymax=None, depth=None):
-        properties = self.properties
-
-        if properties['show_score'] != 'yes':
-            return
-        bed = region
-        score = bed.score
-        if not isinstance(score, (float, int)):
-            # score is not number not plot
-            return
-        region_length = region.end - region.start
-        if region_length / gr.length < 0.05:
-            # region too small not plot score
-            return
-        font_size = properties['score_font_size']
-        if font_size == 'auto':
-            # inference the font size
-            from math import log2
-            base_size = 18
-            s_ = (region_length / gr.length) * 10
-            s_ = int(log2(s_))
-            font_size = base_size + s_
-        ratio = properties['score_height_ratio']
-        color = properties['score_font_color']
-        if style == 'box':
-            x1 = region.start
-            x2 = region.end
-            w = x2 - x1
-            x = x2 - w * ratio
-            y = x1 + w * ratio
-        else:  # triangular
-            x = region.begin + region_length * 0.4
-            y = (region_length / ymax) * depth * ratio
-        ax.text(x, y, "{0:.3f}".format(score), fontsize=font_size, color=color)

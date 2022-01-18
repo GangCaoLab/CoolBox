@@ -138,7 +138,7 @@ class Frame(FrameBase):
         for track in self.tracks.values():
             if hasattr(track, 'get_track_height'):
                 frame_width = self.properties['width'] * self.properties['width_ratios'][1]
-                height = track.get_track_height(frame_width)
+                height = track.get_track_height(frame_width, self.current_range)
                 heights.append(height)
             elif 'height' in track.properties:
                 heights.append(track.properties['height'])

@@ -170,7 +170,7 @@ class PlotHiCMat(object):
 
             c_bar.ax.yaxis.set_ticks_position('left')
 
-    def get_track_height(self, frame_width):
+    def get_track_height(self, frame_width, *args):
         """
         calculate track height dynamically.
         """
