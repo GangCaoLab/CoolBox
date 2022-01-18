@@ -76,8 +76,8 @@ class BedBase(Track):
         self.colormap = None
         if not matplotlib.colors.is_color_like(self.properties['color']) and self.properties['color'] != 'bed_rgb':
             if self.properties['color'] not in matplotlib.cm.datad:
-                log.warning("*WARNING* color: '{}' for Track {} is not valid. Color has "
-                            "been set to {}".format(self.properties['color'], self.properties['name'],
+                log.debug("*WARNING* color: '{}' for Track {} is not valid. Color has "
+                          "been set to {}".format(self.properties['color'], self.properties['name'],
                                                     self.COLOR))
                 self.properties['color'] = self.COLOR
             else:
@@ -98,8 +98,8 @@ class BedBase(Track):
             cmap = matplotlib.cm.get_cmap(props['color'])
             self.colormap = matplotlib.cm.ScalarMappable(norm=norm, cmap=cmap)
         if props['color'] == 'bed_rgb' and props['bed_type'] not in ['bed12', 'bed9']:
-            log.warning("*WARNING* Color set to 'bed_rgb', but bed file does not have the rgb field. The color has "
-                        "been set to {}".format(self.COLOR))
+            log.debug("*WARNING* Color set to 'bed_rgb', but bed file does not have the rgb field. The color has "
+                      "been set to {}".format(self.COLOR))
             self.properties['color'] = self.COLOR
             self.colormap = None
 

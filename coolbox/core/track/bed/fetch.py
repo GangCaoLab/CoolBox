@@ -34,7 +34,7 @@ class FetchBed(object):
         try:
             bed_iterator = ReadBed(query_bed(bgz_file, gr.chrom, gr.start, gr.end))
         except StopIteration:
-            log.info(f"No records in the range {str(gr)}")
+            log.debug(f"No records in the range {str(gr)}")
             return [], None
 
         intervals = [bed for bed in bed_iterator]

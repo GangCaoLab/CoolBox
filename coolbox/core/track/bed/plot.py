@@ -39,13 +39,17 @@ class PlotGenes(object):
     def get_track_height(self, frame_width, current_range):
         props = self.properties
         if (props.get('height', 'auto') == 'auto') and\
-           ('interval_height' in props) and\
+           ('row_height' in props) and\
            (props.get('display', 'stacked') == 'stacked'):
             ov_genes = self.fetch_plot_data(current_range)
             self.plot_genes(None, current_range, ov_genes, dry_run=True, fig_width=frame_width)
-            return max(props['interval_height'] * self.current_row_num, props['interval_height'])
+            return max(props['row_height'] * self.current_row_num, props['row_height'])
         else:
-            return self.properties['height']
+            try:
+                height = float(self.properties['height'])
+            except:
+                height = 1.0
+            return height
 
     def __set_plot_params(self, gr: GenomeRange, ov_genes: pd.DataFrame):
         properties = self.properties
@@ -167,16 +171,16 @@ class PlotGenes(object):
                             fontproperties=self.fp)
 
         if self.counter == 0:
-            log.warning(f"*Warning* No intervals were found for file {properties['file']} "
+            log.debug(f"*Warning* No intervals were found for file {properties['file']} "
                         f"in Track \'{properties['name']}\' for the interval plotted ({gr}).\n")
-
-        self.current_row_num = len(row_last_position)
 
         ymax = 0
         if num_rows:
             ymin = float(num_rows) * self.row_scale
+            self.current_row_num = num_rows
         else:
             ymin = max_ypos + properties['interval_height']
+            self.current_row_num = len(row_last_position)
 
         log.debug("ylim {},{}".format(ymin, ymax))
         # the axis is inverted (thus, ymax < ymin)

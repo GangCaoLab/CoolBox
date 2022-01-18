@@ -33,6 +33,9 @@ class BED(BedBase, PlotGenes, FetchBed):
 
     num_rows : int, optional
         Set the max interval rows. (Default: unlimited interval rows)
+
+    row_height : float
+        Height of a row. default 0.5
     """
 
     DEFAULT_PROPERTIES = {
@@ -41,8 +44,9 @@ class BED(BedBase, PlotGenes, FetchBed):
         'gene_style': 'flybase',
         'display': 'stacked',
         'fontsize': 12,
-        'interval_height': 0.5,
+        'interval_height': 100,
         'num_rows': None,
+        'row_height': 0.5,
     }
 
     def __init__(self, file, **kwargs):

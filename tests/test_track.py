@@ -42,6 +42,12 @@ def test_bed():
     fig, ax = plt.subplots()
     bed.plot(ax, test_interval)
     bed.fetch_data(empty_interval)
+    bed6 = BED(f"{DATA_DIR}/bed6_{test_itv}.bed")
+    bed6.plot(ax, test_interval)
+    assert bed6.properties['bed_type'] == 'bed6'
+    bed9 = BED(f"{DATA_DIR}/bed9_{test_itv}.bed")
+    bed9.plot(ax, test_interval)
+    assert bed9.properties['bed_type'] == 'bed9'
 
 
 def test_bedpe():
@@ -115,6 +121,8 @@ def test_tads():
     fig, ax = plt.subplots()
     tad.plot(ax, test_interval)
     tad.fetch_data(empty_interval)
+    tad = TAD(f"{DATA_DIR}/tad_{test_itv}.bed")
+    tad.plot(ax, test_interval)
 
 
 def test_hicdiff():

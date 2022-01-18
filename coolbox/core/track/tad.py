@@ -77,11 +77,14 @@ class PlotTAD(object):
             for region in tads.itertuples():
                 self.plot_triangular(ax, gr, region, ymax, depth)
             dr = self.get_depth_ratio(gr)
-            ax.set_ylim(0, depth * dr)
+            if self.properties['orientation'] == 'inverted':
+                ax.set_ylim(depth * dr, 0)
+            else:
+                ax.set_ylim(0, depth * dr)
             ax.set_xlim(gr.start, gr.end)
 
         if len(tads) == 0:
-            log.warning("No regions found for Coverage {}.".format(self.properties['name']))
+            log.debug("No regions found for Coverage {}.".format(self.properties['name']))
 
     def plot_triangular(self, ax, gr, region, ymax, depth):
         """
@@ -203,6 +206,9 @@ class TAD(BedBase, PlotTAD, FetchBed):
     depth_ratio : {float, 'auto', 'full'}
         Depth ratio of triangular, use 'full' for full depth, use 'auto' for calculate depth by current genome_range. default 'auto'.
 
+    orientation : {'normal', 'inverted'}
+        Invert y-axis or not, default 'normal'
+
     """
 
     DEFAULT_PROPERTIES = {
@@ -215,6 +221,7 @@ class TAD(BedBase, PlotTAD, FetchBed):
         "score_height_ratio": 0.4,
         "border_only": False,
         "depth_ratio": 'auto',
+        "orientation": 'inverted',
     }
 
     def __init__(self, file, **kwargs):

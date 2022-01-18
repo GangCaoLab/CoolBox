@@ -1,7 +1,7 @@
 import logging
 import sys
 
-LOG_LEVEL = logging.ERROR
+LOG_LEVEL = logging.WARNING
 
 
 def get_logger(name, file_=sys.stderr, level=LOG_LEVEL):
