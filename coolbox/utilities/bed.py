@@ -170,7 +170,7 @@ class ReadBed(object):
         """
         fields = self.get_no_comment_line(iter=file_iter, count=False)
         fields = to_string(fields)
-        line_values = fields.split()
+        line_values = fields.split("\t")
 
         if len(line_values) == 3:
             self.file_type = 'bed3'

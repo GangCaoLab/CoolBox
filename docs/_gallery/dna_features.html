@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
 
   
@@ -30,12 +32,13 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "tex2jax_ignore|mathjax_ignore|document", "processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "document", "processHtmlClass": "math|output_area"}}</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -529,7 +532,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="section" id="layout">
 <h3>layout<a class="headerlink" href="#layout" title="Permalink to this headline">¶</a></h3>
-<p>The default height of <code class="docutils literal notranslate"><span class="pre">BED</span></code> is <code class="docutils literal notranslate"><span class="pre">'auto'</span></code>, it means the height is auto-growth, we can set the heigh of one row by the <code class="docutils literal notranslate"><span class="pre">interval_height</span></code> parameter:</p>
+<p>The default height of <code class="docutils literal notranslate"><span class="pre">BED</span></code> is <code class="docutils literal notranslate"><span class="pre">'auto'</span></code>, it means the height is auto-growth, we can set the heigh of one row by the <code class="docutils literal notranslate"><span class="pre">row_height</span></code> parameter:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
@@ -605,19 +608,14 @@ div.rendered_html tbody tr:hover {
 <img alt="../_images/_gallery_dna_features_14_0.png" src="../_images/_gallery_dna_features_14_0.png" />
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="GTF-file">
-<h2>GTF file<a class="headerlink" href="#GTF-file" title="Permalink to this headline">¶</a></h2>
-<p>In default GTF only plot genes with <code class="docutils literal notranslate"><span class="pre">dna-feature-viewer</span></code>.</p>
+<p>This can used for visualize the ChromStates:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">example_gtf</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">test_data_dir</span><span class="si">}</span><span class="s2">/gtf_chr9_4000000_6000000.gtf&quot;</span>
-<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">GTF</span><span class="p">(</span><span class="n">example_gtf</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Genes&quot;</span><span class="p">)</span>
-<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_interval</span><span class="p">)</span>
+<span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">BED</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">test_data_dir</span><span class="si">}</span><span class="s2">/bed_chr9_4000000_6000000_chromstates.bed&quot;</span><span class="p">,</span> <span class="n">display</span><span class="o">=</span><span class="s1">&#39;collapsed&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">TrackHeight</span><span class="p">(</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:5000000-5500000&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -626,19 +624,22 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_gallery_dna_features_17_0.png" src="../_images/_gallery_dna_features_17_0.png" />
+<img alt="../_images/_gallery_dna_features_16_0.png" src="../_images/_gallery_dna_features_16_0.png" />
 </div>
 </div>
-<p>Show transcripts and exons, <code class="docutils literal notranslate"><span class="pre">'name_attr'</span></code> controls show which attribute:</p>
+</div>
+</div>
+<div class="section" id="GTF-file">
+<h2>GTF file<a class="headerlink" href="#GTF-file" title="Permalink to this headline">¶</a></h2>
+<p>In default GTF only plot genes with <code class="docutils literal notranslate"><span class="pre">dna-feature-viewer</span></code>.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span>
-<span class="n">frame</span> <span class="o">+=</span> <span class="n">GTF</span><span class="p">(</span><span class="n">example_gtf</span><span class="p">,</span> <span class="n">row_filter</span><span class="o">=</span><span class="s2">&quot;feature == &#39;transcript&#39;&quot;</span><span class="p">,</span> <span class="n">name_attr</span><span class="o">=</span><span class="s1">&#39;transcript_id&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">TrackHeight</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Transcripts&quot;</span><span class="p">)</span>
-<span class="n">frame</span> <span class="o">+=</span> <span class="n">GTF</span><span class="p">(</span><span class="n">example_gtf</span><span class="p">,</span> <span class="n">row_filter</span><span class="o">=</span><span class="s2">&quot;feature == &#39;exon&#39;&quot;</span><span class="p">,</span> <span class="n">name_attr</span><span class="o">=</span><span class="s1">&#39;exon_number&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">TrackHeight</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Exons&quot;</span><span class="p">)</span>
-<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:5780000-6000000&quot;</span><span class="p">)</span>
+<span></span><span class="n">example_gtf</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">test_data_dir</span><span class="si">}</span><span class="s2">/gtf_chr9_4000000_6000000.gtf&quot;</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">GTF</span><span class="p">(</span><span class="n">example_gtf</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Genes&quot;</span><span class="p">)</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_interval</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -650,9 +651,30 @@ div.rendered_html tbody tr:hover {
 <img alt="../_images/_gallery_dna_features_19_0.png" src="../_images/_gallery_dna_features_19_0.png" />
 </div>
 </div>
-<p>Attribute means the features in the <code class="docutils literal notranslate"><span class="pre">attribute</span></code> columns of the GTF:</p>
+<p>Show transcripts and exons, <code class="docutils literal notranslate"><span class="pre">'name_attr'</span></code> controls show which attribute:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span>
+<span class="n">frame</span> <span class="o">+=</span> <span class="n">GTF</span><span class="p">(</span><span class="n">example_gtf</span><span class="p">,</span> <span class="n">row_filter</span><span class="o">=</span><span class="s2">&quot;feature == &#39;transcript&#39;&quot;</span><span class="p">,</span> <span class="n">name_attr</span><span class="o">=</span><span class="s1">&#39;transcript_id&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">TrackHeight</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Transcripts&quot;</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">+=</span> <span class="n">GTF</span><span class="p">(</span><span class="n">example_gtf</span><span class="p">,</span> <span class="n">row_filter</span><span class="o">=</span><span class="s2">&quot;feature == &#39;exon&#39;&quot;</span><span class="p">,</span> <span class="n">name_attr</span><span class="o">=</span><span class="s1">&#39;exon_number&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">TrackHeight</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">&quot;Exons&quot;</span><span class="p">)</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;chr9:5780000-6000000&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_gallery_dna_features_21_0.png" src="../_images/_gallery_dna_features_21_0.png" />
+</div>
+</div>
+<p>Attribute means the features in the <code class="docutils literal notranslate"><span class="pre">attribute</span></code> columns of the GTF:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -663,7 +685,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -729,7 +751,7 @@ div.rendered_html tbody tr:hover {
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -738,7 +760,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -748,7 +770,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">row</span> <span class="pre">filter</span></code> can also filter the rows by other columns, for example only show the transcripts from <code class="docutils literal notranslate"><span class="pre">JAK2</span></code> gene:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -759,11 +781,11 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/_gallery_dna_features_24_0.png" src="../_images/_gallery_dna_features_24_0.png" />
+<img alt="../_images/_gallery_dna_features_26_0.png" src="../_images/_gallery_dna_features_26_0.png" />
 </div>
 </div>
 </div>
