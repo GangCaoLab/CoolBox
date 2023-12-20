@@ -112,14 +112,16 @@ class GTF(Track):
             if gene_name.hasnans:
                 gene_id = df['attribute'].str.extract(".*gene_id (.*?) ").iloc[:, 0].str.strip('\";')
                 gene_name.fillna(gene_id, inplace=True)
-                if gene_name.hasnans:
-                    pos_str = df['seqname'].astype(str) + ":" +\
-                              df['start'].astype(str) + "-" +\
-                              df['end'].astype(str)
-                    gene_name.fillna(pos_str, inplace=True)
-            df['feature_name'] = gene_name
         else:
-            df['feature_name'] = df['attribute'].str.extract(f".*{name_attr} (.*?) ").iloc[:, 0].str.strip('\";')
+            gene_name = df['attribute'].str.extract(f".*{name_attr} (.*?)(?:[ ;])").iloc[:, 0].str.strip('\";')
+
+        if gene_name.hasnans:
+            pos_str = df['seqname'].astype(str) + ":" +\
+                      df['start'].astype(str) + "-" +\
+                      df['end'].astype(str)
+            gene_name.fillna(pos_str, inplace=True)
+
+        df['feature_name'] = gene_name
         return df
 
     def plot(self, ax, gr: GenomeRange, **kwargs):
