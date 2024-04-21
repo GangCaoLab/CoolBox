@@ -15,6 +15,9 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
+    - name: Update Conda
+      run: |
+        $CONDA/bin/conda update -n base -c defaults conda --yes
     - name: Install dependencies
       run: |
         sudo apt install libcurl4-openssl-dev
