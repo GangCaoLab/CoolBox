@@ -103,8 +103,12 @@ class PlotContacts(object):
             center = (start + end) / 2
             ax.plot([center], [diameter])
             arc = Arc(
-                (center, 0), diameter,
-                height, 0, 0, 180,
+                xy=(center, 0), 
+                width=diameter,
+                height=height, 
+                angle=0, 
+                theta1=0, 
+                theta2=180,
                 color=color,
                 alpha=alpha,
                 lw=line_width,
