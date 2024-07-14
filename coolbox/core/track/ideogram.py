@@ -1,5 +1,5 @@
 import pandas as pd
-from matplotlib.collections import BrokenBarHCollection
+import matplotlib.pyplot as plt
 
 from coolbox.utilities import (
     get_logger, GenomeRange, file_to_intervaltree, hex2rgb,
@@ -102,9 +102,10 @@ class Ideogram(Track):
                 and gr.length < 80_000_000
             ):
                 self.plot_text(band_name, start, end, gr, band_color)
-        coll = BrokenBarHCollection(xranges, (0, band_height), facecolors=colors,
-                                    linewidths=self.properties['border_width'],
-                                    edgecolors=self.properties['border_color'])
+        coll = plt.broken_barh(
+            xranges, (0, band_height), facecolors=colors,
+            linewidth=self.properties['border_width'],
+            edgecolor=self.properties['border_color'])
         ax.add_collection(coll)
         ax.set_ylim(-0.1, band_height + 0.1)
         ax.set_xlim(gr.start, gr.end)

@@ -146,7 +146,7 @@ class Frame(FrameBase):
                 heights.append(default_height)
         return heights
 
-    def plot(self, *args):
+    def plot(self, *args, close_fig=True):
         """
         Plot all tracks.
 
@@ -231,7 +231,8 @@ class Frame(FrameBase):
                             bottom=margins['bottom'],
                             top=margins['top'])
 
-        plt.close()
+        if close_fig:
+            plt.close()
 
         return fig
 

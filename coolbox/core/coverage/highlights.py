@@ -87,9 +87,9 @@ class HighLightsFromFile(Coverage, _Highlights):
             "file": file_,
             "color": "bed_rgb",
             "alpha": 0.1,
-            "border_line": True,
+            "border_line": False,
             "border_line_style": "dashed",
-            "border_line_width": 0,
+            "border_line_width": 2,
             "border_line_color": "#000000",
             "border_line_alpha": 0.8,
         }
@@ -168,9 +168,9 @@ class HighLights(Coverage, _Highlights):
             "highlight_regions": highlight_regions,
             "color": HighLights.DEFAULT_COLOR,
             "alpha": 0.25,
-            "border_line": True,
+            "border_line": False,
             "border_line_style": "dashed",
-            "border_line_width": 0,
+            "border_line_width": 2,
             "border_line_color": "#000000",
             "border_line_alpha": 0.8,
         }

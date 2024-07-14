@@ -250,7 +250,6 @@ class CLI(object):
     def print_source(self):
         """Print the browser composing code."""
         print(self.source())
-        return self
 
     def gen_notebook(self, notebook_path, notes=True, figsave=True):
         """Generate The notebook contain codes for run coolbox browser.
@@ -288,7 +287,6 @@ class CLI(object):
             )
         nb['cells'] = cells
         nbf.write(nb, notebook_path)
-        return self
 
     def run_jupyter(self, jupyter_args="--ip=0.0.0.0"):
         """Create a notebook according to command line, then start a jupyter process.
