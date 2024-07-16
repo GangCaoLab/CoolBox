@@ -88,14 +88,14 @@ class PlotHiCMat(object):
             img = ax.matshow(arr, cmap=cmap,
                              transform=tr + ax.transData,
                              extent=(gr.start, gr.end, gr.start, gr.end),
-                             aspect='auto')
+                             aspect='equal')
         else:
             if gr2 is None:
                 gr2 = gr
             # matrix style
             img = ax.matshow(arr, cmap=cmap,
                              extent=(gr.start, gr.end, gr2.end, gr2.start),
-                             aspect='auto')
+                             aspect='equal')
 
         if self.norm == 'log':
             img.set_norm(colors.LogNorm(vmin=c_min, vmax=c_max))
