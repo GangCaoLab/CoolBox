@@ -54,6 +54,10 @@ class HicMatBase(Track, PlotHiCMat, ProcessHicMat):
     process_func : {callable, str, False}, optional
         Process matrix with a user-defined function(receive a matrix, return a processed matrix). default False.
 
+    aspect_ratio : {'equal', 'auto'}, optional
+        When set to 'equal', it ensures that matrix pixels are actually squares. When set to 'auto', it allows
+        matrix pixels to be stretched to completely fill the subplot. Ignored when height parameter is
+        provided. default 'equal'.
 
     """
 
@@ -77,6 +81,7 @@ class HicMatBase(Track, PlotHiCMat, ProcessHicMat):
         'height': 'hic_auto',
         'cmap': "JuiceBoxLike",
         "color_bar": "vertical",
+        "aspect_ratio": "equal",
         "max_value": "auto",
         "min_value": "auto",
         "depth_ratio": DEPTH_FULL,

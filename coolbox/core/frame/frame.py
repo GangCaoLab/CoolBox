@@ -196,8 +196,7 @@ class Frame(FrameBase):
         grids = matplotlib.gridspec.GridSpec(
             len(tracks_height), 3,
             height_ratios=tracks_height,
-            width_ratios=self.properties['width_ratios'],
-            wspace=0.01)
+            width_ratios=self.properties['width_ratios'])
 
         axis_list = []
         for idx, track in enumerate(self.tracks.values()):
