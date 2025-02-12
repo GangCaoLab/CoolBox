@@ -137,7 +137,17 @@ class Frame(FrameBase):
         heights = []
         for track in self.tracks.values():
             if hasattr(track, 'get_track_height'):
-                frame_width = self.properties['width'] * self.properties['width_ratios'][1]
+                # The actual width is given by multiplying:
+                # - the actual width in units cm/inch
+                # - the fraction of the figure not covered by margins
+                # - the fraction of the grid allotted to the middle column
+                margins = self.properties["margins"]
+                margins_fraction = margins["right"] - margins["left"]
+                frame_width = (
+                    self.properties["width"]
+                    * self.properties["width_ratios"][1]
+                    * margins_fraction
+                )
                 height = track.get_track_height(frame_width, self.current_range)
                 heights.append(height)
             elif 'height' in track.properties:
@@ -186,8 +196,7 @@ class Frame(FrameBase):
         grids = matplotlib.gridspec.GridSpec(
             len(tracks_height), 3,
             height_ratios=tracks_height,
-            width_ratios=self.properties['width_ratios'],
-            wspace=0.01)
+            width_ratios=self.properties['width_ratios'])
 
         axis_list = []
         for idx, track in enumerate(self.tracks.values()):

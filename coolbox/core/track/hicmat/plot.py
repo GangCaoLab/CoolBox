@@ -58,6 +58,11 @@ class PlotHiCMat(object):
         ax = self.ax
         arr = self.matrix
         c_min, c_max = self.matrix_val_range
+
+        aspect = self.properties['aspect_ratio']
+        if self.properties.get('height'):
+            aspect = 'auto'
+
         if gr2 is None and self.style == self.STYLE_TRIANGULAR:
             # triangular style
             scale_r = 1 / math.sqrt(2)
@@ -71,7 +76,7 @@ class PlotHiCMat(object):
             img = ax.matshow(arr, cmap=cmap,
                              transform=tr + ax.transData,
                              extent=(gr.start, gr.end, gr.start, gr.end),
-                             aspect='auto')
+                             aspect=aspect)
         elif gr2 is None and self.style == self.STYLE_WINDOW:
             # window style
             # exist in HicMatBase
@@ -88,14 +93,14 @@ class PlotHiCMat(object):
             img = ax.matshow(arr, cmap=cmap,
                              transform=tr + ax.transData,
                              extent=(gr.start, gr.end, gr.start, gr.end),
-                             aspect='auto')
+                             aspect=aspect)
         else:
             if gr2 is None:
                 gr2 = gr
             # matrix style
             img = ax.matshow(arr, cmap=cmap,
                              extent=(gr.start, gr.end, gr2.end, gr2.start),
-                             aspect='auto')
+                             aspect=aspect)
 
         if self.norm == 'log':
             img.set_norm(colors.LogNorm(vmin=c_min, vmax=c_max))
@@ -192,7 +197,8 @@ class PlotHiCMat(object):
             height = height * self.properties['depth_ratio']
 
         if 'color_bar' in self.properties and self.properties['color_bar'] != 'no':
-            height += 1.5
+            if self.properties["aspect_ratio"] != 'equal':
+                height += 1.5
 
         return height
 
