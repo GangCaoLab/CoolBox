@@ -187,7 +187,7 @@ class PlotHiCMat(object):
             else:
                 height = frame_width * 0.5
         else:
-            height = frame_width * 0.8
+            height = frame_width
 
         if (
             'depth_ratio' in self.properties
