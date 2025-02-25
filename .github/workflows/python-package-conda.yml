@@ -23,11 +23,12 @@ jobs:
         sudo apt install libcurl4-openssl-dev
         $CONDA/bin/conda env update --name base --file environment.yml
         $CONDA/bin/pip install .
-        $CONDA/bin/conda install pytest-cov
+        $CONDA/bin/pip install pytest-cov
     - name: Test with pytest
       run: |
         export PATH=$CONDA/bin:$PATH
         $CONDA/bin/conda install --yes pytest
+        $CONDA/bin/conda install -c conda-forge sqlite
         $CONDA/bin/conda install -c conda-forge --yes pytest-tornasync
         $CONDA/bin/pytest --cov=./ tests/ --cov-report=xml
     - name: "Upload coverage to Codecov"
