@@ -28,10 +28,11 @@ jobs:
       run: |
         export PATH=$CONDA/bin:$PATH
         $CONDA/bin/conda install --yes pytest
+        $CONDA/bin/conda install -c conda-forge sqlite
         $CONDA/bin/conda install -c conda-forge --yes pytest-tornasync
         $CONDA/bin/pytest --cov=./ tests/ --cov-report=xml
     - name: "Upload coverage to Codecov"
-      uses: codecov/codecov-action@v1
+      uses: codecov/codecov-action@v5
       with:
         fail_ci_if_error: true
 
