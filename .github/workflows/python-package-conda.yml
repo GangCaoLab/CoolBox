@@ -23,7 +23,7 @@ jobs:
         sudo apt install libcurl4-openssl-dev
         $CONDA/bin/conda env update --name base --file environment.yml
         $CONDA/bin/pip install .
-        $CONDA/bin/pip install pytest-cov
+        $CONDA/bin/conda install pytest-cov
     - name: Test with pytest
       run: |
         export PATH=$CONDA/bin:$PATH
