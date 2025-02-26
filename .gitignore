@@ -111,3 +111,6 @@ venv.bak/
 # macos stuff
 *.DS_Store
 *.icloud
+
+# vscode
+.vscode/

@@ -47,10 +47,6 @@
     <img src="https://github.com/GangCaoLab/coolbox/actions/workflows/python-package-conda.yml/badge.svg" alt="Build Status">
   </a>
 
-  <a href="https://app.codecov.io/gh/GangCaoLab/CoolBox">
-    <img src="https://codecov.io/gh/GangCaoLab/coolbox/branch/master/graph/badge.svg" alt="codecov">
-  </a>
-
   <a href="https://www.biorxiv.org/content/10.1101/2021.04.15.439923v1">
     <img src="https://img.shields.io/badge/preprint-biorxiv-red" alt="biorxiv">
   </a>
