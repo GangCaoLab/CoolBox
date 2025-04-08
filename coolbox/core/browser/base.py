@@ -113,8 +113,7 @@ class Browser(object):
         if isinstance(genome_range, str):
             genome_range = GenomeRange(genome_range)
         if not self.chrom_lengthes.check_range(genome_range):
-            log.warning("The genome range {} is not valid.".format(genome_range))
-            return
+            raise ValueError("The genome range {} is not valid.".format(genome_range))
         self.current_range = genome_range
         frame_range = GenomeRange(genome_range.chrom,
                                   genome_range.start - 1,  # NOTE: frame's start is zero based
