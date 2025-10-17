@@ -358,7 +358,7 @@ def bgz_bed(bed_path, bgz_path):
 
 
 def index_bed(bgz_path):
-    cmd = ['tabix', '-p', 'bed', bgz_path]
+    cmd = ['tabix', '-p', 'bed', bgz_path, '-C']
     subp.check_call(cmd)
 
 
@@ -404,8 +404,8 @@ def build_bed_index(file):
         bgz_file = file + '.bgz'
         log.info(f"Bgzip bed file, save to {bgz_file}")
         bgz_bed(file, bgz_file)
-    if not osp.exists(bgz_file + '.tbi'):
-        log.info(f"Make tabix of bgz file, save to {bgz_file}.tbi")
+    if not osp.exists(bgz_file + '.csi'):
+        log.info(f"Make csi of bgz file, save to {bgz_file}.csi")
         index_bed(bgz_file)
     return bgz_file
 
@@ -504,7 +504,7 @@ def gtf_gz_to_bgz(gz, bgz):
 def tabix_index(filename, preset="gff"):
     """Call tabix to create an index for a bgzip-compressed file."""
     subp.check_call([
-        'tabix', '-p', preset, filename
+        'tabix', '-p', preset, filename, '-C'
     ])
 
 
@@ -525,7 +525,7 @@ def build_gtf_index(file):
     else:
         raise IOError(f"GTF track only support GTF file(.gtf or .gtf.gz), got {file}.")
 
-    idx_file = bgz_file + ".tbi"
+    idx_file = bgz_file + ".csi"
     if not osp.exists(idx_file):
         log.info(f"Tabix index not found, build it in {idx_file}")
         tabix_index(bgz_file)
