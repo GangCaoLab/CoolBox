@@ -76,7 +76,7 @@ class Ideogram(Track):
 
     def fetch_data(self, gr: GenomeRange, **kwargs):
         if gr.chrom not in self.interval_tree:
-            gr.change_chrom_names()
+            gr = gr.change_chrom_names()
         bands_in_region = sorted(self.interval_tree[gr.chrom][gr.start:gr.end])
         rows = []
         for itv in bands_in_region:

@@ -10,7 +10,7 @@ class VlinesBase(object):
         vlines_list = []
 
         if gr.chrom not in list(self.vlines_intval_tree):
-            gr.change_chrom_names()
+            gr = gr.change_chrom_names()
 
         for region in sorted(self.vlines_intval_tree[gr.chrom][gr.start - 1:gr.end + 1]):
             vlines_list.append(region.begin)

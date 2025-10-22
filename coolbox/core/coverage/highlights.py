@@ -16,7 +16,7 @@ class _Highlights(object):
     def fetch_data(self, gr: GenomeRange, **kwargs):
         gr = to_gr(gr)
         if gr.chrom not in list(self.interval_tree):
-            gr.change_chrom_names()
+            gr = gr.change_chrom_names()
 
         return [
             (region.begin, region.end, region.data)

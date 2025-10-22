@@ -119,7 +119,7 @@ class GenomeRange(object):
             raise ValueError(f"Failure to parse region string {region_string}, please check that region format "
                              f"should be like \"chr:start-end\".")
 
-    def change_chrom_names(self):
+    def change_chrom_names(self) -> "GenomeRange":
         """
         >>> range1 = GenomeRange("chr1", 1000, 2000)
         >>> range1.chrom
@@ -131,7 +131,9 @@ class GenomeRange(object):
         >>> range1.chrom
         'chr1'
         """
-        self.chrom = change_chrom_names(self.chrom)
+        new_chrom = change_chrom_names(self.chrom)
+        gr = GenomeRange(new_chrom, self.start, self.end)
+        return gr
 
     @property
     def length(self):

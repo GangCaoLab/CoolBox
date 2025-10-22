@@ -98,7 +98,7 @@ class GTF(Track):
         """
         rows = [row for row in tabix_query(self.bgz_file, gr.chrom, gr.start, gr.end)]
         if not rows:
-            gr.change_chrom_names()
+            gr = gr.change_chrom_names()
             for row in tabix_query(self.bgz_file, gr.chrom, gr.start, gr.end):
                 rows.append(row)
 

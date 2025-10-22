@@ -20,7 +20,7 @@ class FetchBed(object):
         """
         intervals, bed_type = self.load_range(bgz_file, gr)
         if len(intervals) == 0:
-            gr.change_chrom_names()
+            gr = gr.change_chrom_names()
             intervals, bed_type = self.load_range(bgz_file, gr)
         if len(intervals) == 0:
             log.debug(f"No valid intervals were found in file {bgz_file} within range {gr}")

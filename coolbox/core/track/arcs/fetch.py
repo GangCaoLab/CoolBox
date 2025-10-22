@@ -8,9 +8,9 @@ class FetchParix(object):
         open_region = self.properties.get("open_region") == "yes"
         rows = list(pairix_query(bgz_file, gr, second=gr2, open_region=open_region, split=True))
         if not rows:
-            gr.change_chrom_names()
+            gr = gr.change_chrom_names()
             if gr2:
-                gr2.change_chrom_names()
+                gr2 = gr2.change_chrom_names()
             rows = list(pairix_query(bgz_file, gr, second=gr2, open_region=open_region, split=True))
 
         return pd.DataFrame(rows)

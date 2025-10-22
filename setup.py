@@ -69,6 +69,11 @@ setup(
             "recommonmark",
             "nbsphinx",
             "sphinx_gallery",
+        ],
+        "strawC": ["strawC"],
+        "dev": [
+            "pytest",
+            "pytest-cov",
         ]
     },
     python_requires='>=3.7, <4',

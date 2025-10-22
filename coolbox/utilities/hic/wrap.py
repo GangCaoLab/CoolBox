@@ -59,9 +59,9 @@ class StrawWrap(object):
             gr2 = GenomeRange(gr2)
 
         if gr1.chrom.startswith("chr"):
-            gr1.change_chrom_names()
+            gr1 = gr1.change_chrom_names()
         if gr2.chrom.startswith("chr"):
-            gr2.change_chrom_names()
+            gr2 = gr2.change_chrom_names()
 
         binsize = self.infer_binsize(gr1)
         self.fetched_binsize = binsize  # expose fetched binsize
@@ -128,9 +128,9 @@ class StrawWrap(object):
         if genome_range2 is None:
             genome_range2 = genome_range1
         if genome_range1.chrom.startswith("chr"):
-            genome_range1.change_chrom_names()
+            genome_range1 = genome_range1.change_chrom_names()
         if genome_range2.chrom.startswith("chr"):
-            genome_range2.change_chrom_names()
+            genome_range2 = genome_range2.change_chrom_names()
         binsize = self.infer_binsize(genome_range1)
         siter = self.__fetch_straw_iter(genome_range1, genome_range2, binsize)
         rows = [[i[0], i[1], i[2]] for i in siter]
@@ -305,9 +305,9 @@ class CoolerWrap(object):
         cool = self.get_cool(genome_range1)
 
         if genome_range1.chrom not in cool.chromnames:
-            genome_range1.change_chrom_names()
+            genome_range1 = genome_range1.change_chrom_names()
         if genome_range2.chrom not in cool.chromnames:
-            genome_range2.change_chrom_names()
+            genome_range2 = genome_range2.change_chrom_names()
 
         try:
             mat = cool.matrix(balance=self.balance).fetch(str(genome_range1), str(genome_range2))
@@ -325,9 +325,9 @@ class CoolerWrap(object):
             genome_range2 = genome_range1
 
         if genome_range1.chrom not in cool.chromnames:
-            genome_range1.change_chrom_names()
+            genome_range1 = genome_range1.change_chrom_names()
         if genome_range2.chrom not in cool.chromnames:
-            genome_range2.change_chrom_names()
+            genome_range2 = genome_range2.change_chrom_names()
 
         mat = cool.matrix(as_pixels=True, balance=self.balance, join=join)
         return mat.fetch(str(genome_range1), str(genome_range2))

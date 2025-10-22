@@ -1,6 +1,3 @@
-import os.path as osp
-import subprocess as subp
-
 import numpy as np
 import pandas as pd
 
@@ -81,7 +78,7 @@ class SNP(HistBase):
         ix_pval = self.properties['col_pval']
         rows = self.load_range(gr)
         if len(rows) == 0:
-            gr.change_chrom_names()
+            gr = gr.change_chrom_names()
             rows = self.load_range(gr)
         df = pd.DataFrame(rows)
         if df.shape[0] > 0:
