@@ -1,10 +1,7 @@
-from typing import Union, Tuple
-
-import numpy as np
 import pandas as pd
 
 from coolbox.utilities import (
-    split_genome_range, change_chrom_names,
+    change_chrom_names,
     GenomeRange, get_logger,
 )
 from coolbox.utilities.bed import tabix_query, build_bedgraph_bgz

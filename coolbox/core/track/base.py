@@ -1,4 +1,5 @@
 from copy import copy
+from typing import Iterable
 
 from coolbox.utilities import (
     op_err_msg, get_feature_stack,
@@ -267,3 +268,17 @@ class Track(object, metaclass=NumpyDocInheritor):
                             self.name, type(self), cov.name, type(cov),
                             type(e), str(e)))
                 log.exception(e)
+
+    def check_chrom_name(self, gr: GenomeRange, valid: Iterable[str]) -> "GenomeRange":
+        """
+        Check if the chromosome name is valid.
+        If not, change the chromosome name to the valid name.
+        """
+        if gr.chrom in valid:
+            return gr
+        gr = gr.change_chrom_names()
+        if gr.chrom in valid:
+            return gr
+        raise ValueError(
+            f"Chromosome name {gr.chrom} is not valid. Valid names are:\n{', '.join(valid)}"
+        )

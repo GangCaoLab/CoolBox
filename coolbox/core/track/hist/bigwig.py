@@ -1,8 +1,5 @@
-import numpy as np
-
 from coolbox.utilities import (
-    split_genome_range, change_chrom_names,
-    GenomeRange, get_logger, to_gr
+    GenomeRange, get_logger
 )
 import oxbow as ox
 from .base import HistBase
@@ -42,8 +39,7 @@ class BigWig(HistBase):
         self.ds = ox.from_bigwig(self.properties['file'])
 
     def fetch_plot_data(self, gr: GenomeRange, **kwargs):
-        self.check_chrom_name(gr)
-        intervals = self.fetch_data(gr)
+        intervals = self.fetch_data(gr, **kwargs)
         values = intervals['value'].values
         return values
 
@@ -58,19 +54,7 @@ class BigWig(HistBase):
         intervals : pandas.core.frame.DataFrame
             BigWig interval table.
         """
-        chrom, start, end = split_genome_range(gr)
-        if chrom not in self.ds.chrom_names:
-            chrom = change_chrom_names(chrom)
+        gr = self.check_chrom_name(gr, self.ds.chrom_names)
 
-        intervals = self.ds.regions(f"{chrom}:{start}-{end}").pd()
+        intervals = self.ds.regions(str(gr)).pd()
         return intervals
-
-    def check_chrom_name(self, genome_range):
-        if genome_range.chrom not in self.ds.chrom_names:
-            genome_range = genome_range.change_chrom_names()
-
-        if genome_range.chrom not in self.ds.chrom_names:
-            log.warning("Can not read region {} from bigwig file:\n\n"
-                        "{}\n\nPlease check that the chromosome name is part of the bigwig file "
-                        "and that the region is valid".format(str(genome_range), self.properties['file']))
-
