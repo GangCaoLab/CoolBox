@@ -317,20 +317,23 @@ class TabFileReaderInMemory(TabFileReader):
                     'end2': 'end2',
                 }
 
-            if open_region:
-                second = gr
-
-            if (second is not None) or open_region:
+            if second is not None:
                 sdf = self.df.query(
                     f"{field_names['chrom1']} == '{gr.chrom}' and {field_names['start1']} >= {gr.start} and {field_names['end1']} <= {gr.end} "
                     f"and {field_names['chrom2']} == '{second.chrom}' and {field_names['start2']} >= {second.start} and {field_names['end2']} <= {second.end}"
                 )
                 return sdf
             else:
-                sdf = self.df.query(
-                    f"{field_names['chrom1']} == '{gr.chrom}' and {field_names['start1']} >= {gr.start} and {field_names['end1']} <= {gr.end} "
-                    f"and {field_names['chrom2']} == '{gr.chrom}"
-                )
+                if open_region:
+                    sdf = self.df.query(
+                        f"{field_names['chrom1']} == '{gr.chrom}' and {field_names['start1']} >= {gr.start} and {field_names['end1']} <= {gr.end} "
+                        f"and {field_names['chrom2']} == '{gr.chrom}"
+                    )
+                else:
+                    sdf = self.df.query(
+                        f"{field_names['chrom1']} == '{gr.chrom}' and {field_names['start1']} >= {gr.start} and {field_names['end1']} <= {gr.end} "
+                        f"and {field_names['chrom2']} == '{gr.chrom}' and {field_names['start2']} >= {gr.start} and {field_names['end2']} <= {gr.end}"
+                    )
                 return sdf
         else:
             chrom_str = 'chrom'
