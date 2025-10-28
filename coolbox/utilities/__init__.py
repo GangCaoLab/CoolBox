@@ -2,7 +2,6 @@ import typing as t
 from os.path import abspath, dirname, join
 from collections import deque
 
-from .bed import *
 from .figtools import *
 from .filetool import *
 from .fmtconvert import *

@@ -189,10 +189,14 @@ class TabFileReader(abc.ABC):
     """
     def __init__(self, path: str, **params):
         self.path = path
-        suffix = osp.splitext(path.rstrip(".bgz"))[1].lower()
+        if path.endswith(".bgz"):
+            _p = path.rstrip(".bgz")
+        else:
+            _p = path
+        suffix = osp.splitext(_p)[1].lower()
         self.suffix = suffix
         self.bed_type = None
-        if suffix in [".bed", ".bedgraph"]:
+        if suffix in [".bed", ".bedgraph", ".bg"]:
             self.bed_type = guess_bed_type(path)
         self.params = params
         self.is_2d = False
@@ -211,7 +215,7 @@ class TabFileReaderWithOxbow(TabFileReader):
         suffix = self.suffix
         if suffix == ".gtf":
             ds = ox.from_gtf(self.path)
-        elif suffix in [".bed", ".bedgraph"]:
+        elif suffix in [".bed", ".bedgraph", ".bg"]:
             ds = ox.from_bed(self.path)
         elif suffix in ['.bw', '.bigwig']:
             ds = ox.from_bigwig(self.path)
@@ -224,7 +228,7 @@ class TabFileReaderWithOxbow(TabFileReader):
     def query(self, gr: GenomeRange, **kwargs) -> pd.DataFrame:
         sub = self.ds.regions(str(gr))
         df = sub.pd()
-        if self.suffix in [".bed", ".bedgraph"]:
+        if self.suffix in [".bed", ".bedgraph", ".bg"]:
             rest = df.pop('rest')
             df_rest = rest.str.split('\t', expand=True)
             df = pd.concat([df, df_rest], axis=1)
@@ -260,7 +264,7 @@ class TabFileReaderWithTabix(TabFileReader):
             itr = tabix_query(self.path, gr, split=True)
         rows = list(itr)
         df = pd.DataFrame(rows)
-        if self.suffix in [".bed", ".bedgraph"]:
+        if self.suffix in [".bed", ".bedgraph", ".bg"]:
             columns = FMT2COLUMNS[self.bed_type]
         else:
             fmt = self.suffix[1:]
@@ -277,7 +281,7 @@ class TabFileReaderWithTabix(TabFileReader):
 class TabFileReaderInMemory(TabFileReader):
     def __init__(self, path: str, **params):
         super().__init__(path, **params)
-        if self.suffix in [".bed", ".bedgraph"]:
+        if self.suffix in [".bed", ".bedgraph", ".bg"]:
             columns = FMT2COLUMNS[self.bed_type]
         else:
             fmt = self.suffix[1:]
@@ -312,27 +316,28 @@ class TabFileReaderInMemory(TabFileReader):
                     'chr1': 'chrom1',
                     'start1': 'start1',
                     'end1': 'end1',
-                    'chrom2': 'chrom2',
+                    'chr2': 'chrom2',
                     'start2': 'start2',
                     'end2': 'end2',
                 }
 
             if second is not None:
                 sdf = self.df.query(
-                    f"{field_names['chrom1']} == '{gr.chrom}' and {field_names['start1']} >= {gr.start} and {field_names['end1']} <= {gr.end} "
-                    f"and {field_names['chrom2']} == '{second.chrom}' and {field_names['start2']} >= {second.start} and {field_names['end2']} <= {second.end}"
+                    f"{field_names['chr1']} == '{gr.chrom}' and {field_names['start1']} >= {gr.start} and {field_names['end1']} <= {gr.end} "
+                    f"and {field_names['chr2']} == '{second.chrom}' and {field_names['start2']} >= {second.start} and {field_names['end2']} <= {second.end}"
                 )
                 return sdf
             else:
                 if open_region:
-                    sdf = self.df.query(
-                        f"{field_names['chrom1']} == '{gr.chrom}' and {field_names['start1']} >= {gr.start} and {field_names['end1']} <= {gr.end} "
-                        f"and {field_names['chrom2']} == '{gr.chrom}"
+                    q = (
+                        f"{field_names['chr1']} == '{gr.chrom}' and {field_names['start1']} >= {gr.start} and {field_names['end1']} <= {gr.end} "
+                        f"and {field_names['chr2']} == '{gr.chrom}'"
                     )
+                    sdf = self.df.query(q)
                 else:
                     sdf = self.df.query(
-                        f"{field_names['chrom1']} == '{gr.chrom}' and {field_names['start1']} >= {gr.start} and {field_names['end1']} <= {gr.end} "
-                        f"and {field_names['chrom2']} == '{gr.chrom}' and {field_names['start2']} >= {gr.start} and {field_names['end2']} <= {gr.end}"
+                        f"{field_names['chr1']} == '{gr.chrom}' and {field_names['start1']} >= {gr.start} and {field_names['end1']} <= {gr.end} "
+                        f"and {field_names['chr2']} == '{gr.chrom}' and {field_names['start2']} >= {gr.start} and {field_names['end2']} <= {gr.end}"
                     )
                 return sdf
         else:
@@ -367,7 +372,7 @@ def _build_bgz_file(
     cat_cmd = "zcat" if input_is_gz else "cat"
     if prefix.lower().endswith(".gtf"):
         cmd = f'{cat_cmd} {path} | grep -v ^"#" | sort -k1,1 -k4,4n | bgzip > {output_path}'
-    elif prefix.lower().endswith('.bed') or prefix.lower().endswith('.bedgraph'):
+    elif prefix.lower().endswith('.bed') or prefix.lower().endswith('.bedgraph') or prefix.lower().endswith('.bg'):
         cmd = f'{cat_cmd} {path} | sort -k1,1 -k2,2n | bgzip > {output_path}'
     elif prefix.lower().endswith('.bedpe'):
         cmd = f'{cat_cmd} {path} | sort -k1,1 -k4,4 -k2,2n -k5,5n | bgzip > {output_path}'
