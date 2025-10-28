@@ -150,7 +150,10 @@ def guess_bed_type(path: str) -> str:
         return line
 
     with opener(path) as f:
-        fields = get_no_comment_line(iter=f)
+        try:
+            fields = get_no_comment_line(iter=f)
+        except StopIteration:
+            raise ValueError(f"File is empty: {path}")
         fields = to_string(fields)
         line_values = fields.split("\t")
 
@@ -408,8 +411,8 @@ def _index_bgz_file(
         cmd = ['tabix', '-p', 'gff', bgz_path]
     elif prefix.lower().endswith('.bed'):
         cmd = ['tabix', '-p', 'bed', bgz_path]
-    elif prefix.lower().endswith('.bedgraph'):
-        cmd = ['tabix', '-b', '2', '-e', '3', bgz_path]
+    elif prefix.lower().endswith('.bedgraph') or prefix.lower().endswith('.bg'):
+        cmd = ['tabix', '-0', '-b', '2', '-e', '3', bgz_path]
     elif prefix.lower().endswith('.bedpe'):
         ensure_tool_installed("pairix")
         cmd = ['pairix', '-f', '-s', '1', '-d', '4', '-b', '2', '-e', '3', '-u', '5', '-v', '6', bgz_path]

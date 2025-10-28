@@ -4,10 +4,14 @@ import pytest
 
 from coolbox.utilities.reader.tab import (
     TabFileReaderInMemory,
+    TabFileReaderWithTabix,
+    TabFileReaderWithOxbow,
     get_indexed_tab_reader,
     guess_bed_type,
     FMT2COLUMNS,
+    index_tab_file,
 )
+from coolbox.utilities.cmd import check_tool
 
 
 def test_guess_bed_type(data_dir, test_itv):
@@ -91,4 +95,57 @@ def test_get_indexed_tab_reader_fallback_to_inmemory_on_windows(data_dir, test_i
     path = f"{data_dir}/bed6_{test_itv}.bed"
     rdr = get_indexed_tab_reader(path, columns=FMT2COLUMNS["bed6"])
     assert isinstance(rdr, TabFileReaderInMemory)
+
+ 
+@pytest.mark.skipif(
+    platform.system() == "Windows" or not check_tool("tabix")[0],
+    reason="tabix not available or non-Unix",
+)
+def test_tabix_bedgraph_query(data_dir, test_interval):
+    # Pre-indexed bedGraph bgz/tbi provided in test_data
+    path = f"{data_dir}/chr9.1.pc.bedGraph"
+    indexed_path = index_tab_file(path)
+    rdr = TabFileReaderWithTabix(indexed_path)
+    df = rdr.query(test_interval)
+    assert list(df.columns) == FMT2COLUMNS["bedgraph"]
+    assert df.shape[0] > 0
+
+
+@pytest.mark.skipif(
+    platform.system() == "Windows"
+    or not (check_tool("bgzip")[0] and check_tool("pairix")[0]),
+    reason="bgzip/pairix not available or non-Unix",
+)
+def test_tabix_pairs_query(data_dir, test_interval, test_itv):
+    # Build .bgz and index via pairix, then query with Tabix reader
+    path = f"{data_dir}/pairs_{test_itv}.pairs"
+    bgz_path = index_tab_file(path)
+    rdr = TabFileReaderWithTabix(bgz_path)
+    df_same = rdr.query(test_interval)
+    assert list(df_same.columns) == FMT2COLUMNS["pairs"]
+    assert df_same.shape[0] > 0
+    df_2d = rdr.query(test_interval, second=test_interval)
+    assert df_2d.shape[0] > 0
+
+
+def test_oxbow_bed_query(data_dir, test_interval, test_itv):
+    # Oxbow-based reader for BED files
+    path = f"{data_dir}/bed6_{test_itv}.bed"
+    indexed_path = index_tab_file(path)
+    rdr = TabFileReaderWithOxbow(indexed_path)
+    df = rdr.query(test_interval)
+    assert isinstance(df, pd.DataFrame)
+    assert list(df.columns) == FMT2COLUMNS["bed6"]
+    assert df.shape[0] > 0
+
+
+def test_oxbow_gtf_query(data_dir, test_interval, test_itv):
+    path = f"{data_dir}/gtf_{test_itv}.gtf"
+    indexed_path = index_tab_file(path)
+    rdr = TabFileReaderWithOxbow(indexed_path)
+    df = rdr.query(test_interval)
+    # ensure essential GTF columns exist after oxbow conversion
+    for col in ["seqname", "start", "end", "strand"]:
+        assert col in df.columns
+    assert df.shape[0] > 0
 
