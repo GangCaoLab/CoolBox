@@ -266,7 +266,6 @@ class TabFileReaderWithTabix(TabFileReader):
         else:
             itr = tabix_query(self.path, gr, split=True)
         rows = list(itr)
-        df = pd.DataFrame(rows)
         if self.suffix in [".bed", ".bedgraph", ".bg"]:
             columns = FMT2COLUMNS[self.bed_type]
         else:
@@ -277,7 +276,7 @@ class TabFileReaderWithTabix(TabFileReader):
                 columns = self.params.get('columns', None)
                 if columns is None:
                     raise ValueError(f"Columns are not specified for file type: {fmt}")
-        df.columns = columns
+        df = pd.DataFrame(rows, columns=columns)
         return df
 
 

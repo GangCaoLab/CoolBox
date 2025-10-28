@@ -149,3 +149,69 @@ def test_oxbow_gtf_query(data_dir, test_interval, test_itv):
         assert col in df.columns
     assert df.shape[0] > 0
 
+
+def test_oxbow_bigwig_query(data_dir, test_interval, test_itv):
+    path = f"{data_dir}/bigwig_{test_itv}.bw"
+    rdr = TabFileReaderWithOxbow(path)
+    df = rdr.query(test_interval)
+    # BigWig should have chrom,start,end,value
+    for col in FMT2COLUMNS["bigwig"]:
+        assert col in df.columns
+    assert df.shape[0] > 0
+
+
+@pytest.mark.skipif(
+    platform.system() == "Windows" or not check_tool("samtools")[0],
+    reason="samtools not available or non-Unix",
+)
+def test_tabix_bam_query(data_dir, test_interval, test_itv):
+    path = f"{data_dir}/bam_{test_itv}.bam"
+    indexed_path = index_tab_file(path)
+    rdr = TabFileReaderWithTabix(indexed_path)
+    df = rdr.query(test_interval)
+    assert list(df.columns) == FMT2COLUMNS["bam"]
+    assert df.shape[0] > 0
+
+
+@pytest.mark.skipif(
+    platform.system() == "Windows" or not check_tool("tabix")[0],
+    reason="tabix not available or non-Unix",
+)
+def test_tabix_gtf_query(data_dir, test_interval, test_itv):
+    path = f"{data_dir}/gtf_{test_itv}.gtf"
+    indexed_path = index_tab_file(path)
+    rdr = TabFileReaderWithTabix(indexed_path)
+    df = rdr.query(test_interval)
+    assert list(df.columns) == FMT2COLUMNS["gtf"]
+    assert df.shape[0] > 0
+
+
+@pytest.mark.skipif(
+    platform.system() == "Windows"
+    or not (check_tool("bgzip")[0] and check_tool("pairix")[0]),
+    reason="bgzip/pairix not available or non-Unix",
+)
+def test_tabix_bedpe_query(data_dir, test_interval, test_itv):
+    path = f"{data_dir}/bedpe_{test_itv}.bedpe"
+    indexed_path = index_tab_file(path)
+    rdr = TabFileReaderWithTabix(indexed_path)
+    df_same = rdr.query(test_interval)
+    assert list(df_same.columns) == FMT2COLUMNS["bedpe"]
+    assert df_same.shape[0] > 0
+    df_2d = rdr.query(test_interval, second=test_interval)
+    assert df_2d.shape[0] > 0
+
+
+@pytest.mark.skipif(
+    platform.system() == "Windows" or not check_tool("samtools")[0],
+    reason="samtools not available or non-Unix",
+)
+def test_oxbow_bam_query(data_dir, test_interval, test_itv):
+    path = f"{data_dir}/bam_{test_itv}.bam"
+    indexed_path = index_tab_file(path)
+    rdr = TabFileReaderWithOxbow(indexed_path)
+    df = rdr.query(test_interval)
+    assert df.shape[0] > 0
+    # Check a few SAM/BAM fields commonly present
+    for col in FMT2COLUMNS["bam"]:
+        assert col in df.columns
