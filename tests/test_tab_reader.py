@@ -82,10 +82,10 @@ def test_inmemory_pairs_query(data_dir, test_interval, test_itv):
 def test_inmemory_bedpe_query(data_dir, test_interval, test_itv):
     path = f"{data_dir}/bedpe_{test_itv}.bedpe"
     rdr = TabFileReaderInMemory(path)
-    df_same = rdr.query(test_interval)
+    df_same = rdr.query_var_chr(test_interval)
     assert list(df_same.columns) == FMT2COLUMNS["bedpe"]
     assert df_same.shape[0] > 0
-    df_2d = rdr.query(test_interval, second=test_interval)
+    df_2d = rdr.query_var_chr(test_interval, second=test_interval)
     assert df_2d.shape[0] > 0
 
 
@@ -195,10 +195,10 @@ def test_tabix_bedpe_query(data_dir, test_interval, test_itv):
     path = f"{data_dir}/bedpe_{test_itv}.bedpe"
     indexed_path = index_tab_file(path)
     rdr = TabFileReaderWithTabix(indexed_path)
-    df_same = rdr.query(test_interval)
+    df_same = rdr.query_var_chr(test_interval)
     assert list(df_same.columns) == FMT2COLUMNS["bedpe"]
     assert df_same.shape[0] > 0
-    df_2d = rdr.query(test_interval, second=test_interval)
+    df_2d = rdr.query_var_chr(test_interval, second=test_interval)
     assert df_2d.shape[0] > 0
 
 

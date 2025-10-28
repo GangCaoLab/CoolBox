@@ -4,12 +4,8 @@ import re
 import pandas as pd
 from dna_features_viewer import GraphicFeature, GraphicRecord
 
-from coolbox.utilities import (
-    split_genome_range, get_logger, GenomeRange
-)
-from coolbox.utilities.bed import (
-    build_gtf_index, tabix_query
-)
+from coolbox.utilities import get_logger, GenomeRange
+from coolbox.utilities.reader.tab import get_indexed_tab_reader
 from .base import Track
 
 log = get_logger(__name__)
@@ -60,7 +56,7 @@ class GTF(Track):
             **kwargs
         })
         super().__init__(properties)
-        self.bgz_file = build_gtf_index(file)
+        self.reader = get_indexed_tab_reader(file)
         color = self.properties['color']
         if (type(color) is str) and (color.startswith('#')):
             self.colors = [color]
@@ -96,14 +92,7 @@ class GTF(Track):
         intervals : pandas.core.frame.DataFrame
             Annotation interval table.
         """
-        rows = [row for row in tabix_query(self.bgz_file, gr.chrom, gr.start, gr.end)]
-        if not rows:
-            gr = gr.change_chrom_names()
-            for row in tabix_query(self.bgz_file, gr.chrom, gr.start, gr.end):
-                rows.append(row)
-
-        columns = ['seqname', 'source', 'feature', 'start', 'end', 'score', 'strand', 'frame', 'attribute']
-        df = pd.DataFrame(rows, columns=columns)
+        df = self.reader.query_var_chr(gr)
         df['start'] = df['start'].astype(int)
         df['end'] = df['end'].astype(int)
         name_attr = self.properties.get("name_attr", "auto")

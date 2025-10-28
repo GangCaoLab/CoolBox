@@ -211,6 +211,23 @@ class TabFileReader(abc.ABC):
         """Query the file"""
         pass
 
+    def query_var_chr(self, gr: GenomeRange, **kwargs) -> pd.DataFrame:
+        """Query the file with variable chromosome names.
+        
+        First try to query with the original chromosome names, if no results,
+        try to query with the variable chromosome names."""
+        df = self.query(gr, **kwargs)
+        if df.shape[0] > 0:
+            return df
+        else:
+            gr = gr.change_chrom_names()
+            gr2 = kwargs.get("second", None)
+            if gr2:
+                gr2 = gr2.change_chrom_names()
+                kwargs["second"] = gr2
+            df = self.query(gr, **kwargs)
+            return df
+
 
 class TabFileReaderWithOxbow(TabFileReader):
     def __init__(self, path: str, **params):
@@ -295,6 +312,12 @@ class TabFileReaderInMemory(TabFileReader):
                     raise ValueError(f"Columns are not specified for file type: {fmt}")
         with opener(path) as f:
             self.df = pd.read_csv(f, sep='\t', names=columns, comment='#')
+            # convert non-string chromosome columns to string
+            for chr_col_name in ['chrom', 'seqname', 'rname', 'chr1', 'chr2', 'chrom1', 'chrom2']:
+                if chr_col_name in self.df.columns:
+                    dtype = self.df[chr_col_name].dtype
+                    if dtype != 'object':
+                        self.df[chr_col_name] = self.df[chr_col_name].astype(str)
 
     def query(
             self,
