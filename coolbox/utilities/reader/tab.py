@@ -111,6 +111,9 @@ def query_bam(bam_path: str, gr: GenomeRange, split: bool = True):
         else:
             items = line.strip().split('\t')
             items_ = items[:11] + ["\t".join(items[12:])]
+            items_[1] = int(items_[1])  # flag
+            items_[3] = int(items_[3])  # pos
+            items_[4] = int(items_[4])  # mapq
             yield items_
 
 
@@ -294,7 +297,30 @@ class TabFileReaderWithTabix(TabFileReader):
                 if columns is None:
                     raise ValueError(f"Columns are not specified for file type: {fmt}")
         df = pd.DataFrame(rows, columns=columns)
+        df = _convert_dtype(df)
         return df
+
+
+def _convert_dtype(df: pd.DataFrame) -> pd.DataFrame:
+    # convert non-string chromosome columns to string
+    for chr_col_name in ['chrom', 'seqname', 'rname', 'chr1', 'chr2', 'chrom1', 'chrom2']:
+        if chr_col_name in df.columns:
+            dtype = df[chr_col_name].dtype
+            if dtype != 'object':
+                df[chr_col_name] = df[chr_col_name].astype(str)
+    # convert integer columns to int
+    for col_name in ['start', 'end', 'pos1', 'pos2', 'start1', 'start2', 'end1', 'end2']:
+        if col_name in df.columns:
+            dtype = df[col_name].dtype
+            if dtype != int:
+                df[col_name] = df[col_name].astype(int)
+    # convert float columns to float
+    for col_name in ['value']:
+        if col_name in df.columns:
+            dtype = df[col_name].dtype
+            if dtype != float:
+                df[col_name] = df[col_name].astype(float)
+    return df
 
 
 class TabFileReaderInMemory(TabFileReader):
@@ -312,12 +338,7 @@ class TabFileReaderInMemory(TabFileReader):
                     raise ValueError(f"Columns are not specified for file type: {fmt}")
         with opener(path) as f:
             self.df = pd.read_csv(f, sep='\t', names=columns, comment='#')
-            # convert non-string chromosome columns to string
-            for chr_col_name in ['chrom', 'seqname', 'rname', 'chr1', 'chr2', 'chrom1', 'chrom2']:
-                if chr_col_name in self.df.columns:
-                    dtype = self.df[chr_col_name].dtype
-                    if dtype != 'object':
-                        self.df[chr_col_name] = self.df[chr_col_name].astype(str)
+        self.df = _convert_dtype(self.df)
 
     def query(
             self,
@@ -474,7 +495,12 @@ def get_indexed_tab_reader(
         columns: T.Optional[T.List[str]] = None) -> TabFileReader:
     try:
         col_chrom = columns.index("chrom") if "chrom" in columns else None
-        col_start = columns.index("start") if "start" in columns else None
+        if 'start' in columns:
+            col_start = columns.index("start")
+        elif 'pos' in columns:
+            col_start = columns.index("pos")
+        else:
+            col_start = None
         col_end = columns.index("end") if "end" in columns else None
         indexed_path = index_tab_file(path, col_chrom, col_start, col_end)
         reader = TabFileReaderWithOxbow(indexed_path, columns)

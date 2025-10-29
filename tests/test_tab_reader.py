@@ -77,6 +77,8 @@ def test_inmemory_pairs_query(data_dir, test_interval, test_itv):
     # open_region allows second chrom-only matching
     df_open = rdr.query(test_interval, open_region=True)
     assert df_open.shape[0] >= df_same.shape[0]
+    assert df_open['pos1'].dtype == int
+    assert df_open['pos2'].dtype == int
 
 
 def test_inmemory_bedpe_query(data_dir, test_interval, test_itv):
@@ -87,6 +89,10 @@ def test_inmemory_bedpe_query(data_dir, test_interval, test_itv):
     assert df_same.shape[0] > 0
     df_2d = rdr.query_var_chr(test_interval, second=test_interval)
     assert df_2d.shape[0] > 0
+    assert df_2d['start1'].dtype == int
+    assert df_2d['start2'].dtype == int
+    assert df_2d['end1'].dtype == int
+    assert df_2d['end2'].dtype == int
 
 
 @pytest.mark.skipif(platform.system() != "Windows", reason="Specific to Windows fallback behavior")
@@ -109,6 +115,9 @@ def test_tabix_bedgraph_query(data_dir, test_interval):
     df = rdr.query(test_interval)
     assert list(df.columns) == FMT2COLUMNS["bedgraph"]
     assert df.shape[0] > 0
+    assert df['start'].dtype == int
+    assert df['end'].dtype == int
+    assert df['value'].dtype == float
 
 
 @pytest.mark.skipif(
@@ -126,6 +135,8 @@ def test_tabix_pairs_query(data_dir, test_interval, test_itv):
     assert df_same.shape[0] > 0
     df_2d = rdr.query(test_interval, second=test_interval)
     assert df_2d.shape[0] > 0
+    assert df_2d['pos1'].dtype == int
+    assert df_2d['pos2'].dtype == int
 
 
 def test_oxbow_bed_query(data_dir, test_interval, test_itv):
@@ -200,6 +211,10 @@ def test_tabix_bedpe_query(data_dir, test_interval, test_itv):
     assert df_same.shape[0] > 0
     df_2d = rdr.query_var_chr(test_interval, second=test_interval)
     assert df_2d.shape[0] > 0
+    assert df_2d['start1'].dtype == int
+    assert df_2d['start2'].dtype == int
+    assert df_2d['end1'].dtype == int
+    assert df_2d['end2'].dtype == int
 
 
 @pytest.mark.skipif(

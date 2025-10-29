@@ -1,6 +1,9 @@
+import typing as T
+
 import pandas as pd
 
 from coolbox.utilities import GenomeRange
+from coolbox.utilities.reader.tab import get_indexed_tab_reader
 from coolbox.core.track.base import Track
 from .plot import PlotContacts
 
@@ -83,10 +86,14 @@ class ArcsBase(Track, PlotContacts):
         properties = ArcsBase.DEFAULT_PROPERTIES.copy()
         properties.update(kwargs)
         super().__init__(properties)
+        self.reader = get_indexed_tab_reader(self.file)
 
-    def fetch_plot_data(self, gr: GenomeRange, **kwargs) -> pd.DataFrame:
+    def fetch_data(
+            self,
+            gr: GenomeRange,
+            gr2: T.Optional[GenomeRange] = None,
+            **kwargs) -> pd.DataFrame:
         """
-
         Returns
         -------
         intervals : pandas.core.frame.DataFrame
@@ -94,7 +101,9 @@ class ArcsBase(Track, PlotContacts):
             1: with columns: ['pos1', 'pos2', 'score'] 'score' is optional
             2: with columns: ['start1', 'end1', 'start2', 'end2', 'score'] 'score' is optional
         """
-        return self.fetch_data(gr, **kwargs)
+        open_region = self.properties.get("open_region") in ["yes", True]
+        df = self.reader.query_var_chr(gr, second=gr2, open_region=open_region, **kwargs)
+        return df
 
     def plot(self, ax, gr: GenomeRange, **kwargs):
         """

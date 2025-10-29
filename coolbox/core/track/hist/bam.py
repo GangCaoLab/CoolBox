@@ -1,5 +1,5 @@
 from .base import HistBase, HistData, GenomeRange
-from coolbox.utilities.bam import process_bam, coverage_by_samtools
+from coolbox.utilities.reader.tab import process_bam, coverage_by_samtools
 
 
 class BAMCov(HistBase):

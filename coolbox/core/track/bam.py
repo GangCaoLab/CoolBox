@@ -5,7 +5,7 @@ from dna_features_viewer import GraphicFeature, GraphicRecord
 from coolbox.utilities import (
     get_logger, GenomeRange, split_genome_range
 )
-from coolbox.utilities.bam import process_bam, query_bam
+from coolbox.utilities.reader.tab import get_indexed_tab_reader
 from .base import Track
 
 log = get_logger(__name__)
@@ -39,7 +39,7 @@ class BAM(Track):
         })
         properties.update(kwargs)
         super().__init__(properties)
-        self.indexed_bam = process_bam(file)
+        self.reader = get_indexed_tab_reader(file)
 
     def fetch_data(self, gr: GenomeRange, **kwargs) -> pd.DataFrame:
         """
@@ -53,7 +53,7 @@ class BAM(Track):
             columns = ["qname", "flag", "rname", "pos", "mapq", "cigar",
                       "rnext", "pnext", "tlen", "seq", "qual", "options"]
         """
-        return self.fetch_intervals(gr)
+        return self.reader.query_var_chr(gr)
 
     def plot(self, ax, gr: GenomeRange, **kwargs):
         self.plot_align(ax, gr)
@@ -85,22 +85,3 @@ class BAM(Track):
             with_ruler=False,
             draw_line=False
         )
-
-    def fetch_intervals(self, genome_range: GenomeRange):
-        chrom, start, end = split_genome_range(genome_range)
-        rows = [
-            row_items
-            for row_items in query_bam(
-                self.indexed_bam, chrom, start, end, split=True
-            )
-        ]
-
-        # https://samtools.github.io/hts-specs/SAMv1.pdf
-        fields = ["qname", "flag", "rname", "pos", "mapq", "cigar",
-                  "rnext", "pnext", "tlen", "seq", "qual", "options"]
-        df = pd.DataFrame(rows, columns=fields)
-        if df.shape[0] > 0:
-            df['flag'] = df['flag'].astype(int)
-            df['pos'] = df['pos'].astype(int)
-            df['mapq'] = df['mapq'].astype(int)
-        return df

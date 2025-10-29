@@ -1,4 +1,3 @@
-from coolbox.core.track.bed.fetch import FetchBed
 from coolbox.utilities import (
     get_logger
 )
@@ -6,10 +5,13 @@ from coolbox.utilities.genome import GenomeRange
 from .base import BedBase
 from .plot import PlotGenes
 
+import pandas as pd
+
+
 log = get_logger(__name__)
 
 
-class BED(BedBase, PlotGenes, FetchBed):
+class BED(BedBase, PlotGenes):
     """
     Bed Track for plotting 1d intervals data from .bed file.
     The input bed file can be bed3/bed6/bed9/bed12

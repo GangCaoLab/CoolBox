@@ -6,7 +6,6 @@ from coolbox.utilities import (
 )
 from coolbox.utilities.genome import GenomeRange
 from .bed.base import BedBase
-from .bed.fetch import FetchBed
 
 log = get_logger(__name__)
 
@@ -172,7 +171,7 @@ class PlotTAD(object):
         ax.text(x, y, "{0:.3f}".format(score), fontsize=font_size, color=color)
 
 
-class TAD(BedBase, PlotTAD, FetchBed):
+class TAD(BedBase, PlotTAD):
     """
     Tad tack from bed file
 

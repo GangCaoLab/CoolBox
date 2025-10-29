@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib
 
 from coolbox.utilities import get_logger
-from coolbox.utilities.bed import build_bed_index
+from coolbox.utilities.reader.tab import get_indexed_tab_reader
 from coolbox.utilities.genome import GenomeRange
 from coolbox.core.track.base import Track
 
@@ -52,7 +52,7 @@ class BedBase(Track):
             **kwargs
         })
         super().__init__(properties)
-        self.bgz_file = build_bed_index(file)
+        self.reader = get_indexed_tab_reader(file)
 
     def fetch_data(self, gr: GenomeRange, **kwargs) -> pd.DataFrame:
         """
@@ -135,18 +135,21 @@ class BedBase(Track):
     @staticmethod
     def infer_bed_type(df: pd.DataFrame) -> Union[str, None]:
         #  bed_type of dataframe are store in dataframe's __dict__ in FetchBed.fetch_intervals
-        if 'bed_type' in df.__dict__:
-            bed_type = df.bed_type
-        else:
-            bed_types = {
-                12: 'bed12',
-                9: 'bed9',
-                6: 'bed6',
-                3: 'bed3'
-            }
-            num_col = len(df.columns)
-            bed_type = bed_types[num_col] if num_col in bed_types else 'bed3'
-            if bed_type == 'bed3' and num_col < 3:
-                raise ValueError(f"Invalid dataframe for bed3 with columns: {df.columns}")
+        bed_types = {
+            12: 'bed12',
+            9: 'bed9',
+            6: 'bed6',
+            3: 'bed3'
+        }
+        num_col = len(df.columns)
+        bed_type = bed_types[num_col] if num_col in bed_types else 'bed3'
+        if bed_type == 'bed3' and num_col < 3:
+            raise ValueError(f"Invalid dataframe for bed3 with columns: {df.columns}")
         return bed_type
 
+    def fetch_intervals(self, gr: GenomeRange) -> pd.DataFrame:
+        """
+        Fetch intervals within input chromosome range.
+        """
+        df = self.reader.query_var_chr(gr)
+        return df

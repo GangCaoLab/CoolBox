@@ -1,8 +1,7 @@
 import numpy as np
-import pandas as pd
 
 from coolbox.utilities import GenomeRange
-from coolbox.utilities.bed import tabix_query, build_snp_index
+from coolbox.utilities.reader.tab import get_indexed_tab_reader
 from .base import HistBase
 
 
@@ -33,6 +32,9 @@ class SNP(HistBase):
     COL_CHROM = 0
     COL_POS = 2
     COL_PVAL = 9
+    FIELDS = [
+        "chrom", "rsid", "pos", "a1", "a2", "n", "maf", "beta", "se", "pval"
+    ]
 
     DEFAULT_PROPERTIES = {
         "style": HistBase.STYLE_SCATTER,
@@ -47,9 +49,7 @@ class SNP(HistBase):
         "height": 5.0,
         # processing
         "pval_transform": "-log10",
-        "col_chrom": COL_CHROM,
-        "col_pos": COL_POS,
-        "col_pval": COL_PVAL,
+        "fields": FIELDS,
     }
 
     def __init__(self, file, **kwargs):
@@ -59,45 +59,18 @@ class SNP(HistBase):
             **kwargs
         })
         super().__init__(**properties)
-        self.bgz_file = build_snp_index(
-            file,
-            self.properties['col_chrom'],
-            self.properties['col_pos']
-        )
+        self.reader = get_indexed_tab_reader(file)
         # TODO what does this mean?
         self.properties['threshold'] = self.transform_fn()(self.properties['threshold'])
 
     def fetch_plot_data(self, gr: GenomeRange, **kwargs):
         df = self.fetch_data(gr, **kwargs)
-        df['score'] = self.transform_fn()(df['score'])
+        df['score'] = self.transform_fn()(df['pval'])
         return df
 
     def fetch_data(self, gr: GenomeRange, **kwargs):
-        ix_chrom = self.properties['col_chrom']
-        ix_pos = self.properties['col_pos']
-        ix_pval = self.properties['col_pval']
-        rows = self.load_range(gr)
-        if len(rows) == 0:
-            gr = gr.change_chrom_names()
-            rows = self.load_range(gr)
-        df = pd.DataFrame(rows)
-        if df.shape[0] > 0:
-            columns = [f'col_{i}' for i in range(df.shape[1])]
-            columns[ix_chrom] = "chrom"
-            columns[ix_pos] = "pos"
-            columns[ix_pval] = "score"
-            df.columns = columns
+        df = self.reader.query_var_chr(gr)
         return df
-
-    def load_range(self, gr):
-        rows = []
-        ix_pos = self.properties['col_pos']
-        ix_pval = self.properties['col_pval']
-        for items in tabix_query(self.bgz_file, gr.chrom, gr.start, gr.end):
-            items[ix_pos] = int(items[ix_pos])
-            items[ix_pval] = float(items[ix_pval])
-            rows.append(items)
-        return rows
 
     def transform_fn(self):
         method = self.properties.get('pval_transform', '-log2')
