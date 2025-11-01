@@ -35,6 +35,7 @@ class BedGraph(HistBase):
         itv_df = self.fetch_data(gr, **kwargs)
         index_array = itv_df['start'] + (itv_df['end'] - itv_df['start']) / 2
         itv_df['pos'] = index_array
+        itv_df['score'] = itv_df.pop('value')
         return itv_df
 
     def fetch_data(self, gr: GenomeRange, **kwargs) -> pd.DataFrame:

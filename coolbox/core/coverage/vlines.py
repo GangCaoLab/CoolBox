@@ -1,23 +1,9 @@
-from coolbox.utilities import (
-    file_to_intervaltree, GenomeRange,
-    to_gr,
-)
+from coolbox.utilities import GenomeRange
+from coolbox.utilities.reader.tab import get_indexed_tab_reader
 from .base import Coverage
 
 
 class VlinesBase(object):
-    def fetch_data(self, gr: GenomeRange):
-        vlines_list = []
-
-        if gr.chrom not in list(self.vlines_intval_tree):
-            gr = gr.change_chrom_names()
-
-        for region in sorted(self.vlines_intval_tree[gr.chrom][gr.start - 1:gr.end + 1]):
-            vlines_list.append(region.begin)
-            if region.end != region.begin:
-                vlines_list.append(region.end)
-
-        return vlines_list
 
     def plot(self, ax, gr: GenomeRange, **kwargs):
         gr = GenomeRange(gr)
@@ -61,6 +47,7 @@ class VlinesFromFile(Coverage, VlinesBase):
     DEFAULT_LINE_STYLE = 'dashed'
     DEFAULT_COLOR = '#1e1e1e'
     DEFAULT_ALPHA = 0.8
+    FIELDS = ['chrom', 'start', 'end']
 
     def __init__(self, file_, **kwargs):
         properties_dict = {
@@ -72,7 +59,12 @@ class VlinesFromFile(Coverage, VlinesBase):
         }
         properties_dict.update(kwargs)
         super().__init__(properties_dict)
-        self.vlines_intval_tree, _, _ = file_to_intervaltree(self.properties['file'])
+        self.reader = get_indexed_tab_reader(
+            self.properties['file'], columns=['chrom', 'start', 'end'])
+
+    def fetch_data(self, gr: GenomeRange, **kwargs):
+        df = self.reader.query_var_chr(gr, **kwargs)
+        return df['start'].values.tolist()
 
 
 class Vlines(Coverage, VlinesBase):
@@ -116,6 +108,19 @@ class Vlines(Coverage, VlinesBase):
         properties_dict.update(kwargs)
         super().__init__(properties_dict)
         self.vlines_intval_tree = self.__intervaltree_from_list(self.properties['vlines_list'])
+
+    def fetch_data(self, gr: GenomeRange):
+        vlines_list = []
+
+        if gr.chrom not in list(self.vlines_intval_tree):
+            gr = gr.change_chrom_names()
+
+        for region in sorted(self.vlines_intval_tree[gr.chrom][gr.start - 1:gr.end + 1]):
+            vlines_list.append(region.begin)
+            if region.end != region.begin:
+                vlines_list.append(region.end)
+
+        return vlines_list
 
     def __intervaltree_from_list(self, vlines_list):
         from intervaltree import IntervalTree

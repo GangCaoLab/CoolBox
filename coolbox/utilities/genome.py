@@ -98,9 +98,7 @@ class GenomeRange(object):
         >>> GenomeRange.parse_region_string("chr1:10-20")
         ('chr1', 10, 20)
         >>> GenomeRange.parse_region_string("chr1:0")
-        Traceback (innermost last):
-         ...
-        ValueError: Failure to parse region string, please check that region format should be like "chr:start-end".
+        ('chr1', 0, 0)
         """
         try:
             # separate the chromosome name and the location using the ':' character
@@ -112,7 +110,10 @@ class GenomeRange(object):
 
             position_list = position.split("-")
             region_start = int(position_list[0])
-            region_end = int(position_list[1])
+            if len(position_list) == 1:
+                region_end = region_start
+            else:
+                region_end = int(position_list[1])
             return chrom, region_start, region_end
 
         except Exception:

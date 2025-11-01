@@ -86,7 +86,7 @@ class ArcsBase(Track, PlotContacts):
         properties = ArcsBase.DEFAULT_PROPERTIES.copy()
         properties.update(kwargs)
         super().__init__(properties)
-        self.reader = get_indexed_tab_reader(self.file)
+        self.reader = get_indexed_tab_reader(self.properties['file'])
 
     def fetch_data(
             self,

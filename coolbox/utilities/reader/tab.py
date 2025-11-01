@@ -20,7 +20,7 @@ FMT2COLUMNS = {
     "bed6": BED12_FIELDS[:6],
     "bed9": BED12_FIELDS[:9],
     "bed12": BED12_FIELDS,
-    "gtf": ["seqname", "source", "feature", "start", "end", "score", "strand", "frame", "attribute"],
+    "gtf": ["seqname", "source", "type", "start", "end", "score", "strand", "frame", "attributes"],
     "bigwig": ["chrom", "start", "end", "value"],
     "bedgraph": ["chrom", "start", "end", "value"],
     "bam": ["qname", "flag", "rname", "pos", "mapq", "cigar", "rnext", "pnext", "tlen", "seq", "qual", "tags"],
@@ -176,10 +176,29 @@ def guess_bed_type(path: str) -> str:
             file_type = 'bed6'
             log.warning("Number of fields in BED file is not standard. Assuming bed6\n")
         else:
-            # assume bed3
-            file_type = 'bed3'
-            log.warning("Number of fields in BED file is not standard. Assuming bed3\n")
+            raise ValueError(f"Number of fields in BED file is not standard: {len(line_values)}")
     return file_type
+
+
+def get_columns(path: str) -> T.List[str]:
+    """Get the columns for the file."""
+    if path.endswith(".bgz"):
+        _p = path.rstrip(".bgz")
+    else:
+        _p = path
+    suffix = osp.splitext(_p)[1].lower()
+    if suffix in [".bed", ".bedgraph", ".bg"]:
+        return FMT2COLUMNS[guess_bed_type(path)]
+    else:
+        fmt = suffix[1:]
+        if fmt == 'bw':
+            fmt = 'bigwig'
+        if fmt == 'bg':
+            fmt = 'bedgraph'
+        if fmt in FMT2COLUMNS:
+            return FMT2COLUMNS[fmt]
+        else:
+            raise ValueError(f"There is no predefined columns for file type: {fmt}")
 
 
 class TabFileReader(abc.ABC):
@@ -193,7 +212,7 @@ class TabFileReader(abc.ABC):
     - GTF
     - BAM
     """
-    def __init__(self, path: str, **params):
+    def __init__(self, path: str, columns: T.List[str] | None = None, **params):
         self.path = path
         if path.endswith(".bgz"):
             _p = path.rstrip(".bgz")
@@ -201,9 +220,9 @@ class TabFileReader(abc.ABC):
             _p = path
         suffix = osp.splitext(_p)[1].lower()
         self.suffix = suffix
-        self.bed_type = None
-        if suffix in [".bed", ".bedgraph", ".bg"]:
-            self.bed_type = guess_bed_type(path)
+        if columns is None:
+            columns = get_columns(path)
+        self.columns = columns
         self.params = params
         self.is_2d = False
         if suffix in [".bedpe", ".pairs"]:
@@ -233,8 +252,8 @@ class TabFileReader(abc.ABC):
 
 
 class TabFileReaderWithOxbow(TabFileReader):
-    def __init__(self, path: str, **params):
-        super().__init__(path, **params)
+    def __init__(self, path: str, columns: T.List[str] | None = None, **params):
+        super().__init__(path, columns, **params)
         suffix = self.suffix
         if suffix == ".gtf":
             ds = ox.from_gtf(self.path)
@@ -250,22 +269,28 @@ class TabFileReaderWithOxbow(TabFileReader):
 
     def query(self, gr: GenomeRange, **kwargs) -> pd.DataFrame:
         sub = self.ds.regions(str(gr))
-        df = sub.pd()
+        try:
+            df = sub.pd()
+        except ValueError as e:
+            log.error(str(e))
+            df = pd.DataFrame(columns=self.columns)
         if self.suffix in [".bed", ".bedgraph", ".bg"]:
             rest = df.pop('rest')
             df_rest = rest.str.split('\t', expand=True)
             df = pd.concat([df, df_rest], axis=1)
-            df.columns = FMT2COLUMNS[self.bed_type]
+            df.columns = self.columns
         elif self.suffix == ".bam":
-            df.pop('end')
+            if 'end' in df.columns:
+                df.pop('end')
         elif self.suffix == ".gtf":
-            df.rename(columns={'seqid': 'seqname'}, inplace=True)
+            if 'seqid' in df.columns:
+                df.rename(columns={'seqid': 'seqname'}, inplace=True)
         return df
 
 
 class TabFileReaderWithTabix(TabFileReader):
-    def __init__(self, path: str, **params):
-        super().__init__(path, **params)
+    def __init__(self, path: str, columns: T.List[str] | None = None, **params):
+        super().__init__(path, columns, **params)
         suffix = self.suffix
         ensure_unix()
         if suffix in [".bedpe", ".pairs"]:
@@ -286,17 +311,7 @@ class TabFileReaderWithTabix(TabFileReader):
         else:
             itr = tabix_query(self.path, gr, split=True)
         rows = list(itr)
-        if self.suffix in [".bed", ".bedgraph", ".bg"]:
-            columns = FMT2COLUMNS[self.bed_type]
-        else:
-            fmt = self.suffix[1:]
-            if fmt in FMT2COLUMNS:
-                columns = FMT2COLUMNS[fmt]
-            else:
-                columns = self.params.get('columns', None)
-                if columns is None:
-                    raise ValueError(f"Columns are not specified for file type: {fmt}")
-        df = pd.DataFrame(rows, columns=columns)
+        df = pd.DataFrame(rows, columns=self.columns)
         df = _convert_dtype(df)
         return df
 
@@ -324,20 +339,10 @@ def _convert_dtype(df: pd.DataFrame) -> pd.DataFrame:
 
 
 class TabFileReaderInMemory(TabFileReader):
-    def __init__(self, path: str, **params):
-        super().__init__(path, **params)
-        if self.suffix in [".bed", ".bedgraph", ".bg"]:
-            columns = FMT2COLUMNS[self.bed_type]
-        else:
-            fmt = self.suffix[1:]
-            if fmt in FMT2COLUMNS:
-                columns = FMT2COLUMNS[fmt]
-            else:
-                columns = self.params.get('columns', None)
-                if columns is None:
-                    raise ValueError(f"Columns are not specified for file type: {fmt}")
+    def __init__(self, path: str, columns: T.List[str] | None = None, **params):
+        super().__init__(path, columns, **params)
         with opener(path) as f:
-            self.df = pd.read_csv(f, sep='\t', names=columns, comment='#')
+            self.df = pd.read_csv(f, sep='\t', names=self.columns, comment='#')
         self.df = _convert_dtype(self.df)
 
     def query(
@@ -493,15 +498,20 @@ def index_tab_file(
 def get_indexed_tab_reader(
         path: str,
         columns: T.Optional[T.List[str]] = None) -> TabFileReader:
+    if columns is None:
+        try:
+            columns = get_columns(path)
+        except ValueError:
+            raise ValueError(f"You must specify the columns for this file: {path}")
+    col_chrom = columns.index("chrom") if "chrom" in columns else None
+    if 'start' in columns:
+        col_start = columns.index("start")
+    elif 'pos' in columns:
+        col_start = columns.index("pos")
+    else:
+        col_start = None
+    col_end = columns.index("end") if "end" in columns else None
     try:
-        col_chrom = columns.index("chrom") if "chrom" in columns else None
-        if 'start' in columns:
-            col_start = columns.index("start")
-        elif 'pos' in columns:
-            col_start = columns.index("pos")
-        else:
-            col_start = None
-        col_end = columns.index("end") if "end" in columns else None
         indexed_path = index_tab_file(path, col_chrom, col_start, col_end)
         reader = TabFileReaderWithOxbow(indexed_path, columns)
         return reader

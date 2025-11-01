@@ -70,7 +70,7 @@ class BedBase(Track):
             The table can be in bed6/bed9/bed12 format and the trailing columns can be omited.
 
         """
-        return self.fetch_intervals(self.bgz_file, gr)
+        return self.fetch_intervals(gr)
 
     def init_colormap(self):
         self.colormap = None

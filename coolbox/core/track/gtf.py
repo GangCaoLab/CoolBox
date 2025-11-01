@@ -21,7 +21,7 @@ class GTF(Track):
         Path to .gtf(or .gtf.bgz) file.
 
     row_filter : str, optional
-        Row filter expression, only keep the rows for draw. (Default 'feature == "gene"')
+        Row filter expression, only keep the rows for draw. (Default 'type == "gene"')
 
     length_ratio_thresh : float
         Length ratio threshold of features, (Default 0.01)
@@ -44,7 +44,7 @@ class GTF(Track):
     DEFAULT_PROPERTIES = {
         "height": 4,
         "color": "random",
-        "row_filter": 'feature == "gene"',
+        "row_filter": 'type == "gene"',
         "length_ratio_thresh": 0.005,
         "name_attr": "auto",
     }
@@ -74,8 +74,8 @@ class GTF(Track):
         df: pandas.DataFrame
             should be with the format like:
 
-            columns = ['seqname', 'source', 'feature', 'start', 'end',
-                        'score', 'strand', 'frame', 'attribute', 'feature_name']
+            columns = ['seqname', 'source', 'type', 'start', 'end',
+                        'score', 'strand', 'frame', 'attributes', 'feature_name']
 
         """
         return self.fetch_intervals(gr)
@@ -97,12 +97,12 @@ class GTF(Track):
         df['end'] = df['end'].astype(int)
         name_attr = self.properties.get("name_attr", "auto")
         if name_attr == "auto":
-            gene_name = df['attribute'].str.extract(".*gene_name (.*?) ").iloc[:, 0].str.strip('\";')
+            gene_name = df['attributes'].str.extract(".*gene_name (.*?) ").iloc[:, 0].str.strip('\";')
             if gene_name.hasnans:
-                gene_id = df['attribute'].str.extract(".*gene_id (.*?) ").iloc[:, 0].str.strip('\";')
+                gene_id = df['attributes'].str.extract(".*gene_id (.*?) ").iloc[:, 0].str.strip('\";')
                 gene_name.fillna(gene_id, inplace=True)
         else:
-            gene_name = df['attribute'].str.extract(f".*{name_attr} (.*?)(?:[ ;])").iloc[:, 0].str.strip('\";')
+            gene_name = df['attributes'].str.extract(f".*{name_attr} (.*?)(?:[ ;])").iloc[:, 0].str.strip('\";')
 
         if gene_name.hasnans:
             pos_str = df['seqname'].astype(str) + ":" +\
