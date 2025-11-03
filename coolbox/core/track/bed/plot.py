@@ -210,9 +210,11 @@ class PlotGenes(object):
         # draw 'backbone', a line from the start until the end of the gene
         ax.plot([bed.start, bed.end], [ypos + half_height, ypos + half_height], 'black', linewidth=0.5, zorder=-1)
 
+        _starts = [int(i) for i in bed.block_starts.split(",") if i]
+        _sizes = [int(i) for i in bed.block_sizes.split(",") if i]
         for idx in range(bed.block_count):
-            x0 = bed.start + bed.block_starts[idx]
-            x1 = x0 + bed.block_sizes[idx]
+            x0 = bed.start + _starts[idx]
+            x1 = x0 + _sizes[idx]
             if x1 < bed.thick_start or x0 > bed.thick_end:
                 y0 = ypos + quarter_height
                 y1 = ypos + three_quarter_height
@@ -247,7 +249,7 @@ class PlotGenes(object):
 
             if idx < bed.block_count - 1:
                 # plot small arrows using the character '<' or '>' over the back bone
-                intron_length = bed.block_starts[idx + 1] - (bed.block_starts[idx] + bed.block_sizes[idx])
+                intron_length = _starts[idx + 1] - (_starts[idx] + _sizes[idx])
                 marker = 5 if bed.strand == '+' else 4
                 if intron_length > 3 * self.small_relative:
                     pos = np.arange(x1 + 1 * self.small_relative,
@@ -277,9 +279,11 @@ class PlotGenes(object):
 
         # get start, end of all the blocks
         positions = []
+        _starts = [int(i) for i in bed.block_starts.split(",") if i]
+        _sizes = [int(i) for i in bed.block_sizes.split(",") if i]
         for idx in range(bed.block_count):
-            x0 = bed.start + bed.block_starts[idx]
-            x1 = x0 + bed.block_sizes[idx]
+            x0 = bed.start + _starts[idx]
+            x1 = x0 + _sizes[idx]
             if x0 < bed.thick_start < x1:
                 positions.append((x0, bed.thick_start, 'UTR'))
                 positions.append((bed.thick_start, x1, 'coding'))

@@ -14,7 +14,7 @@ from ..cmd import ensure_unix, ensure_tool_installed
 
 log = get_logger(__name__)
 
-BED12_FIELDS = ["chrom", "start", "end", "name", "score", "strand", "thick_start", "thick_end", "item_rgb", "block_count", "block_sizes", "block_starts"]
+BED12_FIELDS = ["chrom", "start", "end", "name", "score", "strand", "thick_start", "thick_end", "rgb", "block_count", "block_sizes", "block_starts"]
 
 FMT2COLUMNS = {
     "bed6": BED12_FIELDS[:6],
@@ -271,20 +271,22 @@ class TabFileReaderWithOxbow(TabFileReader):
         sub = self.ds.regions(str(gr))
         try:
             df = sub.pd()
+            if self.suffix in [".bed", ".bedgraph", ".bg"]:
+                rest = df.pop('rest')
+                df_rest = rest.str.split('\t', expand=True)
+                df = pd.concat([df, df_rest], axis=1)
+                df.columns = self.columns
+            elif self.suffix == ".bam":
+                if 'end' in df.columns:
+                    df.pop('end')
+            elif self.suffix == ".gtf":
+                if 'seqid' in df.columns:
+                    df.rename(columns={'seqid': 'seqname'}, inplace=True)
+            df = _convert_dtype(df)
         except ValueError as e:
+            # empty region
             log.error(str(e))
             df = pd.DataFrame(columns=self.columns)
-        if self.suffix in [".bed", ".bedgraph", ".bg"]:
-            rest = df.pop('rest')
-            df_rest = rest.str.split('\t', expand=True)
-            df = pd.concat([df, df_rest], axis=1)
-            df.columns = self.columns
-        elif self.suffix == ".bam":
-            if 'end' in df.columns:
-                df.pop('end')
-        elif self.suffix == ".gtf":
-            if 'seqid' in df.columns:
-                df.rename(columns={'seqid': 'seqname'}, inplace=True)
         return df
 
 
@@ -324,7 +326,7 @@ def _convert_dtype(df: pd.DataFrame) -> pd.DataFrame:
             if dtype != 'object':
                 df[chr_col_name] = df[chr_col_name].astype(str)
     # convert integer columns to int
-    for col_name in ['start', 'end', 'pos1', 'pos2', 'start1', 'start2', 'end1', 'end2']:
+    for col_name in ['start', 'end', 'pos1', 'pos2', 'start1', 'start2', 'end1', 'end2', 'block_count', 'thick_start', 'thick_end']:
         if col_name in df.columns:
             dtype = df[col_name].dtype
             if dtype != int:
