@@ -490,7 +490,7 @@ def index_tab_file(
     elif path.endswith(".bw") or path.lower().endswith(".bigwig"):
         return path
     else:
-        bgz_path = _build_bgz_file(path)
+        bgz_path = _build_bgz_file(path, col_chrom, col_start, col_end)
         _index_bgz_file(bgz_path, col_chrom, col_start, col_end)
         return bgz_path
 
