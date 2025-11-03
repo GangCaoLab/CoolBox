@@ -34,7 +34,7 @@ class DotHiC(HicMatBase):
         super().__init__(**properties)
 
     def fetch_data(self, gr, gr2=None, **kwargs) -> np.ndarray:
-        from coolbox.utilities.hic.wrap import StrawWrap
+        from coolbox.utilities.reader.hic.wrap import StrawWrap
 
         path = self.properties['file']
         binsize = kwargs.get('resolution', self.properties.get('resolution', 'auto'))
@@ -72,7 +72,7 @@ class DotHiC(HicMatBase):
             Hi-C pixels table.
             The pixel table contains the non-zero upper triangle entries of the contact map.
         """
-        from coolbox.utilities.hic.wrap import StrawWrap
+        from coolbox.utilities.reader.hic.wrap import StrawWrap
 
         gr = to_gr(gr)
         if gr2 is not None:
@@ -85,7 +85,7 @@ class DotHiC(HicMatBase):
         return wrap.fetch_pixels(gr, gr2)
 
     def infer_binsize(self, genome_range1, genome_range2=None, **kwargs) -> int:
-        from coolbox.utilities.hic.wrap import StrawWrap
+        from coolbox.utilities.reader.hic.wrap import StrawWrap
 
         path = self.properties['file']
         wrap = StrawWrap(path, normalization=self.balance, binsize=kwargs.get('resolution', 'auto'))

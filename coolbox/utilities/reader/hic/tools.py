@@ -1,4 +1,4 @@
-from ..genome import GenomeRange
+from coolbox.utilities.genome import GenomeRange
 
 
 def hicmat_filetype(path):

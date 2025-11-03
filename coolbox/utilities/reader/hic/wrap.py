@@ -90,7 +90,7 @@ class StrawWrap(object):
         return siter
 
     def __fetch_straw_list_straw(self, genome_range1, genome_range2, binsize):
-        from coolbox.utilities.hic.straw import straw
+        from coolbox.utilities.reader.hic.straw import straw
         s1, e1 = genome_range1.start//binsize, genome_range1.end//binsize
         s2, e2 = genome_range2.start//binsize, genome_range2.end//binsize
         straw_obj = straw(self.hic_file)

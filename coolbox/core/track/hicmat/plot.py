@@ -215,7 +215,7 @@ class PlotHiCMat(object):
         if self.properties['balance'] == 'no':
             return False
         file = self.properties['file']
-        from coolbox.utilities.hic.tools import hicmat_filetype
+        from coolbox.utilities.reader.hic.tools import hicmat_filetype
         if hicmat_filetype(file) == '.hic':
             if self.properties['balance'] == 'yes':
                 return 'KR'  # default use KR balance
