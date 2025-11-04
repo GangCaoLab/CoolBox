@@ -59,6 +59,7 @@ strawC = ["strawC"]
 dev = [
     "pytest",
     "pytest-cov",
+    "build",
 ]
 
 [project.urls]
