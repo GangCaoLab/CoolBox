@@ -37,8 +37,8 @@ class StrawWrap(object):
 
     def fetch(self, gr1, gr2=None):
         """
-        Return
-        ------
+        Returns
+        -------
         matrix : numpy.ndarray
         """
         from coolbox.utilities.genome import GenomeRange

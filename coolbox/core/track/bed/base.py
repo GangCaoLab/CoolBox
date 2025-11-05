@@ -60,13 +60,14 @@ class BedBase(Track):
         Returns
         -------
         intervals : pandas.core.frame.DataFrame
-            BED interval table. The table should be in format like:
+            BED interval table. The table should be in format like::
 
-            bed_fields = ['chromosome', 'start', 'end',
-                          'name', 'score', 'strand',
-                          'thick_start', 'thick_end',
-                          'rgb', 'block_count',
-                          'block_sizes', 'block_starts']
+                bed_fields = ['chromosome', 'start', 'end',
+                              'name', 'score', 'strand',
+                              'thick_start', 'thick_end',
+                              'rgb', 'block_count',
+                              'block_sizes', 'block_starts']
+
             The table can be in bed6/bed9/bed12 format and the trailing columns can be omited.
 
         """

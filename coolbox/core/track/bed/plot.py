@@ -409,8 +409,8 @@ class PlotGenes(object):
         The algorithm uses a interval tree (self.region_interval) to check the overlaps
         and a sort of coverage vector 'rows used' to identify the row in which to plot
 
-        Return
-        ------
+        Returns
+        -------
         ypos : int
             y position.
         """

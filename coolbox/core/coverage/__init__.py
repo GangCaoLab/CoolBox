@@ -17,3 +17,10 @@ HiCPeaksCoverage = track_to_coverage(HiCPeaks)
 HistCoverage = track_to_coverage(Hist)
 BigWigCoverage = track_to_coverage(BigWig)
 BedGraphCoverage = track_to_coverage(BedGraph)
+
+__all__ = [
+    "HighLights", "HighLightsFromFile", "Vlines", "VlinesFromFile", "HLines",
+    "TADCoverage", "ArcsCoverage", "PairsCoverage", "BEDPECoverage", "HiCPeaksCoverage",
+    "HistCoverage", "BigWigCoverage", "BedGraphCoverage",
+    "track_to_coverage", 
+]

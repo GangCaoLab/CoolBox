@@ -90,8 +90,8 @@ class GenomeRange(object):
         region_string : str
             Region string to be parsed, like: "chr:start-end"
 
-        Return
-        ------
+        Returns
+        -------
         result : tuple of str
             Result tuple (chrom, start, end)
 

@@ -54,6 +54,7 @@ doc = [
     "recommonmark",
     "nbsphinx",
     "sphinx_gallery",
+    "sphinx-autobuild",  # For live documentation reload
 ]
 strawC = ["strawC"]
 dev = [

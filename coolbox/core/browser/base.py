@@ -205,7 +205,9 @@ class Browser(object):
         Preloading images to self.fig_cache.
 
         Can load image in one of 4 directions:
-            left, right, zoom-in, zoom-out
+
+        - left, right, zoom-in, zoom-out
+
         or load all directions.
         """
 

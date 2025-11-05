@@ -129,8 +129,8 @@ class Frame(FrameBase):
         """
         Get heights of all tracks.
 
-        Return
-        ------
+        Returns
+        -------
         heights : list of float
             heights of all tracks.
         """

@@ -12,7 +12,7 @@ class BedGraph(HistBase):
     BedGraph track.
 
     Parameters
-    -----------
+    ----------
     file : str
         File path of bedgraph file.
 

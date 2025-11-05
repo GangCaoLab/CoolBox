@@ -12,7 +12,7 @@ class BigWig(HistBase):
     BigWig track
 
     Parameters
-    -----------
+    ----------
     file : str
         File path of bigwig file.
 
@@ -49,8 +49,8 @@ class BigWig(HistBase):
         ----------
         gr : GenomeRange
 
-        Return
-        ------
+        Returns
+        -------
         intervals : pandas.core.frame.DataFrame
             BigWig interval table.
         """
