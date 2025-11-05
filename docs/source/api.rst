@@ -35,7 +35,7 @@ Frame
 JointView
 =====
 
-.. automodule:: coolbox.core.superframe
+.. automodule:: coolbox.core.frame.superframe
     :autosummary:
     :members:
 

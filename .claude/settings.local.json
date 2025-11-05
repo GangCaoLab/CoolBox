@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(python -m build:*)",
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(git rm:*)"
     ],
     "deny": [],
     "ask": []

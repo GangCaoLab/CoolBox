@@ -18,8 +18,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'CoolBox'
-copyright = '2021, WeizeXu'
-author = 'WeizeXu'
+copyright = '2025, WeizeXu, QuanZhong'
+author = 'WeizeXu, QuanZhong'
 
 
 # -- General configuration ---------------------------------------------------
