@@ -82,6 +82,15 @@ instance/
 
 # Sphinx documentation
 docs/build/
+# Sphinx generated HTML files in docs root (old structure)
+# These should now be built by CI/CD and not committed
+docs/*.html
+docs/*.js
+docs/_sources/
+docs/_static/
+docs/_images/
+docs/_gallery/
+docs/objects.inv
 
 # PyBuilder
 target/
