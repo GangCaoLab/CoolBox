@@ -99,6 +99,8 @@ class StrawWrap(object):
             log.warning("Try to read unbalanced matrix.")
             self.normalization = "NONE"
             matrix_obj = straw_obj.getNormalizedMatrix(genome_range1.chrom, genome_range2.chrom, self.normalization, 'BP', binsize)
+            if matrix_obj is None:
+                return []
         slist = matrix_obj.getDataFromBinRegion(s1, e1, s2, e2)
         return slist
 

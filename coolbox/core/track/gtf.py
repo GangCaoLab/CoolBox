@@ -105,6 +105,7 @@ class GTF(Track):
             gene_name = df['attributes'].str.extract(f".*{name_attr} (.*?)(?:[ ;])").iloc[:, 0].str.strip('\";')
 
         if gene_name.hasnans:
+            gene_name = gene_name.astype(str)
             pos_str = df['seqname'].astype(str) + ":" +\
                       df['start'].astype(str) + "-" +\
                       df['end'].astype(str)

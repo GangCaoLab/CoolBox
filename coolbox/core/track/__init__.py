@@ -15,7 +15,4 @@ __all__ = [
     "Cool", "DotHiC", "HiCDiff", "Selfish", "HiCMat", "HistBase",
     "BedGraph", "BigWig", "ABCompartment", "DiScore", "InsuScore",
     "Virtual4C", "BAMCov", "SNP", "Hist", "ArcsBase", "Pairs", "BEDPE", "HiCPeaks", "Arcs",
-    "TADCoverage", "ArcsCoverage", "PairsCoverage", "BEDPECoverage", "HiCPeaksCoverage",
-    "HistCoverage", "BigWigCoverage", "BedGraphCoverage",
-    "track_to_coverage", "TAD", "Arcs", "Pairs", "BEDPE", "HiCPeaks", "Hist", "BigWig", "BedGraph"
 ]
