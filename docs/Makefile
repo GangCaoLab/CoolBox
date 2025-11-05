@@ -12,14 +12,26 @@ PORT          ?= 8000
 # Put it first so that "make" without argument is like "make help".
 help:
 	@echo "Please use 'make <target>' where <target> is one of"
-	@echo "  html       to make standalone HTML files (same as GitHub Actions)"
-	@echo "  clean      to remove build artifacts"
-	@echo "  livehtml   to auto-rebuild and serve docs with live reload"
-	@echo "  serve      to serve the built documentation"
-	@echo "  linkcheck  to check all external links for integrity"
-	@echo "  doctest    to run all doctests embedded in the documentation"
+	@echo ""
+	@echo "Building:"
+	@echo "  html              build HTML documentation (same as GitHub Actions)"
+	@echo "  clean             remove build artifacts"
+	@echo "  livehtml          auto-rebuild and serve docs with live reload"
+	@echo ""
+	@echo "Notebooks:"
+	@echo "  list-nb           list all Jupyter notebooks"
+	@echo "  update-nb         execute and update all notebooks (sequential)"
+	@echo "  update-nb-fast    execute and update all notebooks (parallel)"
+	@echo "  update-nb-filter  update notebooks matching FILTER (e.g., FILTER=quick_start)"
+	@echo ""
+	@echo "Serving:"
+	@echo "  serve             serve the built documentation on http://localhost:$(PORT)"
+	@echo ""
+	@echo "Testing:"
+	@echo "  linkcheck         check all external links for integrity"
+	@echo "  doctest           run all doctests embedded in the documentation"
 
-.PHONY: help html clean livehtml serve linkcheck doctest Makefile
+.PHONY: help html clean livehtml serve update-nb update-nb-fast update-nb-filter list-nb linkcheck doctest Makefile
 
 # Build HTML documentation (same as GitHub Actions)
 html:
@@ -59,6 +71,34 @@ serve:
 	@echo "Serving documentation on http://127.0.0.1:$(PORT)"
 	@echo "Press Ctrl+C to stop..."
 	@cd $(BUILDDIR)/html && python -m http.server $(PORT)
+
+# Update Jupyter notebooks by executing them
+update-nb:
+	@echo "Updating Jupyter notebooks (sequential execution)..."
+	@python update_notebooks.py --source-dir $(SOURCEDIR)
+	@echo ""
+	@echo "Notebooks updated successfully!"
+
+# Update notebooks in parallel (faster but uses more resources)
+update-nb-fast:
+	@echo "Updating Jupyter notebooks (parallel execution)..."
+	@python update_notebooks.py --source-dir $(SOURCEDIR) --parallel 4
+	@echo ""
+	@echo "Notebooks updated successfully!"
+
+# Update specific notebook(s) by name filter
+update-nb-filter:
+	@if [ -z "$(FILTER)" ]; then \
+		echo "Error: Please specify FILTER variable"; \
+		echo "Example: make update-nb-filter FILTER=quick_start"; \
+		exit 1; \
+	fi
+	@echo "Updating notebooks matching '$(FILTER)'..."
+	@python update_notebooks.py --source-dir $(SOURCEDIR) --filter "$(FILTER)"
+
+# Dry run - list notebooks without executing
+list-nb:
+	@python update_notebooks.py --source-dir $(SOURCEDIR) --dry-run
 
 # Check links
 linkcheck:

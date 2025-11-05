@@ -332,7 +332,7 @@ def _convert_dtype(df: pd.DataFrame) -> pd.DataFrame:
             if dtype != int:
                 df[col_name] = df[col_name].astype(int)
     # convert float columns to float
-    for col_name in ['value']:
+    for col_name in ['value', 'score']:
         if col_name in df.columns:
             dtype = df[col_name].dtype
             if dtype != float:
@@ -525,7 +525,7 @@ def get_indexed_tab_reader(
     except NotImplementedError:
         # Unsupported file type for oxbow
         try:
-            reader = TabFileReaderWithTabix(path, columns=columns)
+            reader = TabFileReaderWithTabix(indexed_path, columns=columns)
             return reader
         except OSError as e:
             log.error(str(e))
