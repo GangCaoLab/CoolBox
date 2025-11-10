@@ -59,13 +59,14 @@ class SNP(HistBase):
             **kwargs
         })
         super().__init__(**properties)
-        self.reader = get_indexed_tab_reader(file)
+        self.reader = get_indexed_tab_reader(file, columns=properties['fields'])
         # TODO what does this mean?
         self.properties['threshold'] = self.transform_fn()(self.properties['threshold'])
 
     def fetch_plot_data(self, gr: GenomeRange, **kwargs):
         df = self.fetch_data(gr, **kwargs)
-        df['score'] = self.transform_fn()(df['pval'])
+        df['pos'] = df['pos'].astype(int)
+        df['score'] = self.transform_fn()(df['pval'].astype(float))
         return df
 
     def fetch_data(self, gr: GenomeRange, **kwargs):
