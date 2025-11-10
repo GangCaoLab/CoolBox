@@ -114,6 +114,9 @@ class Coverage(object):
             )
             raise ValueError(msg)
 
+    def fetch_data(self, gr: GenomeRange, **kwargs):
+        raise NotImplementedError
+
 
 class CoverageStack(object):
     """
@@ -189,6 +192,9 @@ def track_to_coverage(track_class):
             self.track_instance.properties['height'] = self.track.properties['height']
         self.track_instance.plot(ax, gr, **kwargs)
 
+    def fetch_data(self, gr: GenomeRange, **kwargs):
+        return self.track_instance.fetch_data(gr, **kwargs)
+
     # TODO , other track methods
     cov_class = type(
         track_class.__name__ + "Coverage",
@@ -196,7 +202,8 @@ def track_to_coverage(track_class):
         {
             "__init__": init,
             "__doc__": track_class.__doc__,
-            "plot": plot
+            "plot": plot,
+            "fetch_data": fetch_data
         }
     )
 

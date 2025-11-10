@@ -251,6 +251,16 @@ class TabFileReader(abc.ABC):
             return df
 
 
+def _dict_to_gtf_attr(attr_dict):
+    """Convert a dictionary to a GTF attribute string. 
+    For recovery the GTF attribute column fetched by TabFileReaderWithOxbow. """
+    valid_items = {
+        k: v for k, v in attr_dict.items()
+        if v is not None and v != ''
+    }
+    return ' '.join([f'{k} "{v}";' for k, v in valid_items.items()])
+
+
 class TabFileReaderWithOxbow(TabFileReader):
     def __init__(self, path: str, columns: T.List[str] | None = None, **params):
         super().__init__(path, columns, **params)
@@ -282,6 +292,8 @@ class TabFileReaderWithOxbow(TabFileReader):
             elif self.suffix == ".gtf":
                 if 'seqid' in df.columns:
                     df.rename(columns={'seqid': 'seqname'}, inplace=True)
+                if 'attributes' in df.columns:
+                    df['attributes'] = df['attributes'].apply(_dict_to_gtf_attr)
             df = _convert_dtype(df)
         except ValueError as e:
             # empty region
@@ -313,7 +325,12 @@ class TabFileReaderWithTabix(TabFileReader):
         else:
             itr = tabix_query(self.path, gr, split=True)
         rows = list(itr)
-        df = pd.DataFrame(rows, columns=self.columns)
+        if len(rows) > 0:
+            n_cols = len(rows[0])
+            columns = self.columns[:n_cols]
+        else:
+            columns = self.columns
+        df = pd.DataFrame(rows, columns=columns)
         df = _convert_dtype(df)
         return df
 
@@ -344,7 +361,8 @@ class TabFileReaderInMemory(TabFileReader):
     def __init__(self, path: str, columns: T.List[str] | None = None, **params):
         super().__init__(path, columns, **params)
         with opener(path) as f:
-            self.df = pd.read_csv(f, sep='\t', names=self.columns, comment='#')
+            self.df = pd.read_csv(f, sep='\t', comment='#')
+            self.df.columns = self.columns[:len(self.df.columns)]
         self.df = _convert_dtype(self.df)
 
     def query(
@@ -434,10 +452,12 @@ def _build_bgz_file(
     else:
         assert col_chrom is not None, "col_chrom is required"
         assert col_start is not None, "col_start is required"
+        c_c, c_s = col_chrom + 1, col_start + 1
         if col_end is None:
-            cmd = f'{cat_cmd} {path} | sort -k{col_chrom},{col_chrom} -k{col_start},{col_start}n | bgzip > {output_path}'
+            cmd = f'{cat_cmd} {path} | grep -v ^"#" | sort -k{c_c},{c_c} -k{c_s},{c_s}n | bgzip > {output_path}'
         else:
-            cmd = f'{cat_cmd} {path} | sort -k{col_chrom},{col_chrom} -k{col_start},{col_start}n -k{col_end},{col_end}n | bgzip > {output_path}'
+            c_e = col_end + 1
+            cmd = f'{cat_cmd} {path} | grep -v ^"#" | sort -k{c_c},{c_c} -k{c_s},{c_s}n -k{c_e},{c_e}n | bgzip > {output_path}'
     log.info(f"Build bgz file, save to {output_path}")
     log.info(f"Command:\n{cmd}")
     subp.check_call(cmd, shell=True)
@@ -460,7 +480,7 @@ def _index_bgz_file(
     if prefix.lower().endswith(".gtf"):
         cmd = ['tabix', '-p', 'gff', bgz_path]
     elif prefix.lower().endswith('.bed'):
-        cmd = ['tabix', '-p', 'bed', bgz_path]
+        cmd = ['tabix', '-0', '-p', 'bed', bgz_path]
     elif prefix.lower().endswith('.bedgraph') or prefix.lower().endswith('.bg'):
         cmd = ['tabix', '-0', '-b', '2', '-e', '3', bgz_path]
     elif prefix.lower().endswith('.bedpe'):
@@ -472,10 +492,12 @@ def _index_bgz_file(
     else:
         assert col_chrom is not None, "col_chrom is required"
         assert col_start is not None, "col_start is required"
+        c_c, c_s = col_chrom + 1, col_start + 1
         if col_end is None:
-            cmd = ['tabix', '-s', str(col_chrom), '-b', str(col_start), '-e', str(col_start), bgz_path]
+            cmd = ['tabix', '-0', '-s', str(c_c), '-b', str(c_s), '-e', str(c_s), bgz_path]
         else:
-            cmd = ['tabix', '-s', str(col_chrom), '-b', str(col_start), '-e', str(col_end), bgz_path]
+            c_e = col_end + 1
+            cmd = ['tabix', '-0', '-s', str(c_c), '-b', str(c_s), '-e', str(c_e), bgz_path]
     log.info(f"Index bgz file, save to {index_file}")
     log.info(f"Command:\n{' '.join(cmd)}")
     subp.check_call(cmd)

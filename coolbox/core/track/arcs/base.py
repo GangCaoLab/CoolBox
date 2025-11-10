@@ -42,8 +42,8 @@ class ArcsBase(Track, PlotContacts):
         Fill center or not, default False.
 
     fill_color : str, optional
-        Fill color, use 'bed_rgb' for specify color in file,
-        default 'bed_rgb'.
+        Fill color, use 'rgb' for specify color in file,
+        default 'rgb'.
 
     fill_alpha : float, optional
         Alpha value of fill region.

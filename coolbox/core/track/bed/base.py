@@ -21,8 +21,8 @@ class BedBase(Track):
         The file path of `.bed` file.
 
     color : str, optional
-        Track color, 'bed_rgb' for auto specify color according to bed record.
-        (Default: 'bed_rgb')
+        Track color, 'rgb' for auto specify color according to bed record.
+        (Default: 'rgb')
 
     border_color : str, optional
         Border_color of gene. (Default: 'black')
@@ -38,7 +38,7 @@ class BedBase(Track):
     COLOR = "#1f78b4"
 
     DEFAULT_PROPERTIES = {
-        'color': "bed_rgb",
+        'color': "rgb",
         'border_color': "#1f78b4",
         'min_score': '-inf',
         'max_score': 'inf',
@@ -75,7 +75,7 @@ class BedBase(Track):
 
     def init_colormap(self):
         self.colormap = None
-        if not matplotlib.colors.is_color_like(self.properties['color']) and self.properties['color'] != 'bed_rgb':
+        if not matplotlib.colors.is_color_like(self.properties['color']) and self.properties['color'] != 'rgb':
             if self.properties['color'] not in matplotlib.cm.datad:
                 log.debug("*WARNING* color: '{}' for Track {} is not valid. Color has "
                           "been set to {}".format(self.properties['color'], self.properties['name'],
@@ -98,8 +98,8 @@ class BedBase(Track):
             norm = matplotlib.colors.Normalize(vmin=min_score, vmax=max_score)
             cmap = matplotlib.cm.get_cmap(props['color'])
             self.colormap = matplotlib.cm.ScalarMappable(norm=norm, cmap=cmap)
-        if props['color'] == 'bed_rgb' and props['bed_type'] not in ['bed12', 'bed9']:
-            log.debug("*WARNING* Color set to 'bed_rgb', but bed file does not have the rgb field. The color has "
+        if props['color'] == 'rgb' and props['bed_type'] not in ['bed12', 'bed9']:
+            log.debug("*WARNING* Color set to 'rgb', but bed file does not have the rgb field. The color has "
                       "been set to {}".format(self.COLOR))
             self.properties['color'] = self.COLOR
             self.colormap = None
@@ -117,17 +117,25 @@ class BedBase(Track):
         # for tad coverage
         if props.get('border_only', 'no') == 'yes':
             rgb = 'none'
-        elif props['color'] == 'bed_rgb':
+        elif props['color'] == 'rgb':
             # if rgb is set in the bed line, this overrides the previously
             # defined colormap
-            if props['bed_type'] in ['bed9', 'bed12'] and len(bed.rgb) == 3:
+            if props['bed_type'] in ['bed9', 'bed12']:
                 try:
-                    rgb = [float(x) / 255 for x in bed.rgb]
+                    if isinstance(bed.rgb, str):
+                        rgb = [int(c.strip()) for c in bed.rgb.split(',') if c]
+                        assert len(rgb) == 3, "rgb must be a list or tuple of length 3"
+                    else:
+                        assert isinstance(bed.rgb, (list, tuple)), "rgb must be a list or tuple"
+                        assert len(bed.rgb) == 3, "rgb must be a list or tuple of length 3"
+                        assert all(0 <= x <= 255 for x in bed.rgb), "rgb must be a list or tuple of integers between 0 and 255"
+                        rgb = bed.rgb
+                    rgb = [float(x) / 255 for x in rgb]
                     if 'border_color' in props:
                         edgecolor = props['border_color']
                     else:
                         edgecolor = props['color']
-                except IndexError:
+                except (IndexError, AssertionError):
                     rgb = self.COLOR
             else:
                 rgb = self.COLOR

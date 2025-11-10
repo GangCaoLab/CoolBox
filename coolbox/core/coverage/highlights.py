@@ -15,7 +15,7 @@ class _Highlights(object):
     def plot(self, ax, gr: GenomeRange, **kwargs):
         regions = self.fetch_data(gr, **kwargs)
         for (start, end, color) in regions:
-            if self.properties['color'] != 'bed_rgb':
+            if self.properties['color'] != 'rgb':
                 color = self.properties['color']
             if type(color) is not str:
                 color = rgb2hex(*color)
@@ -44,7 +44,7 @@ class HighLightsFromFile(Coverage, _Highlights):
 
     color : str, optional
         High light region color,
-        use 'bed_rgb' for specify color from the file, default 'bed_rgb'.
+        use 'rgb' for specify color from the file, default 'rgb'.
 
     alpha : float, optional
         High light region alpha value, default 0.1.
@@ -72,7 +72,7 @@ class HighLightsFromFile(Coverage, _Highlights):
     def __init__(self, file_, **kwargs):
         properties_dict = {
             "file": file_,
-            "color": "bed_rgb",
+            "color": "rgb",
             "alpha": 0.1,
             "border_line": False,
             "border_line_style": "dashed",

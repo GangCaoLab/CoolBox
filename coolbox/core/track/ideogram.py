@@ -95,7 +95,7 @@ class Ideogram(Track):
                 and gr.length < 80_000_000
             ):
                 self.plot_text(band_name, start, end, gr, band_color)
-        coll = plt.broken_barh(
+        coll = ax.broken_barh(
             xranges, (0, band_height), facecolors=colors,
             linewidth=self.properties['border_width'],
             edgecolor=self.properties['border_color'])
