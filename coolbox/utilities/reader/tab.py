@@ -336,24 +336,30 @@ class TabFileReaderWithTabix(TabFileReader):
 
 
 def _convert_dtype(df: pd.DataFrame) -> pd.DataFrame:
+    def _convert_tp(col_name: str, dtype):
+        try:
+            df[col_name] = df[col_name].astype(dtype)
+        except ValueError:
+            pass
+
     # convert non-string chromosome columns to string
     for chr_col_name in ['chrom', 'seqname', 'rname', 'chr1', 'chr2', 'chrom1', 'chrom2']:
         if chr_col_name in df.columns:
             dtype = df[chr_col_name].dtype
             if dtype != 'object':
-                df[chr_col_name] = df[chr_col_name].astype(str)
+                _convert_tp(chr_col_name, str)
     # convert integer columns to int
     for col_name in ['start', 'end', 'pos1', 'pos2', 'start1', 'start2', 'end1', 'end2', 'block_count', 'thick_start', 'thick_end']:
         if col_name in df.columns:
             dtype = df[col_name].dtype
             if dtype != int:
-                df[col_name] = df[col_name].astype(int)
+                _convert_tp(col_name, int)
     # convert float columns to float
     for col_name in ['value', 'score']:
         if col_name in df.columns:
             dtype = df[col_name].dtype
             if dtype != float:
-                df[col_name] = df[col_name].astype(float)
+                _convert_tp(col_name, float)
     return df
 
 
