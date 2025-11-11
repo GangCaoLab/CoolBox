@@ -2,8 +2,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from coolbox.utilities import (
-    get_logger, GenomeRange, file_to_intervaltree, hex2rgb,
+    get_logger, GenomeRange, hex2rgb,
 )
+from coolbox.utilities.reader.tab import get_indexed_tab_reader
 from .base import Track
 
 log = get_logger(__name__)
@@ -50,6 +51,7 @@ class Ideogram(Track):
     }
     DEFAULT_FONT_SIZE = 12
     DEFAULT_BORDER_WIDTH = 1.2
+    FIELDS = ['chrom', 'start', 'end', 'band_name', 'band_type']
 
     def __init__(self, file_, **kwargs):
         properties_dict = {
@@ -65,7 +67,7 @@ class Ideogram(Track):
         properties_dict.update(kwargs)
         super().__init__(properties_dict)
         self.file = self.properties['file']
-        self.interval_tree, _, _ = file_to_intervaltree(self.file)
+        self.reader = get_indexed_tab_reader(self.file, columns=Ideogram.FIELDS)
 
     def lookup_band_color(self, band_type):
         color_scheme = self.properties['color_scheme']
@@ -75,16 +77,7 @@ class Ideogram(Track):
             return color_scheme['gneg']
 
     def fetch_data(self, gr: GenomeRange, **kwargs):
-        if gr.chrom not in self.interval_tree:
-            gr.change_chrom_names()
-        bands_in_region = sorted(self.interval_tree[gr.chrom][gr.start:gr.end])
-        rows = []
-        for itv in bands_in_region:
-            start, end = itv.begin, itv.end
-            band_name, band_type = itv.data[:2]
-            rows.append([gr.chrom, start, end, band_name, band_type])
-        fields = ['chrom', 'start', 'end', 'band_name', 'band_type']
-        return pd.DataFrame(rows, columns=fields)
+        return self.reader.query_var_chr(gr)
 
     def plot(self, ax, gr: GenomeRange, **kwargs):
         self.ax = ax
@@ -102,7 +95,7 @@ class Ideogram(Track):
                 and gr.length < 80_000_000
             ):
                 self.plot_text(band_name, start, end, gr, band_color)
-        coll = plt.broken_barh(
+        coll = ax.broken_barh(
             xranges, (0, band_height), facecolors=colors,
             linewidth=self.properties['border_width'],
             edgecolor=self.properties['border_color'])

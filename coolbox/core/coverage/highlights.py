@@ -1,10 +1,9 @@
 from coolbox.utilities import (
-    opener, ReadBed,
-    Interval, IntervalTree,
     rgb2hex,
     get_logger, GenomeRange,
     to_gr
 )
+from coolbox.utilities.reader.tab import get_indexed_tab_reader
 from .base import Coverage
 
 log = get_logger(__name__)
@@ -13,24 +12,10 @@ log = get_logger(__name__)
 class _Highlights(object):
     DEFAULT_COLOR = '#ff5d0f'
 
-    def fetch_data(self, gr: GenomeRange, **kwargs):
-        gr = to_gr(gr)
-        if gr.chrom not in list(self.interval_tree):
-            gr.change_chrom_names()
-
-        return [
-            (region.begin, region.end, region.data)
-            for region in sorted(
-                self.interval_tree[gr.chrom][gr.start - 10000 : gr.end + 10000]
-            )
-        ]
-
     def plot(self, ax, gr: GenomeRange, **kwargs):
-
         regions = self.fetch_data(gr, **kwargs)
-
         for (start, end, color) in regions:
-            if self.properties['color'] != 'bed_rgb':
+            if self.properties['color'] != 'rgb':
                 color = self.properties['color']
             if type(color) is not str:
                 color = rgb2hex(*color)
@@ -55,10 +40,11 @@ class HighLightsFromFile(Coverage, _Highlights):
     ----------
     file_ : str
         Path to the file.
+        Contains columns: chrom, start, end, color
 
     color : str, optional
         High light region color,
-        use 'bed_rgb' for specify color from the file, default 'bed_rgb'.
+        use 'rgb' for specify color from the file, default 'rgb'.
 
     alpha : float, optional
         High light region alpha value, default 0.1.
@@ -81,11 +67,12 @@ class HighLightsFromFile(Coverage, _Highlights):
     name : str, optional
         The name of thr Coverage.
     """
+    FIELDS = ['chrom', 'start', 'end', 'color']
 
     def __init__(self, file_, **kwargs):
         properties_dict = {
             "file": file_,
-            "color": "bed_rgb",
+            "color": "rgb",
             "alpha": 0.1,
             "border_line": False,
             "border_line_style": "dashed",
@@ -95,30 +82,13 @@ class HighLightsFromFile(Coverage, _Highlights):
         }
         properties_dict.update(kwargs)
         super().__init__(properties_dict)
-        self.interval_tree = self.__process_bed()
+        self.reader = get_indexed_tab_reader(
+            self.properties['file'],
+            columns=HighLightsFromFile.FIELDS)
 
-    def __process_bed(self):
-        bed = ReadBed(opener(self.properties['file']))
-
-        if self.properties['color'] == 'bed_rgb' and bed.file_type not in ['bed12', 'bed9']:
-            log.warning("*WARNING* Color set to 'bed_rgb', but bed file does not have the rgb field. The color has "
-                        "been set to {}".format(HighLights.DEFAULT_COLOR))
-            self.properties['color'] = HighLights.DEFAULT_COLOR
-
-        interval_tree = {}
-
-        for intval in bed:
-
-            if intval.chromosome not in interval_tree:
-                interval_tree[intval.chromosome] = IntervalTree()
-
-            if self.properties['color'] == 'bed_rgb':
-                color = intval.rgb
-            else:
-                color = self.properties['color']
-            interval_tree[intval.chromosome].add(Interval(intval.start, intval.end, color))
-
-        return interval_tree
+    def fetch_data(self, gr: GenomeRange, **kwargs):
+        df = self.reader.query_var_chr(gr, **kwargs)
+        return df[['start', 'end', 'color']].values.tolist()
 
 
 class HighLights(Coverage, _Highlights):
@@ -195,3 +165,15 @@ class HighLights(Coverage, _Highlights):
             itree.setdefault(chr_, IntervalTree())
             itree[chr_][grange.start:grange.end + 1] = grange
         return itree
+
+    def fetch_data(self, gr: GenomeRange, **kwargs):
+        gr = to_gr(gr)
+        if gr.chrom not in list(self.interval_tree):
+            gr = gr.change_chrom_names()
+
+        return [
+            (region.begin, region.end, region.data)
+            for region in sorted(
+                self.interval_tree[gr.chrom][gr.start - 10000 : gr.end + 10000]
+            )
+        ]

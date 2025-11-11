@@ -1,13 +1,7 @@
-from typing import Union, Tuple
-
-import numpy as np
 import pandas as pd
 
-from coolbox.utilities import (
-    split_genome_range, change_chrom_names,
-    GenomeRange, get_logger,
-)
-from coolbox.utilities.bed import tabix_query, build_bedgraph_bgz
+from coolbox.utilities import GenomeRange, get_logger
+from coolbox.utilities.reader.tab import get_indexed_tab_reader
 from .base import HistBase
 
 log = get_logger(__name__)
@@ -18,7 +12,7 @@ class BedGraph(HistBase):
     BedGraph track.
 
     Parameters
-    -----------
+    ----------
     file : str
         File path of bedgraph file.
 
@@ -35,27 +29,14 @@ class BedGraph(HistBase):
             **kwargs
         })
         super().__init__(**properties)
-        self.bgz_file = build_bedgraph_bgz(file)
+        self.reader = get_indexed_tab_reader(file)
 
     def fetch_plot_data(self, gr: GenomeRange, **kwargs) -> pd.DataFrame:
         itv_df = self.fetch_data(gr, **kwargs)
         index_array = itv_df['start'] + (itv_df['end'] - itv_df['start']) / 2
         itv_df['pos'] = index_array
+        itv_df['score'] = itv_df.pop('value')
         return itv_df
 
     def fetch_data(self, gr: GenomeRange, **kwargs) -> pd.DataFrame:
-        rows = self.load(gr)
-        if len(rows) == 0:
-            gr.chrom = change_chrom_names(gr.chrom)
-            rows = self.load(gr)
-
-        return pd.DataFrame(rows, columns=['chromsome', 'start', 'end', 'score'])
-
-    def load(self, genome_range):
-        gr = genome_range
-        return [
-            [it[0], int(it[1]), int(it[2]), float(it[3])]
-            for it in tabix_query(
-                self.bgz_file, gr.chrom, gr.start, gr.end, split=True
-            )
-        ]
+        return self.reader.query_var_chr(gr)

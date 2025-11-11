@@ -16,7 +16,7 @@ class HicFeature(HistBase):
     HicFeature base track
 
     Parameters
-    -----------
+    ----------
     hicmat: {str, HicMatBase}
         The input hicmat file or HicMatBase object used to calculate di score.
 

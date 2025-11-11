@@ -12,8 +12,6 @@ intervaltree
 dna_features_viewer
 h5py
 cooler
-pybbi
 numpydoc
 fire
-pytest
-strawC
+oxbow>=0.4.2

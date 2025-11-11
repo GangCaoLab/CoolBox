@@ -18,8 +18,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'CoolBox'
-copyright = '2021, WeizeXu'
-author = 'WeizeXu'
+copyright = '2025, Weize Xu, Quan Zhong'
+author = 'Weize Xu, Quan Zhong'
 
 
 # -- General configuration ---------------------------------------------------
@@ -45,6 +45,13 @@ templates_path = ['_templates']
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
+
+# Autosummary configuration
+autosummary_generate = True
+autosummary_imported_members = False
+
+# Numpydoc configuration
+numpydoc_show_class_members = False
 
 
 # -- Options for HTML output -------------------------------------------------

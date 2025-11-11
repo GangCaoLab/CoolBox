@@ -1,0 +1,91 @@
+name: Build and Deploy Documentation
+
+on:
+  push:
+    branches:
+      - master
+      - oxbow  # Build docs for development branch as well
+    paths:
+      - 'docs/**'
+      - 'coolbox/**'
+      - '.github/workflows/docs.yml'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'docs/**'
+      - 'coolbox/**'
+  workflow_dispatch:  # Allow manual trigger
+
+permissions:
+  contents: write  # Required for pushing to gh-pages branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full history for version info
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          # Install project with documentation dependencies
+          pip install -e ".[doc]"
+
+      - name: Build documentation
+        run: |
+          cd docs
+          # Clean old build artifacts if any
+          rm -rf build/
+          # Build documentation with Sphinx
+          sphinx-build -b html source build/html -W --keep-going
+          # Create .nojekyll file to tell GitHub Pages not to ignore underscore-prefixed directories
+          touch build/html/.nojekyll
+        env:
+          SPHINXOPTS: "-W --keep-going"
+
+      - name: Check documentation
+        run: |
+          cd docs/build/html
+          echo "Documentation build completed successfully!"
+          echo "Generated files:"
+          ls -lh
+          echo ""
+          echo "Total size:"
+          du -sh .
+
+      # Only deploy when pushing to master branch
+      - name: Deploy to GitHub Pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/build/html
+          publish_branch: gh-pages
+          force_orphan: true  # Create orphan gh-pages branch without history
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'Deploy documentation from ${{ github.sha }}'
+
+      - name: Upload documentation artifact
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation
+          path: docs/build/html
+          retention-days: 7

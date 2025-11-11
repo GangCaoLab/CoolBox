@@ -35,7 +35,7 @@ class Cool(HicMatBase):
         super().__init__(**properties)
 
     def fetch_data(self, gr: GenomeRange, gr2=None, **kwargs) -> np.ndarray:
-        from coolbox.utilities.hic.wrap import CoolerWrap
+        from coolbox.utilities.reader.hic.wrap import CoolerWrap
 
         path = self.properties['file']
         binsize = kwargs.get('resolution', self.properties.get('resolution', 'auto'))
@@ -74,7 +74,7 @@ class Cool(HicMatBase):
             Hi-C pixels table.
             The pixel table contains the non-zero upper triangle entries of the contact map.
         """
-        from coolbox.utilities.hic.wrap import CoolerWrap
+        from coolbox.utilities.reader.hic.wrap import CoolerWrap
 
         path = self.properties['file']
         balance = kwargs.get('balance', self.is_balance)
@@ -83,7 +83,7 @@ class Cool(HicMatBase):
         return wrap.fetch_pixels(gr, gr2, join=kwargs.get('join', True))
 
     def infer_binsize(self, gr: GenomeRange, **kwargs) -> int:
-        from coolbox.utilities.hic.wrap import CoolerWrap
+        from coolbox.utilities.reader.hic.wrap import CoolerWrap
 
         path = self.properties['file']
         wrap = CoolerWrap(path, balance=self.balance, binsize=kwargs.get('resolution', 'auto'))

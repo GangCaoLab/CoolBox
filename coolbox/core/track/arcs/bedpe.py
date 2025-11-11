@@ -1,12 +1,10 @@
 import pandas as pd
 
 from .base import ArcsBase
-from .fetch import FetchParix
-from coolbox.utilities.bed import process_bedpe
 from coolbox.utilities.genome import GenomeRange
 
 
-class BEDPE(ArcsBase, FetchParix):
+class BEDPE(ArcsBase):
     """
     Arcs track from .bedpe file.
 
@@ -32,26 +30,6 @@ class BEDPE(ArcsBase, FetchParix):
             **kwargs
         })
         super().__init__(**properties)
-        self.bgz_file = process_bedpe(file)
-
-    def fetch_data(self, gr: GenomeRange, **kwargs) -> pd.DataFrame:
-        # filter peaks manually for hicpeaks style in fetch_plot_data
-        df = self.fetch_intervals(self.bgz_file, gr, kwargs.get('gr2'))
-        # TODO the returned df has no named columns, may cause error
-        if len(df) == 0:
-            return df
-
-        columns = list(df.columns)
-        for i, col in enumerate(self.FIELDS):
-            if i >= len(columns):
-                break
-            columns[i] = col
-        df.columns = columns
-        for col in ['start1', 'end1', 'start2', 'end2']:
-            df[col] = df[col].astype(int)
-        if 'score' in df.columns:
-            df['score'] = df['score'].astype(float)
-        return df
 
     def fetch_plot_data(self, gr: GenomeRange, **kwargs) -> pd.DataFrame:
         df = self.fetch_data(gr, **kwargs)

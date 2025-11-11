@@ -90,17 +90,15 @@ class GenomeRange(object):
         region_string : str
             Region string to be parsed, like: "chr:start-end"
 
-        Return
-        ------
+        Returns
+        -------
         result : tuple of str
             Result tuple (chrom, start, end)
 
         >>> GenomeRange.parse_region_string("chr1:10-20")
         ('chr1', 10, 20)
         >>> GenomeRange.parse_region_string("chr1:0")
-        Traceback (innermost last):
-         ...
-        ValueError: Failure to parse region string, please check that region format should be like "chr:start-end".
+        ('chr1', 0, 0)
         """
         try:
             # separate the chromosome name and the location using the ':' character
@@ -112,14 +110,17 @@ class GenomeRange(object):
 
             position_list = position.split("-")
             region_start = int(position_list[0])
-            region_end = int(position_list[1])
+            if len(position_list) == 1:
+                region_end = region_start
+            else:
+                region_end = int(position_list[1])
             return chrom, region_start, region_end
 
         except Exception:
             raise ValueError(f"Failure to parse region string {region_string}, please check that region format "
                              f"should be like \"chr:start-end\".")
 
-    def change_chrom_names(self):
+    def change_chrom_names(self) -> "GenomeRange":
         """
         >>> range1 = GenomeRange("chr1", 1000, 2000)
         >>> range1.chrom
@@ -131,7 +132,9 @@ class GenomeRange(object):
         >>> range1.chrom
         'chr1'
         """
-        self.chrom = change_chrom_names(self.chrom)
+        new_chrom = change_chrom_names(self.chrom)
+        gr = GenomeRange(new_chrom, self.start, self.end)
+        return gr
 
     @property
     def length(self):

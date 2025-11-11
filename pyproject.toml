@@ -1,0 +1,85 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "coolbox"
+dynamic = ["version"]
+description = "Jupyter notebook based genomic data visulization toolkit."
+readme = "README.md"
+requires-python = ">=3.7, <4"
+license = {text = "GPLv3"}
+authors = [
+    {name = "Weize Xu", email = "vet.xwz@gmail.com"}
+]
+keywords = ["genomics", "bioinformatics", "visualization", "Jupyter"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Operating System :: POSIX",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Topic :: Scientific/Engineering :: Visualization",
+]
+dependencies = [
+    "scipy>=1.0.0",
+    "numpy",
+    "pandas>=1.0.0",
+    "statsmodels",
+    "matplotlib>=3.8.4",
+    "jupyter>=1.0.0",
+    "ipywidgets>=7.5.1",
+    "nbformat",
+    "voila",
+    "svgutils",
+    "intervaltree",
+    "dna_features_viewer",
+    "h5py",
+    "cooler",
+    "numpydoc",
+    "fire",
+    "oxbow>=0.4.2",
+]
+
+[project.optional-dependencies]
+doc = [
+    "sphinx_rtd_theme",
+    "autodocsumm",
+    "recommonmark",
+    "nbsphinx",
+    "sphinx_gallery",
+    "sphinx-autobuild",  # For live documentation reload
+]
+strawC = ["strawC"]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "build",
+]
+
+[project.urls]
+Homepage = "https://github.com/GangCaoLab/CoolBox"
+Documentation = "https://gangcaolab.github.io/CoolBox/index.html"
+Repository = "https://github.com/GangCaoLab/CoolBox"
+"Bug Tracker" = "https://github.com/GangCaoLab/CoolBox/issues"
+
+[project.scripts]
+coolbox = "coolbox.__main__:main"
+
+[tool.setuptools]
+zip-safe = false
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = {attr = "coolbox.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["coolbox*"]
+exclude = ["tests*", "docs*"]
