@@ -51,6 +51,10 @@
     <img src="https://img.shields.io/badge/preprint-biorxiv-red" alt="biorxiv">
   </a>
 
+  <a href="https://link.springer.com/article/10.1186/s12859-021-04408-w">
+    <img src="https://img.shields.io/badge/publication-BMC_Bioinformatics-blue" alt="BMC Bioinformatics" />
+  </a>
+
   <a href="https://github.com/GangCaoLab/CoolBox/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/GangCaoLab/coolbox" alt="license">
   </a>
