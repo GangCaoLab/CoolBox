@@ -1,5 +1,5 @@
-# This workflow will upload a Python Package using Twine when a release is created
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#publishing-to-package-registries
+# This workflow uploads Python distributions to PyPI using Trusted Publishing.
+# Configure the matching PyPI trusted publisher before creating the next release.
 
 name: Upload Python Package
 
@@ -8,9 +8,11 @@ on:
     types: [created]
   workflow_dispatch:
 
-jobs:
-  deploy:
+permissions:
+  contents: read
 
+jobs:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,13 +24,34 @@ jobs:
     - name: Install build dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install build twine
+        pip install build
     - name: Build package
       run: |
         python -m build
-    - name: Publish to PyPI
-      env:
-        TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+    - name: Check distribution contents
       run: |
-        twine upload dist/*
+        python scripts/check_dist_safety.py dist/*
+    - name: Store distribution artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: python-distributions
+        path: dist/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/coolbox
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+    - name: Download distribution artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: python-distributions
+        path: dist/
+    - name: Publish to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
