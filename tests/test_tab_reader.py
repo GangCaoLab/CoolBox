@@ -156,7 +156,7 @@ def test_oxbow_gtf_query(data_dir, test_interval, test_itv):
     rdr = TabFileReaderWithOxbow(indexed_path)
     df = rdr.query(test_interval)
     # ensure essential GTF columns exist after oxbow conversion
-    for col in ["seqname", "start", "end", "strand"]:
+    for col in ["seqname", "start", "end", "strand", "attributes"]:
         assert col in df.columns
     assert df.shape[0] > 0
 

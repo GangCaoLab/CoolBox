@@ -267,6 +267,9 @@ class TabFileReaderWithOxbow(TabFileReader):
         suffix = self.suffix
         if suffix == ".gtf":
             ds = ox.from_gtf(self.path)
+            # Oxbow 0.7+ omits variable attributes unless explicitly enabled.
+            if hasattr(ds, "with_attributes"):
+                ds = ds.with_attributes()
         elif suffix in [".bed", ".bedgraph", ".bg"]:
             ds = ox.from_bed(self.path)
         elif suffix in ['.bw', '.bigwig']:
@@ -560,4 +563,3 @@ def get_indexed_tab_reader(
             log.warning(f"Try to use TabFileReaderInMemory instead")
             reader = TabFileReaderInMemory(path, columns=columns)
             return reader
-
