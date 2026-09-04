@@ -1,0 +1,666 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quickstart (CLI) &mdash; CoolBox  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=fd6457a4" />
+      <link rel="stylesheet" type="text/css" href="_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="CoolBox Gallery" href="gallery.html" />
+    <link rel="prev" title="Quickstart (API)" href="quick_start_API.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            CoolBox
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation &amp; Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start_API.html">Quickstart (API)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart (CLI)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Check-the-basic-information">Check the basic information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Example-Dataset">Example Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Compose-Frame">Compose Frame</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#with-block">with block</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Start-a-browser">Start a browser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Load-custom-module">Load custom module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gallery.html">CoolBox Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_elements.html">Customizing CoolBox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CoolBox</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Quickstart (CLI)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/quick_start_CLI.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Quickstart-(CLI)">
+<h1>Quickstart (CLI)<a class="headerlink" href="#Quickstart-(CLI)" title="Link to this heading"></a></h1>
+<p>This document is for teach the basic usage of CoolBox’s Command Line Interface.</p>
+<p>Interactive online version: <a class="reference external" href="https://mybinder.org/v2/gh/GangCaoLab/CoolBox/HEAD?filepath=docs%2Fsource%2Fquick_start_CLI.ipynb">binder</a></p>
+<p>CoolBox CLI is a chainable command tool which can compose complex frame as easily with very intuition syntax.</p>
+<img alt="fig_CLI" src="_images/fig_CLI.png" />
+<section id="Check-the-basic-information">
+<h2>Check the basic information<a class="headerlink" href="#Check-the-basic-information" title="Link to this heading"></a></h2>
+<p>Firstly, check the coolbox version:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre><span></span>%%bash
+
+coolbox<span class="w"> </span>version
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.4.0
+</pre></div></div>
+</div>
+<p>CoolBox CLI is composed by many chainable sub-commands, we can print the help information to list them:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre><span></span>%%bash
+
+coolbox
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-bold">NAME</span>
+    coolbox - CoolBox Command Line Interface
+
+<span class="ansi-bold">SYNOPSIS</span>
+    coolbox - <span class="ansi-underline">GROUP</span> | <span class="ansi-underline">COMMAND</span> | <span class="ansi-underline">VALUE</span>
+
+<span class="ansi-bold">DESCRIPTION</span>
+    You can use this cli to create coolbox browser instance,
+    visualize your data directly in shell.
+
+    example:
+
+    1. Draw tracks within a genome range, save figure to a pdf file:
+
+        $ coolbox add XAxis - add BigWig test.bw - goto &#34;chr1:5000000-6000000&#34; - plot test.pdf
+
+    2. Generate a notebook and run jupyter to open browser:
+
+        $ coolbox add XAxis - add BigWig test.bw - goto &#34;chr1:5000000-6000000&#34; - run_jupyter
+
+    3. Run a independent web application.
+
+        $ coolbox add XAxis - add BigWig test.bw - goto &#34;chr1:5000000-6000000&#34; - run_webapp
+
+<span class="ansi-bold">GROUPS</span>
+    <span class="ansi-bold ansi-underline">GROUP</span> is one of the following:
+
+     current_range
+
+     frames
+
+<span class="ansi-bold">COMMANDS</span>
+    <span class="ansi-bold ansi-underline">COMMAND</span> is one of the following:
+
+     add
+       Add a Element(Track, Coverage, Feature), for example: coolbox add XAxis
+
+     end_with
+       End the with block
+
+     gen_notebook
+       Generate The notebook contain codes for run coolbox browser.
+
+     goto
+       Goto a genome range.
+
+     joint_view
+       Start a new frame positioned at the specified frame_pos in the final joint view. The center frame should be a single Cool, HicMat, DotHic track.
+
+     load_module
+       Import custom tracks from a module/package for example:
+
+     plot
+       Draw a figure within a genome range and save to file
+
+     print_source
+       Print the browser composing code.
+
+     run_jupyter
+       Create a notebook according to command line, then start a jupyter process.
+
+     run_webapp
+       Run a independent coolbox browser web app. (Create notebook and run voila)
+
+     set_genome
+       Set reference genome for browser object.
+
+     show_doc
+       Print the document of specified Element type. For example: coolbox show_doc Cool
+
+     source
+
+     start_with
+       Start a &#39;with&#39; block, apply the element to all elements within the block.
+
+     version
+       print coolbox version
+
+<span class="ansi-bold">VALUES</span>
+    <span class="ansi-bold ansi-underline">VALUE</span> is one of the following:
+
+     frame_pos
+
+     genome
+</pre></div></div>
+</div>
+</section>
+<section id="Example-Dataset">
+<h2>Example Dataset<a class="headerlink" href="#Example-Dataset" title="Link to this heading"></a></h2>
+<p>Here, we use <a class="reference external" href="https://github.com/GangCaoLab/CoolBox/tree/master/tests/test_data">a small testing dataset</a> for convenient. This dataset contains files in differnet file formats, and they are in same genome range(chr9:4000000-6000000) of a reference genome (hg19).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre><span></span>%%bash
+
+<span class="nb">echo</span><span class="w"> </span>Current<span class="w"> </span>working<span class="w"> </span>directory:<span class="w"> </span><span class="nv">$PWD</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Current working directory: /mnt/c/Users/wzxu/Desktop/CoolBox/docs/source
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre><span></span>%%bash
+
+ls<span class="w"> </span>-lh<span class="w"> </span>../../tests/test_data
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+total 99M
+-rwxrwxrwx 1 wzxu wzxu 787K Feb 26  2025 bam_chr9_4000000_6000000.bam
+-rwxrwxrwx 1 wzxu wzxu 5.8K Nov  4 23:13 bam_chr9_4000000_6000000.bam.bai
+-rwxrwxrwx 1 wzxu wzxu 1.5K Feb 26  2025 bed6_chr9_4000000_6000000.bed
+-rwxrwxrwx 1 wzxu wzxu  449 Nov  4 23:10 bed6_chr9_4000000_6000000.bed.bgz
+-rwxrwxrwx 1 wzxu wzxu  220 Nov  4 23:10 bed6_chr9_4000000_6000000.bed.bgz.tbi
+-rwxrwxrwx 1 wzxu wzxu 2.3K Feb 26  2025 bed9_chr9_4000000_6000000.bed
+-rwxrwxrwx 1 wzxu wzxu 8.6K Feb 26  2025 bed_chr9_4000000_6000000.bed
+-rwxrwxrwx 1 wzxu wzxu 2.0K Nov  4 23:10 bed_chr9_4000000_6000000.bed.bgz
+-rwxrwxrwx 1 wzxu wzxu  226 Nov  4 23:10 bed_chr9_4000000_6000000.bed.bgz.tbi
+-rwxrwxrwx 1 wzxu wzxu  34K Feb 26  2025 bed_chr9_4000000_6000000_chromstates.bed
+-rwxrwxrwx 1 wzxu wzxu 5.0K Nov  4 23:10 bed_chr9_4000000_6000000_chromstates.bed.bgz
+-rwxrwxrwx 1 wzxu wzxu  399 Nov  4 23:10 bed_chr9_4000000_6000000_chromstates.bed.bgz.tbi
+-rwxrwxrwx 1 wzxu wzxu  19K Feb 26  2025 bedgraph_chr9_4000000_6000000.bg
+-rwxrwxrwx 1 wzxu wzxu 4.1K Nov  4 23:13 bedgraph_chr9_4000000_6000000.bg.bgz
+-rwxrwxrwx 1 wzxu wzxu 4.5K Nov  4 23:13 bedgraph_chr9_4000000_6000000.bg.bgz.tbi
+-rwxrwxrwx 1 wzxu wzxu  270 Feb 26  2025 bedpe_chr9_4000000_6000000.bedpe
+-rwxrwxrwx 1 wzxu wzxu  149 Nov  4 23:09 bedpe_chr9_4000000_6000000.bedpe.bgz
+-rwxrwxrwx 1 wzxu wzxu  158 Nov  9 19:55 bedpe_chr9_4000000_6000000.bedpe.bgz.px2
+-rwxrwxrwx 1 wzxu wzxu  366 Feb 26  2025 bedpe_var_chr9_4000000_6000000.bedpe
+-rwxrwxrwx 1 wzxu wzxu  165 Nov  4 23:23 bedpe_var_chr9_4000000_6000000.bedpe.bgz
+-rwxrwxrwx 1 wzxu wzxu  173 Nov  9 19:53 bedpe_var_chr9_4000000_6000000.bedpe.bgz.px2
+-rwxrwxrwx 1 wzxu wzxu  31K Feb 26  2025 bigwig_chr9_4000000_6000000.bw
+-rwxrwxrwx 1 wzxu wzxu 158K Feb 26  2025 bigwig_chr9_4000000_6000000_K562_H3K27ac.bigwig
+-rwxrwxrwx 1 wzxu wzxu 240K Feb 26  2025 bigwig_chr9_4000000_6000000_K562_H3K27me3.bigwig
+-rwxrwxrwx 1 wzxu wzxu 452K Feb 26  2025 bigwig_chr9_4000000_6000000_K562_H3K4me3.bigwig
+-rwxrwxrwx 1 wzxu wzxu 124K Feb 26  2025 bigwig_chr9_4000000_6000000_K562_RNA.bigwig
+-rwxrwxrwx 1 wzxu wzxu  62K Feb 26  2025 chr9.1.pc.bedGraph
+-rwxrwxrwx 1 wzxu wzxu  20K Nov  4 23:11 chr9.1.pc.bedGraph.bgz
+-rwxrwxrwx 1 wzxu wzxu 3.5K Nov  4 23:11 chr9.1.pc.bedGraph.bgz.tbi
+-rwxrwxrwx 1 wzxu wzxu  24M Feb 26  2025 cool_chr1_89000000_90400000_for_cmp_1.mcool
+-rwxrwxrwx 1 wzxu wzxu  23M Feb 26  2025 cool_chr1_89000000_90400000_for_cmp_2.mcool
+-rwxrwxrwx 1 wzxu wzxu  27M Feb 26  2025 cool_chr9_4000000_6000000.mcool
+-rwxrwxrwx 1 wzxu wzxu  14M Feb 26  2025 dothic_chr9_4000000_6000000.hic
+-rwxrwxrwx 1 wzxu wzxu 9.3M Feb 26  2025 down100.ctcf.pkl
+-rwxrwxrwx 1 wzxu wzxu 537K Feb 26  2025 gtf_chr9_4000000_6000000.gtf
+-rwxrwxrwx 1 wzxu wzxu  27K Nov  4 23:10 gtf_chr9_4000000_6000000.gtf.bgz
+-rwxrwxrwx 1 wzxu wzxu  398 Nov  4 23:10 gtf_chr9_4000000_6000000.gtf.bgz.tbi
+-rwxrwxrwx 1 wzxu wzxu 537K Feb 26  2025 gtf_chr9_4000000_6000000_fake.gtf
+-rwxrwxrwx 1 wzxu wzxu  34K Feb 26  2025 hg19_ideogram.txt
+-rwxrwxrwx 1 wzxu wzxu 6.7K Nov  9 19:37 hg19_ideogram.txt.bgz
+-rwxrwxrwx 1 wzxu wzxu 8.5K Nov  9 19:37 hg19_ideogram.txt.bgz.tbi
+-rwxrwxrwx 1 wzxu wzxu 2.1K Feb 26  2025 human.hg19.genome
+-rwxrwxrwx 1 wzxu wzxu 3.1K Feb 26  2025 make_test_dataset.py
+-rwxrwxrwx 1 wzxu wzxu  799 Feb 26  2025 pairs_chr9_4000000_6000000.pairs
+-rwxrwxrwx 1 wzxu wzxu  292 Nov  4 23:09 pairs_chr9_4000000_6000000.pairs.bgz
+-rwxrwxrwx 1 wzxu wzxu  257 Nov  9 19:55 pairs_chr9_4000000_6000000.pairs.bgz.px2
+-rwxrwxrwx 1 wzxu wzxu  606 Feb 26  2025 peak_chr9_4000000_6000000.bedpe
+-rwxrwxrwx 1 wzxu wzxu  211 Nov  4 23:11 peak_chr9_4000000_6000000.bedpe.bgz
+-rwxrwxrwx 1 wzxu wzxu  222 Nov  9 19:54 peak_chr9_4000000_6000000.bedpe.bgz.px2
+-rwxrwxrwx 1 wzxu wzxu 775K Feb 26  2025 snp_chr9_4000000_6000000.snp
+-rwxrwxrwx 1 wzxu wzxu  448 Feb 26  2025 tad_chr9_4000000_6000000.bed
+-rwxrwxrwx 1 wzxu wzxu  154 Nov  4 23:09 tad_chr9_4000000_6000000.bed.bgz
+-rwxrwxrwx 1 wzxu wzxu  140 Nov  4 23:09 tad_chr9_4000000_6000000.bed.bgz.tbi
+</pre></div></div>
+</div>
+</section>
+<section id="Compose-Frame">
+<h2>Compose Frame<a class="headerlink" href="#Compose-Frame" title="Link to this heading"></a></h2>
+<p>CoolBox CLI is designed for compose Frame object by a command chain. The key command of the chain is the <code class="docutils literal notranslate"><span class="pre">add</span></code> sub-command, It just like the <code class="docutils literal notranslate"><span class="pre">+</span></code> operator in CoolBox API.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre><span></span>%%bash
+
+coolbox<span class="w"> </span>add<span class="w"> </span>--<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+<span class="ansi-bold">NAME</span>
+    coolbox add - Add a Element(Track, Coverage, Feature), for example: coolbox add XAxis
+
+<span class="ansi-bold">SYNOPSIS</span>
+    coolbox add <span class="ansi-underline">ELEM_STR</span> &lt;flags&gt; [<span class="ansi-underline">ARGS</span>]...
+
+<span class="ansi-bold">DESCRIPTION</span>
+    Add a Element(Track, Coverage, Feature), for example: coolbox add XAxis
+
+<span class="ansi-bold">POSITIONAL ARGUMENTS</span>
+    <span class="ansi-bold ansi-underline">ELEM_STR</span>
+        Element type string. Like BAM, BigWig, Cool ... Full list of Track types can be found here(https://gangcaolab.github.io/CoolBox/quick_start_API.html#Track-types).
+    <span class="ansi-bold ansi-underline">ARGS</span>
+        Positional args for create elements.
+
+<span class="ansi-bold">FLAGS</span>
+    Flags are accepted.
+        Keyword args for create elements.
+
+<span class="ansi-bold">NOTES</span>
+    You can also use flags syntax for POSITIONAL ARGUMENTS
+</pre></div></div>
+</div>
+<p>Here, give a example of draw a figure using CoolBox CLI:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre><span></span>%%bash
+
+<span class="nv">DIR</span><span class="o">=</span>../../tests/test_data
+
+coolbox<span class="w"> </span>add<span class="w"> </span>XAxis<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+add<span class="w"> </span>Cool<span class="w"> </span><span class="nv">$DIR</span>/cool_chr9_4000000_6000000.mcool<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+add<span class="w"> </span>Title<span class="w"> </span><span class="s2">"cool"</span><span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+add<span class="w"> </span>BAMCov<span class="w"> </span><span class="nv">$DIR</span>/bam_chr9_4000000_6000000.bam<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+add<span class="w"> </span>Title<span class="w"> </span><span class="s2">"bam"</span><span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+add<span class="w"> </span>BigWig<span class="w"> </span><span class="nv">$DIR</span>/bigwig_chr9_4000000_6000000.bw<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+add<span class="w"> </span>Title<span class="w"> </span><span class="s2">"bigwig"</span><span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+goto<span class="w"> </span><span class="s2">"chr9:4000000-6000000"</span><span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+plot<span class="w"> </span>/tmp/test_coolbox.jpg
+</pre></div>
+</div>
+</div>
+<p>We have draw a figure and save it to <code class="docutils literal notranslate"><span class="pre">/tmp/test_coolbox.jpg</span></code>, let’s take a look:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+<span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'/tmp/test_coolbox.jpg'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/quick_start_CLI_13_0.jpg" src="_images/quick_start_CLI_13_0.jpg" />
+</div>
+</div>
+<p>As we can see, we compose our data using the <code class="docutils literal notranslate"><span class="pre">add</span></code> command, then plot the figure.</p>
+<p>The first argument of <code class="docutils literal notranslate"><span class="pre">add</span></code> is the coolbox element type name. The most frequently used element is the <code class="docutils literal notranslate"><span class="pre">Track</span></code>, all <code class="docutils literal notranslate"><span class="pre">Track</span></code> type can be found <a class="reference external" href="https://gangcaolab.github.io/CoolBox/quick_start_API.html#Track-types">here</a></p>
+<section id="with-block">
+<h3>with block<a class="headerlink" href="#with-block" title="Link to this heading"></a></h3>
+<p>For modify features or add coverage to a group of tracks, you can use the <code class="docutils literal notranslate"><span class="pre">with</span></code> block, it’s the equivalent of the <code class="docutils literal notranslate"><span class="pre">`with</span> <span class="pre">statement</span></code> in API &lt;<a class="reference external" href="https://gangcaolab.github.io/CoolBox/quick_start_API.html#with-statement">https://gangcaolab.github.io/CoolBox/quick_start_API.html#with-statement</a>&gt;`__.</p>
+<p>For example modify track’s color:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre><span></span>%%bash
+
+<span class="nv">DIR</span><span class="o">=</span>../../tests/test_data
+
+coolbox<span class="w"> </span>add<span class="w"> </span>XAxis<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+start_with<span class="w"> </span>Color<span class="w"> </span><span class="s2">"#ffcc66"</span><span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+add<span class="w"> </span>BigWig<span class="w"> </span><span class="nv">$DIR</span>/bigwig_chr9_4000000_6000000.bw<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+add<span class="w"> </span>BigWig<span class="w"> </span><span class="nv">$DIR</span>/bigwig_chr9_4000000_6000000.bw<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+end_with<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+start_with<span class="w"> </span>Color<span class="w"> </span><span class="s2">"#cc66ff"</span><span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+add<span class="w"> </span>BigWig<span class="w"> </span><span class="nv">$DIR</span>/bigwig_chr9_4000000_6000000.bw<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+add<span class="w"> </span>BigWig<span class="w"> </span><span class="nv">$DIR</span>/bigwig_chr9_4000000_6000000.bw<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+end_with<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+goto<span class="w"> </span><span class="s2">"chr9:4000000-6000000"</span><span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+plot<span class="w"> </span>/tmp/test_coolbox.jpg
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+<span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'/tmp/test_coolbox.jpg'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/quick_start_CLI_17_0.jpg" src="_images/quick_start_CLI_17_0.jpg" />
+</div>
+</div>
+<p>Apply Vlines coverage:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre><span></span>%%bash
+
+<span class="nv">DIR</span><span class="o">=</span>../../tests/test_data
+
+coolbox<span class="w"> </span>add<span class="w"> </span>XAxis<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+start_with<span class="w"> </span>Vlines<span class="w"> </span><span class="s2">"['chr9:4500000-4500000', 'chr9:5000000-5000000']"</span><span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+add<span class="w"> </span>BigWig<span class="w"> </span><span class="nv">$DIR</span>/bigwig_chr9_4000000_6000000.bw<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+add<span class="w"> </span>BigWig<span class="w"> </span><span class="nv">$DIR</span>/bigwig_chr9_4000000_6000000.bw<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+end_with<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+goto<span class="w"> </span><span class="s2">"chr9:4000000-6000000"</span><span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+plot<span class="w"> </span>/tmp/test_coolbox.jpg
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+<span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'/tmp/test_coolbox.jpg'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/quick_start_CLI_20_0.jpg" src="_images/quick_start_CLI_20_0.jpg" />
+</div>
+</div>
+</section>
+</section>
+<section id="Start-a-browser">
+<h2>Start a browser<a class="headerlink" href="#Start-a-browser" title="Link to this heading"></a></h2>
+<p>CoolBox <code class="docutils literal notranslate"><span class="pre">CLI</span></code> can automatically generate a notebook which contain the browser composition code equivalent to using CoolBox <code class="docutils literal notranslate"><span class="pre">API</span></code>.</p>
+<p>And this notebook will be run in Jupyter environment or Volia webapp. Then you can open your web browser to use this GUI to explore your genomic data, for example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>coolbox<span class="w"> </span>add<span class="w"> </span>XAxis<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+add<span class="w"> </span>Cool<span class="w"> </span>./tests/test_data/cool_chr9_4000000_6000000.mcool<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+add<span class="w"> </span>BAM<span class="w"> </span>./tests/test_data/bam_chr9_4000000_6000000.bam<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+add<span class="w"> </span>BigWig<span class="w"> </span>./tests/test_data/bigwig_chr9_4000000_6000000.bw<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+goto<span class="w"> </span><span class="s2">"chr9:4000000-6000000"</span><span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+run_jupyter
+</pre></div>
+</div>
+<p>This will start a jupyter server and run a coolbox browser within the notebook. And you can also to run a independent web app using similar command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>coolbox<span class="w"> </span>add<span class="w"> </span>XAxis<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+add<span class="w"> </span>Cool<span class="w"> </span>./tests/test_data/cool_chr9_4000000_6000000.mcool<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+add<span class="w"> </span>BAM<span class="w"> </span>./tests/test_data/bam_chr9_4000000_6000000.bam<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+add<span class="w"> </span>BigWig<span class="w"> </span>./tests/test_data/bigwig_chr9_4000000_6000000.bw<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+goto<span class="w"> </span><span class="s2">"chr9:4000000-6000000"</span><span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+run_webapp
+</pre></div>
+</div>
+<p>More detail usage see the help info:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre><span></span>%%bash
+
+coolbox<span class="w"> </span>run_jupyter<span class="w"> </span>--<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+<span class="ansi-bold">NAME</span>
+    coolbox run_jupyter - Create a notebook according to command line, then start a jupyter process.
+
+<span class="ansi-bold">SYNOPSIS</span>
+    coolbox run_jupyter &lt;flags&gt;
+
+<span class="ansi-bold">DESCRIPTION</span>
+    Create a notebook according to command line, then start a jupyter process.
+
+<span class="ansi-bold">FLAGS</span>
+    -j, --jupyter_args=<span class="ansi-underline">JUPYTER_ARGS</span>
+        Default: &#39;--ip=0.0.0.0&#39;
+        Arguments for run jupyter.
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre><span></span>%%bash
+
+coolbox<span class="w"> </span>run_webapp<span class="w"> </span>--<span class="w"> </span>--help
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+<span class="ansi-bold">NAME</span>
+    coolbox run_webapp - Run a independent coolbox browser web app. (Create notebook and run voila)
+
+<span class="ansi-bold">SYNOPSIS</span>
+    coolbox run_webapp &lt;flags&gt;
+
+<span class="ansi-bold">DESCRIPTION</span>
+    Run a independent coolbox browser web app. (Create notebook and run voila)
+
+<span class="ansi-bold">FLAGS</span>
+    -v, --voila_args=<span class="ansi-underline">VOILA_ARGS</span>
+        Default: &#39;--Voila.ip=0.0.0.0&#39;
+        Arguments for run jupyter.
+</pre></div></div>
+</div>
+</section>
+<section id="Load-custom-module">
+<h2>Load custom module<a class="headerlink" href="#Load-custom-module" title="Link to this heading"></a></h2>
+<p>We can load the custom defined module(<code class="docutils literal notranslate"><span class="pre">.py</span></code> file) with the <code class="docutils literal notranslate"><span class="pre">load_module</span></code> command. For example, there are a simple custom defined track in <code class="docutils literal notranslate"><span class="pre">custom_track.py</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre><span></span>%%bash
+
+<span class="nv">DIR</span><span class="o">=</span>../../tests/
+
+cat<span class="w"> </span><span class="nv">$DIR</span>/custom_track.py
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+from coolbox.core.track.base import Track
+
+
+class CustomTrack(Track):
+    def __init__(self):
+        super().__init__(properties_dict={})
+
+    def fetch_data(self, gr, **kwargs):
+        return &#34;Test Custom&#34;
+
+    def plot(self, ax, gr, **kwargs):
+        x = gr.start + gr.length * 0.33
+        ax.text(x, 0, self.fetch_data(gr), fontsize=50)
+        ax.set_xlim(gr.start, gr.end)
+</pre></div></div>
+</div>
+<p>We can load it from the file with <code class="docutils literal notranslate"><span class="pre">load_module</span></code> then use it to draw a plot:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre><span></span>%%bash
+
+<span class="nv">DIR</span><span class="o">=</span>../../tests/
+
+coolbox<span class="w"> </span>-<span class="w"> </span>load_module<span class="w"> </span><span class="nv">$DIR</span>/custom_track.py<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>add<span class="w"> </span>XAxis<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>add<span class="w"> </span>CustomTrack<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>goto<span class="w"> </span><span class="s2">"chr1:10000-20000"</span><span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>plot<span class="w"> </span>/tmp/test_coolbox_custom_cli.png
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'/tmp/test_coolbox_custom_cli.png'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/quick_start_CLI_28_0.png" src="_images/quick_start_CLI_28_0.png" />
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quick_start_API.html" class="btn btn-neutral float-left" title="Quickstart (API)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="gallery.html" class="btn btn-neutral float-right" title="CoolBox Gallery" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Weize Xu, Quan Zhong.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

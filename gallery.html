@@ -1,0 +1,220 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoolBox Gallery &mdash; CoolBox  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=fd6457a4" />
+      <link rel="stylesheet" type="text/css" href="_static/nbsphinx-gallery.css?v=26227f6e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Colormaps of Hi-C contact map" href="_gallery/hicmat_cmaps.html" />
+    <link rel="prev" title="Quickstart (CLI)" href="quick_start_CLI.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            CoolBox
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation &amp; Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start_API.html">Quickstart (API)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start_CLI.html">Quickstart (CLI)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">CoolBox Gallery</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/hicmat_cmaps.html">Colormaps of Hi-C contact map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/reso_normalize.html">Resolution, Balance and Normalize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/smoothing.html">Smoothing matrix with gaussian filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/hicfeature.html">Hi-C features like Virtual4C, DiScore, InsuScore</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/TADs.html">TADs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/peakcov.html">Peak Coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/HiCDiff.html">Hi-C Diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/selfish.html">Differential Chromatin Interaction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/joint_view.html">JointView</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/hist_style.html">Hist track styles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/bw_cov.html">BigWig Coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/arcs_style.html">Arcs style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/arcs_style.html#Color">Color</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/arcs_cov.html">Arcs coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/snp.html">SNP Manhattan plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/ideogram.html">Ideogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/dna_features.html">DNA features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_gallery/decay.html">Decay curve</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="custom_elements.html">Customizing CoolBox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CoolBox</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">CoolBox Gallery</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/gallery.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="coolbox-gallery">
+<h1>CoolBox Gallery<a class="headerlink" href="#coolbox-gallery" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound" id="hic-gallery">
+<p class="caption" role="heading"><span class="caption-text">Hi-C</span></p>
+<div class="nbsphinx-gallery">
+<a class="reference internal" href="_gallery/hicmat_cmaps.html">
+  <div><img alt="" src="./_images/_gallery_hicmat_cmaps_5_0.png"></div>
+  <div>Colormaps of Hi-C contact map</div>
+</a>
+<a class="reference internal" href="_gallery/reso_normalize.html">
+  <div><img alt="" src="./_images/_gallery_reso_normalize_14_1.png"></div>
+  <div>Resolution, Balance and Normalize</div>
+</a>
+<a class="reference internal" href="_gallery/smoothing.html">
+  <div><img alt="" src="./_images/_gallery_smoothing_5_0.png"></div>
+  <div>Smoothing matrix with gaussian filter</div>
+</a>
+<a class="reference internal" href="_gallery/hicfeature.html">
+  <div><img alt="" src="./_images/_gallery_hicfeature_3_0.png"></div>
+  <div>Hi-C features like Virtual4C, DiScore, InsuScore</div>
+</a>
+<a class="reference internal" href="_gallery/TADs.html">
+  <div><img alt="" src="./_images/_gallery_TADs_5_0.png"></div>
+  <div>TADs</div>
+</a>
+<a class="reference internal" href="_gallery/peakcov.html">
+  <div><img alt="" src="./_images/_gallery_peakcov_7_0.png"></div>
+  <div>Peak Coverage</div>
+</a>
+<a class="reference internal" href="_gallery/HiCDiff.html">
+  <div><img alt="" src="./_images/_gallery_HiCDiff_5_0.png"></div>
+  <div>Hi-C Diff</div>
+</a>
+<a class="reference internal" href="_gallery/selfish.html">
+  <div><img alt="" src="./_images/_gallery_selfish_5_0.png"></div>
+  <div>Differential Chromatin Interaction</div>
+</a>
+<a class="reference internal" href="_gallery/joint_view.html">
+  <div><img alt="" src="./_images/_gallery_joint_view_4_0.svg"></div>
+  <div>JointView</div>
+</a>
+</div>
+</div>
+<div class="toctree-wrapper compound" id="other-gallery">
+<p class="caption" role="heading"><span class="caption-text">Others</span></p>
+<div class="nbsphinx-gallery">
+<a class="reference internal" href="_gallery/hist_style.html">
+  <div><img alt="" src="./_images/_gallery_hist_style_4_0.png"></div>
+  <div>Hist track styles</div>
+</a>
+<a class="reference internal" href="_gallery/bw_cov.html">
+  <div><img alt="" src="./_images/_gallery_bw_cov_4_0.png"></div>
+  <div>BigWig Coverage</div>
+</a>
+<a class="reference internal" href="_gallery/arcs_style.html">
+  <div><img alt="" src="./_images/_gallery_arcs_style_13_0.png"></div>
+  <div>Arcs style</div>
+</a>
+<a class="reference internal" href="_gallery/arcs_cov.html">
+  <div><img alt="" src="./_images/_gallery_arcs_cov_4_0.png"></div>
+  <div>Arcs coverage</div>
+</a>
+<a class="reference internal" href="_gallery/snp.html">
+  <div><img alt="" src="./_images/_gallery_snp_9_0.png"></div>
+  <div>SNP Manhattan plot</div>
+</a>
+<a class="reference internal" href="_gallery/ideogram.html">
+  <div><img alt="" src="./_images/_gallery_ideogram_3_0.png"></div>
+  <div>Ideogram</div>
+</a>
+<a class="reference internal" href="_gallery/dna_features.html">
+  <div><img alt="" src="./_images/_gallery_dna_features_8_0.png"></div>
+  <div>DNA features</div>
+</a>
+</div>
+</div>
+<div class="toctree-wrapper compound" id="functions-gallery">
+<p class="caption" role="heading"><span class="caption-text">Auxiliary functions</span></p>
+<div class="nbsphinx-gallery">
+<a class="reference internal" href="_gallery/decay.html">
+  <div><img alt="" src="./_images/_gallery_decay_6_2.png"></div>
+  <div>Decay curve</div>
+</a>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quick_start_CLI.html" class="btn btn-neutral float-left" title="Quickstart (CLI)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="_gallery/hicmat_cmaps.html" class="btn btn-neutral float-right" title="Colormaps of Hi-C contact map" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Weize Xu, Quan Zhong.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

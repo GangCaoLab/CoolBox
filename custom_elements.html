@@ -1,0 +1,816 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customizing CoolBox &mdash; CoolBox  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=fd6457a4" />
+      <link rel="stylesheet" type="text/css" href="_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="api.html" />
+    <link rel="prev" title="Decay curve" href="_gallery/decay.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            CoolBox
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation &amp; Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start_API.html">Quickstart (API)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start_CLI.html">Quickstart (CLI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gallery.html">CoolBox Gallery</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Customizing CoolBox</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Custom-Track">Custom Track</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Chromosome-name-track">Chromosome name track</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Pokemon-track">Pokemon track</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Custom-Coverage">Custom Coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Custom-Feature">Custom Feature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Peakachu">Peakachu</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Define-custom-track">Define custom track</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Visualize-Track">Visualize Track</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#CLI-Mode">CLI Mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Browser-Mode">Browser Mode</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CoolBox</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Customizing CoolBox</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/custom_elements.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Customizing-CoolBox">
+<h1>Customizing CoolBox<a class="headerlink" href="#Customizing-CoolBox" title="Link to this heading"></a></h1>
+<p>This document is talking about how to create user-defined Track and Coverage types.</p>
+<p>Interactive online version: <a class="reference external" href="https://mybinder.org/v2/gh/GangCaoLab/CoolBox/HEAD?filepath=docs%2Fsource%2Fcustom_elements.ipynb">Binder</a></p>
+<p>CoolBox provided a lot of builtin <a class="reference external" href="https://github.com/GangCaoLab/CoolBox/tree/master/coolbox/core/track">Track</a> and <a class="reference external" href="https://github.com/GangCaoLab/CoolBox/tree/master/coolbox/core/coverage">Coverage</a> types for different kinds of genomic data formats and display form. But maybe these can’t cover all your needs some time.</p>
+<p><strong>The good news is that, it’s very easy to define new element types(Track, Coverage, Feature) in CoolBox!</strong></p>
+<p>The CoolBox plot system is compitible with <a class="reference external" href="https://matplotlib.org/index.html">matplotlib</a> Python library, you only need to know some basic usage of it.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># firstly import the coolbox, and check the version:</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span><span class="p">;</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">"../"</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">coolbox</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">coolbox.api</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="n">coolbox</span><span class="o">.</span><span class="n">__version__</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;0.3.1&#39;
+</pre></div></div>
+</div>
+<section id="Custom-Track">
+<h2>Custom Track<a class="headerlink" href="#Custom-Track" title="Link to this heading"></a></h2>
+<p>To implement a new Track, the only three thing you need to do:</p>
+<ol class="arabic simple">
+<li><p>Import the base <code class="docutils literal notranslate"><span class="pre">Track</span></code> class from <code class="docutils literal notranslate"><span class="pre">coolbox.core.base</span></code> module.</p></li>
+<li><p>Create new track type, and inherit the <code class="docutils literal notranslate"><span class="pre">Track</span></code> as parent class.</p></li>
+<li><p>Implement the <code class="docutils literal notranslate"><span class="pre">plot</span></code> and <code class="docutils literal notranslate"><span class="pre">fetch_data</span></code> (optional) method.</p></li>
+</ol>
+<p>The code schema will look like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">coolbox.core.Track.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Track</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyTrack</span><span class="p">(</span><span class="n">Track</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">...</span><span class="p">):</span>
+        <span class="c1"># Initialization</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">genome_range</span><span class="p">,</span> <span class="o">*</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># Method for plot the track</span>
+        <span class="c1"># within the genome range "chrom:start-end". `genome_range` is a `GenomeRange` object with properties: chrom, start, end</span>
+        <span class="c1"># Draw in the pass-in `ax` Axes</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">fetch_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">genome_range</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># Method for fetch the data within genome_range</span>
+        <span class="c1"># genome_range is a `coolbox.utilities.GenomeRange` object</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<p>For better understand it, here we give an example of two simple toy tracks defination:</p>
+<section id="Chromosome-name-track">
+<h3>Chromosome name track<a class="headerlink" href="#Chromosome-name-track" title="Link to this heading"></a></h3>
+<p>We can define a simple track to show the chromesome name:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">coolbox.core.track.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Track</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">coolbox.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_gr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ChromName</span><span class="p">(</span><span class="n">Track</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mf">0.45</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">({</span>
+            <span class="s2">"fontsize"</span><span class="p">:</span> <span class="n">fontsize</span><span class="p">,</span>
+            <span class="s2">"offset"</span><span class="p">:</span> <span class="n">offset</span><span class="p">,</span>
+        <span class="p">})</span>  <span class="c1"># init Track class</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">fetch_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gr</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">gr</span><span class="o">.</span><span class="n">chrom</span>  <span class="c1"># return chromosome name</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">gr</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">gr</span><span class="o">.</span><span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">'offset'</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">gr</span><span class="o">.</span><span class="n">end</span> <span class="o">-</span> <span class="n">gr</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">gr</span><span class="o">.</span><span class="n">chrom</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">'fontsize'</span><span class="p">])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">gr</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">gr</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">ChromName</span><span class="p">()</span> <span class="o">+</span> <span class="n">XAxis</span><span class="p">()</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">"chr9:4000000-6000000"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/custom_elements_6_0.png" src="_images/custom_elements_6_0.png" />
+</div>
+</div>
+<p>As shown above, we defined a chromesome name display track with just abouot 20 lines of Python code.</p>
+</section>
+<section id="Pokemon-track">
+<h3>Pokemon track<a class="headerlink" href="#Pokemon-track" title="Link to this heading"></a></h3>
+<p>Here we have a more interesting demo:</p>
+<p>For example we want to plot some <a class="reference external" href="https://en.wikipedia.org/wiki/Pok%C3%A9mon">pokemons</a> on some genome regions, and we have a BED like text file like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>chr1    1000    2000    Bulbasaur
+chr1    2000    3000    Charmander
+chr1    3000    4000    Squirtle
+chr1    4000    5000    Pikachu
+</pre></div>
+</div>
+<p>We stores it in <code class="docutils literal notranslate"><span class="pre">./_static/pokemons/list.txt</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>ls<span class="w"> </span>./_static/pokemons
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Bulbasaur.png  Pikachu.png    Squirtle.png
+Charmander.png PokeBall.png   list.txt
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">coolbox.core.track.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Track</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">coolbox.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_gr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.offsetbox</span><span class="w"> </span><span class="kn">import</span> <span class="n">OffsetImage</span><span class="p">,</span> <span class="n">AnnotationBbox</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Pokemon</span><span class="p">(</span><span class="n">Track</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">img_dir</span><span class="p">):</span>
+        <span class="c1"># read the table</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'chrom'</span><span class="p">,</span> <span class="s1">'start'</span><span class="p">,</span> <span class="s1">'end'</span><span class="p">,</span> <span class="s1">'pokemon'</span><span class="p">]</span>
+        <span class="c1"># directory store the images</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">img_dir</span> <span class="o">=</span> <span class="n">img_dir</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">({})</span>  <span class="c1"># init Track class</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">fetch_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">genome_range</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">gr</span> <span class="o">=</span> <span class="n">to_gr</span><span class="p">(</span><span class="n">genome_range</span><span class="p">)</span> <span class="c1"># force convert to GenomeRange object</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
+        <span class="n">sub_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span>
+            <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'chrom'</span><span class="p">]</span> <span class="o">==</span> <span class="n">gr</span><span class="o">.</span><span class="n">chrom</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'start'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">gr</span><span class="o">.</span><span class="n">start</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'end'</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">gr</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">sub_df</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">gr</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetch_data</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">gr</span><span class="o">.</span><span class="n">chrom</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">gr</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">gr</span><span class="o">.</span><span class="n">end</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># get data in range</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="n">img_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">img_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">'pokemon'</span><span class="p">]</span><span class="si">}</span><span class="s2">.png"</span> <span class="c1"># get image path</span>
+            <span class="n">im</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">img_path</span><span class="p">)</span>
+            <span class="n">oi</span> <span class="o">=</span> <span class="n">OffsetImage</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">zoom</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+            <span class="n">px</span> <span class="o">=</span> <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'start'</span><span class="p">]</span> <span class="o">+</span> <span class="n">row</span><span class="p">[</span><span class="s1">'end'</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># X position</span>
+            <span class="n">py</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">box</span> <span class="o">=</span> <span class="n">AnnotationBbox</span><span class="p">(</span><span class="n">oi</span><span class="p">,</span> <span class="p">(</span><span class="n">px</span><span class="p">,</span> <span class="n">py</span><span class="p">),</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">box</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">gr</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">gr</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pkm</span> <span class="o">=</span> <span class="n">Pokemon</span><span class="p">(</span><span class="s2">"./_static/pokemons/list.txt"</span><span class="p">,</span> <span class="s2">"./_static/pokemons/"</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">Spacer</span><span class="p">()</span> <span class="o">+</span> <span class="n">pkm</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fetch region data</span>
+<span class="n">pkm</span><span class="o">.</span><span class="n">fetch_data</span><span class="p">(</span><span class="s2">"chr1:0-6000"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>chrom</th>
+      <th>start</th>
+      <th>end</th>
+      <th>pokemon</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>chr1</td>
+      <td>1000</td>
+      <td>2000</td>
+      <td>Bulbasaur</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>chr1</td>
+      <td>2000</td>
+      <td>3000</td>
+      <td>Charmander</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>chr1</td>
+      <td>3000</td>
+      <td>4000</td>
+      <td>Squirtle</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>chr1</td>
+      <td>4000</td>
+      <td>5000</td>
+      <td>Pikachu</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot region</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">"chr1:1000-5000"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/custom_elements_13_0.png" src="_images/custom_elements_13_0.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="Custom-Coverage">
+<h2>Custom Coverage<a class="headerlink" href="#Custom-Coverage" title="Link to this heading"></a></h2>
+<p>Coverage is a layer draw upon the track. Custom Coverage defination is same to the Track, just define the <code class="docutils literal notranslate"><span class="pre">plot</span></code> and <code class="docutils literal notranslate"><span class="pre">fetch_data</span></code> (optional) method.</p>
+<p>For example we can define a Poke Ball Coverage to draw upon Pokemon Track:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">coolbox.core.coverage.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Coverage</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">coolbox.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenomeRange</span>
+
+<span class="n">pokeball_path</span> <span class="o">=</span> <span class="s2">"./_static/pokemons/PokeBall.png"</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PokeBall</span><span class="p">(</span><span class="n">Coverage</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">genome_range</span><span class="p">,</span> <span class="n">img_path</span><span class="o">=</span><span class="n">pokeball_path</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">({</span>
+            <span class="s2">"genome_range"</span><span class="p">:</span> <span class="n">GenomeRange</span><span class="p">(</span><span class="n">genome_range</span><span class="p">),</span>
+            <span class="s2">"img_path"</span><span class="p">:</span> <span class="n">img_path</span><span class="p">,</span>
+            <span class="s2">"alpha"</span><span class="p">:</span> <span class="n">alpha</span><span class="p">,</span>
+        <span class="p">})</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">gr</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">gr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">'genome_range'</span><span class="p">]</span>
+        <span class="n">img_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">'img_path'</span><span class="p">]</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">'alpha'</span><span class="p">]</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">img_path</span><span class="p">)</span>
+        <span class="n">oi</span> <span class="o">=</span> <span class="n">OffsetImage</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">zoom</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+        <span class="n">px</span> <span class="o">=</span> <span class="p">(</span><span class="n">gr</span><span class="o">.</span><span class="n">start</span> <span class="o">+</span> <span class="n">gr</span><span class="o">.</span><span class="n">end</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># X position</span>
+        <span class="n">box</span> <span class="o">=</span> <span class="n">AnnotationBbox</span><span class="p">(</span><span class="n">oi</span><span class="p">,</span> <span class="p">(</span><span class="n">px</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">box</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pkm</span> <span class="o">=</span> <span class="n">Pokemon</span><span class="p">(</span><span class="s2">"./_static/pokemons/list.txt"</span><span class="p">,</span> <span class="s2">"./_static/pokemons/"</span><span class="p">)</span>
+<span class="n">ball</span> <span class="o">=</span> <span class="n">PokeBall</span><span class="p">(</span><span class="s2">"chr1:1000-2000"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">Spacer</span><span class="p">()</span> <span class="o">+</span> <span class="n">pkm</span> <span class="o">+</span> <span class="n">ball</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">"chr1:1000-5000"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/custom_elements_17_0.png" src="_images/custom_elements_17_0.png" />
+</div>
+</div>
+<p>Coverage’s related Track is stored at it’s <code class="docutils literal notranslate"><span class="pre">.track</span></code> attribute:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ball</span><span class="o">.</span><span class="n">track</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;__main__.Pokemon at 0x7fdd82838100&gt;
+</pre></div></div>
+</div>
+<p>Maybe you found that track defination is almost same to Track. Actually you can create a Coverage directly from Track class, by using <code class="docutils literal notranslate"><span class="pre">track_to_coverage</span></code> function, for example, we convert our <code class="docutils literal notranslate"><span class="pre">ChromName</span></code> Track to Coverage:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">coolbox.core.coverage.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">track_to_coverage</span>
+
+<span class="n">ChromNameCov</span> <span class="o">=</span> <span class="n">track_to_coverage</span><span class="p">(</span><span class="n">ChromName</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s plot a chromosome name upon pokemon track:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pkm</span> <span class="o">=</span> <span class="n">Pokemon</span><span class="p">(</span><span class="s2">"./_static/pokemons/list.txt"</span><span class="p">,</span> <span class="s2">"./_static/pokemons/"</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">Spacer</span><span class="p">()</span> <span class="o">+</span> <span class="n">pkm</span> <span class="o">+</span> <span class="n">ChromNameCov</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="mf">0.44</span><span class="p">)</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">"chr1:1000-5000"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/custom_elements_23_0.png" src="_images/custom_elements_23_0.png" />
+</div>
+</div>
+</section>
+<section id="Custom-Feature">
+<h2>Custom Feature<a class="headerlink" href="#Custom-Feature" title="Link to this heading"></a></h2>
+<p>Feature object is used for modify Track or Coverage’s properties (like color, track height, …), for example modify track’s color:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bigwig_path</span> <span class="o">=</span> <span class="s2">"../../tests/test_data/bigwig_chr9_4000000_6000000.bw"</span>
+
+<span class="n">bw</span> <span class="o">=</span> <span class="n">BigWig</span><span class="p">(</span><span class="n">bigwig_path</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">bw</span> <span class="o">+</span> <span class="n">Color</span><span class="p">(</span><span class="s2">"#ff0c0c"</span><span class="p">)</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">"chr9:4000000-6000000"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/custom_elements_25_0.png" src="_images/custom_elements_25_0.png" />
+</div>
+</div>
+<p>We can define our own color Feature:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">coolbox.core.feature</span><span class="w"> </span><span class="kn">import</span> <span class="n">Feature</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyColor</span><span class="p">(</span><span class="n">Feature</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bw</span> <span class="o">=</span> <span class="n">BigWig</span><span class="p">(</span><span class="n">bigwig_path</span><span class="p">)</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">bw</span> <span class="o">+</span> <span class="n">MyColor</span><span class="p">(</span><span class="s2">"#0c0cff"</span><span class="p">)</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">"chr9:4000000-6000000"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/custom_elements_28_0.png" src="_images/custom_elements_28_0.png" />
+</div>
+</div>
+<p>Actually, all properties of CoolBox builtin tracks and coverages is stored in the <code class="docutils literal notranslate"><span class="pre">.properties</span></code> attribute, it’s a dict object. Add Feature is equivalent to modify this dict:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bw</span><span class="o">.</span><span class="n">properties</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;height&#39;: 2,
+ &#39;color&#39;: &#39;#0c0cff&#39;,
+ &#39;name&#39;: &#39;BigWig.2&#39;,
+ &#39;title&#39;: &#39;&#39;,
+ &#39;style&#39;: &#39;fill&#39;,
+ &#39;fmt&#39;: &#39;-&#39;,
+ &#39;line_width&#39;: 2.0,
+ &#39;size&#39;: 10,
+ &#39;threshold_color&#39;: &#39;#ff9c9c&#39;,
+ &#39;threshold&#39;: inf,
+ &#39;cmap&#39;: &#39;bwr&#39;,
+ &#39;alpha&#39;: 1.0,
+ &#39;orientation&#39;: None,
+ &#39;data_range_style&#39;: &#39;y-axis&#39;,
+ &#39;min_value&#39;: &#39;auto&#39;,
+ &#39;max_value&#39;: &#39;auto&#39;,
+ &#39;type&#39;: &#39;line&#39;,
+ &#39;num_bins&#39;: 700,
+ &#39;file&#39;: &#39;../../tests/test_data/bigwig_chr9_4000000_6000000.bw&#39;}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bw</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s1">'color'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"#9c5f2c"</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> <span class="n">bw</span>
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">"chr9:4000000-6000000"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/custom_elements_31_0.png" src="_images/custom_elements_31_0.png" />
+</div>
+</div>
+</section>
+<section id="Peakachu">
+<h2>Peakachu<a class="headerlink" href="#Peakachu" title="Link to this heading"></a></h2>
+<p>This document shows the ability of cooperating with newly developed algorithms. <a class="reference external" href="https://github.com/tariks/peakachu">Peakachu</a> is an machine-learning algorithm used for detecting loops in hic contact matrix.</p>
+<p>With the user-friendly plotting and data-fetching api supplied by CoolBox, we can quickly visualize the outputs of <code class="docutils literal notranslate"><span class="pre">Peakachu</span></code> along with other builtin tracks in CoolBox.</p>
+<ul class="simple">
+<li><p>install peakachu</p></li>
+<li><p>download pretrained model listed in <a class="reference external" href="https://github.com/tariks/peakachu">Peakachu</a></p>
+<ul>
+<li><p><a class="reference external" href="https://dl.dropboxusercontent.com/s/enyg2m7ebj8mxsv/down100.ctcf.pkl?dl=0">https://dl.dropboxusercontent.com/s/enyg2m7ebj8mxsv/down100.ctcf.pkl?dl=0</a></p></li>
+</ul>
+</li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>Scikit-learn<span class="o">==</span><span class="m">0</span>.22<span class="w"> </span><span class="nv">joblib</span><span class="o">==</span><span class="m">0</span>.14
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>peakachu
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Requirement already satisfied: Scikit-learn==0.22 in /Users/bakezq/opt/miniconda3/lib/python3.8/site-packages (0.22)
+Requirement already satisfied: joblib==0.14 in /Users/bakezq/opt/miniconda3/lib/python3.8/site-packages (0.14.0)
+Requirement already satisfied: scipy&gt;=0.17.0 in /Users/bakezq/opt/miniconda3/lib/python3.8/site-packages (from Scikit-learn==0.22) (1.5.4)
+Requirement already satisfied: numpy&gt;=1.11.0 in /Users/bakezq/opt/miniconda3/lib/python3.8/site-packages (from Scikit-learn==0.22) (1.19.4)
+Requirement already satisfied: peakachu in /Users/bakezq/opt/miniconda3/lib/python3.8/site-packages (1.1.3)
+</pre></div></div>
+</div>
+<section id="Define-custom-track">
+<h3>Define custom track<a class="headerlink" href="#Define-custom-track" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">joblib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.sparse</span><span class="w"> </span><span class="kn">import</span> <span class="n">coo_matrix</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">peakachu.scoreUtils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Chromosome</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">peakachu</span><span class="w"> </span><span class="kn">import</span> <span class="n">peakacluster</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">coolbox.api</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">coolbox.core.track.hicmat</span><span class="w"> </span><span class="kn">import</span> <span class="n">Cool</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">coolbox.utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenomeRange</span><span class="p">,</span> <span class="n">correspond_track</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'../../tests/test_data/down100.ctcf.pkl'</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Peakachu</span><span class="p">(</span><span class="n">Cool</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">fetch_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">genome_range1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">matrix</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fetch_data</span><span class="p">(</span><span class="n">genome_range1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="c1"># reuse Cool.fetch_data to get the raw contacts</span>
+        <span class="n">ch</span> <span class="o">=</span> <span class="n">Chromosome</span><span class="p">(</span><span class="n">coo_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">),</span> <span class="n">model</span><span class="p">)</span> <span class="c1"># call peakachu</span>
+        <span class="n">pval_ma</span><span class="p">,</span> <span class="n">raw_ma</span> <span class="o">=</span> <span class="n">ch</span><span class="o">.</span><span class="n">score</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pval_ma</span> <span class="o">=</span> <span class="n">pval_ma</span><span class="o">.</span><span class="n">tocoo</span><span class="p">()</span>
+        <span class="c1"># should return a np.ndarray representing matrix</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">pval_ma</span> <span class="o">+</span> <span class="n">pval_ma</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+
+<span class="nd">@track_to_coverage</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PeakaChuLoops</span><span class="p">(</span><span class="n">ArcsBase</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">peakachu</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">"hicpeaks"</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">peakachu</span> <span class="o">=</span> <span class="n">correspond_track</span><span class="p">(</span><span class="n">peakachu</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">peakachu</span> <span class="o">=</span> <span class="n">peakachu</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">fetch_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gr</span><span class="p">:</span> <span class="n">GenomeRange</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">ma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">peakachu</span><span class="o">.</span><span class="n">pval_ma</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">ma</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;</span> <span class="mf">0.87</span> <span class="c1"># threshold to filter pvals</span>
+        <span class="n">pixels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">ma</span><span class="o">.</span><span class="n">row</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">ma</span><span class="o">.</span><span class="n">col</span><span class="p">[</span><span class="n">mask</span><span class="p">]),</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">ma</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]))</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># call peakachu</span>
+                <span class="k">for</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="o">*</span><span class="n">_</span> <span class="ow">in</span> <span class="n">peakacluster</span><span class="o">.</span><span class="n">local_clustering</span><span class="p">(</span><span class="n">pixels</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mi">10000</span><span class="p">)]</span>
+        <span class="c1"># should return a pd.DataFrame with columns ['start1', 'end1', 'start2', 'end2']</span>
+        <span class="n">peaks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'start1'</span><span class="p">,</span> <span class="s1">'end1'</span><span class="p">,</span> <span class="s1">'start2'</span><span class="p">,</span> <span class="s1">'end2'</span><span class="p">])</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">peakachu</span><span class="o">.</span><span class="n">fetched_binsize</span> <span class="o">+</span> <span class="n">gr</span><span class="o">.</span><span class="n">start</span>
+        <span class="k">return</span> <span class="n">peaks</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Visualize-Track">
+<h3>Visualize Track<a class="headerlink" href="#Visualize-Track" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DATA_DIR</span> <span class="o">=</span> <span class="s2">"../../tests/test_data"</span>
+<span class="n">TEST_RANGE</span> <span class="o">=</span> <span class="s2">"chr9:4000000-6000000"</span>
+<span class="n">RANGE_MARK</span> <span class="o">=</span> <span class="s2">"chr9_4000000_6000000"</span>
+<span class="n">COOL_PATH</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/cool_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.mcool"</span>
+
+<span class="n">PVALS</span> <span class="o">=</span> <span class="n">Peakachu</span><span class="p">(</span><span class="n">COOL_PATH</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"triangular"</span><span class="p">)</span>
+<span class="n">PEAKS</span> <span class="o">=</span> <span class="n">Cool</span><span class="p">(</span><span class="n">COOL_PATH</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"triangular"</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s2">"inverted"</span><span class="p">)</span> <span class="o">+</span> \
+        <span class="n">PeakaChuLoops</span><span class="p">(</span><span class="n">PVALS</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="n">frame</span> <span class="o">=</span> <span class="n">XAxis</span><span class="p">()</span> <span class="o">+</span> \
+    <span class="n">PVALS</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">"Peak pvalues"</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">PEAKS</span> <span class="o">+</span> <span class="n">Title</span><span class="p">(</span><span class="s2">"HiC with peaks"</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">GTF</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/gtf_</span><span class="si">{</span><span class="n">RANGE_MARK</span><span class="si">}</span><span class="s2">.gtf"</span><span class="p">)</span> <span class="o">+</span> <span class="n">TrackHeight</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="n">frame</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">TEST_RANGE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+scoring matrix chrm
+num candidates 79800
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/custom_elements_38_1.png" src="_images/custom_elements_38_1.png" />
+</div>
+</div>
+<section id="CLI-Mode">
+<h4>CLI Mode<a class="headerlink" href="#CLI-Mode" title="Link to this heading"></a></h4>
+<p>Custom elements can also used in CLI mode, just save your definition to a <code class="docutils literal notranslate"><span class="pre">.py</span></code> file, and <code class="docutils literal notranslate"><span class="pre">load_module</span></code> in CLI:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-bash notranslate"><div class="highlight"><pre><span></span>%%bash
+<span class="nv">module_path</span><span class="o">=</span>./_static/peakachu_track.py
+<span class="nv">data_dir</span><span class="o">=</span>../../tests/test_data/
+<span class="nv">cool_path</span><span class="o">=</span><span class="nv">$data_dir</span>/cool_chr9_4000000_6000000.mcool
+<span class="nv">gtf_path</span><span class="o">=</span><span class="nv">$data_dir</span>/gtf_chr9_4000000_6000000.gtf
+
+coolbox<span class="w"> </span>load_module<span class="w"> </span><span class="nv">$module_path</span><span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>add<span class="w"> </span>XAxis<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>add<span class="w"> </span>Peakachu<span class="w"> </span><span class="nv">$cool_path</span><span class="w"> </span>--style<span class="w"> </span><span class="s2">"triangular"</span><span class="w"> </span>--name<span class="w"> </span><span class="s2">"pvals"</span><span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>add<span class="w"> </span>Cool<span class="w"> </span><span class="nv">$cool_path</span><span class="w"> </span>--style<span class="w"> </span><span class="s2">"triangular"</span><span class="w"> </span>--orientation<span class="w"> </span><span class="s2">"inverted"</span><span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>add<span class="w"> </span>PeakaChuLoops<span class="w"> </span><span class="s2">"pvals"</span><span class="w"> </span>--line_width<span class="w"> </span><span class="m">5</span><span class="w"> </span>-<span class="se">\</span>
+<span class="w">    </span>add<span class="w"> </span>GTF<span class="w"> </span><span class="nv">$gtf_path</span><span class="w"> </span>--height<span class="w"> </span><span class="m">5</span><span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>goto<span class="w"> </span><span class="s2">"chr9:4000000-6000000"</span><span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>plot<span class="w"> </span><span class="s2">"/tmp/test_coolbox_peakachu.pdf"</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+scoring matrix chrm
+num candidates 79800
+</pre></div></div>
+</div>
+</section>
+<section id="Browser-Mode">
+<h4>Browser Mode<a class="headerlink" href="#Browser-Mode" title="Link to this heading"></a></h4>
+<p>Custom elements are naturally adaptive to browser mode. For use custom tracks defined above, just run:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bsr</span> <span class="o">=</span> <span class="n">Browser</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+<span class="n">bsr</span><span class="o">.</span><span class="n">goto</span><span class="p">(</span><span class="n">TEST_RANGE</span><span class="p">)</span>
+<span class="n">bsr</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+scoring matrix chrm
+num candidates 80200
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "2b29aba52dce496294f5eeeef8b337cc", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="_gallery/decay.html" class="btn btn-neutral float-left" title="Decay curve" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Weize Xu, Quan Zhong.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
