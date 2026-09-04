@@ -298,7 +298,7 @@ class TabFileReaderWithOxbow(TabFileReader):
                 if 'attributes' in df.columns:
                     df['attributes'] = df['attributes'].apply(_dict_to_gtf_attr)
             df = _convert_dtype(df)
-        except ValueError as e:
+        except (ValueError, KeyError) as e:
             # empty region
             log.error(str(e))
             df = pd.DataFrame(columns=self.columns)
