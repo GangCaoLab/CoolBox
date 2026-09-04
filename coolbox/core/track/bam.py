@@ -85,3 +85,7 @@ class BAM(Track):
             with_ruler=False,
             draw_line=False
         )
+
+        if 'orientation' in self.properties and self.properties['orientation'] == 'inverted':
+            ymin, ymax = ax.get_ylim()
+            ax.set_ylim(ymax, ymin)
