@@ -40,9 +40,13 @@ class BigWig(HistBase):
 
     def fetch_plot_data(self, gr: GenomeRange, **kwargs):
         intervals = self.fetch_data(gr, **kwargs)
-        starts = intervals['start'].values
-        ends = intervals['end'].values
-        positions = (starts + ends) / 2  # use interval midpoints as real genomic coordinates
+        intervals = intervals.melt(
+            id_vars="value",
+            value_vars=["start", "end"],
+            var_name="se",
+            value_name="position"
+        ).sort_values(by=["index", "se"])
+        positions = intervals["position"].values
         values = intervals['value'].values
         return positions, values
 
