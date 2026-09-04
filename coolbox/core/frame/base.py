@@ -269,6 +269,11 @@ class FrameBase(abc.ABC):
             if len(result.tracks) != 0:
                 last = list(result.tracks.values())[-1]
                 last.properties.update(other.properties)
+                if hasattr(last, 'coverages'):
+                    for coverage in last.coverages:
+                        coverage.properties.update(other.properties)
+                        if hasattr(coverage, "track_instance"):
+                            coverage.track_instance.properties.update(other.properties)
             return result
         elif isinstance(other, Coverage):
             if len(result.tracks) != 0:
