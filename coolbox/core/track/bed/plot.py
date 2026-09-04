@@ -22,7 +22,7 @@ class PlotGenes(object):
         self.len_w = None  # this is the length of the letter 'w' given the font size
         self.counter = None
         self.small_relative = None
-        self.is_draw_labels = properties['labels'] == 'on'
+        self.is_draw_labels = None
         self.fp = font_manager.FontProperties(size=properties['fontsize'])
         self.row_scale = properties['interval_height'] * 2.3
         self.cache_gr = None
@@ -62,6 +62,8 @@ class PlotGenes(object):
                 self.is_draw_labels = False
             else:
                 self.is_draw_labels = True
+        else:
+            self.is_draw_labels = properties['labels']
         self.small_relative = 0.004 * (gr.end - gr.start)
         self.counter = 0
 
