@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from matplotlib.patches import Arc, Rectangle, Ellipse
+from matplotlib.patches import Arc, Rectangle, Ellipse, Polygon
 from matplotlib import cm
 
 from coolbox.utilities.genome import GenomeRange, get_logger
@@ -8,6 +8,46 @@ from coolbox.utilities.genome import GenomeRange, get_logger
 
 log = get_logger(__name__)
 
+def draw_tapered_arc(
+    ax,
+    xy: tuple[float, float],
+    diameter: float,
+    height: float,
+    line_width: float,
+    tapered: float,
+    num_points: int = 101,
+    **kwargs,
+) -> Polygon:
+    assert num_points % 2 == 1, "num_points should be odd"
+    thetas = np.linspace(0, np.pi, num_points)
+    a = diameter / 2
+    b = height
+    x0, y0 = xy
+    data_backbone = np.column_stack((x0 + a * np.cos(thetas), y0 + b * np.sin(thetas)))
+    pixel_backbone = ax.transData.transform(data_backbone)
+
+    tangents = np.gradient(pixel_backbone, axis=0)
+    nx = -tangents[:, 1]
+    ny = tangents[:, 0]
+    nlengths = np.hypot(nx, ny)
+    nx /= nlengths
+    ny /= nlengths
+
+    widths = np.r_[
+        np.linspace(tapered, line_width, (num_points + 1) // 2),
+        np.linspace(line_width, tapered, (num_points + 1) // 2)[1:],
+    ]
+    dpi = ax.figure.dpi
+    widths_pixels = widths * (dpi / 72.0)
+
+    outer_pixel = pixel_backbone + (widths_pixels[:, np.newaxis] / 2.0) * np.column_stack((nx, ny))
+    inner_pixel = pixel_backbone - (widths_pixels[:, np.newaxis] / 2.0) * np.column_stack((nx, ny))
+    poly_pixel = np.concatenate([outer_pixel, inner_pixel[::-1]])
+    poly_data = ax.transData.inverted().transform(poly_pixel)
+
+    tapered_arc = Polygon(poly_data, **kwargs)
+
+    return tapered_arc
 
 class PlotContacts(object):
 
@@ -102,18 +142,30 @@ class PlotContacts(object):
             height = 2 * get_height(diameter)
             center = (start + end) / 2
             ax.plot([center], [diameter])
-            arc = Arc(
-                xy=(center, 0), 
-                width=diameter,
-                height=height, 
-                angle=0, 
-                theta1=0, 
-                theta2=180,
-                color=color,
-                alpha=alpha,
-                lw=line_width,
-                linestyle=properties['line_style']
-            )
+
+            if "tapered" in properties and isinstance(properties["tapered"], (int, float)):
+                arc = draw_tapered_arc(
+                    ax,
+                    xy=(center, 0),
+                    diameter=diameter,
+                    height=height,
+                    line_width=line_width,
+                    tapered = properties["tapered"],
+                    num_points=101,
+                )
+            else:
+                arc = Arc(
+                    xy=(center, 0), 
+                    width=diameter,
+                    height=height, 
+                    angle=0, 
+                    theta1=0, 
+                    theta2=180,
+                    color=color,
+                    alpha=alpha,
+                    lw=line_width,
+                    linestyle=properties['line_style']
+                )
             if properties['fill'] == 'yes':
                 fill = Ellipse((center, 0), diameter, height,
                                alpha=properties['fill_alpha'],
