@@ -16,6 +16,9 @@ class BEDPE(ArcsBase):
     pos : str, optional
         Method for choosing arch anchor for bedpe data: 'start', 'end', 'mid', default 'mid'
 
+    tapered: float, optional
+        Make the anchor of arc tapered
+
     """
     DEFAULT_PROPERTIES = {
         'pos': 'mid'
