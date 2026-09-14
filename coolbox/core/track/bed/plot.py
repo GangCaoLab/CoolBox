@@ -63,7 +63,7 @@ class PlotGenes(object):
             else:
                 self.is_draw_labels = True
         else:
-            self.is_draw_labels = properties['labels']
+            self.is_draw_labels = properties['labels'] == "yes"
         self.small_relative = 0.004 * (gr.end - gr.start)
         self.counter = 0
 
