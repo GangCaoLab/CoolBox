@@ -10,7 +10,7 @@ log = get_logger(__name__)
 
 def draw_tapered_arc(
     ax,
-    xy: tuple[float, float],
+    xy,
     diameter: float,
     height: float,
     line_width: float,
