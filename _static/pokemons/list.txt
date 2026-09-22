@@ -1,0 +1,5 @@
+chr1	1000	2000	Bulbasaur
+chr1	2000	3000	Charmander
+chr1	3000	4000	Squirtle
+chr1	4000	5000	Pikachu
+
