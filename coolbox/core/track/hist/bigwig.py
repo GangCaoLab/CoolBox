@@ -40,12 +40,18 @@ class BigWig(HistBase):
 
     def fetch_plot_data(self, gr: GenomeRange, **kwargs):
         intervals = self.fetch_data(gr, **kwargs)
+        intervals[0] = intervals["end"]
+        intervals[1] = intervals["end"]
+        intervals[2] = intervals["start"]
+        intervals[3] = intervals["start"]
         intervals = intervals.melt(
             id_vars="value",
-            value_vars=["start", "end"],
-            var_name="se",
+            value_vars=[0, 1, 2, 3],
+            var_name="corner",
             value_name="position"
-        ).sort_values(by=["index", "se"])
+        ).sort_values(by=["position", "corner"], ignore_index=True).assign(
+            value = lambda df: df["value"].where(df["corner"].isin([0, 3]), 0.0)
+        )
         positions = intervals["position"].values
         values = intervals['value'].values
         return positions, values
