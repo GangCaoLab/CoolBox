@@ -57,6 +57,9 @@ class HistBase(Track, PlotHist):
 
     min_value : {float, 'auto'}, optional
         Min value of track. 'auto' for specify max value automatically, default 'auto'.
+
+    spine: {float}, optional
+        Width of a horizon spine draw at the threshold.
     """
 
     STYLE_LINE = "line"
@@ -121,6 +124,11 @@ class HistBase(Track, PlotHist):
         indexes, values = data
         self.plot_hist(ax, gr, indexes, values)
         self.plot_label()
+
+        if "spine" in self.properties:
+            ax.spines['bottom'].set_position(('data', self.properties["threshold"]))
+            ax.spines['bottom'].set_linewidth(self.properties["spine"])
+            ax.spines['bottom'].set_visible(True)
 
     def fetch_plot_data(self, gr: GenomeRange, **kwargs) -> HistData:
         """
