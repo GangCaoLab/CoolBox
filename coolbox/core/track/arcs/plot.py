@@ -1,12 +1,17 @@
 import numpy as np
 import pandas as pd
 from matplotlib.patches import Arc, Rectangle, Ellipse, Polygon
-from matplotlib import cm
+import matplotlib
 
 from coolbox.utilities.genome import GenomeRange, get_logger
 
 
 log = get_logger(__name__)
+
+try:
+    get_cmap = matplotlib.cm.get_cmap
+except AttributeError:
+    get_cmap = matplotlib.pyplot.get_cmap
 
 def draw_tapered_arc(
     ax,
@@ -109,7 +114,7 @@ class PlotContacts(object):
 
         def get_color(score, min_score, max_score):
             if properties['cmap'] is not None:
-                cmap = cm.get_cmap(properties['cmap'])
+                cmap = get_cmap(properties['cmap'])
                 return cmap((max(score, min_score)-min_score)/(max_score-min_score))
             else:
                 return properties['color']
